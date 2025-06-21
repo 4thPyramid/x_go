@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/theme/app_colors.dart';
+import 'package:x_go/features/home/presentation/view/home_view.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -55,7 +56,14 @@ class SplashView extends StatelessWidget {
                 CustomButton(
                   text: 'Get Started',
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (c) {
+                          return const HomeView();
+                        },
+                      ),
+                    );
                   },
                 ),
                 SizedBox(height: 12.h),
