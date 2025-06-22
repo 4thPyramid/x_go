@@ -1,8 +1,7 @@
 import 'package:go_router/go_router.dart';
+import 'package:x_go/app.dart';
 import 'package:x_go/core/routes/router_names.dart';
-import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/splash/splash_view.dart';
-import 'package:x_go/main.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: RouterNames.home,
@@ -11,5 +10,6 @@ final GoRouter router = GoRouter(
       path: RouterNames.home,
       builder: (context, state) => const SplashView(),
     ),
+    GoRoute(path: RouterNames.app, builder: (context, state) => const App()),
   ],
 );

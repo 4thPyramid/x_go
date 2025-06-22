@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
-import 'package:x_go/features/home/presentation/view/home_view.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -56,14 +57,7 @@ class SplashView extends StatelessWidget {
                 CustomButton(
                   text: 'Get Started',
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (c) {
-                          return const HomeView();
-                        },
-                      ),
-                    );
+                    context.go(RouterNames.app);
                   },
                 ),
                 SizedBox(height: 12.h),

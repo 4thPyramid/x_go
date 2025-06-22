@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/theme/app_colors.dart';
+import 'package:x_go/features/home/presentation/components/header_component.dart';
+import 'package:x_go/features/home/presentation/components/popular_cars_component.dart';
+import 'package:x_go/features/home/presentation/components/search_component.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -12,141 +16,11 @@ class HomeView extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 30.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
-                Text('Cairo,Egypt'),
-                CircleAvatar(),
-              ],
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: 'Search your cars',
-                prefixIcon: Icon(Icons.search),
-                suffixIcon: Icon(Icons.filter_alt_outlined),
-              ),
-            ),
-
-            Row(
-              children: [
-                Text('Popular'),
-                Spacer(),
-                TextButton(onPressed: () {}, child: Text('View all')),
-              ],
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      CarCard(
-                        brand: 'Toyota',
-                        model: 'Camry',
-                        rentPrice: '\$100',
-                        imageUrl: 'assets/images/car.png',
-                      ),
-                      SizedBox(height: 5.h),
-                    ],
-                  );
-                },
-              ),
-            ),
+            HeaderComponent(),
+            SearchComponent(),
+            PopularCarsComponent(),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CarCard extends StatelessWidget {
-  final String brand;
-  final String model;
-  final String rentPrice;
-  final String imageUrl;
-
-  const CarCard({
-    super.key,
-    required this.brand,
-    required this.model,
-    required this.rentPrice,
-    required this.imageUrl,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: Stack(
-        children: [
-          Image.asset(
-            imageUrl,
-            width: double.infinity,
-            height: 240,
-            fit: BoxFit.cover,
-          ),
-          Container(
-            height: 240,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.black.withOpacity(0.5), Colors.transparent],
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 16,
-            left: 16,
-            child: Text(
-              brand,
-              style: const TextStyle(color: Colors.white70, fontSize: 16),
-            ),
-          ),
-          Positioned(
-            top: 40,
-            left: 16,
-            child: Text(
-              model,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 36,
-            left: 16,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Rent Price",
-                  style: TextStyle(color: Colors.white70, fontSize: 14),
-                ),
-                Text(
-                  rentPrice,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 16,
-            right: 16,
-            child: CircleAvatar(
-              backgroundColor: Colors.orange,
-              radius: 28,
-              child: const Icon(Icons.arrow_forward, color: Colors.black),
-            ),
-          ),
-        ],
       ),
     );
   }
