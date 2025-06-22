@@ -11,6 +11,7 @@ class App extends StatelessWidget {
       body: const HomeView(),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
+        margin: EdgeInsets.only(bottom: 16),
 
         decoration: BoxDecoration(
           color: Colors.black,
@@ -23,12 +24,12 @@ class App extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+            BottomNavigationBarItem(icon: Icon(Icons.car_crash), label: 'cars'),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
+              icon: Icon(Icons.notifications),
+              label: 'Notification',
             ),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           ],
         ),
       ),

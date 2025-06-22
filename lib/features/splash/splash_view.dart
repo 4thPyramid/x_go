@@ -55,10 +55,58 @@ class SplashView extends StatelessWidget {
                 ),
                 Spacer(),
                 CustomButton(
-                  text: 'Get Started',
+                  text: 'Start Driving',
                   onPressed: () {
                     context.go(RouterNames.app);
                   },
+                ),
+                SizedBox(height: 12.h),
+                SizedBox(
+                  height: 44,
+                  width: 230,
+                  child: OutlinedButton(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      side: BorderSide(color: AppColors.grey, width: .5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(28),
+                      ),
+                    ),
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.bold,
+
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                Container(
+                  height: 44,
+                  width: 230,
+                  child: OutlinedButton(
+                    onPressed: () {},
+
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      side: BorderSide(color: AppColors.grey, width: .5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(28),
+                      ),
+                    ),
+                    child: Text(
+                      'Register',
+                      style: TextStyle(
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(height: 12.h),
               ],

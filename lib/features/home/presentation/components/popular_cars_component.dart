@@ -7,38 +7,36 @@ class PopularCarsComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Text('Popular'),
-              Spacer(),
-              TextButton(onPressed: () {}, child: Text('View all')),
-            ],
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text('Popular'),
+            Spacer(),
+            TextButton(onPressed: () {}, child: Text('View all')),
+          ],
+        ),
+        SizedBox(
+          height: 431.h,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  CarCardWidget(
+                    brand: 'Toyota',
+                    model: 'Camry',
+                    rentPrice: '\$100',
+                    imageUrl: 'assets/images/car.png',
+                  ),
+                  SizedBox(height: 5.h),
+                ],
+              );
+            },
           ),
-          SizedBox(
-            height: 420.h,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    CarCardWidget(
-                      brand: 'Toyota',
-                      model: 'Camry',
-                      rentPrice: '\$100',
-                      imageUrl: 'assets/images/car.png',
-                    ),
-                    SizedBox(height: 5.h),
-                  ],
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
