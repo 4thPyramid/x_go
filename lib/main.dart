@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/app.dart';
 import 'package:x_go/core/routes/app_routers.dart';
 import 'package:x_go/core/theme/app_colors.dart';
-import 'package:x_go/features/profile/presentation/views/profile_view.dart';
-import 'package:x_go/features/splash/splash_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +12,14 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
+/*************  ✨ Windsurf Command ⭐  *************/
+  /// Builds the widget tree for the application.
+  ///
+  /// Initializes screen size configuration with `ScreenUtilInit` for responsive design.
+  /// Returns a `MaterialApp` with routing configuration and a theme applied.
+  /// Hides the debug banner in the top-right corner.
+
+/*******  ad6e59c2-64df-4b82-8473-f038cf81a8e9  *******/
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
@@ -33,6 +40,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProfilePage();
+    return App();
   }
 }
