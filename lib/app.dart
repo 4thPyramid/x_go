@@ -4,15 +4,12 @@ import 'package:x_go/features/home/presentation/view/home_view.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: const HomeView(),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        margin: EdgeInsets.only(bottom: 16),
-
         decoration: BoxDecoration(
           color: Colors.black,
           borderRadius: BorderRadius.circular(25),
