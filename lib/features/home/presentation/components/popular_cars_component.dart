@@ -8,19 +8,19 @@ class PopularCarsComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(   
+    return Column(
       children: [
         Row(
           children: [
-            const Text('Popular'),
-            const Spacer(),
-            TextButton(onPressed: () {}, child: const Text('View all')),
+            Text('Popular'),
+            Spacer(),
+            TextButton(onPressed: () {}, child: Text('View all')),
           ],
         ),
         SizedBox(
-          height: 420.h,
+          height: 431.h,
           child: ListView.builder(
-            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
             itemCount: 10,
             itemBuilder: (context, index) {
               return Column(
