@@ -4,6 +4,7 @@ import 'package:x_go/core/common/functions/validator.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/features/auth/presentation/components/forget_password_component.dart';
+import 'package:x_go/features/auth/presentation/components/remember_me_component.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -59,7 +60,7 @@ class _LoginFormState extends State<LoginForm> {
               validator: Validator.validatePassword,
             ),
             SizedBox(height: 24.h),
-            ForgetPasswordComponent(),
+            RememberMeComponent(),
             SizedBox(height: 16.h),
             CustomButton(
               text: 'Login',

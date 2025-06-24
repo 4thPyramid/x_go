@@ -9,7 +9,7 @@ import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
 import 'package:x_go/features/splash/splash_view.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.splash,
+  initialLocation: RouterNames.login,
   routes: [
     GoRoute(
       path: RouterNames.splash,
