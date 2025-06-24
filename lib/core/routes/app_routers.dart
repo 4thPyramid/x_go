@@ -18,7 +18,7 @@ import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/splash/splash_view.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.resetPassword,
+  initialLocation: RouterNames.splash,
   routes: [
     GoRoute(
       path: RouterNames.splash,
