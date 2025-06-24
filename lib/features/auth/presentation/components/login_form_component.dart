@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/features/auth/presentation/components/forget_password_component.dart';
+import 'package:x_go/features/auth/presentation/components/remember_me_component.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm();
+  const LoginForm({super.key});
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -68,7 +69,7 @@ class _LoginFormState extends State<LoginForm> {
               },
             ),
             SizedBox(height: 24.h),
-            ForgetPasswordComponent(),
+            RememberMeComponent(),
             SizedBox(height: 16.h),
             CustomButton(
               text: 'Login',
