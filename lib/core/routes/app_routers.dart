@@ -9,10 +9,10 @@ import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
 import 'package:x_go/features/splash/splash_view.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.login,
+  initialLocation: RouterNames.splash,
   routes: [
     GoRoute(
-      path: RouterNames.home,
+      path: RouterNames.splash,
       builder: (context, state) => const SplashView(),
     ),
     GoRoute(path: RouterNames.app, builder: (context, state) => const App()),
