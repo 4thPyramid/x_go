@@ -48,12 +48,7 @@ class AppStyles {
     fontWeight: FontWeight.w500,
     color: AppColors.black,
   );
-  static TextStyle s16Alex = TextStyle(
-    fontFamily: 'Poppins',
-    fontSize: 16.0.sp,
-    fontWeight: FontWeight.w500,
-    color: AppColors.black,
-  );
+
   static TextStyle s15 = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 15.0.sp,
@@ -66,24 +61,20 @@ class AppStyles {
     fontWeight: FontWeight.w500,
     color: AppColors.black,
   );
-  static TextStyle s14Alex = TextStyle(
+  static TextStyle s13 = TextStyle(
     fontFamily: 'Poppins',
-    fontSize: 14.0.sp,
+    fontSize: 13.0.sp,
     fontWeight: FontWeight.w500,
-    color: AppColors.white,
+    color: AppColors.black,
   );
+
   static TextStyle s12 = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 12.0.sp,
     fontWeight: FontWeight.w500,
     color: AppColors.greyText,
   );
-  static TextStyle s12Alex = TextStyle(
-    fontFamily: 'Poppins',
-    fontSize: 12.0.sp,
-    fontWeight: FontWeight.w500,
-    color: AppColors.greyText,
-  );
+
   static TextStyle s10 = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 10.0.sp,

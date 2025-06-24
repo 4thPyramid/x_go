@@ -18,7 +18,7 @@ class AuthView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 24.h),
+                SizedBox(height: 20.h),
                 LogoWidget(),
                 SizedBox(height: 10.h),
                 TabBarWidget(),

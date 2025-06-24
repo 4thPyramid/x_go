@@ -25,7 +25,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> login(String email, String password) async {
     emit(LoginLoading());
-
     try {
       final result = await loginUseCase.call(email: email, password: password);
       result.fold(
