@@ -1,7 +1,7 @@
 abstract class EndpointsStrings {
-  static const String baseUrl = "https://lawoffice.al-mosa.com/api/admin/";
+  static const String baseUrl = "https://management.mlmcosmo.com/";
 
-  static const String login = 'api/login';
+  static const String login = 'api/delegate/login';
   static const String logout = 'api/logout';
   static const String deleteAccount = 'api/delete-account';
   static const String register = 'user/register';

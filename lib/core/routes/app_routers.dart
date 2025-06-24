@@ -1,6 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/app.dart';
 import 'package:x_go/core/routes/router_names.dart';
+import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
 import 'package:x_go/features/auth/presentation/view/auth_view.dart';
 import 'package:x_go/features/auth/presentation/view/forget_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/otpview.dart';
@@ -18,7 +20,10 @@ final GoRouter router = GoRouter(
     GoRoute(path: RouterNames.app, builder: (context, state) => const App()),
     GoRoute(
       path: RouterNames.login,
-      builder: (context, state) => const AuthView(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => AuthCubit(),
+        child: const AuthView(),
+      ),
     ),
     GoRoute(
       path: RouterNames.forgotPassword,

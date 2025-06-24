@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         routerConfig: router,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          textTheme: ThemeData(fontFamily: 'Poppins').textTheme,
           colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
         ),
       ),

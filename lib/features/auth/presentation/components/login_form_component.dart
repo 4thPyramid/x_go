@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/core/common/functions/validator.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/features/auth/presentation/components/forget_password_component.dart';
 import 'package:x_go/features/auth/presentation/components/remember_me_component.dart';
+import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -62,12 +64,21 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(height: 24.h),
             RememberMeComponent(),
             SizedBox(height: 16.h),
-            CustomButton(
-              text: 'Login',
-              onPressed: () {
-                if (_formKey.currentState?.validate() ?? false) {
-                  // Handle login
-                }
+            BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, state) {
+                return state is LoginLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : CustomButton(
+                        text: 'Login',
+                        onPressed: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            context.read<AuthCubit>().login(
+                              _emailController.text,
+                              _passwordController.text,
+                            );
+                          }
+                        },
+                      );
               },
             ),
           ],
