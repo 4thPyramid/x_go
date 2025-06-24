@@ -9,10 +9,9 @@ class AppCubit extends Cubit<AppState> {
     : super(
         AppState(
           language: CacheHelper().getDataString(key: 'language') ?? "en",
-          themeEnum:
-              CacheHelper().getDataString(key: 'theme') == "light"
-                  ? ThemeEnum.light
-                  : ThemeEnum.dark,
+          themeEnum: CacheHelper().getDataString(key: 'theme') == "light"
+              ? ThemeEnum.light
+              : ThemeEnum.dark,
         ),
       );
 

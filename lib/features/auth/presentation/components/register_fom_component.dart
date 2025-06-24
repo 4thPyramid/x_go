@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_go/core/common/widgets/custom_btn.dart';
+import 'package:x_go/core/common/functions/validator.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
+import 'package:x_go/core/common/widgets/custom_btn.dart';
 
 class RegisterForm extends StatefulWidget {
-  const RegisterForm();
+  const RegisterForm({super.key});
 
   @override
-  _RegisterFormState createState() => _RegisterFormState();
+  State<RegisterForm> createState() => _RegisterFormState();
 }
 
 class _RegisterFormState extends State<RegisterForm> {
@@ -18,7 +19,6 @@ class _RegisterFormState extends State<RegisterForm> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _locationController = TextEditingController();
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
@@ -30,7 +30,6 @@ class _RegisterFormState extends State<RegisterForm> {
     _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-    _locationController.dispose();
     super.dispose();
   }
 
@@ -53,12 +52,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       child: CustomTextFormField(
                         controller: _firstNameController,
                         labelText: 'First Name',
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your first name';
-                          }
-                          return null;
-                        },
+                        validator: Validator.validateName,
                       ),
                     ),
                     SizedBox(width: 16.w),
@@ -66,12 +60,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       child: CustomTextFormField(
                         controller: _lastNameController,
                         labelText: 'Last Name',
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your last name';
-                          }
-                          return null;
-                        },
+                        validator: Validator.validateName,
                       ),
                     ),
                   ],
@@ -81,24 +70,14 @@ class _RegisterFormState extends State<RegisterForm> {
                   controller: _emailController,
                   labelText: 'Email',
                   keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
+                  validator: Validator.validateEmail,
                 ),
                 SizedBox(height: 16.h),
                 CustomTextFormField(
                   controller: _phoneController,
                   labelText: 'Phone Number',
                   keyboardType: TextInputType.phone,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your phone number';
-                    }
-                    return null;
-                  },
+                  validator: Validator.validatePhone,
                 ),
                 SizedBox(height: 16.h),
                 CustomTextFormField(
@@ -112,21 +91,14 @@ class _RegisterFormState extends State<RegisterForm> {
                           : Icons.visibility_off,
                       color: Colors.grey,
                     ),
+
                     onPressed: () {
                       setState(() {
                         _isPasswordVisible = !_isPasswordVisible;
                       });
                     },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a password';
-                    }
-                    if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
-                    }
-                    return null;
-                  },
+                  validator: Validator.validatePassword,
                 ),
                 SizedBox(height: 16.h),
                 CustomTextFormField(
@@ -146,27 +118,9 @@ class _RegisterFormState extends State<RegisterForm> {
                       });
                     },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
-                    }
-                    if (value != _passwordController.text) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
+                  validator: Validator.validatePassword,
                 ),
-                SizedBox(height: 16.h),
-                CustomTextFormField(
-                  controller: _locationController,
-                  labelText: 'Location',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your location';
-                    }
-                    return null;
-                  },
-                ),
+
                 SizedBox(height: 24.h),
                 CustomButton(
                   text: 'Sign Up',

@@ -11,7 +11,7 @@ class AuthView extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 24.h),
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 24.h),
           child: DefaultTabController(
             length: 2,
             initialIndex: 1,

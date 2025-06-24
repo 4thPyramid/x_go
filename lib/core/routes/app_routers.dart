@@ -12,7 +12,7 @@ final GoRouter router = GoRouter(
   initialLocation: RouterNames.login,
   routes: [
     GoRoute(
-      path: RouterNames.home,
+      path: RouterNames.splash,
       builder: (context, state) => const SplashView(),
     ),
     GoRoute(path: RouterNames.app, builder: (context, state) => const App()),
