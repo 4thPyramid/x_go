@@ -25,4 +25,9 @@ abstract class AuthRepository {
     required String email,
     required String otp,
   });
+
+  Future<Either<ErrorModel, AuthResponse>> resetPassword({
+    required String email,
+    required String password,
+  });
 }

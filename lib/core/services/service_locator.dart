@@ -8,7 +8,9 @@ import 'package:x_go/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:x_go/features/auth/domain/repositories/auth_repository.dart';
 import 'package:x_go/features/auth/domain/usecases/forget_password_use_case.dart';
 import 'package:x_go/features/auth/domain/usecases/login_usecase.dart';
+import 'package:x_go/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:x_go/features/auth/domain/usecases/register_usecase.dart';
+import 'package:x_go/features/auth/domain/usecases/reset_password_use_case.dart';
 
 final GetIt getIt = GetIt.instance;
 void setupLocator() {
@@ -38,6 +40,12 @@ void setupLocator() {
   );
   getIt.registerLazySingleton<ForgetPasswordUseCase>(
     () => ForgetPasswordUseCase(getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton<OtpUseCase>(
+    () => OtpUseCase(getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton<ResetPasswordUseCase>(
+    () => ResetPasswordUseCase(getIt<AuthRepository>()),
   );
   // !Cubits //
 }

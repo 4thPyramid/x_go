@@ -3,7 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:x_go/features/auth/domain/usecases/forget_password_use_case.dart';
 import 'package:x_go/features/auth/domain/usecases/login_usecase.dart';
+import 'package:x_go/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:x_go/features/auth/domain/usecases/register_usecase.dart';
+import 'package:x_go/features/auth/domain/usecases/reset_password_use_case.dart';
 
 part 'auth_state.dart';
 
@@ -11,8 +13,15 @@ class AuthCubit extends Cubit<AuthState> {
   final LoginUseCase loginUseCase;
   final RegisterUseCase registerUseCase;
   final ForgetPasswordUseCase forgetPasswordUseCase;
-  AuthCubit(this.loginUseCase, this.registerUseCase, this.forgetPasswordUseCase)
-    : super(AuthInitial());
+  final OtpUseCase otpUseCase;
+  final ResetPasswordUseCase resetPasswordUseCase;
+  AuthCubit(
+    this.loginUseCase,
+    this.registerUseCase,
+    this.forgetPasswordUseCase,
+    this.otpUseCase,
+    this.resetPasswordUseCase,
+  ) : super(AuthInitial());
 
   Future<void> login(String email, String password) async {
     emit(LoginLoading());
@@ -65,6 +74,34 @@ class AuthCubit extends Cubit<AuthState> {
       );
     } on DioException catch (e) {
       emit(ForgotPasswordError(e.message.toString()));
+    }
+  }
+
+  Future<void> otp(String email, String otp) async {
+    emit(OtpLoading());
+
+    try {
+      final result = await otpUseCase.call(email: email, otp: otp);
+      result.fold((l) => emit(OtpError(l.message)), (r) => emit(OtpSuccess()));
+    } on DioException catch (e) {
+      emit(OtpError(e.message.toString()));
+    }
+  }
+
+  Future<void> resetPassword(String email, String password) async {
+    emit(ResetPasswordLoading());
+
+    try {
+      final result = await resetPasswordUseCase.call(
+        email: email,
+        password: password,
+      );
+      result.fold(
+        (l) => emit(ResetPasswordError(l.message)),
+        (r) => emit(ResetPasswordSuccess()),
+      );
+    } on DioException catch (e) {
+      emit(ResetPasswordError(e.message.toString()));
     }
   }
 }

@@ -34,3 +34,23 @@ final class ForgotPasswordError extends AuthState {
 
   ForgotPasswordError(this.message);
 }
+
+final class OtpLoading extends AuthState {}
+
+final class OtpSuccess extends AuthState {}
+
+final class OtpError extends AuthState {
+  final String message;
+
+  OtpError(this.message);
+}
+
+final class ResetPasswordLoading extends AuthState {}
+
+final class ResetPasswordSuccess extends AuthState {}
+
+final class ResetPasswordError extends AuthState {
+  final String message;
+
+  ResetPasswordError(this.message);
+}

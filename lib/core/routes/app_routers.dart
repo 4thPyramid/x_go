@@ -5,7 +5,9 @@ import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/features/auth/domain/usecases/forget_password_use_case.dart';
 import 'package:x_go/features/auth/domain/usecases/login_usecase.dart';
+import 'package:x_go/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:x_go/features/auth/domain/usecases/register_usecase.dart';
+import 'package:x_go/features/auth/domain/usecases/reset_password_use_case.dart';
 import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
 import 'package:x_go/features/auth/presentation/view/auth_view.dart';
 import 'package:x_go/features/auth/presentation/view/forget_password_view.dart';
@@ -34,6 +36,8 @@ final GoRouter router = GoRouter(
           getIt<LoginUseCase>(),
           getIt<RegisterUseCase>(),
           getIt<ForgetPasswordUseCase>(),
+          getIt<OtpUseCase>(),
+          getIt<ResetPasswordUseCase>(),
         ),
         child: const AuthView(),
       ),
@@ -45,17 +49,37 @@ final GoRouter router = GoRouter(
           getIt<LoginUseCase>(),
           getIt<RegisterUseCase>(),
           getIt<ForgetPasswordUseCase>(),
+          getIt<OtpUseCase>(),
+          getIt<ResetPasswordUseCase>(),
         ),
         child: const ForgetPasswordView(),
       ),
     ),
     GoRoute(
       path: RouterNames.otp,
-      builder: (context, state) => const OtpView(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => AuthCubit(
+          getIt<LoginUseCase>(),
+          getIt<RegisterUseCase>(),
+          getIt<ForgetPasswordUseCase>(),
+          getIt<OtpUseCase>(),
+          getIt<ResetPasswordUseCase>(),
+        ),
+        child: OtpView(email: 'e@gmail.com'),
+      ),
     ),
     GoRoute(
       path: RouterNames.resetPassword,
-      builder: (context, state) => const ResetPasswordView(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => AuthCubit(
+          getIt<LoginUseCase>(),
+          getIt<RegisterUseCase>(),
+          getIt<ForgetPasswordUseCase>(),
+          getIt<OtpUseCase>(),
+          getIt<ResetPasswordUseCase>(),
+        ),
+        child: const ResetPasswordView(),
+      ),
     ),
     GoRoute(
       path: RouterNames.success_updated,

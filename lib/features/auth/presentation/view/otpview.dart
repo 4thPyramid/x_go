@@ -4,7 +4,8 @@ import 'package:x_go/features/auth/presentation/components/otp_component.dart';
 import 'package:x_go/features/auth/presentation/widgets/otp_details_widget.dart';
 
 class OtpView extends StatelessWidget {
-  const OtpView({super.key});
+  String? email;
+  OtpView({super.key, this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class OtpView extends StatelessWidget {
               children: [
                 OtpDetailsWidget(),
                 SizedBox(height: 24.h),
-                OtpComponent(),
+                OtpComponent(email: email),
               ],
             ),
           ),

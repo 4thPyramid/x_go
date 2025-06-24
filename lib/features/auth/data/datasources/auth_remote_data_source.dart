@@ -20,6 +20,11 @@ abstract class AuthRemoteDataSource {
   Future<AuthResponseModel> forgetPassword({required String email});
 
   Future<AuthResponseModel> otp({required String email, required String otp});
+
+  Future<AuthResponseModel> resetPassword({
+    required String email,
+    required String password,
+  });
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -93,6 +98,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final response = await apiConsumer.post(
       '/verify-email',
       data: {'email': email, 'code': otp},
+      headers: {
+        'Accept': 'application/vnd.api+json',
+        'Content-Type': 'application/vnd.api+json',
+      },
+    );
+    return AuthResponseModel.fromJson(response);
+  }
+
+  @override
+  Future<AuthResponseModel> resetPassword({
+    required String email,
+    required String password,
+  }) async {
+    final response = await apiConsumer.post(
+      '/reset-password',
+      data: {'email': email, 'password': password},
       headers: {
         'Accept': 'application/vnd.api+json',
         'Content-Type': 'application/vnd.api+json',
