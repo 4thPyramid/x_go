@@ -2,14 +2,10 @@ import '../../domain/entities/auth_response.dart';
 
 class AuthResponseModel extends AuthResponse {
   const AuthResponseModel({
-    required String key,
-    required String message,
-    required UserDataModel data,
-  }) : super(
-          key: key,
-          message: message,
-          data: data,
-        );
+    required super.key,
+    required super.message,
+    required UserDataModel super.data,
+  });
 
   factory AuthResponseModel.fromJson(Map<String, dynamic> json) {
     return AuthResponseModel(
@@ -30,18 +26,12 @@ class AuthResponseModel extends AuthResponse {
 
 class UserDataModel extends UserData {
   const UserDataModel({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String phone,
-    required String token,
-  }) : super(
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          phone: phone,
-          token: token,
-        );
+    required super.firstName,
+    required super.lastName,
+    required super.email,
+    required super.phone,
+    required super.token,
+  });
 
   factory UserDataModel.fromJson(Map<String, dynamic> json) {
     return UserDataModel(
@@ -63,3 +53,7 @@ class UserDataModel extends UserData {
     };
   }
 }
+
+
+
+

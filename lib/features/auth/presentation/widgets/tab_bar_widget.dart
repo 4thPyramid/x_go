@@ -31,9 +31,28 @@ class TabBarWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: TabBar(
+              dividerColor: Colors.transparent,
+
+              unselectedLabelStyle: TextStyle(
+                fontSize: 18.sp,
+              ).copyWith(fontWeight: FontWeight.bold),
               tabs: [
-                Tab(text: 'Login'),
-                Tab(text: 'Register'),
+                Tab(
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                    ).copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    'Register',
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                    ).copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
               ],
               labelColor: Colors.black,
               unselectedLabelColor: AppColors.primaryColor,
