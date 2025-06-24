@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/utils/app_assets.dart';
+import 'package:x_go/core/utils/app_image_view.dart';
 
 class HeaderComponent extends StatelessWidget {
   const HeaderComponent({super.key});
@@ -8,7 +10,7 @@ class HeaderComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Image.asset('assets/images/menu.png', height: 50.h),
+        AppImageView(AppAssets.menu, height: 50.h),
         Spacer(),
         Row(
           children: [

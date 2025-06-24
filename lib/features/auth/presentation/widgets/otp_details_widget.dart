@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:x_go/app.dart';
+import 'package:x_go/core/utils/app_assets.dart';
+import 'package:x_go/core/utils/app_image_view.dart';
 
 class OtpDetailsWidget extends StatelessWidget {
   const OtpDetailsWidget({super.key});
@@ -27,7 +30,7 @@ class OtpDetailsWidget extends StatelessWidget {
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
             Spacer(),
-            SvgPicture.asset("assets/images/lock.svg"),
+            AppImageView(AppAssets.lock),
           ],
         ),
         SizedBox(height: 24.h),
