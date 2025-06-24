@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/core/routes/app_routers.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/theme/app_colors.dart';
-import 'package:x_go/features/splash/splash_view.dart';
+import 'package:x_go/features/splash/views/splash_view.dart';
 
 void main() {
   setupLocator();
