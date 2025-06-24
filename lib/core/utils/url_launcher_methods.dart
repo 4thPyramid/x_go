@@ -53,4 +53,27 @@ class UrlLauncherMethods {
       throw 'Could not launch $url';
     }
   }
+  static Future<void> launchTelegram(String username) async {
+    final url = "https://t.me/$username";
+    if (!await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch Telegram for @$username';
+    }
+  }
+
+  // 📷 إنستجرام
+  static Future<void> launchInstagram(String username) async {
+    final url = "https://www.instagram.com/$username";
+    if (!await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch Instagram for @$username';
+    }
+  }
+
+  // 📺 يوتيوب
+  static Future<void> launchYoutubeChannel(String channelId) async {
+    final url = "https://www.youtube.com/channel/$channelId";
+    if (!await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch YouTube channel';
+    }
+  }
+
 }
