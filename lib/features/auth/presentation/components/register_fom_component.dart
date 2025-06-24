@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/functions/validator.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
+import 'package:x_go/core/functions/show_toast.dart';
+import 'package:x_go/core/routes/router_names.dart';
+import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -122,10 +127,34 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
 
                 SizedBox(height: 24.h),
-                CustomButton(
-                  text: 'Sign Up',
-                  onPressed: () {
-                    if (_formKey.currentState?.validate() ?? false) {}
+                BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is RegisterSuccess) {
+                      context.go(RouterNames.login);
+                    } else if (state is RegisterError) {
+                      showToast(
+                        message: state.message,
+                        state: ToastStates.ERROR,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    return state is RegisterLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : CustomButton(
+                            text: 'Sign Up',
+                            onPressed: () {
+                              if (_formKey.currentState?.validate() ?? false) {
+                                context.read<AuthCubit>().register(
+                                  _firstNameController.text,
+                                  _lastNameController.text,
+                                  _emailController.text,
+                                  _phoneController.text,
+                                  _passwordController.text,
+                                );
+                              }
+                            },
+                          );
                   },
                 ),
               ],

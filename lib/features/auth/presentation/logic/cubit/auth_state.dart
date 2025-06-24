@@ -14,3 +14,23 @@ final class LoginError extends AuthState {
 
   LoginError(this.message);
 }
+
+final class RegisterLoading extends AuthState {}
+
+final class RegisterSuccess extends AuthState {}
+
+final class RegisterError extends AuthState {
+  final String message;
+
+  RegisterError(this.message);
+}
+
+final class ForgotPasswordLoading extends AuthState {}
+
+final class ForgotPasswordSuccess extends AuthState {}
+
+final class ForgotPasswordError extends AuthState {
+  final String message;
+
+  ForgotPasswordError(this.message);
+}

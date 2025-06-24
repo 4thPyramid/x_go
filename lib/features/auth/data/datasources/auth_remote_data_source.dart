@@ -8,7 +8,7 @@ abstract class AuthRemoteDataSource {
     required String firstName,
     required String lastName,
     required String email,
-    required String phone,
+    required String location,
     required String password,
   });
 
@@ -16,6 +16,8 @@ abstract class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+
+  Future<AuthResponseModel> forgetPassword({required String email});
 
   Future<AuthResponseModel> otp({required String email, required String otp});
 }
@@ -30,7 +32,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String firstName,
     required String lastName,
     required String email,
-    required String phone,
+    required String location,
     required String password,
   }) async {
     final response = await apiConsumer.post(
@@ -39,7 +41,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'first_name': firstName,
         'last_name': lastName,
         'email': email,
-        'phone': phone,
+        'location': location,
         'password': password,
       },
       isFormData: true,
@@ -68,6 +70,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
     // CacheHelper.saveToken(token: response.);
     return LoginResponseModel.fromJson(response);
+  }
+
+  @override
+  Future<AuthResponseModel> forgetPassword({required String email}) async {
+    final response = await apiConsumer.post(
+      '/forget-password',
+      data: {'email': email},
+      headers: {
+        'Accept': 'application/vnd.api+json',
+        'Content-Type': 'application/vnd.api+json',
+      },
+    );
+    return AuthResponseModel.fromJson(response);
   }
 
   @override

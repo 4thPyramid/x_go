@@ -16,7 +16,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String firstName,
     required String lastName,
     required String email,
-    required String phone,
+    required String location,
     required String password,
   }) async {
     try {
@@ -24,7 +24,7 @@ class AuthRepositoryImpl implements AuthRepository {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        phone: phone,
+        location: location,
         password: password,
       );
       return Right(response);
@@ -57,6 +57,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       final response = await remoteDataSource.otp(email: email, otp: otp);
+      return Right(response);
+    } catch (e) {
+      return Left(ErrorModel(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, AuthResponse>> forgetPassword({
+    required String email,
+  }) async {
+    try {
+      final response = await remoteDataSource.forgetPassword(email: email);
       return Right(response);
     } catch (e) {
       return Left(ErrorModel(message: e.toString()));

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/functions/validator.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
+import 'package:x_go/core/functions/show_toast.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/auth/presentation/components/forget_password_component.dart';
 import 'package:x_go/features/auth/presentation/components/remember_me_component.dart';
 import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
@@ -64,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(height: 24.h),
             RememberMeComponent(),
             SizedBox(height: 16.h),
-            BlocBuilder<AuthCubit, AuthState>(
+            BlocConsumer<AuthCubit, AuthState>(
               builder: (context, state) {
                 return state is LoginLoading
                     ? const Center(child: CircularProgressIndicator())
@@ -79,6 +82,13 @@ class _LoginFormState extends State<LoginForm> {
                           }
                         },
                       );
+              },
+              listener: (BuildContext context, AuthState state) {
+                if (state is LoginSuccess) {
+                  context.push(RouterNames.home);
+                } else if (state is LoginError) {
+                  showToast(message: state.message, state: ToastStates.ERROR);
+                }
               },
             ),
           ],

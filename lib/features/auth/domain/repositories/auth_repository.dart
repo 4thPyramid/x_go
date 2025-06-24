@@ -8,13 +8,17 @@ abstract class AuthRepository {
     required String firstName,
     required String lastName,
     required String email,
-    required String phone,
+    required String location,
     required String password,
   });
 
   Future<Either<ErrorModel, LoginResponse>> login({
     required String email,
     required String password,
+  });
+
+  Future<Either<ErrorModel, AuthResponse>> forgetPassword({
+    required String email,
   });
 
   Future<Either<ErrorModel, AuthResponse>> otp({

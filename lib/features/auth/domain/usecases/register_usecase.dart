@@ -6,20 +6,20 @@ import '../repositories/auth_repository.dart';
 class RegisterUseCase {
   final AuthRepository repository;
 
-  RegisterUseCase({required this.repository});
+  RegisterUseCase(this.repository);
 
   Future<Either<ErrorModel, AuthResponse>> call({
     required String firstName,
     required String lastName,
     required String email,
-    required String phone,
+    required String location,
     required String password,
   }) async {
     return await repository.register(
       firstName: firstName,
       lastName: lastName,
       email: email,
-      phone: phone,
+      location: location,
       password: password,
     );
   }
