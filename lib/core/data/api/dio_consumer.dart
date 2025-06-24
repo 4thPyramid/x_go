@@ -59,8 +59,9 @@ class DioConsumer extends ApiConsumer {
       // final token = CacheHelper.getToken();
       final response = await dio.post(
         path,
-        data:
-            isFormData ? FormData.fromMap(data as Map<String, dynamic>) : data,
+        data: isFormData
+            ? FormData.fromMap(data as Map<String, dynamic>)
+            : data,
         queryParameters: queryParameters,
         options: Options(
           headers: {
@@ -89,8 +90,9 @@ class DioConsumer extends ApiConsumer {
       final token = CacheHelper.getToken();
       final response = await dio.patch(
         path,
-        data:
-            isFormData ? FormData.fromMap(data as Map<String, dynamic>) : data,
+        data: isFormData
+            ? FormData.fromMap(data as Map<String, dynamic>)
+            : data,
         queryParameters: queryParameters,
         options: Options(
           headers: {
@@ -142,8 +144,9 @@ class DioConsumer extends ApiConsumer {
       final token = CacheHelper.getToken();
       final response = await dio.delete(
         path,
-        data:
-            isFormData ? FormData.fromMap(data as Map<String, dynamic>) : data,
+        data: isFormData
+            ? FormData.fromMap(data as Map<String, dynamic>)
+            : data,
         queryParameters: queryParameters,
         options: Options(
           headers: {
@@ -159,3 +162,38 @@ class DioConsumer extends ApiConsumer {
     }
   }
 }
+
+Options _buildOptions(Map<String, dynamic>? headers) {
+  final token = CacheHelper.getToken();
+  return Options(
+    headers: {
+      'Accept': 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+      if (token != null) 'Authorization': 'Bearer $token',
+      ...?headers,
+    },
+  );
+}
+
+//instead of duplication
+/*
+*  Options(
+    headers: {
+      'Accept': 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+      if (token != null) 'Authorization': 'Bearer $token',
+      ...?headers,
+    },
+  );*/
+/*
+Options _buildOptions(Map<String, dynamic>? headers) {
+  final token = CacheHelper.getToken();
+  return Options(
+    headers: {
+      'Accept': 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+      if (token != null) 'Authorization': 'Bearer $token',
+      ...?headers,
+    },
+  );
+} */
