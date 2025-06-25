@@ -12,6 +12,7 @@ class BookingDateTimePicker extends StatelessWidget {
       decoration: InputDecoration(
         prefixIcon:prefixIcon,
         hintText: label,
+        hintStyle: const TextStyle(fontSize: 14,fontWeight: FontWeight.w500),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(25)),
         ),
