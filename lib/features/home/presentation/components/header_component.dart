@@ -10,7 +10,7 @@ class HeaderComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        AppImageView(AppAssets.menu, height: 50.h),
+        AppImageView(AppAssets.menu),
         Spacer(),
         Row(
           children: [

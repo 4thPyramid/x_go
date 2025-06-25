@@ -23,6 +23,7 @@ abstract class RouterNames {
   static const String cart = '/cart';
   static const String carDetail = '/';
   static const String productDetails = '/productDetails';
- 
+
   static const String search = '/search';
+  static const String carDetails = '/carDetails';
 }

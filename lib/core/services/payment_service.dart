@@ -14,6 +14,7 @@ class PaymobService {
   static const String paymentUrl =
       "https://accept.paymob.com/api/acceptance/payment_keys";
 
+  // 1️⃣ احصل على التوكن (Authentication)
   static Future<String> getAuthToken() async {
     final response = await http.post(
       Uri.parse(authUrl),
@@ -29,6 +30,7 @@ class PaymobService {
     }
   }
 
+  // 2️⃣ إنشاء الطلب (Order)
   static Future<int> createOrder(String authToken, int amount) async {
     final response = await http.post(
       Uri.parse(orderUrl),
@@ -53,6 +55,7 @@ class PaymobService {
     }
   }
 
+  // 3️⃣ الحصول على رابط الدفع
   static Future<String> getPaymentKey(
     String authToken,
     int orderId,
@@ -82,8 +85,7 @@ class PaymobService {
           "floor": "12",
         },
         "currency": "EGP",
-        // "integration_id": "5006145",
-        "integration_id": "5164115",
+        "integration_id": "5006145",
       }),
     );
 
@@ -94,82 +96,123 @@ class PaymobService {
       throw Exception("Failed to get payment key");
     }
   }
-
-  // static Future<String> payWithWallet(String paymentToken, String phone) async {
-  //   final response = await http.post(
-  //     Uri.parse('https://accept.paymob.com/api/acceptance/payments/pay'),
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: jsonEncode({
-  //       "source": {"identifier": phone, "subtype": "WALLET"},
-  //       "payment_token": paymentToken,
-  //     }),
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     final data = jsonDecode(response.body);
-  //     print('Payment response: $data');
-
-  //     if (data['redirect_url'] != null) {
-  //       print(data['redirect_url']);
-  //       return data['redirect_url'];
-  //     }
-
-  //     return "تم الطلب بنجاح بدون redirect.";
-  //   } else {
-  //     print("Error: ${response.body}");
-  //     throw Exception("Failed to pay with wallet");
-  //   }
-  // }
 }
 
-class PaymentWebView extends StatefulWidget {
-  final String paymentUrl;
+class PaymobPaymentScreen extends StatefulWidget {
+  final String iframeUrl;
 
-  const PaymentWebView({super.key, required this.paymentUrl});
+  const PaymobPaymentScreen({required this.iframeUrl});
 
   @override
-  _PaymentWebViewState createState() => _PaymentWebViewState();
+  State<PaymobPaymentScreen> createState() => _PaymobPaymentScreenState();
 }
 
-class _PaymentWebViewState extends State<PaymentWebView> {
-  late WebViewController _controller;
+class _PaymobPaymentScreenState extends State<PaymobPaymentScreen> {
+  late final WebViewController _controller;
+  bool _navigated = false;
 
   @override
   void initState() {
     super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse(widget.paymentUrl));
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (url) async {
+            if (_navigated) return; // منع التنقل أكثر من مرة
+            print("📄 Page Loaded: $url");
+
+            final htmlContent = await _controller.runJavaScriptReturningResult(
+              "document.body.innerText",
+            );
+
+            print("📄 HTML content: $htmlContent");
+
+            final content = htmlContent.toString().toLowerCase();
+
+            if (content.contains("approved")) {
+              _navigated = true;
+
+              final uri = Uri.tryParse(url);
+              final transactionId = uri?.queryParameters['id'] ?? 'N/A';
+              print(
+                '----------------------------------------------------------',
+              );
+              print(uri?.queryParameters.toString());
+
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => InvoiceScreen(transactionId: transactionId),
+                ),
+              );
+            }
+
+            if (content.contains("failed") || content.contains("declined")) {
+              _navigated = true;
+
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const PaymentFailedScreen()),
+              );
+            }
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(widget.iframeUrl));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Pay with Paymob")),
+      appBar: AppBar(title: const Text("Pay")),
       body: WebViewWidget(controller: _controller),
     );
   }
 }
 
+class InvoiceScreen extends StatelessWidget {
+  final String transactionId;
 
-/*
-                      final authKey = await PaymobService.getAuthToken();
-                      final orderId = await PaymobService.createOrder(
-                        authKey,
-                        500,
-                      );
-                      final paymentKey = await PaymobService.getPaymentKey(
-                        authKey,
-                        orderId,
-                        500,
-                      );
-                      String paymentUrl =
-                          "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              PaymentWebView(paymentUrl: paymentUrl),
-                        ),
-                      );
-                      */
+  const InvoiceScreen({required this.transactionId, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Invoice')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.check_circle, color: Colors.green, size: 80),
+            const SizedBox(height: 16),
+            const Text('Payment Successful!', style: TextStyle(fontSize: 22)),
+            const SizedBox(height: 8),
+            Text('Transaction ID: $transactionId'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PaymentFailedScreen extends StatelessWidget {
+  const PaymentFailedScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Payment Failed')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.error, color: Colors.red, size: 80),
+            SizedBox(height: 16),
+            Text('Payment Failed!', style: TextStyle(fontSize: 22)),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -4,10 +4,6 @@ import 'package:x_go/app.dart';
 import 'package:x_go/core/routes/app_routers.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/theme/app_colors.dart';
-<<<<<<< HEAD
-=======
-import 'package:x_go/features/splash/views/splash_view.dart';
->>>>>>> 9456741c6b5aee4fb62f9c7eb64c047c2d591844
 
 void main() {
   setupLocator();
@@ -18,12 +14,6 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  /// Builds the widget tree for the application.
-  ///
-  /// Initializes screen size configuration with `ScreenUtilInit` for responsive design.
-  /// Returns a `MaterialApp` with routing configuration and a theme applied.
-  /// Hides the debug banner in the top-right corner.
-
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),

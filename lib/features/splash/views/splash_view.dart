@@ -34,24 +34,24 @@ class SplashView extends StatelessWidget {
                   SizedBox(height: 20.h),
                   ElevatedButton(
                     onPressed: () async {
-                      final authKey = await PaymobService.getAuthToken();
+                      final authToken = await PaymobService.getAuthToken();
                       final orderId = await PaymobService.createOrder(
-                        authKey,
-                        500,
+                        authToken,
+                        int.parse('100') * 100,
                       );
                       final paymentKey = await PaymobService.getPaymentKey(
-                        authKey,
+                        authToken,
                         orderId,
-                        500,
+                        int.parse('100') * 100,
                       );
-
                       String paymentUrl =
                           "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
+                      // ignore: use_build_context_synchronously
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              PaymentWebView(paymentUrl: paymentUrl),
+                              PaymobPaymentScreen(iframeUrl: paymentUrl),
                         ),
                       );
                     },

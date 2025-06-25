@@ -52,19 +52,18 @@ class CustomTextFormField extends StatelessWidget {
         fillColor: fillColor ?? AppColors.white,
         filled: true,
         labelText: labelText,
-        labelStyle: AppStyles.s16Alex.copyWith(color: AppColors.grey),
-        suffixIcon:
-            isPassword
-                ? IconButton(
-                  onPressed: toggleObscure,
-                  icon: Visibility(
-                    visible: obscureText,
-                    replacement: const Icon(Icons.visibility_outlined),
-                    child: const Icon(Icons.visibility_off_outlined),
-                  ),
-                  color: AppColors.grey,
-                )
-                : suffixIcon,
+        labelStyle: AppStyles.s16.copyWith(color: AppColors.grey),
+        suffixIcon: isPassword
+            ? IconButton(
+                onPressed: toggleObscure,
+                icon: Visibility(
+                  visible: obscureText,
+                  replacement: const Icon(Icons.visibility_outlined),
+                  child: const Icon(Icons.visibility_off_outlined),
+                ),
+                color: AppColors.grey,
+              )
+            : suffixIcon,
 
         prefixIcon: prefixIcon,
         border: InputBorder.none,

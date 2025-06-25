@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../widgets/car_card_widget.dart';
 
@@ -24,11 +25,16 @@ class PopularCarsComponent extends StatelessWidget {
             itemBuilder: (context, index) {
               return Column(
                 children: [
-                  CarCardWidget(
-                    brand: 'Toyota',
-                    model: 'Camry',
-                    rentPrice: '\$100',
-                    imageUrl: 'assets/images/car.png',
+                  InkWell(
+                    onTap: () {
+                      context.push('/carDetails');
+                    },
+                    child: CarCardWidget(
+                      brand: 'Toyota',
+                      model: 'Camry',
+                      rentPrice: '\$100',
+                      imageUrl: 'assets/images/car.png',
+                    ),
                   ),
                   SizedBox(height: 5.h),
                 ],
