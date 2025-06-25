@@ -4,10 +4,6 @@ import 'package:x_go/app.dart';
 import 'package:x_go/core/routes/app_routers.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/theme/app_colors.dart';
-<<<<<<< HEAD
-=======
-import 'package:x_go/features/splash/views/splash_view.dart';
->>>>>>> 9456741c6b5aee4fb62f9c7eb64c047c2d591844
 
 void main() {
   setupLocator();

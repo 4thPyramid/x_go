@@ -52,7 +52,7 @@ class CustomTextFormField extends StatelessWidget {
         fillColor: fillColor ?? AppColors.white,
         filled: true,
         labelText: labelText,
-        labelStyle: AppStyles.s16Alex.copyWith(color: AppColors.grey),
+        labelStyle: AppStyles.s16.copyWith(color: AppColors.grey),
         suffixIcon:
             isPassword
                 ? IconButton(
