@@ -10,17 +10,16 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(  
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              SizedBox(height: 30.h),
-              const HeaderComponent(),
-              const SearchComponent(),
-              const PopularCarsComponent(),
-            ],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            SizedBox(height: 30.h),
+            HeaderComponent(),
+            SearchComponent(),
+
+            PopularCarsComponent(),
+          ],
         ),
       ),
     );

@@ -3,9 +3,11 @@ abstract class RouterNames {
   static const String onboarding = '/onboarding';
   static const String login = '/login';
   static const String register = '/register';
-  static const String forgotPassword = '/dcsdc';
-  static const String otpFormForPassword = '/otpFormForPassword';
-  static const String app = '/ascacd';
+  static const String forgotPassword = '/forgotPassword';
+  static const String resetPassword = '/resetPassword';
+  static const String success_updated = '/success_updated';
+  static const String otp = '/otp';
+  static const String app = '/app';
   static const String home = '/home';
   static const String editProfile = '/edit_profile';
   static const String setAnewPassword = '/nmnhb';

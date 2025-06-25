@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../theme/app_colors.dart';
 
@@ -33,36 +34,40 @@ import '../theme/app_colors.dart';
 //         "en";
 
 // //! Function to convert hex string to Color
-// Color hexToColor(String hexColor) {
-//   // Ensure the string starts with 0xFF for opacity
-//   if (hexColor.length == 6) {
-//     hexColor = 'FF$hexColor'; // Prepend 'FF' for full opacity
-//   }
-//   return Color(int.parse(hexColor, radix: 16));
-// }
+Color hexToColor(String hexColor) {
+  hexColor = hexColor.replaceAll("#", ""); // شيل الـ #
+  if (hexColor.length == 6) {
+    hexColor = 'FF$hexColor'; // شفافية كاملة
+  }
+  return Color(int.parse(hexColor, radix: 16));
+}
 
 // //!------------------     imageHeroFunction    --------------------
-// Future<dynamic> imageHeroFunction(BuildContext context, var imageProvider,
-//     {String? tag}) {
-//   return context.push(
-//     Scaffold(
-//       body: InkWell(
-//         onTap: () {
-//           context.pop();
-//         },
-//         child: Hero(
-//             tag: tag ?? imageProvider,
-//             child: Container(
-//               color: AppColors.blackColor(),
-//               width: double.infinity,
-//               height: double.infinity,
-//               child: Image(image: imageProvider),
-//             )),
-//       ),
-//     ),
-//   );
-// }
-
+Future<dynamic> imageHeroFunction(
+    BuildContext context,
+    var imageProvider, {
+      String? tag,
+    }) {
+  return Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => Scaffold(
+        body: InkWell(
+          onTap: () => Navigator.pop(context),
+          child: Hero(
+            tag: tag ?? imageProvider,
+            child: Container(
+              color: AppColors.black,
+              width: double.infinity,
+              height: double.infinity,
+              child: Image(image: imageProvider),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
 // //!--------------- timeAgo Function -----------------------
 // String timeAgo(String dateTimeString) {
 //   DateTime now = DateTime.now();

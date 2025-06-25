@@ -12,7 +12,7 @@ class AppTheme {
     brightness: Brightness.light,
     primaryColor: AppColors.primaryColor,
     hintColor: AppColors.primaryColor,
-    fontFamily: "Cairo",
+    fontFamily: "Poppins",
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.primaryColor,
       titleTextStyle: TextStyle(
@@ -40,7 +40,7 @@ class AppTheme {
     brightness: Brightness.dark,
     primaryColor: AppColors.primaryColor,
     hintColor: AppColors.primaryColor,
-    fontFamily: "Cairo",
+    fontFamily: "Poppins",
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.primaryColor,
       titleTextStyle: TextStyle(

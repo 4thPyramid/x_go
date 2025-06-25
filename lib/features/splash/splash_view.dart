@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
+import 'package:x_go/core/common/widgets/logo.dart';
 import 'package:x_go/core/routes/router_names.dart';
+import 'package:x_go/core/services/payment_service.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 
 class SplashView extends StatelessWidget {
@@ -21,8 +23,38 @@ class SplashView extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Center(
-                  child: Image.asset('assets/images/logo.png', height: 100.h),
+                GestureDetector(
+                  onTap: () async {
+                    final authToken = await PaymobService.getAuthToken();
+                    final orderId = await PaymobService.createOrder(
+                      authToken,
+                      500 * 100,
+                    );
+                    final paymentKey = await PaymobService.getPaymentKey(
+                      authToken,
+                      orderId,
+                      500 * 100,
+                    );
+                    String paymentUrl =
+                        "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
+
+                    // String paymentUrl = await PaymobService.payWithWallet(
+                    //   paymentKey,
+                    //   '01029673915',
+                    // );
+
+                    // // ignore: use_build_context_synchronously
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (c) {
+                          return PaymentWebView(paymentUrl: paymentUrl);
+                        },
+                      ),
+                    );
+                  },
+                  child: LogoWidget(),
                 ),
                 RichText(
                   textAlign: TextAlign.center,
