@@ -150,3 +150,26 @@ class _PaymentWebViewState extends State<PaymentWebView> {
     );
   }
 }
+
+
+/*
+                      final authKey = await PaymobService.getAuthToken();
+                      final orderId = await PaymobService.createOrder(
+                        authKey,
+                        500,
+                      );
+                      final paymentKey = await PaymobService.getPaymentKey(
+                        authKey,
+                        orderId,
+                        500,
+                      );
+                      String paymentUrl =
+                          "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PaymentWebView(paymentUrl: paymentUrl),
+                        ),
+                      );
+                      */

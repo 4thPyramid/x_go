@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/routes/router_names.dart';
+import 'package:x_go/core/services/payment_service.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/core/utils/app_assets.dart';
 import 'package:x_go/core/utils/app_image_view.dart';
@@ -31,7 +32,31 @@ class SplashView extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 20.h),
-                  // Logo
+                  ElevatedButton(
+                    onPressed: () async {
+                      final authKey = await PaymobService.getAuthToken();
+                      final orderId = await PaymobService.createOrder(
+                        authKey,
+                        500,
+                      );
+                      final paymentKey = await PaymobService.getPaymentKey(
+                        authKey,
+                        orderId,
+                        500,
+                      );
+
+                      String paymentUrl =
+                          "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PaymentWebView(paymentUrl: paymentUrl),
+                        ),
+                      );
+                    },
+                    child: Text('Test'),
+                  ), // Logo
                   Center(child: AppImageView(AppAssets.logo)),
                   SizedBox(height: 10.h),
                   // Tagline (now on two lines)
@@ -44,14 +69,20 @@ class SplashView extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
                   // Login Button
-                  buildOutlineButton(text: 'Login', onPressed: () {
-                    context.go(RouterNames.login);
-                  }),
+                  buildOutlineButton(
+                    text: 'Login',
+                    onPressed: () {
+                      context.go(RouterNames.login);
+                    },
+                  ),
                   SizedBox(height: 12.h),
                   // Register Button
-                  buildOutlineButton(text: 'Register', onPressed: () {
-                    context.go(RouterNames.register);
-                  }),
+                  buildOutlineButton(
+                    text: 'Register',
+                    onPressed: () {
+                      context.go(RouterNames.register);
+                    },
+                  ),
                   SizedBox(height: 12.h),
                 ],
               ),
@@ -61,5 +92,4 @@ class SplashView extends StatelessWidget {
       ),
     );
   }
-
 }
