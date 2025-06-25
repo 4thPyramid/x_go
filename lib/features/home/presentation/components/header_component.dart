@@ -14,7 +14,7 @@ class HeaderComponent extends StatelessWidget {
         Spacer(),
         Row(
           children: [
-            Text('Cairo,Egypt'),
+            Text('Cairo,Egypt', style: TextStyle(fontSize: 13.sp)),
             Icon(Icons.keyboard_arrow_down_rounded),
           ],
         ),
