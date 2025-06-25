@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/app.dart';
 import 'package:x_go/core/routes/app_routers.dart';
@@ -6,7 +7,7 @@ import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 
 void main() {
-  setupLocator();
+
   runApp(const MyApp());
 }
 
