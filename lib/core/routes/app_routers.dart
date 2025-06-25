@@ -90,5 +90,9 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const SuccessUpdatedView(),
     ),
     GoRoute(path: RouterNames.app, builder: (context, state) => const App()),
+    GoRoute(
+      path: RouterNames.carDetails,
+      builder: (context, state) => const CarDetailsPage(),
+    ),
   ],
 );

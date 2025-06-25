@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/features/Details/presentation/widgets/booking_button.dart';
 import 'package:x_go/features/Details/presentation/widgets/car_info_section.dart';
 
-
 class CarDetailsPage extends StatelessWidget {
   const CarDetailsPage({super.key});
 
@@ -15,7 +14,9 @@ class CarDetailsPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        actions: [IconButton(icon: const Icon(Icons.star_border), onPressed: () {})],
+        actions: [
+          IconButton(icon: const Icon(Icons.star_border), onPressed: () {}),
+        ],
         title: Image.asset('assets/images/logo.png', height: 40),
         centerTitle: true,
       ),
@@ -58,7 +59,7 @@ class CarDetailsPage extends StatelessWidget {
                 BookingButton()
               ],
             ),
-          )
+          ),
         ],
       ),
     );

@@ -10,11 +10,11 @@ class HeaderComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        AppImageView(AppAssets.menu, height: 50.h),
+        AppImageView(AppAssets.menu),
         Spacer(),
         Row(
           children: [
-            Text('Cairo,Egypt'),
+            Text('Cairo,Egypt', style: TextStyle(fontSize: 13.sp)),
             Icon(Icons.keyboard_arrow_down_rounded),
           ],
         ),
