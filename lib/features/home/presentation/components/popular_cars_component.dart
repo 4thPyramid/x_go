@@ -5,7 +5,6 @@ import '../widgets/car_card_widget.dart';
 
 class PopularCarsComponent extends StatelessWidget {
   const PopularCarsComponent({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Column(

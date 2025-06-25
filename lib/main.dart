@@ -12,14 +12,12 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-/*************  ✨ Windsurf Command ⭐  *************/
   /// Builds the widget tree for the application.
   ///
   /// Initializes screen size configuration with `ScreenUtilInit` for responsive design.
   /// Returns a `MaterialApp` with routing configuration and a theme applied.
   /// Hides the debug banner in the top-right corner.
 
-/*******  ad6e59c2-64df-4b82-8473-f038cf81a8e9  *******/
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),

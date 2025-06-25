@@ -52,6 +52,7 @@ class CustomTextFormField extends StatelessWidget {
         fillColor: fillColor ?? AppColors.white,
         filled: true,
         labelText: labelText,
+        labelStyle: AppStyles.s16Alex.copyWith(color: AppColors.grey),
         suffixIcon:
             isPassword
                 ? IconButton(
@@ -69,15 +70,15 @@ class CustomTextFormField extends StatelessWidget {
         border: InputBorder.none,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(25.0),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(25.0),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(25.0),
         ),
       ),
       validator: validator ?? (value) => null,
