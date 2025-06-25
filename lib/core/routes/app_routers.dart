@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:x_go/app.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
+import 'package:x_go/features/Details/presentation/views/car_detail_view.dart';
 import 'package:x_go/features/auth/domain/usecases/forget_password_use_case.dart';
 import 'package:x_go/features/auth/domain/usecases/login_usecase.dart';
 import 'package:x_go/features/auth/domain/usecases/otp_usecase.dart';
@@ -18,7 +19,6 @@ import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/splash/views/splash_view.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.splash,
   routes: [
     GoRoute(
       path: RouterNames.splash,
@@ -27,6 +27,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.home,
       builder: (context, state) => const HomeView(),
+    ),
+     GoRoute(
+      path: RouterNames.carDetail,
+      builder: (context, state) => const CarDetailsPage(),
     ),
     GoRoute(path: RouterNames.app, builder: (context, state) => const App()),
     GoRoute(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/features/Details/presentation/widgets/booking_button.dart';
 import 'package:x_go/features/Details/presentation/widgets/car_info_section.dart';
 
@@ -20,28 +21,40 @@ class CarDetailsPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Image.asset('assets/images/Group 7.png'),
-          const Padding(
+          SizedBox(height: 20.h),
+          SizedBox(
+            height: 180.h,
+            child: Image.asset('assets/images/Group 7.png',
+            fit: BoxFit.cover,
+            width: double.infinity,),
+          ),
+           Padding( 
             padding: EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Lamborghini', style: TextStyle(color: Colors.orange)),
-                SizedBox(height: 4),
-                Text('Revuelto', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text('Lamborghini', style: TextStyle(color: Colors.orange, fontSize:12.sp)),
+                SizedBox(height:7.h),
+                Text('Revuelto', style: TextStyle(fontSize: 20, fontWeight:FontWeight.w500)),
                 Row(
                   children: [
                     Icon(Icons.location_on, size: 16),
-                    SizedBox(width: 4),
-                    Text('Giza, Cairo, Egypt')
+                    SizedBox(height: 7.h),
+                    Text('Giza, Cairo, Egypt', style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400)),
                   ],
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 15.h),
                 CarInfoSection(),
-                SizedBox(height: 12),
-                Text('Rent Price', style: TextStyle(color: Colors.grey)),
-                Text('\$1400 / Day', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                SizedBox(height: 16),
+                SizedBox(height: 25.h),
+                Row(
+                  children: [
+                    Text('Rent Price', style: TextStyle( fontSize: 16.sp, fontWeight: FontWeight.w400)),
+                    Spacer(),
+                    Text('\$1400 ', style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500)),
+                    Text('/day', style: TextStyle( fontSize: 16.sp, fontWeight: FontWeight.w400)),
+                  ],
+                ),
+                SizedBox(height: 20.h),
                 BookingButton()
               ],
             ),

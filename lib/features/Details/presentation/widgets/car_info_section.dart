@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CarInfoSection extends StatelessWidget {
   const CarInfoSection({super.key});
@@ -49,21 +50,28 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 28, color: Colors.orange),
-            const SizedBox(height: 8),
-            Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const SizedBox(height: 4),
-            Text(title, style: const TextStyle(fontSize: 12, color: Colors.grey)),
-          ],
+    return SizedBox(
+      
+      child: Card(
+        
+       
+        color: Colors.white,
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 28,),
+              const SizedBox(height: 8),
+                            Text(title, style:  TextStyle(fontSize: 10.sp, color: Colors.grey,fontWeight: FontWeight.w400)),
+
+              const SizedBox(height: 17),
+                            Text(value, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+
+            ],
+          ),
         ),
       ),
     );
