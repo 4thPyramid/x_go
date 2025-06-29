@@ -16,10 +16,11 @@ import 'package:x_go/features/auth/presentation/view/otpview.dart';
 import 'package:x_go/features/auth/presentation/view/reset_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
+import 'package:x_go/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/features/splash/views/splash_view.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.splash,
+  initialLocation: RouterNames.profile,
   routes: [
     GoRoute(
       path: RouterNames.splash,
@@ -90,6 +91,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.carDetails,
       builder: (context, state) => const CarDetailsPage(),
+    ),
+    GoRoute(
+      path: RouterNames.profile,
+      builder: (context, state) => const ProfilePage(),
     ),
   ],
 );
