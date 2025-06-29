@@ -20,7 +20,7 @@ import 'package:x_go/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/features/splash/views/splash_view.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.profile,
+  initialLocation: RouterNames.splash,
   routes: [
     GoRoute(
       path: RouterNames.splash,
