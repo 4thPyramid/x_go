@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/routes/router_names.dart';
-import 'package:x_go/core/services/payment_service.dart';
-import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/core/utils/app_assets.dart';
 import 'package:x_go/core/utils/app_image_view.dart';
 import 'package:x_go/features/splash/components/dark_overlay.dart';
@@ -32,31 +30,31 @@ class SplashView extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 20.h),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final authToken = await PaymobService.getAuthToken();
-                      final orderId = await PaymobService.createOrder(
-                        authToken,
-                        int.parse('100') * 100,
-                      );
-                      final paymentKey = await PaymobService.getPaymentKey(
-                        authToken,
-                        orderId,
-                        int.parse('100') * 100,
-                      );
-                      String paymentUrl =
-                          "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
-                      // ignore: use_build_context_synchronously
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              PaymobPaymentScreen(iframeUrl: paymentUrl),
-                        ),
-                      );
-                    },
-                    child: Text('Test'),
-                  ), // Logo
+                  // ElevatedButton(
+                  //   onPressed: () async {
+                  //     final authToken = await PaymobService.getAuthToken();
+                  //     final orderId = await PaymobService.createOrder(
+                  //       authToken,
+                  //       int.parse('100') * 100,
+                  //     );
+                  //     final paymentKey = await PaymobService.getPaymentKey(
+                  //       authToken,
+                  //       orderId,
+                  //       int.parse('100') * 100,
+                  //     );
+                  //     String paymentUrl =
+                  //         "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
+                  //     // ignore: use_build_context_synchronously
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) =>
+                  //             PaymobPaymentScreen(iframeUrl: paymentUrl),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: Text('Test'),
+                  // ), // Logo
                   Center(child: AppImageView(AppAssets.logo)),
                   SizedBox(height: 10.h),
                   // Tagline (now on two lines)
