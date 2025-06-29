@@ -7,7 +7,7 @@ class BookingLocationFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
+      children: [
         CustomTextFormField(
           prefixIcon: Icon(Icons.pin_drop),
           labelText: 'Add Pickup Location',

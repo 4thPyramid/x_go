@@ -49,6 +49,9 @@ dependencies:
   dartz: ^0.10.1
   equatable: ^2.0.7
   webview_flutter: ^4.13.0
+  google_maps_flutter: 
+  geolocator: ^14.0.1
+  geocoding: ^4.0.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0
