@@ -2,15 +2,20 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class PriceSlider extends StatefulWidget {
-  const PriceSlider({super.key});
+  final RangeValues rangeValues;
+  final ValueChanged<RangeValues> onChanged;
+
+  const PriceSlider({
+    super.key,
+    required this.rangeValues,
+    required this.onChanged,
+  });
 
   @override
   State<PriceSlider> createState() => _PriceSliderState();
 }
 
 class _PriceSliderState extends State<PriceSlider> {
-  RangeValues _range = const RangeValues(4, 12);
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,7 +30,7 @@ class _PriceSliderState extends State<PriceSlider> {
               titlesData: FlTitlesData(show: false),
               borderData: FlBorderData(show: false),
               barGroups: List.generate(16, (i) {
-                final isSelected = i >= _range.start && i <= _range.end;
+                final isSelected = i >= widget.rangeValues.start && i <= widget.rangeValues.end;
                 return BarChartGroupData(
                   x: i,
                   barRods: [
@@ -44,19 +49,14 @@ class _PriceSliderState extends State<PriceSlider> {
         ),
         const SizedBox(height: 12),
         RangeSlider(
-          values: _range,
+          values: widget.rangeValues,
           min: 0,
           max: 15,
           divisions: 15,
           activeColor: Colors.black,
-          onChanged: (RangeValues values) {
-            setState(() {
-              _range = values;
-            });
-          },
+          onChanged: widget.onChanged,
         ),
       ],
     );
   }
 }
-

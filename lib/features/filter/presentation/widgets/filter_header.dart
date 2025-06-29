@@ -6,12 +6,13 @@ class FilterHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          'Filters',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        const Spacer(),
+         Text(
+          'Filters',textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,),
+                 ),
+        const Spacer(),
         IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.pop(context),

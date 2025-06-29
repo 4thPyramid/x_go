@@ -30,7 +30,7 @@ final GoRouter router = GoRouter(
       path: RouterNames.home,
       builder: (context, state) => const HomeView(),
     ),
-    GoRoute(path: RouterNames.app, builder: (context, state) => const App()),
+    GoRoute(path: RouterNames.app, builder: (context, state) =>  App()),
     GoRoute(
       path: RouterNames.login,
       builder: (context, state) => BlocProvider(
@@ -87,7 +87,7 @@ final GoRouter router = GoRouter(
       path: RouterNames.success_updated,
       builder: (context, state) => const SuccessUpdatedView(),
     ),
-    GoRoute(path: RouterNames.app, builder: (context, state) => const App()),
+    GoRoute(path: RouterNames.app, builder: (context, state) =>  App()),
     GoRoute(
       path: RouterNames.carDetails,
       builder: (context, state) => const CarDetailsPage(),
