@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class FilterFooterButtons extends StatelessWidget {
-  const FilterFooterButtons({super.key});
+  final void Function()? onPressed;
+  const FilterFooterButtons({super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        TextButton(onPressed: () {}, child: const Text("Clear All")),
+        TextButton(onPressed: onPressed, child: const Text("Clear All")),
         ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(

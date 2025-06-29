@@ -65,7 +65,9 @@ class CustomTextFormField extends StatelessWidget {
               )
             : suffixIcon,
 
-        prefixIcon: prefixIcon,
+        prefixIcon: CircleAvatar(
+            radius: 20.r,
+            backgroundColor: AppColors.primaryColor, child: prefixIcon),
         border: InputBorder.none,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),

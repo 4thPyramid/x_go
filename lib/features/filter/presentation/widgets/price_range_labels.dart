@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class PriceRangeLabels extends StatelessWidget {
-  const PriceRangeLabels({super.key});
+  final RangeValues rangeValues;
+
+  const PriceRangeLabels({super.key, required this.rangeValues});
 
   @override
   Widget build(BuildContext context) {
+    final minPrice = (rangeValues.start * 10).toInt(); // مثال: تحويل 4 => 40
+    final maxPrice = (rangeValues.end * 10).toInt();
+
     return Row(
       children: [
         Expanded(
@@ -15,7 +20,7 @@ class PriceRangeLabels extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(),
             ),
-            child: const Text("Minimum\n\$70", textAlign: TextAlign.center),
+            child: Text("Minimum\n\$$minPrice", textAlign: TextAlign.center),
           ),
         ),
         const SizedBox(width: 10),
@@ -27,11 +32,10 @@ class PriceRangeLabels extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(),
             ),
-            child: const Text("Maximum\n\$300", textAlign: TextAlign.center),
+            child: Text("Maximum\n\$$maxPrice", textAlign: TextAlign.center),
           ),
         ),
       ],
     );
   }
 }
-

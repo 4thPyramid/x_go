@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
-import '../widgets/car_card_widget.dart';
 
 class PopularCarsComponent extends StatelessWidget {
   const PopularCarsComponent({super.key});
