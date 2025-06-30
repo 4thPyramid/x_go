@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <application
         android:label="x_go"
         android:name="${applicationName}"
@@ -6,7 +9,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCxe2phWTpJzJn4ARh8ipHtweSskzKuyY8"/>
+            android:value="AIzaSyBRvxQVv7DEX_lklJnEDS4kTB7ehgXG8lU"/>
 
         <activity
             android:name=".MainActivity"
