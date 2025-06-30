@@ -1,5 +1,5 @@
 abstract class RouterNames {
-  static const String splash = '/splach';
+  static const String splash = '/';
   static const String onboarding = '/onboarding';
   static const String login = '/login';
   static const String register = '/register';
@@ -8,12 +8,17 @@ abstract class RouterNames {
   static const String success_updated = '/success_updated';
   static const String otp = '/otp';
   static const String app = '/app';
+  static const String language = '/language';
+
   static const String home = '/home';
   static const String editProfile = '/edit_profile';
   static const String setAnewPassword = '/nmnhb';
   static const String addresses = '/addresses';
 
   static const String setting = '/setting';
+  static const String payment= '/payment';
+
+  static const String profileDetails = '/profile_details';
 
   static const String orders = '/orders';
   static const String aboutInfo = '/about_info';
@@ -21,7 +26,7 @@ abstract class RouterNames {
 
   static const String profile = '/d';
   static const String cart = '/cart';
-  static const String carDetail = '/';
+  static const String carDetail = '/jj';
   static const String productDetails = '/productDetails';
 
   static const String search = '/search';

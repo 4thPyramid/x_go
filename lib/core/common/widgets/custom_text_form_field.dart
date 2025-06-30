@@ -48,11 +48,11 @@ class CustomTextFormField extends StatelessWidget {
           horizontal: 12.0.w,
         ),
         hintText: hintText,
-        hintStyle: AppStyles.s14.copyWith(color: AppColors.black),
+        hintStyle: AppStyles.ts14BlackW500.copyWith(color: AppColors.black),
         fillColor: fillColor ?? AppColors.white,
         filled: true,
         labelText: labelText,
-        labelStyle: AppStyles.s16.copyWith(color: AppColors.grey),
+        labelStyle: AppStyles.ts12GreyW400.copyWith(color: AppColors.grey),
         suffixIcon: isPassword
             ? IconButton(
                 onPressed: toggleObscure,
@@ -67,7 +67,7 @@ class CustomTextFormField extends StatelessWidget {
 
         prefixIcon: CircleAvatar(
             radius: 20.r,
-            backgroundColor: AppColors.primaryColor, child: prefixIcon),
+            backgroundColor:fillColor ?? AppColors.primaryColor, child: prefixIcon),
         border: InputBorder.none,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),

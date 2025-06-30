@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 class ProfileItemTile extends StatelessWidget {
   final String title;
-  final TextStyle ?titleStyle;
+  final TextStyle? titleStyle;
   final IconData? icon;
   final bool isSwitch;
   final bool switchValue;
   final ValueChanged<bool>? onSwitchChanged;
   final bool showTrailing;
   final Color? color;
+  final VoidCallback? onTap; 
 
   const ProfileItemTile({
     super.key,
@@ -17,15 +18,16 @@ class ProfileItemTile extends StatelessWidget {
     this.isSwitch = false,
     this.switchValue = false,
     this.onSwitchChanged,
-    this.showTrailing = true, this.titleStyle, this.color,
-  // ← القيمة الافتراضية: يظهر Edit
+    this.showTrailing = true,
+    this.titleStyle,
+    this.color,
+    this.onTap, 
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-     leading: icon != null ? Icon(icon, color: color ?? Colors.grey[700]) : null,
-
+      leading: icon != null ? Icon(icon, color: color ?? Colors.grey[700]) : null,
       title: Text(title, style: titleStyle),
       trailing: !showTrailing
           ? null
@@ -35,6 +37,7 @@ class ProfileItemTile extends StatelessWidget {
                   onChanged: onSwitchChanged,
                 )
               : const Icon(Icons.edit, size: 20, color: Colors.grey),
+      onTap: onTap, 
     );
   }
 }

@@ -19,7 +19,7 @@ class BrandSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text('Brand', style: TextStyle(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 10),
+         SizedBox(height: 12.h),
         Row(
           children: brands.map((brand) {
             final isSelected = selectedBrand == brand;

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/utils/app_styles.dart';
 import 'package:x_go/features/payment/domain/entites/payment_method.dart';
 import 'package:x_go/features/payment/presentation/widgets/confirmation_dailog.dart';
 import 'package:x_go/features/payment/presentation/widgets/payment_option_tile.dart';
@@ -52,12 +54,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           color: Colors.grey.shade200,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Center(
-                          child: Icon(Icons.directions_car, size: 80, color: Colors.grey.shade600),
-                        ),
+                        child:  SizedBox(
+            height: 180.h,
+            child: Image.asset('assets/images/Group 7.png',
+            fit: BoxFit.cover,
+            width: double.infinity,),
+          ),
                       ),
                       const SizedBox(height: 24),
-                      const Text('Lamborghini Revuelto', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                       Text('Lamborghini Revuelto', style: AppStyles.ts24WhiteW600),
                       const SizedBox(height: 8),
                       Container(
                         padding: const EdgeInsets.all(16),

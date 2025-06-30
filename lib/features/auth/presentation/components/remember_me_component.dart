@@ -14,7 +14,7 @@ class RememberMeComponent extends StatelessWidget {
         Row(
           children: [
             Checkbox(value: true, onChanged: (value) {}),
-            Text('Remember me',style: AppStyles.s14,),
+            Text('Remember me',style: AppStyles.ts14W600,),
           ],
         ),
         Spacer(),
@@ -23,7 +23,7 @@ class RememberMeComponent extends StatelessWidget {
             context.push(RouterNames.forgotPassword);
           },
           child: Text('Forgot Password?',
-              style: AppStyles.s13,
+              style: AppStyles.ts13BlackW500,
           ),
         ),
       ],

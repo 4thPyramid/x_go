@@ -28,49 +28,54 @@ class _FilterViewState extends State<FilterView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 252, 251, 251),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const FilterHeader(),
-              const SizedBox(height: 15),
-              BrandSelector(
-                brands: ['Ferrari', 'BMW', 'Mercedes'],
-                selectedBrand: selectedBrand,
-                onBrandSelected: (brand) {
-                  setState(() {
-                    selectedBrand = brand;
-                  });
-                },
-              ),
-              const SizedBox(height: 24),
-              PriceSlider(
-                rangeValues: selectedRange,
-                onChanged: (newRange) {
-                  setState(() {
-                    selectedRange = newRange;
-                  });
-                },
-              ),
-              const SizedBox(height: 12),
-              PriceRangeLabels(rangeValues: selectedRange),
-              const SizedBox(height: 24),
-              FuelTypeSelector(
-               
-              ),
-              const SizedBox(height: 30),
-              FilterFooterButtons(
-              onPressed  : _resetFilters,
-              ),
-            ],
+    return Container(
+      decoration: const BoxDecoration(
+      color   :  Color.fromARGB(255, 252, 251, 251),
+      ),
+       
+       child:  Padding(
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const FilterHeader(),
+                const SizedBox(height: 15),
+                BrandSelector(
+                  brands: ['Ferrari', 'BMW', 'Mercedes'],
+                  selectedBrand: selectedBrand,
+                  onBrandSelected: (brand) {
+                    setState(() {
+                      selectedBrand = brand;
+                    });
+                  },
+                ),
+                Divider(color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),thickness: 1,),
+                const SizedBox(height: 24),
+                PriceSlider(
+                  rangeValues: selectedRange,
+                  onChanged: (newRange) {
+                    setState(() {
+                      selectedRange = newRange;
+                    });
+                  },
+                ),
+                const SizedBox(height: 12),
+                PriceRangeLabels(rangeValues: selectedRange),
+                const SizedBox(height: 24),
+                FuelTypeSelector(
+                 
+                ),
+                const SizedBox(height: 30),
+                FilterFooterButtons(
+                onPressed  : _resetFilters,
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    
   }
 }
 

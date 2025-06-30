@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/profile/presentation/widgets/profile_item.dart';
 import 'package:x_go/features/profile/presentation/widgets/profile_section.dart';
 
@@ -7,11 +9,13 @@ class AccountDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  const ProfileSection(
+    return   ProfileSection(
             title: 'Account Setting',
             items: [
               ProfileItemTile(title: 'Payment', icon: Icons.payment),
-              ProfileItemTile(title: 'Language', icon: Icons.language),
+              ProfileItemTile(title: 'Language', icon: Icons.language,onTap:(){
+                context.push(RouterNames.language);
+              } ),
               ProfileItemTile(title: 'Help & support', icon: Icons.help_outline),
               ProfileItemTile(title: 'Add feedback', icon: Icons.feedback),
               ProfileItemTile(title: 'Logout', icon: Icons.logout,showTrailing: false,
