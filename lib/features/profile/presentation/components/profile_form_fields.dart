@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
-import 'package:x_go/features/profile/presentation/widgets/gender_fields.dart';
-import 'package:x_go/features/profile/presentation/widgets/profile_text_field.dart';
+
 
 class ProfileFormFields extends StatefulWidget {
   const ProfileFormFields({super.key});
@@ -38,21 +37,35 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
           Row(
             children: [
               Expanded(
-                child: CustomTextFormField(
-                  
-                                    fillColor: Colors.white,
-
-                  controller: _firstNameController,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('First Name', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12)),
+                    SizedBox(height: 8.h),
+                    CustomTextFormField(
+                      
+                                        fillColor: Colors.white,
+                    
+                      controller: _firstNameController,
+                    ),
+                  ],
                 ),
               ),
               SizedBox(width: 20.w),
               Expanded(
-                child: CustomTextFormField(
-                  
-                                    fillColor: Colors.white,
+                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
 
-                 
-                  controller: _lastNameController,
+                  children: [
+                    const Text('Last Name', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12)),
+                    CustomTextFormField(
+                      
+                                        fillColor: Colors.white,
+                    
+                     
+                      controller: _lastNameController,
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -60,21 +73,37 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
           SizedBox(height: 30.h),
           
           // Email field
-         CustomTextFormField(
-      
-            controller: _emailController,
-                              fillColor: Colors.white,
+         Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
 
-            keyboardType: TextInputType.emailAddress,
-          ),
+           children: [
+             const Text('Email', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12)),
+             SizedBox(height: 8.h),
+             CustomTextFormField(
+                   
+                controller: _emailController,
+                                  fillColor: Colors.white,
+             
+                keyboardType: TextInputType.emailAddress,
+              ),
+           ],
+         ),
           SizedBox(height: 30.h),
           
          
-          CustomTextFormField(
-           
-            fillColor: Colors.white,
-            controller: _phoneController,
-            keyboardType: TextInputType.phone,
+          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+
+            children: [
+              const Text('Phone', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12)),
+              SizedBox(height: 8.h),
+              CustomTextFormField(
+               
+                fillColor: Colors.white,
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+              ),
+            ],
           ),
         ],
       ),

@@ -25,23 +25,19 @@ class ProfileImage extends StatelessWidget {
         alignment: Alignment.bottomRight,
         children: [
           Container(
-            width: 100.w,
-            height: 100.w,
+            width: 110.w,
+            height: 110.w,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  AppColors.primaryColor.withOpacity(0.8),
-                   AppColors.primaryColor,
-                ],
-              ),
+              color: Colors.white,
+              
+              
+              
             ),
             child: Icon(
               Icons.person,
               size: 50.r,
-              color: Colors.white,
+              color: AppColors.primaryColor
             ),
           ),
           Positioned(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
+import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/features/profile/presentation/components/profile_form_fields.dart';
+import 'package:x_go/features/profile/presentation/widgets/profile_header.dart';
 import 'package:x_go/features/profile/presentation/widgets/profile_image.dart';
 
 class ProfileSettingsScreen extends StatelessWidget {
@@ -13,56 +15,59 @@ class ProfileSettingsScreen extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding( 
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Column(
-              children: [
-                _buildAppBar(context),
-                SizedBox(height: 40.h),
-                ProfileImage(),
-                SizedBox(height: 40.h),
-                ProfileFormFields(),
-                SizedBox(height: 40.h),
-               CustomButton(text: 'Save Change', onPressed: (){}),
-                SizedBox(height: 30.h),
-              ],
-            ),
+          child: Column(
+            children: [
+             buildprofileHaderSection(context),
+              Padding(
+               padding: EdgeInsets.symmetric(horizontal: 45.w),
+                child: Column(
+                  children: [
+                    SizedBox(height: 25.h),
+                    
+                   
+                    ProfileFormFields(),
+                    SizedBox(height: 40.h),
+                                   CustomButton(text: 'Save Change', onPressed: (){}),
+                    SizedBox(height: 30.h),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildAppBar(BuildContext context){
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 20.h),
-      child: Row(
-        children: [
-          GestureDetector(
-          
-            child: IconButton(
-              onPressed: (){
-                  Navigator.pop(context);
-              },
-              
-              icon: Icon(Icons.arrow_back_ios_new),
-            ),
-          ),
-          Expanded(
-            child: Center(
-              child: Text(
-                "Profile ",
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white
+  Widget buildprofileHaderSection(BuildContext context) {
+    return  Column(
+      children: [
+        ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(80),
+                    bottomRight: Radius.circular(80),
+                  ),
+                  child: Container(
+                    height: 126.h,
+                    width: double.infinity,
+                    decoration:  BoxDecoration(color: AppColors.primaryColor),
+                    
+                    child: 
+                    ProfileHeader()
+                  ),
                 ),
+                 Transform.translate(
+              offset: Offset(0, -40), // مقدار الطلوع لأعلى
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 17.w),
+                child: const ProfileImage(),
               ),
             ),
-          ),
-          SizedBox(width: 24.w), // Balance the back button
-        ],
-      ),
+      ],
     );
+
+            // ← User Card خارج Stack لكن ظاهر فيه جزء منه داخل الهيدر
+           
+            
   }
 }
