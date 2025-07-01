@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class CarImageCarousel extends StatelessWidget {
+class CarImageCarouselWidget extends StatelessWidget {
   final List<String> images;
   final PageController controller;
   final int currentIndex;
   final void Function(int)? onPageChanged;
 
-  const CarImageCarousel({
+  const CarImageCarouselWidget({
     required this.images,
     required this.controller,
     required this.currentIndex,
@@ -24,7 +24,8 @@ class CarImageCarousel extends StatelessWidget {
             controller: controller,
             itemCount: images.length,
             onPageChanged: onPageChanged,
-            itemBuilder: (_, index) => Image.asset(images[index], fit: BoxFit.cover),
+            itemBuilder: (_, index) =>
+                Image.asset(images[index], fit: BoxFit.cover),
           ),
           Positioned(
             bottom: 12,
