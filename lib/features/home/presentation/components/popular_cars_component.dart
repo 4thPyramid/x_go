@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_go/features/home/presentation/widgets/car_card_widget.dart';
+
 
 class PopularCarsComponent extends StatelessWidget {
   const PopularCarsComponent({super.key});
@@ -8,34 +8,36 @@ class PopularCarsComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text('Popular'),
-            Spacer(),
-            TextButton(onPressed: () {}, child: Text('View all')),
-          ],
-        ),
-        SizedBox(
-          height: 431.h,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  CarCardWidget(
-                    brand: 'Toyota',
-                    model: 'Camry',
-                    rentPrice: '\$100',
-                    imageUrl: 'assets/images/car.png',
-                  ),
-                  SizedBox(height: 5.h),
-                ],
-              );
-            },
+        // Section title
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          child: Row(
+            children: [
+              Text(
+                'Popular',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              TextButton(
+                onPressed: () {
+                  // TODO: Navigate to full list
+                },
+                child: Text(
+                  'View all',
+                  style: TextStyle(fontSize: 14.sp),
+                ),
+              ),
+            ],
           ),
         ),
+
+        SizedBox(height: 5.h),
+        // Vertical List
       ],
     );
   }

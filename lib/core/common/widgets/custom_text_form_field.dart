@@ -52,32 +52,34 @@ class CustomTextFormField extends StatelessWidget {
         fillColor: fillColor ?? AppColors.white,
         filled: true,
         labelText: labelText,
-        suffixIcon:
-            isPassword
-                ? IconButton(
-                  onPressed: toggleObscure,
-                  icon: Visibility(
-                    visible: obscureText,
-                    replacement: const Icon(Icons.visibility_outlined),
-                    child: const Icon(Icons.visibility_off_outlined),
-                  ),
-                  color: AppColors.grey,
-                )
-                : suffixIcon,
+        labelStyle: AppStyles.s16.copyWith(color: AppColors.grey),
+        suffixIcon: isPassword
+            ? IconButton(
+                onPressed: toggleObscure,
+                icon: Visibility(
+                  visible: obscureText,
+                  replacement: const Icon(Icons.visibility_outlined),
+                  child: const Icon(Icons.visibility_off_outlined),
+                ),
+                color: AppColors.grey,
+              )
+            : suffixIcon,
 
-        prefixIcon: prefixIcon,
+        prefixIcon: CircleAvatar(
+            radius: 20.r,
+            backgroundColor: AppColors.primaryColor, child: prefixIcon),
         border: InputBorder.none,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(25.0),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(25.0),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(25.0),
         ),
       ),
       validator: validator ?? (value) => null,

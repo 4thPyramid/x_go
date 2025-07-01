@@ -1,6 +1,10 @@
 abstract class AppAssets {
   static const String logo = "assets/images/logo.png";
   static const String splash = "assets/images/splash.png";
+  static const String successUpdated ='assets/images/success_updated.png';
+  static const String menu = "assets/images/menu.png";
+  static const String lock = 'assets/images/lock.svg';
+  //############################################
   static const String grocery = "assets/images/grocry.png";
   static const String onbording1 = "assets/images/onbording1.png";
   static const String logoColored = "assets/images/logo_colored.png";

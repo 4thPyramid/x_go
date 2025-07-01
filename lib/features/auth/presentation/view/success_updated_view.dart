@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/routes/router_names.dart';
+import 'package:x_go/core/utils/app_assets.dart';
+import 'package:x_go/core/utils/app_image_view.dart';
 
 class SuccessUpdatedView extends StatelessWidget {
   const SuccessUpdatedView({super.key});
@@ -15,7 +17,7 @@ class SuccessUpdatedView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('assets/images/success_updated.png', height: 100.h),
+            AppImageView(AppAssets.successUpdated, height: 100.h),
             SizedBox(height: 24.h),
             Text(
               'You are all set!',

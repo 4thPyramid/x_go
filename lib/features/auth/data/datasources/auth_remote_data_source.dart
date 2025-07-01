@@ -1,3 +1,4 @@
+import 'package:x_go/core/constants/endpoints_strings.dart';
 import 'package:x_go/core/data/api/api_consumer.dart';
 
 import '../models/auth_response_model.dart';
@@ -8,7 +9,7 @@ abstract class AuthRemoteDataSource {
     required String firstName,
     required String lastName,
     required String email,
-    required String location,
+    required String phone,
     required String password,
   });
 
@@ -37,17 +38,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String firstName,
     required String lastName,
     required String email,
-    required String location,
+    required String phone,
     required String password,
   }) async {
     final response = await apiConsumer.post(
-      '/register',
+      EndpointsStrings.register,
       data: {
-        'first_name': firstName,
+        'name': firstName,
         'last_name': lastName,
         'email': email,
-        'location': location,
         'password': password,
+        'phone': phone,
       },
       isFormData: true,
       headers: {

@@ -23,39 +23,6 @@ class SplashView extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                GestureDetector(
-                  onTap: () async {
-                    final authToken = await PaymobService.getAuthToken();
-                    final orderId = await PaymobService.createOrder(
-                      authToken,
-                      500 * 100,
-                    );
-                    final paymentKey = await PaymobService.getPaymentKey(
-                      authToken,
-                      orderId,
-                      500 * 100,
-                    );
-                    String paymentUrl =
-                        "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
-
-                    // String paymentUrl = await PaymobService.payWithWallet(
-                    //   paymentKey,
-                    //   '01029673915',
-                    // );
-
-                    // // ignore: use_build_context_synchronously
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (c) {
-                          return PaymentWebView(paymentUrl: paymentUrl);
-                        },
-                      ),
-                    );
-                  },
-                  child: LogoWidget(),
-                ),
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(

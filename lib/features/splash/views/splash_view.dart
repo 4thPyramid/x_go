@@ -30,7 +30,31 @@ class SplashView extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 20.h),
-                  // Logo
+                  // ElevatedButton(
+                  //   onPressed: () async {
+                  //     final authToken = await PaymobService.getAuthToken();
+                  //     final orderId = await PaymobService.createOrder(
+                  //       authToken,
+                  //       int.parse('100') * 100,
+                  //     );
+                  //     final paymentKey = await PaymobService.getPaymentKey(
+                  //       authToken,
+                  //       orderId,
+                  //       int.parse('100') * 100,
+                  //     );
+                  //     String paymentUrl =
+                  //         "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
+                  //     // ignore: use_build_context_synchronously
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) =>
+                  //             PaymobPaymentScreen(iframeUrl: paymentUrl),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: Text('Test'),
+                  // ), // Logo
                   Center(child: AppImageView(AppAssets.logo)),
                   SizedBox(height: 10.h),
                   // Tagline (now on two lines)
@@ -38,6 +62,8 @@ class SplashView extends StatelessWidget {
                   Spacer(),
                   // Start Driving Button
                   CustomButton(
+                    height: 44.h,
+                    width: 230.w,
                     text: 'Start Driving',
                     onPressed: () => context.go(RouterNames.app),
                   ),

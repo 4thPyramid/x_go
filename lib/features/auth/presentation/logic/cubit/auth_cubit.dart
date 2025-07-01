@@ -41,7 +41,7 @@ class AuthCubit extends Cubit<AuthState> {
     String lastName,
     String email,
     String password,
-    String location,
+    String phone,
   ) async {
     emit(RegisterLoading());
 
@@ -51,7 +51,7 @@ class AuthCubit extends Cubit<AuthState> {
         lastName: lastName,
         email: email,
         password: password,
-        location: location,
+        phone: phone,
       );
       result.fold(
         (l) => emit(RegisterError(l.message)),
