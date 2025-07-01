@@ -1,10 +1,10 @@
 abstract class EndpointsStrings {
-  static const String baseUrl = "https://management.mlmcosmo.com/";
+  static const String baseUrl = "https://xgo.ibrahimbashaa.com/api/user/";
 
   static const String login = 'api/delegate/login';
   static const String logout = 'api/logout';
   static const String deleteAccount = 'api/delete-account';
-  static const String register = 'user/register';
+  static const String register = 'register';
   static const String verifyEmail = 'api/verify-email';
   static const String forgetPassword = 'api/reset-password-send-code';
   static const String checkCode = 'api/reset-password-check-code';
