@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/utils/app_styles.dart';
@@ -14,7 +13,7 @@ class RememberMeComponent extends StatelessWidget {
         Row(
           children: [
             Checkbox(value: true, onChanged: (value) {}),
-            Text('Remember me',style: AppStyles.s14,),
+            Text('Remember me', style: AppStyles.s14),
           ],
         ),
         Spacer(),
@@ -22,9 +21,7 @@ class RememberMeComponent extends StatelessWidget {
           onPressed: () {
             context.push(RouterNames.forgotPassword);
           },
-          child: Text('Forgot Password?',
-              style: AppStyles.s13,
-          ),
+          child: Text('Forgot Password?', style: AppStyles.s13),
         ),
       ],
     );

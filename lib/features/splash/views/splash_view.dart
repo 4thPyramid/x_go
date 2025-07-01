@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/routes/router_names.dart';
-import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/core/utils/app_assets.dart';
 import 'package:x_go/core/utils/app_image_view.dart';
 import 'package:x_go/features/splash/components/dark_overlay.dart';
@@ -44,14 +43,20 @@ class SplashView extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
                   // Login Button
-                  buildOutlineButton(text: 'Login', onPressed: () {
-                    context.go(RouterNames.login);
-                  }),
+                  buildOutlineButton(
+                    text: 'Login',
+                    onPressed: () {
+                      context.go(RouterNames.login);
+                    },
+                  ),
                   SizedBox(height: 12.h),
                   // Register Button
-                  buildOutlineButton(text: 'Register', onPressed: () {
-                    context.go(RouterNames.register);
-                  }),
+                  buildOutlineButton(
+                    text: 'Register',
+                    onPressed: () {
+                      context.go(RouterNames.register);
+                    },
+                  ),
                   SizedBox(height: 12.h),
                 ],
               ),
@@ -61,5 +66,4 @@ class SplashView extends StatelessWidget {
       ),
     );
   }
-
 }

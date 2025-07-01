@@ -117,7 +117,7 @@ class SplashView extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 12.h),
-                Container(
+                SizedBox(
                   height: 44,
                   width: 230,
                   child: OutlinedButton(

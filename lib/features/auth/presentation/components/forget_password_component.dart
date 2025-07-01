@@ -15,11 +15,11 @@ class ForgetPasswordComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    final _emailController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    final emailController = TextEditingController();
 
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         children: [
           Align(
@@ -32,7 +32,7 @@ class ForgetPasswordComponent extends StatelessWidget {
           SizedBox(height: 8.h),
           CustomTextFormField(
             labelText: 'Email',
-            controller: _emailController,
+            controller: emailController,
             prefixIcon: Icon(Icons.email, color: Colors.grey[600]),
             fillColor: Colors.grey.withValues(alpha: 0.3),
             keyboardType: TextInputType.emailAddress,
@@ -46,7 +46,7 @@ class ForgetPasswordComponent extends StatelessWidget {
                   : CustomButton(
                       text: 'Send OTP Code',
                       onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
+                        if (formKey.currentState?.validate() ?? false) {
                           context.push(RouterNames.otp);
                           // context.read<AuthCubit>().forgetPassword(
                           //   _emailController.text,

@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 import '../theme/app_colors.dart';
 
@@ -44,10 +42,10 @@ Color hexToColor(String hexColor) {
 
 // //!------------------     imageHeroFunction    --------------------
 Future<dynamic> imageHeroFunction(
-    BuildContext context,
-    var imageProvider, {
-      String? tag,
-    }) {
+  BuildContext context,
+  var imageProvider, {
+  String? tag,
+}) {
   return Navigator.push(
     context,
     MaterialPageRoute(
@@ -125,19 +123,20 @@ customBottomSheet({
     useSafeArea: true,
     isDismissible: isDismissible ?? true,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(
-        Radius.circular(30),
-      ),
+      borderRadius: BorderRadius.all(Radius.circular(30)),
     ),
     barrierColor: AppColors.black.withOpacity(0.5),
     backgroundColor: AppColors.white,
     context: context,
     isScrollControlled: true,
     builder: (context) => Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child:
-          SingleChildScrollView(controller: scrollController, child: content),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: SingleChildScrollView(
+        controller: scrollController,
+        child: content,
+      ),
     ),
   );
 }
@@ -159,26 +158,28 @@ customAlertDialog({
   type,
 }) {
   showDialog(
-      context: context,
-      barrierDismissible: barrierDismissible ?? true,
-      builder: (context) => Column(
-            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
-            children: [
-              Container(
-                width: width,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(radius ?? 20.r),
-                    color: Colors.white),
-                padding: EdgeInsets.symmetric(
-                    horizontal: hPadding ?? 0.0, vertical: vPadding ?? 0.0),
-                margin: EdgeInsets.symmetric(
-                    horizontal: marginHPadding ?? 0.0,
-                    vertical: marginVPadding ?? 0.0),
-                child: Material(
-                  color: Colors.white,
-                  child: content,
-                ),
-              ),
-            ],
-          ));
+    context: context,
+    barrierDismissible: barrierDismissible ?? true,
+    builder: (context) => Column(
+      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+      children: [
+        Container(
+          width: width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(radius ?? 20.r),
+            color: Colors.white,
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: hPadding ?? 0.0,
+            vertical: vPadding ?? 0.0,
+          ),
+          margin: EdgeInsets.symmetric(
+            horizontal: marginHPadding ?? 0.0,
+            vertical: marginVPadding ?? 0.0,
+          ),
+          child: Material(color: Colors.white, child: content),
+        ),
+      ],
+    ),
+  );
 }

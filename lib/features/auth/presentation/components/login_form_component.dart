@@ -7,7 +7,6 @@ import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
-import 'package:x_go/features/auth/presentation/components/forget_password_component.dart';
 import 'package:x_go/features/auth/presentation/components/remember_me_component.dart';
 import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
 
@@ -34,7 +33,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric( horizontal: 16.w,vertical:15 ),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15),
       child: Form(
         key: _formKey,
         child: Column(
