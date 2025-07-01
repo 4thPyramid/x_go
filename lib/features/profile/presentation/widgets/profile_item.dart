@@ -9,7 +9,8 @@ class ProfileItemTile extends StatelessWidget {
   final ValueChanged<bool>? onSwitchChanged;
   final bool showTrailing;
   final Color? color;
-  final VoidCallback? onTap; 
+  final VoidCallback? onTap;
+  final Widget? customTrailing;
 
   const ProfileItemTile({
     super.key,
@@ -21,7 +22,8 @@ class ProfileItemTile extends StatelessWidget {
     this.showTrailing = true,
     this.titleStyle,
     this.color,
-    this.onTap, 
+    this.onTap,
+    this.customTrailing,
   });
 
   @override
@@ -31,13 +33,15 @@ class ProfileItemTile extends StatelessWidget {
       title: Text(title, style: titleStyle),
       trailing: !showTrailing
           ? null
-          : isSwitch
-              ? Switch(
-                  value: switchValue,
-                  onChanged: onSwitchChanged,
-                )
-              : const Icon(Icons.edit, size: 20, color: Colors.grey),
-      onTap: onTap, 
+          : customTrailing != null
+              ? customTrailing
+              : isSwitch
+                  ? Switch(
+                      value: switchValue,
+                      onChanged: onSwitchChanged,
+                    )
+                  : const Icon(Icons.edit, size: 20, color: Colors.grey),
+      onTap: onTap,
     );
   }
 }

@@ -17,7 +17,7 @@ class ProfileSettingsScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Column(
               children: [
-                _buildAppBar(),
+                _buildAppBar(context),
                 SizedBox(height: 40.h),
                 ProfileImage(),
                 SizedBox(height: 40.h),
@@ -33,27 +33,29 @@ class ProfileSettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar() {
+  Widget _buildAppBar(BuildContext context){
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20.h),
       child: Row(
         children: [
           GestureDetector(
           
-            child: Icon(
-              Icons.arrow_back_ios,
-              size: 24.r,
-              color: Colors.black,
+            child: IconButton(
+              onPressed: (){
+                  Navigator.pop(context);
+              },
+              
+              icon: Icon(Icons.arrow_back_ios_new),
             ),
           ),
           Expanded(
             child: Center(
               child: Text(
-                "Profile Setting",
+                "Profile ",
                 style: TextStyle(
-                  fontSize: 18.sp,
+                  fontSize: 20.sp,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black,
+                  color: Colors.white
                 ),
               ),
             ),

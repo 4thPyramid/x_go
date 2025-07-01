@@ -19,7 +19,6 @@ class ProfileHeader extends StatelessWidget {
                           size: 24,
                         ),
                         onPressed: () {
-                          Navigator.pop(context);
                         },
                       ),
                       const Spacer(),
@@ -36,7 +35,7 @@ class ProfileHeader extends StatelessWidget {
                           size: 24,
                         ),
                         onPressed: () {
-                          context.go(RouterNames.profileDetails);
+                          context.push(RouterNames.profileDetails);
                         },
                       ),
                     ],

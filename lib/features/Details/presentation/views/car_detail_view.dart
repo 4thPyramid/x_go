@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/utils/app_strings.dart';
 import 'package:x_go/features/Details/presentation/widgets/booking_button.dart';
 import 'package:x_go/features/Details/presentation/widgets/car_info_section.dart';
 
@@ -49,7 +51,7 @@ class CarDetailsPage extends StatelessWidget {
                 SizedBox(height: 25.h),
                 Row(
                   children: [
-                    Text('Rent Price', style: TextStyle( fontSize: 16.sp, fontWeight: FontWeight.w400)),
+                    Text(AppStrings.rentPrice.tr(), style: TextStyle( fontSize: 16.sp, fontWeight: FontWeight.w400)),
                     Spacer(),
                     Text('\$1400 ', style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500)),
                     Text('/day', style: TextStyle( fontSize: 16.sp, fontWeight: FontWeight.w400)),

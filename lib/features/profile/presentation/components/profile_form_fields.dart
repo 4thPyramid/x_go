@@ -39,8 +39,7 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
             children: [
               Expanded(
                 child: CustomTextFormField(
-                  prefixIcon: Icon(Icons.person_outlined),
-                  labelText: "First Name",
+                  
                                     fillColor: Colors.white,
 
                   controller: _firstNameController,
@@ -49,10 +48,10 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
               SizedBox(width: 20.w),
               Expanded(
                 child: CustomTextFormField(
-                  labelText: "Last Name",
+                  
                                     fillColor: Colors.white,
 
-                  prefixIcon: Icon(Icons.person_outlined,),
+                 
                   controller: _lastNameController,
                 ),
               ),
@@ -62,8 +61,7 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
           
           // Email field
          CustomTextFormField(
-            labelText: "Email",
-            prefixIcon: Icon(Icons.email_outlined),
+      
             controller: _emailController,
                               fillColor: Colors.white,
 
@@ -71,23 +69,12 @@ class _ProfileFormFieldsState extends State<ProfileFormFields> {
           ),
           SizedBox(height: 30.h),
           
-          // Gender and Phone in same row
-          Row(
-            children: [
-              Expanded(
-                child:GenderFields(),
-              ),
-              SizedBox(width: 20.w),
-              Expanded(
-                child: CustomTextFormField(
-                  prefixIcon: Icon(Icons.phone_outlined),
-                  labelText: "Phone",
-                  fillColor: Colors.white,
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                ),
-              ),
-            ],
+         
+          CustomTextFormField(
+           
+            fillColor: Colors.white,
+            controller: _phoneController,
+            keyboardType: TextInputType.phone,
           ),
         ],
       ),

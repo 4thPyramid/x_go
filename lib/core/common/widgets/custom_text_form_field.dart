@@ -15,7 +15,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? fillColor;
   final void Function()? toggleObscure;
   final TextInputType? keyboardType;
-  final String labelText;
+  final String? labelText;
   final void Function(String)? onchanged;
 
   const CustomTextFormField({
@@ -31,7 +31,7 @@ class CustomTextFormField extends StatelessWidget {
     this.isPassword = false,
     this.toggleObscure,
     this.keyboardType,
-    required this.labelText,
+     this.labelText,
     this.onchanged,
   });
 
@@ -65,9 +65,7 @@ class CustomTextFormField extends StatelessWidget {
               )
             : suffixIcon,
 
-        prefixIcon: CircleAvatar(
-            radius: 20.r,
-            backgroundColor:fillColor ?? AppColors.primaryColor, child: prefixIcon),
+        prefixIcon: prefixIcon,
         border: InputBorder.none,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),

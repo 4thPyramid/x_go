@@ -16,6 +16,7 @@ import 'package:x_go/features/auth/presentation/view/otpview.dart';
 import 'package:x_go/features/auth/presentation/view/reset_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
+import 'package:x_go/features/language/presentation/logic/cubit/lang_cupit.dart';
 import 'package:x_go/features/language/presentation/view/language_view.dart';
 import 'package:x_go/features/payment/presentation/views/payment_view.dart';
 import 'package:x_go/features/profile/presentation/views/profile_settings_details.dart';
@@ -27,14 +28,18 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.splash,
       builder: (context, state) => const SplashView(),
-    ),GoRoute(
+    ),
+    GoRoute(
       path: RouterNames.profileDetails,
       builder: (context, state) => const ProfileSettingsScreen(),
     ),
-    GoRoute(
-      path: RouterNames.language,
-      builder: (context, state) => const LanguagePage(),
-    ),
+    // GoRoute(
+    //   path: RouterNames.language,
+    //   builder: (context, state) => BlocProvider(
+    //     create: (context) => LocalizationCubit(),
+    //     child: const LanguagePage(),
+    //   ),
+    // ),
     GoRoute(
       path: RouterNames.home,
       builder: (context, state) => const HomeView(),
@@ -105,7 +110,7 @@ final GoRouter router = GoRouter(
       path: RouterNames.profile,
       builder: (context, state) => const ProfilePage(),
     ),
-     GoRoute(
+    GoRoute(
       path: RouterNames.payment,
       builder: (context, state) => const PaymentScreen(),
     ),

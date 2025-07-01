@@ -63,7 +63,7 @@ class SplashView extends StatelessWidget {
                   // Start Driving Button
                   CustomButton(
                     height: 44.h,
-                    width: 230.w,
+                   
                     text: 'Start Driving',
                     onPressed: () => context.go(RouterNames.app),
                   ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:x_go/features/profile/presentation/widgets/profile_item.dart';
 
 class ProfileSection extends StatelessWidget {
   final String title;
-  final List<ProfileItemTile> items;
+  final List<Widget> items;
 
   const ProfileSection({
     super.key,
