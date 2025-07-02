@@ -21,11 +21,12 @@ class _LanguageDropdownTileState extends State<LanguageDropdownTile> {
   late String _selectedCode;
 
   @override
- @override
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _selectedCode = context.locale.languageCode;
   }
+
   Future<void> _changeLanguage(String code) async {
     final newLocale = Locale(code);
     await CacheHelper.saveLanguageCode(code);
@@ -40,7 +41,7 @@ class _LanguageDropdownTileState extends State<LanguageDropdownTile> {
           content: Text(
             AppStrings.languageChanged.tr(
               args: [
-                _languages.firstWhere((lang) => lang['code'] == code)['name']!
+                _languages.firstWhere((lang) => lang['code'] == code)['name']!,
               ],
             ),
           ),
@@ -56,28 +57,7 @@ class _LanguageDropdownTileState extends State<LanguageDropdownTile> {
     return ProfileItemTile(
       title: AppStrings.language.tr(),
       icon: Icons.language,
-      customTrailing: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: _selectedCode,
-          items: _languages.map((lang) {
-            return DropdownMenuItem<String>(
-              value: lang['code'],
-              child: Row(
-                children: [
-                  Text(lang['flag']!, style: const TextStyle(fontSize: 18)),
-                  const SizedBox(width: 8),
-                  Text(lang['name']!),
-                ],
-              ),
-            );
-          }).toList(),
-          onChanged: (code) {
-            if (code != null && code != _selectedCode) {
-              _changeLanguage(code);
-            }
-          },
-        ),
-      ),
+      showTrailing: true,
     );
   }
 }

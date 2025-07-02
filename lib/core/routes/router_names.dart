@@ -16,7 +16,7 @@ abstract class RouterNames {
   static const String addresses = '/addresses';
   static const String carBooking = '/carBooking';
   static const String setting = '/setting';
-  static const String payment= '/payment';
+  static const String payment = '/payment';
 
   static const String profileDetails = '/profile_details';
 
@@ -25,7 +25,6 @@ abstract class RouterNames {
   static const String myApp = '/my_app';
 
   static const String profile = '/d';
-  static const String carBooking = '/carBooking';
   static const String cart = '/cart';
   static const String carDetail = '/jj';
   static const String productDetails = '/productDetails';

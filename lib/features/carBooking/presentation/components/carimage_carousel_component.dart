@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/car_image_caursol_widget.dart';
 
 class CarImageCarouselComponent extends StatefulWidget {
-  CarImageCarouselComponent({super.key});
+  const CarImageCarouselComponent({super.key});
 
   @override
   State<CarImageCarouselComponent> createState() =>
@@ -22,15 +22,6 @@ class _CarImageCarouselComponentState extends State<CarImageCarouselComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return CarImageCarouselWidget(
-      images: imageList,
-      controller: _pageController,
-      currentIndex: _currentPage,
-      onPageChanged: (index) {
-        setState(() {
-          _currentPage = index;
-        });
-      },
-    );
+    return CarImageCarouselWidget();
   }
 }
