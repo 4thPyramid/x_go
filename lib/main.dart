@@ -5,22 +5,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/app.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/app_routers.dart';
+import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/theme/app_colors.dart';
+import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
 import 'package:x_go/features/language/presentation/logic/cubit/lang_cupit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await CacheHelper().init();
-
+  setupLocator();
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ar'), Locale('ru')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       startLocale: Locale(CacheHelper.getSavedLanguageCode()),
+
       child: const MyApp(),
     ),
+
   );
 }
 
@@ -31,23 +35,27 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
-      builder: (context, child) => MaterialApp.router(
-        routerConfig: router,
-        debugShowCheckedModeBanner: false,
-        
-        // استخدم EasyLocalization بدلاً من BlocBuilder
-        locale: context.locale,
-        supportedLocales: context.supportedLocales,
-        localizationsDelegates: context.localizationDelegates,
-        
-        theme: ThemeData(
-          textTheme: ThemeData(fontFamily: 'Poppins').textTheme,
-          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
-        ),
-      ),
+      builder: (context, child) =>
+          BlocProvider(
+            create: (context) => getIt<CarCubit>()..getCars()..getFilterInfo(),
+            child: MaterialApp.router(
+              routerConfig: router,
+              debugShowCheckedModeBanner: false,
+              locale: context.locale,
+              supportedLocales: context.supportedLocales,
+              localizationsDelegates: context.localizationDelegates,
+
+              theme: ThemeData(
+                textTheme: ThemeData(fontFamily: 'Poppins').textTheme,
+                colorScheme: ColorScheme.fromSeed(
+                    seedColor: AppColors.primaryColor),
+              ),
+            ),
+          ),
     );
   }
 }
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 

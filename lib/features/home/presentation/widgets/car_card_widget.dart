@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CarCardWidget extends StatelessWidget {
@@ -20,12 +21,7 @@ class CarCardWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       child: Stack(
         children: [
-          Image.asset(
-            imageUrl,
-            width: double.infinity,
-            height: 240,
-            fit: BoxFit.cover,
-          ),
+          _buildImage(),
           Container(
             height: 240,
             decoration: BoxDecoration(
@@ -66,11 +62,11 @@ class CarCardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Rent Price",
+                  "سعر الإيجار",
                   style: TextStyle(color: Colors.white70, fontSize: 14),
                 ),
                 Text(
-                  rentPrice,
+                  '$rentPrice جنيه/يوم',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -92,5 +88,42 @@ class CarCardWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildImage() {
+    // Check if it's a network URL or asset
+    if (imageUrl.startsWith('http')) {
+      return CachedNetworkImage(
+        imageUrl: imageUrl,
+        width: double.infinity,
+        height: 240,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
+          width: double.infinity,
+          height: 240,
+          color: Colors.grey[300],
+          child: const Center(child: CircularProgressIndicator()),
+        ),
+        errorWidget: (context, url, error) => Container(
+          width: double.infinity,
+          height: 240,
+          color: Colors.grey[300],
+          child: const Icon(Icons.car_rental, size: 50, color: Colors.grey),
+        ),
+      );
+    } else {
+      return Image.asset(
+        imageUrl,
+        width: double.infinity,
+        height: 240,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => Container(
+          width: double.infinity,
+          height: 240,
+          color: Colors.grey[300],
+          child: const Icon(Icons.car_rental, size: 50, color: Colors.grey),
+        ),
+      );
+    }
   }
 }

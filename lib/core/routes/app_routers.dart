@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/app.dart';
@@ -15,6 +16,8 @@ import 'package:x_go/features/auth/presentation/view/forget_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/otpview.dart';
 import 'package:x_go/features/auth/presentation/view/reset_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
+import 'package:x_go/features/home/domain/usecase/get_car_use_case.dart';
+import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/language/presentation/logic/cubit/lang_cupit.dart';
 import 'package:x_go/features/language/presentation/view/language_view.dart';
@@ -24,6 +27,7 @@ import 'package:x_go/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/features/splash/views/splash_view.dart';
 
 final GoRouter router = GoRouter(
+
   routes: [
     GoRoute(
       path: RouterNames.splash,
@@ -33,6 +37,7 @@ final GoRouter router = GoRouter(
       path: RouterNames.profileDetails,
       builder: (context, state) => const ProfileSettingsScreen(),
     ),
+
     // GoRoute(
     //   path: RouterNames.language,
     //   builder: (context, state) => BlocProvider(
@@ -42,8 +47,16 @@ final GoRouter router = GoRouter(
     // ),
     GoRoute(
       path: RouterNames.home,
-      builder: (context, state) => const HomeView(),
+      pageBuilder: (context, state) {
+        return MaterialPage(
+          child: BlocProvider(
+            create: (context) => getIt<CarCubit>()..getCars()..getFilterInfo(),
+            child: const HomeView(),
+          ),
+        );
+      },
     ),
+
     GoRoute(path: RouterNames.app, builder: (context, state) => App()),
     GoRoute(
       path: RouterNames.login,
@@ -102,10 +115,12 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const SuccessUpdatedView(),
     ),
     GoRoute(path: RouterNames.app, builder: (context, state) => App()),
-    GoRoute(
-      path: RouterNames.carDetails,
-      builder: (context, state) => const CarDetailsPage(),
-    ),
+    // GoRoute(
+    //   path: RouterNames.carDetails,
+    //   builder: (context, state) => const CarDetailsPage(
+    //
+    //   ),
+    // ),
     GoRoute(
       path: RouterNames.profile,
       builder: (context, state) => const ProfilePage(),

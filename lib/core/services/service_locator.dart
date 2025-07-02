@@ -11,11 +11,17 @@ import 'package:x_go/features/auth/domain/usecases/login_usecase.dart';
 import 'package:x_go/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:x_go/features/auth/domain/usecases/register_usecase.dart';
 import 'package:x_go/features/auth/domain/usecases/reset_password_use_case.dart';
+import 'package:x_go/features/home/data/datasources/car_remote_datasource.dart';
+import 'package:x_go/features/home/data/datasources/car_remote_datasource_impl.dart';
+import 'package:x_go/features/home/data/repo/car_repo_impl.dart';
+import 'package:x_go/features/home/domain/repo/car_repository.dart';
+import 'package:x_go/features/home/domain/usecase/get_car_use_case.dart';
+import 'package:x_go/features/home/domain/usecase/get_filter_info_usecase.dart';
+import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 void setupLocator() {
   ///! FOR APP CUBIT ///
-
   getIt.registerFactory<AppCubit>(() => AppCubit());
 
   //!Api Services //
@@ -25,13 +31,22 @@ void setupLocator() {
   getIt.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
   );
+  getIt.registerLazySingleton<CarRemoteDatasource>(
+    () => CarRemoteDatasourceImpl(apiConsumer: getIt<DioConsumer>()),
+  );
+
 
   /// !-- Repositories -- ///
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: getIt<AuthRemoteDataSource>()),
   );
+  getIt.registerLazySingleton<CarRepository>(
+    () => CarRepositoryImpl(remoteDatasource: getIt<CarRemoteDatasource>()),
+  );
+
 
   /// !-- UseCases -- ///
+  // Auth UseCases
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<AuthRepository>()),
   );
@@ -47,5 +62,21 @@ void setupLocator() {
   getIt.registerLazySingleton<ResetPasswordUseCase>(
     () => ResetPasswordUseCase(getIt<AuthRepository>()),
   );
+
+  // Car UseCases
+  getIt.registerLazySingleton<GetCarsUseCase>(
+    () => GetCarsUseCase(getIt<CarRepository>()),
+  );
+  getIt.registerLazySingleton<GetFilterInfoUseCase>(
+    () => GetFilterInfoUseCase(getIt<CarRepository>()),
+  );
+
   // !Cubits //
+
+  getIt.registerFactory<CarCubit>(
+        () => CarCubit(
+      getCarsUseCase: getIt<GetCarsUseCase>(),
+      getFilterInfoUseCase: getIt<GetFilterInfoUseCase>(),
+    ),
+  );
 }
