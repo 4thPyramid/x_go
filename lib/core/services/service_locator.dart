@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:x_go/core/app_cubit/app_cubit.dart';
-import 'package:x_go/core/data/api/api_consumer.dart';
 import 'package:x_go/core/data/api/dio_consumer.dart';
 import 'package:x_go/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:x_go/features/auth/data/repositories/auth_repository_impl.dart';
