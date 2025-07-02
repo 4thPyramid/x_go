@@ -23,13 +23,17 @@ class AuthCubit extends Cubit<AuthState> {
     this.resetPasswordUseCase,
   ) : super(AuthInitial());
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(String email, String password, bool isRememberMe) async {
     emit(LoginLoading());
     try {
-      final result = await loginUseCase.call(email: email, password: password);
+      final result = await loginUseCase.call(
+        email: email,
+        password: password,
+        isRememberMe: isRememberMe,
+      );
       result.fold(
         (l) => emit(LoginError(l.message)),
-        (r) => emit(LoginSuccess()),
+        (r) => emit(LoginSuccess('login success')),
       );
     } on DioException catch (e) {
       emit(LoginError(e.message.toString()));
@@ -55,7 +59,7 @@ class AuthCubit extends Cubit<AuthState> {
       );
       result.fold(
         (l) => emit(RegisterError(l.message)),
-        (r) => emit(RegisterSuccess()),
+        (r) => emit(RegisterSuccess(r.message)),
       );
     } on DioException catch (e) {
       emit(RegisterError(e.message.toString()));
@@ -69,7 +73,7 @@ class AuthCubit extends Cubit<AuthState> {
       final result = await forgetPasswordUseCase.call(email: email);
       result.fold(
         (l) => emit(ForgotPasswordError(l.message)),
-        (r) => emit(ForgotPasswordSuccess()),
+        (r) => emit(ForgotPasswordSuccess(r.message)),
       );
     } on DioException catch (e) {
       emit(ForgotPasswordError(e.message.toString()));
@@ -81,23 +85,27 @@ class AuthCubit extends Cubit<AuthState> {
 
     try {
       final result = await otpUseCase.call(email: email, otp: otp);
-      result.fold((l) => emit(OtpError(l.message)), (r) => emit(OtpSuccess()));
+      result.fold(
+        (l) => emit(OtpError(l.message)),
+        (r) => emit(OtpSuccess(r.message)),
+      );
     } on DioException catch (e) {
       emit(OtpError(e.message.toString()));
     }
   }
 
-  Future<void> resetPassword(String email, String password) async {
+  Future<void> resetPassword(String email, String password, String otp) async {
     emit(ResetPasswordLoading());
 
     try {
       final result = await resetPasswordUseCase.call(
         email: email,
         password: password,
+        otp: otp,
       );
       result.fold(
         (l) => emit(ResetPasswordError(l.message)),
-        (r) => emit(ResetPasswordSuccess()),
+        (r) => emit(ResetPasswordSuccess(r.message)),
       );
     } on DioException catch (e) {
       emit(ResetPasswordError(e.message.toString()));

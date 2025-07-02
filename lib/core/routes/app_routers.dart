@@ -20,9 +20,12 @@ import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.d
 import 'package:x_go/features/location/presentation/view/location_view.dart';
 import 'package:x_go/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/features/splash/views/splash_view.dart';
+import 'package:x_go/core/data/cached/cache_helper.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.splash,
+  initialLocation: CacheHelper.getToken() != null
+      ? RouterNames.app
+      : RouterNames.splash,
   routes: [
     GoRoute(
       path: RouterNames.splash,
@@ -34,56 +37,71 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(path: RouterNames.app, builder: (context, state) => App()),
     GoRoute(
-      path: RouterNames.login,
-      builder: (context, state) => BlocProvider(
-        create: (context) => AuthCubit(
-          getIt<LoginUseCase>(),
-          getIt<RegisterUseCase>(),
-          getIt<ForgetPasswordUseCase>(),
-          getIt<OtpUseCase>(),
-          getIt<ResetPasswordUseCase>(),
-        ),
-        child: const AuthView(),
-      ),
+      path: RouterNames.auth,
+      builder: (context, state) {
+        final index = state.extra as int;
+        return BlocProvider(
+          create: (context) => AuthCubit(
+            getIt<LoginUseCase>(),
+            getIt<RegisterUseCase>(),
+            getIt<ForgetPasswordUseCase>(),
+            getIt<OtpUseCase>(),
+            getIt<ResetPasswordUseCase>(),
+          ),
+          child: AuthView(index: index),
+        );
+      },
     ),
     GoRoute(
       path: RouterNames.forgotPassword,
-      builder: (context, state) => BlocProvider(
-        create: (context) => AuthCubit(
-          getIt<LoginUseCase>(),
-          getIt<RegisterUseCase>(),
-          getIt<ForgetPasswordUseCase>(),
-          getIt<OtpUseCase>(),
-          getIt<ResetPasswordUseCase>(),
-        ),
-        child: const ForgetPasswordView(),
-      ),
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context) => AuthCubit(
+            getIt<LoginUseCase>(),
+            getIt<RegisterUseCase>(),
+            getIt<ForgetPasswordUseCase>(),
+            getIt<OtpUseCase>(),
+            getIt<ResetPasswordUseCase>(),
+          ),
+          child: ForgetPasswordView(),
+        );
+      },
     ),
     GoRoute(
       path: RouterNames.otp,
-      builder: (context, state) => BlocProvider(
-        create: (context) => AuthCubit(
-          getIt<LoginUseCase>(),
-          getIt<RegisterUseCase>(),
-          getIt<ForgetPasswordUseCase>(),
-          getIt<OtpUseCase>(),
-          getIt<ResetPasswordUseCase>(),
-        ),
-        child: OtpView(email: 'e@gmail.com'),
-      ),
+      builder: (context, state) {
+        final email = state.extra as String;
+
+        return BlocProvider(
+          create: (context) => AuthCubit(
+            getIt<LoginUseCase>(),
+            getIt<RegisterUseCase>(),
+            getIt<ForgetPasswordUseCase>(),
+            getIt<OtpUseCase>(),
+            getIt<ResetPasswordUseCase>(),
+          ),
+          child: OtpView(email: email),
+        );
+      },
     ),
     GoRoute(
       path: RouterNames.resetPassword,
-      builder: (context, state) => BlocProvider(
-        create: (context) => AuthCubit(
-          getIt<LoginUseCase>(),
-          getIt<RegisterUseCase>(),
-          getIt<ForgetPasswordUseCase>(),
-          getIt<OtpUseCase>(),
-          getIt<ResetPasswordUseCase>(),
-        ),
-        child: const ResetPasswordView(),
-      ),
+      builder: (context, state) {
+        final data = state.extra as Map<String, dynamic>;
+        final email = data['email'];
+        final otp = data['otp'];
+
+        return BlocProvider(
+          create: (context) => AuthCubit(
+            getIt<LoginUseCase>(),
+            getIt<RegisterUseCase>(),
+            getIt<ForgetPasswordUseCase>(),
+            getIt<OtpUseCase>(),
+            getIt<ResetPasswordUseCase>(),
+          ),
+          child: ResetPasswordView(email: email, otp: otp),
+        );
+      },
     ),
     GoRoute(
       path: RouterNames.success_updated,

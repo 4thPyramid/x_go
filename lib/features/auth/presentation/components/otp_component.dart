@@ -12,8 +12,8 @@ import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
 
 class OtpComponent extends StatelessWidget {
-  String? email;
-  OtpComponent({super.key, required this.email});
+  final String email;
+  const OtpComponent({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class OtpComponent extends StatelessWidget {
       children: [
         SizedBox(height: 8.h),
         OTPTextField(
-          length: 4,
+          length: 6,
 
           width: MediaQuery.of(context).size.width,
           otpFieldStyle: OtpFieldStyle(
@@ -39,15 +39,26 @@ class OtpComponent extends StatelessWidget {
           onCompleted: (pin) {
             print("Entered OTP is: $pin");
             otp = pin;
-            context.read<AuthCubit>().otp(email!, pin);
+            context.read<AuthCubit>().otp(email, pin);
           },
         ),
         SizedBox(height: 24.h),
-        Text(
-          'You can resend the code in 35 sec',
-          style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400),
+
+        BlocBuilder<AuthCubit, AuthState>(
+          builder: (context, state) {
+            return state is ForgotPasswordLoading
+                ? const Text(
+                    'wait ....',
+                    style: TextStyle(color: AppColors.primaryColor),
+                  )
+                : TextButton(
+                    onPressed: () {
+                      context.read<AuthCubit>().forgetPassword(email);
+                    },
+                    child: Text('Resend Code'),
+                  );
+          },
         ),
-        TextButton(onPressed: () {}, child: Text('Resend Code')),
         SizedBox(height: 24.h),
         BlocConsumer<AuthCubit, AuthState>(
           builder: (context, state) {
@@ -56,15 +67,22 @@ class OtpComponent extends StatelessWidget {
                 : CustomButton(
                     text: 'Verify',
                     onPressed: () {
-                      // context.push(RouterNames.resetPassword);
-                      context.read<AuthCubit>().otp(email!, otp!);
+                      context.read<AuthCubit>().otp(email, otp!);
                     },
                   );
           },
           listener: (BuildContext context, AuthState state) {
             if (state is OtpSuccess) {
-              context.push(RouterNames.resetPassword);
+              showToast(message: state.message, state: ToastStates.SUCCESS);
+              context.push(
+                RouterNames.resetPassword,
+                extra: {'email': email, 'otp': otp},
+              );
             } else if (state is OtpError) {
+              showToast(message: state.message, state: ToastStates.ERROR);
+            } else if (state is ForgotPasswordSuccess) {
+              showToast(message: state.message, state: ToastStates.SUCCESS);
+            } else if (state is ForgotPasswordError) {
               showToast(message: state.message, state: ToastStates.ERROR);
             }
           },

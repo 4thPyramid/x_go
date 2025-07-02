@@ -12,7 +12,12 @@ class ResetPasswordUseCase {
   Future<Either<ErrorModel, AuthResponse>> call({
     required String email,
     required String password,
+    required String otp,
   }) async {
-    return await repository.resetPassword(email: email, password: password);
+    return await repository.resetPassword(
+      email: email,
+      password: password,
+      otp: otp,
+    );
   }
 }

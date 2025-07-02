@@ -66,7 +66,7 @@ class TabBarWidget extends StatelessWidget {
           ),
           SizedBox(
             height: 500.h,
-            child: TabBarView(children: [LoginForm(), RegisterForm()]),
+            child: TabBarView(children: [LoginForm(), RegisterForm(index: 1)]),
           ),
         ],
       ),

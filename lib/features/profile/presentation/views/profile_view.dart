@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/data/cached/cache_helper.dart';
 
 import 'package:x_go/features/profile/presentation/components/account_details.dart';
 import 'package:x_go/features/profile/presentation/components/profile_details.dart';
@@ -15,11 +16,16 @@ class ProfilePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-           ProfileHaderSection(),
+            ProfileHaderSection(),
             const ProfileDetails(),
             SizedBox(height: 16.h),
             const AccountDetails(),
-           
+            ElevatedButton(
+              onPressed: () async {
+                CacheHelper.deleteToken();
+              },
+              child: Text('Logout'),
+            ),
             const SizedBox(height: 20),
           ],
         ),

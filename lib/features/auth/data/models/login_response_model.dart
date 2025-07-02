@@ -1,55 +1,73 @@
-import 'package:x_go/features/auth/domain/entities/login_response.dart';
+class LoginResponseModel {
+  final UserModel user;
+  final String token;
 
-class LoginResponseModel extends LoginResponse {
-  const LoginResponseModel({
-    required super.key,
-    required super.message,
-    required super.data,
-  });
+  LoginResponseModel({required this.user, required this.token});
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
     return LoginResponseModel(
-      key: json['key'],
-      message: json['msg'],
-      data: LoginDataModel.fromJson(json['data']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'key': key,
-      'msg': message,
-      'data': (data as LoginDataModel).toJson(),
-    };
-  }
-}
-
-class LoginDataModel extends LoginData {
-  const LoginDataModel({
-    required super.firstName,
-    required super.lastName,
-    required super.email,
-    required super.phone,
-    required super.token,
-  });
-
-  factory LoginDataModel.fromJson(Map<String, dynamic> json) {
-    return LoginDataModel(
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      email: json['email'],
-      phone: json['phone'],
+      user: UserModel.fromJson(json['user']),
       token: json['token'],
     );
   }
 
   Map<String, dynamic> toJson() {
+    return {'user': user.toJson(), 'token': token};
+  }
+}
+
+class UserModel {
+  final int id;
+  final String name;
+  final String lastName;
+  final String? image;
+  final String email;
+  final String phone;
+  final String? location;
+  final String? latitude;
+  final String? longitude;
+  final String? emailVerifiedAt;
+
+  UserModel({
+    required this.id,
+    required this.name,
+    required this.lastName,
+    this.image,
+    required this.email,
+    required this.phone,
+    this.location,
+    this.latitude,
+    this.longitude,
+    this.emailVerifiedAt,
+  });
+
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      lastName: json['last_name'] ?? '',
+      image: json['image'] ?? '',
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
+      location: json['location'] ?? '',
+      latitude: json['latitude'] ?? '',
+      longitude: json['longitude'] ?? '',
+      emailVerifiedAt: json['email_verified_at'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
     return {
-      'first_name': firstName,
+      'id': id,
+      'name': name,
       'last_name': lastName,
+      'image': image,
       'email': email,
       'phone': phone,
-      'token': token,
+      'location': location,
+      'latitude': latitude,
+      'longitude': longitude,
+      'email_verified_at': emailVerifiedAt,
     };
   }
 }

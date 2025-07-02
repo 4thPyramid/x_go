@@ -4,7 +4,8 @@ import 'package:x_go/core/common/widgets/logo.dart';
 import 'package:x_go/features/auth/presentation/widgets/tab_bar_widget.dart';
 
 class AuthView extends StatelessWidget {
-  const AuthView({super.key});
+  const AuthView({super.key, required this.index});
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class AuthView extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 24.h),
           child: DefaultTabController(
             length: 2,
-            initialIndex: 1,
+            initialIndex: index,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

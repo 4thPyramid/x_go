@@ -27,11 +27,14 @@ class SuccessUpdatedView extends StatelessWidget {
             SizedBox(height: 8.h),
             Text('Your Password has been updated'),
             SizedBox(height: 24.h),
-            CustomButton(
-              text: 'Sign In',
-              onPressed: () {
-                context.push(RouterNames.login);
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomButton(
+                text: 'Sign In',
+                onPressed: () {
+                  context.push(RouterNames.auth, extra: 0);
+                },
+              ),
             ),
           ],
         ),

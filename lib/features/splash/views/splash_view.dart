@@ -72,7 +72,7 @@ class SplashView extends StatelessWidget {
                   buildOutlineButton(
                     text: 'Login',
                     onPressed: () {
-                      context.go(RouterNames.login);
+                      context.go(RouterNames.auth, extra: 0);
                     },
                   ),
                   SizedBox(height: 12.h),
@@ -80,7 +80,7 @@ class SplashView extends StatelessWidget {
                   buildOutlineButton(
                     text: 'Register',
                     onPressed: () {
-                      context.go(RouterNames.register);
+                      context.go(RouterNames.auth, extra: 1);
                     },
                   ),
                   SizedBox(height: 12.h),

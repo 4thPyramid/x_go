@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-showToast(
-    {required String? message,
-    required ToastStates state,
-    ToastGravity gravity = ToastGravity.BOTTOM}) {
+showToast({
+  required String? message,
+  required ToastStates state,
+  ToastGravity gravity = ToastGravity.BOTTOM,
+}) {
   return Fluttertoast.showToast(
-      msg: message!,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: gravity,
-      timeInSecForIosWeb: 5,
-      backgroundColor: chooseToastColor(state),
-      textColor: Colors.white,
-      fontSize: 16.0);
+    msg: message!,
+    toastLength: Toast.LENGTH_LONG,
+    gravity: gravity,
+    timeInSecForIosWeb: 5,
+    backgroundColor: chooseToastColor(state),
+    textColor: Colors.white,
+    fontSize: 16.0,
+  );
 }
 
 // ignore: constant_identifier_names

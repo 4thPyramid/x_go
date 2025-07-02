@@ -9,16 +9,16 @@ class AuthResponseModel extends AuthResponse {
 
   factory AuthResponseModel.fromJson(Map<String, dynamic> json) {
     return AuthResponseModel(
-      key: json['key'],
-      message: json['msg'],
-      data: UserDataModel.fromJson(json['data']),
+      key: json['key'] ?? '',
+      message: json['message'] ?? '',
+      data: UserDataModel.fromJson(json['data'] ?? {}),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'key': key,
-      'msg': message,
+      'message': message,
       'data': (data as UserDataModel).toJson(),
     };
   }
@@ -35,10 +35,10 @@ class UserDataModel extends UserData {
 
   factory UserDataModel.fromJson(Map<String, dynamic> json) {
     return UserDataModel(
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      email: json['email'],
-      phone: json['phone'],
+      firstName: json['first_name'] ?? '',
+      lastName: json['last_name'] ?? '',
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
       token: json['token'] ?? '',
     );
   }
@@ -53,7 +53,3 @@ class UserDataModel extends UserData {
     };
   }
 }
-
-
-
-

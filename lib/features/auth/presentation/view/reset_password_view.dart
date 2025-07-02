@@ -5,7 +5,10 @@ import 'package:x_go/features/auth/presentation/components/rest_password_compone
 import 'package:x_go/features/auth/presentation/widgets/reset_password_details.dart';
 
 class ResetPasswordView extends StatelessWidget {
-  const ResetPasswordView({super.key});
+  const ResetPasswordView({super.key, required this.email, required this.otp});
+
+  final String email;
+  final String otp;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class ResetPasswordView extends StatelessWidget {
               children: [
                 ResetPasswordDetails(),
                 SizedBox(height: 24.h),
-                ResetPasswordComponent(),
+                ResetPasswordComponent(email: email, otp: otp),
               ],
             ),
           ),

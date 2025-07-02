@@ -23,6 +23,7 @@ class _LoginFormState extends State<LoginForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+  bool _isRememberMe = false;
 
   @override
   void dispose() {
@@ -34,7 +35,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric( horizontal: 16.w,vertical:15 ),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15),
       child: Form(
         key: _formKey,
         child: Column(
@@ -65,7 +66,13 @@ class _LoginFormState extends State<LoginForm> {
               validator: Validator.validatePassword,
             ),
             SizedBox(height: 24.h),
-            RememberMeComponent(),
+            RememberMeComponent(
+              onChanged: (value) {
+                setState(() {
+                  _isRememberMe = value;
+                });
+              },
+            ),
             SizedBox(height: 16.h),
             BlocConsumer<AuthCubit, AuthState>(
               builder: (context, state) {
@@ -78,6 +85,7 @@ class _LoginFormState extends State<LoginForm> {
                             context.read<AuthCubit>().login(
                               _emailController.text,
                               _passwordController.text,
+                              _isRememberMe,
                             );
                           }
                         },
@@ -85,7 +93,7 @@ class _LoginFormState extends State<LoginForm> {
               },
               listener: (BuildContext context, AuthState state) {
                 if (state is LoginSuccess) {
-                  context.push(RouterNames.home);
+                  context.push(RouterNames.app);
                 } else if (state is LoginError) {
                   showToast(message: state.message, state: ToastStates.ERROR);
                 }

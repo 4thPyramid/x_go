@@ -10,7 +10,8 @@ import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
 
 class RegisterForm extends StatefulWidget {
-  const RegisterForm({super.key});
+  final int index;
+  const RegisterForm({super.key, required this.index});
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -130,7 +131,11 @@ class _RegisterFormState extends State<RegisterForm> {
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
                     if (state is RegisterSuccess) {
-                      context.go(RouterNames.login);
+                      showToast(
+                        message: state.message,
+                        state: ToastStates.SUCCESS,
+                      );
+                      context.go(RouterNames.auth, extra: widget.index);
                     } else if (state is RegisterError) {
                       showToast(
                         message: state.message,
@@ -149,8 +154,8 @@ class _RegisterFormState extends State<RegisterForm> {
                                   _firstNameController.text,
                                   _lastNameController.text,
                                   _emailController.text,
-                                  _phoneController.text,
                                   _passwordController.text,
+                                  _phoneController.text,
                                 );
                               }
                             },

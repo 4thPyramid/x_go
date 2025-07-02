@@ -47,17 +47,17 @@ class ForgetPasswordComponent extends StatelessWidget {
                       text: 'Send OTP Code',
                       onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
-                          context.push(RouterNames.otp);
-                          // context.read<AuthCubit>().forgetPassword(
-                          //   _emailController.text,
-                          // );
+                          context.read<AuthCubit>().forgetPassword(
+                            _emailController.text,
+                          );
                         }
                       },
                     );
             },
             listener: (BuildContext context, AuthState state) {
               if (state is ForgotPasswordSuccess) {
-                context.push(RouterNames.otp);
+                showToast(message: state.message, state: ToastStates.SUCCESS);
+                context.push(RouterNames.otp, extra: _emailController.text);
               } else if (state is ForgotPasswordError) {
                 showToast(message: state.message, state: ToastStates.ERROR);
               }

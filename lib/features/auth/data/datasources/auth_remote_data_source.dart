@@ -1,5 +1,6 @@
 import 'package:x_go/core/constants/endpoints_strings.dart';
 import 'package:x_go/core/data/api/api_consumer.dart';
+import 'package:x_go/core/data/cached/cache_helper.dart';
 
 import '../models/auth_response_model.dart';
 import '../models/login_response_model.dart';
@@ -16,6 +17,7 @@ abstract class AuthRemoteDataSource {
   Future<LoginResponseModel> login({
     required String email,
     required String password,
+    required bool isRememberMe,
   });
 
   Future<AuthResponseModel> forgetPassword({required String email});
@@ -25,6 +27,7 @@ abstract class AuthRemoteDataSource {
   Future<AuthResponseModel> resetPassword({
     required String email,
     required String password,
+    required String otp,
   });
 }
 
@@ -65,6 +68,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<LoginResponseModel> login({
     required String email,
     required String password,
+    required bool isRememberMe,
   }) async {
     final response = await apiConsumer.post(
       '/login',
@@ -74,14 +78,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'Content-Type': 'application/vnd.api+json',
       },
     );
-    // CacheHelper.saveToken(token: response.);
+    print('==============================');
+    print(isRememberMe.toString());
+    isRememberMe
+        ? CacheHelper.saveToken(value: response['token'])
+        : CacheHelper.deleteToken();
     return LoginResponseModel.fromJson(response);
   }
 
   @override
   Future<AuthResponseModel> forgetPassword({required String email}) async {
     final response = await apiConsumer.post(
-      '/forget-password',
+      '/forgot-password',
       data: {'email': email},
       headers: {
         'Accept': 'application/vnd.api+json',
@@ -97,7 +105,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String otp,
   }) async {
     final response = await apiConsumer.post(
-      '/verify-email',
+      '/verify-code',
       data: {'email': email, 'code': otp},
       headers: {
         'Accept': 'application/vnd.api+json',
@@ -111,10 +119,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<AuthResponseModel> resetPassword({
     required String email,
     required String password,
+    required String otp,
   }) async {
     final response = await apiConsumer.post(
       '/reset-password',
-      data: {'email': email, 'password': password},
+      data: {
+        'email': email,
+        'password': password,
+        'password_confirmation': password,
+        'token': otp,
+      },
       headers: {
         'Accept': 'application/vnd.api+json',
         'Content-Type': 'application/vnd.api+json',

@@ -4,8 +4,8 @@ import 'package:x_go/features/auth/presentation/components/otp_component.dart';
 import 'package:x_go/features/auth/presentation/widgets/otp_details_widget.dart';
 
 class OtpView extends StatelessWidget {
-  String? email;
-  OtpView({super.key, this.email});
+  final String email;
+  const OtpView({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,7 @@ class OtpView extends StatelessWidget {
                 ),
               ],
             ),
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

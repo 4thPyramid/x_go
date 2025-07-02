@@ -11,7 +11,13 @@ import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
 
 class ResetPasswordComponent extends StatefulWidget {
-  const ResetPasswordComponent({super.key});
+  final String email;
+  final String otp;
+  const ResetPasswordComponent({
+    super.key,
+    required this.email,
+    required this.otp,
+  });
 
   @override
   State<ResetPasswordComponent> createState() => _ResetPasswordComponentState();
@@ -68,6 +74,7 @@ class _ResetPasswordComponentState extends State<ResetPasswordComponent> {
               if (state is ResetPasswordError) {
                 showToast(message: state.message, state: ToastStates.ERROR);
               } else if (state is ResetPasswordSuccess) {
+                showToast(message: state.message, state: ToastStates.SUCCESS);
                 context.push(RouterNames.success_updated);
               }
             },
@@ -81,8 +88,9 @@ class _ResetPasswordComponentState extends State<ResetPasswordComponent> {
                           if (passwordController.text ==
                               confirmPasswordController.text) {
                             context.read<AuthCubit>().resetPassword(
-                              'email@gmail.com',
-                              '123456',
+                              widget.email,
+                              passwordController.text,
+                              widget.otp,
                             );
                           } else {
                             showToast(
