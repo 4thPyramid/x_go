@@ -34,9 +34,9 @@ class CustomDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(title, style: AppStyles.s18),
+          Text(title, style: AppStyles.ts18W600),
           SizedBox(height: 32.h),
-          Text(subtitle, style: AppStyles.s14),
+          Text(subtitle, style: AppStyles.ts14GreyW400),
           SizedBox(height: 24.h),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

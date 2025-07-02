@@ -28,7 +28,7 @@ class _RememberMeComponentState extends State<RememberMeComponent> {
                 });
               },
             ),
-            Text('Remember me', style: AppStyles.s14),
+            Text('Remember me', style: AppStyles.ts16W400),
           ],
         ),
         Spacer(),
@@ -36,7 +36,7 @@ class _RememberMeComponentState extends State<RememberMeComponent> {
           onPressed: () {
             context.push(RouterNames.forgotPassword);
           },
-          child: Text('Forgot Password?', style: AppStyles.s13),
+          child: Text('Forgot Password?', style: AppStyles.ts16W400),
         ),
       ],
     );

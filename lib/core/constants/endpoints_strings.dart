@@ -9,6 +9,7 @@ abstract class EndpointsStrings {
   static const String forgetPassword = 'api/reset-password-send-code';
   static const String checkCode = 'api/reset-password-check-code';
   static const String profile = 'user/user/profile/';
-  static const String update_profile = 'user/user/update-profile/';
+  static const String updateProfile = 'user/user/update-profile/';
   static const String change_password = 'user/user/change-password/';
+  static const String home = 'Home';
 }

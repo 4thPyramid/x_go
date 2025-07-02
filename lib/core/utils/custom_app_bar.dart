@@ -16,6 +16,6 @@ AppBar customAppBar(BuildContext context, String title) {
           onPressed: () => context.pop(context),
         ),
       ],
-      title: Text(title, style: AppStyles.s22),
+      title: Text(title, style: AppStyles.ts22PrimaryW500),
     );
   }

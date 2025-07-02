@@ -17,9 +17,10 @@ import 'package:x_go/features/auth/presentation/view/reset_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
 import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
 import 'package:x_go/features/carBooking/presentation/views/car_booking_page.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
-import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
-import 'package:x_go/features/location/presentation/view/location_view.dart';
+import 'package:x_go/features/payment/presentation/views/payment_view.dart';
+import 'package:x_go/features/profile/presentation/views/profile_settings_details.dart';
 import 'package:x_go/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/features/splash/views/splash_view.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
@@ -34,10 +35,21 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const SplashView(),
     ),
     GoRoute(
-      path: RouterNames.home,
-      builder: (context, state) => const HomeView(),
+      path: RouterNames.carBooking,
+      builder: (context, state) => const CarBookingPage(),
     ),
-    GoRoute(path: RouterNames.app, builder: (context, state) => App()),
+    GoRoute(
+      path: RouterNames.profileDetails,
+      builder: (context, state) => const ProfileSettingsScreen(),
+    ),
+    // GoRoute(
+    //   path: RouterNames.language,
+    //   builder: (context, state) => BlocProvider(
+    //     create: (context) => LocalizationCubit(),
+    //     child: const LanguagePage(),
+    //   ),
+    // ),
+    GoRoute(path: RouterNames.home, builder: (context, state) => HomeView()),
     GoRoute(
       path: RouterNames.auth,
       builder: (context, state) {
@@ -109,7 +121,14 @@ final GoRouter router = GoRouter(
       path: RouterNames.success_updated,
       builder: (context, state) => const SuccessUpdatedView(),
     ),
-    GoRoute(path: RouterNames.app, builder: (context, state) => App()),
+    GoRoute(
+      path: RouterNames.app,
+      builder: (context, state) => BlocProvider(
+        create: (context) =>
+            getIt<HomeCubit>()..getHomeData(null, null, null, null),
+        child: App(),
+      ),
+    ),
     GoRoute(
       path: RouterNames.carDetails,
       builder: (context, state) => const CarDetailsPage(),
@@ -126,11 +145,8 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const ProfilePage(),
     ),
     GoRoute(
-      path: RouterNames.location,
-      builder: (context, state) => BlocProvider(
-        create: (context) => LocationCubit(),
-        child: const LocationView(),
-      ),
+      path: RouterNames.payment,
+      builder: (context, state) => const PaymentScreen(),
     ),
   ],
 );

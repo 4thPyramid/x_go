@@ -18,7 +18,7 @@ class _AppState extends State<App> {
       label: 'Home',
       icon: Icons.home_outlined,
       activeIcon: Icons.home,
-      page: const HomeView(),
+      page:  HomeView(),
     ),
     NavigationItem(
       label: 'Profile',

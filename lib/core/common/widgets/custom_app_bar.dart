@@ -42,7 +42,7 @@ class CustomAppBar extends StatelessWidget {
           // Title
           Text(
             title,
-            style: AppStyles.s24,
+            style: AppStyles.ts24WhiteW600,
           ),
           
           // Right IconButton

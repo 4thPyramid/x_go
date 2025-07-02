@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_go/core/common/widgets/custom_profile_header.dart';
 import 'package:x_go/core/theme/app_colors.dart';
+import 'package:x_go/features/profile/presentation/widgets/profile_header.dart';
 import 'package:x_go/features/profile/presentation/widgets/user_card_info.dart';
 
 class ProfileHaderSection extends StatelessWidget {

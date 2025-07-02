@@ -26,6 +26,14 @@ class CacheHelper {
     return sharedPreferences.getString(key);
   }
 
+  static Future<void> saveLanguageCode(String code) async {
+    await sharedPreferences.setString('languageKey', code);
+  }
+
+  static String getSavedLanguageCode() {
+    return sharedPreferences.getString('languageKey') ?? 'en';
+  }
+
   static Future<bool> saveData({
     required String key,
     required dynamic value,

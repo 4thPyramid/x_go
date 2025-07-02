@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PriceSlider extends StatefulWidget {
   final RangeValues rangeValues;
@@ -36,7 +37,7 @@ class _PriceSliderState extends State<PriceSlider> {
                   barRods: [
                     BarChartRodData(
                       toY: (i + 1).toDouble(),
-                      width: 8,
+                      width: 6,
                       borderRadius: BorderRadius.circular(4),
                       color: isSelected ? Colors.black : Colors.grey.shade400,
                     ),
@@ -47,7 +48,7 @@ class _PriceSliderState extends State<PriceSlider> {
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 8.h),
         RangeSlider(
           values: widget.rangeValues,
           min: 0,

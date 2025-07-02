@@ -15,7 +15,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? fillColor;
   final void Function()? toggleObscure;
   final TextInputType? keyboardType;
-  final String labelText;
+  final String? labelText;
   final void Function(String)? onchanged;
 
   const CustomTextFormField({
@@ -31,7 +31,7 @@ class CustomTextFormField extends StatelessWidget {
     this.isPassword = false,
     this.toggleObscure,
     this.keyboardType,
-    required this.labelText,
+     this.labelText,
     this.onchanged,
   });
 
@@ -48,11 +48,11 @@ class CustomTextFormField extends StatelessWidget {
           horizontal: 12.0.w,
         ),
         hintText: hintText,
-        hintStyle: AppStyles.s14.copyWith(color: AppColors.black),
+        hintStyle: AppStyles.ts14BlackW500.copyWith(color: AppColors.black),
         fillColor: fillColor ?? AppColors.white,
         filled: true,
         labelText: labelText,
-        labelStyle: AppStyles.s16.copyWith(color: AppColors.grey),
+        labelStyle: AppStyles.ts12GreyW400.copyWith(color: AppColors.grey),
         suffixIcon: isPassword
             ? IconButton(
                 onPressed: toggleObscure,

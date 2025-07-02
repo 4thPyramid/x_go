@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/routes/router_names.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({super.key});
@@ -17,13 +19,12 @@ class ProfileHeader extends StatelessWidget {
                           size: 24,
                         ),
                         onPressed: () {
-                          Navigator.pop(context);
                         },
                       ),
                       const Spacer(),
                       Text(
                         'Profile',
-                        style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w500),
+                        style: TextStyle(color: Colors.white , fontSize: 20.sp, fontWeight: FontWeight.w500),
                         
                       ),
                       const Spacer(),
@@ -33,7 +34,9 @@ class ProfileHeader extends StatelessWidget {
                           color: Colors.white,
                           size: 24,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          context.push(RouterNames.profileDetails);
+                        },
                       ),
                     ],
                   ),
