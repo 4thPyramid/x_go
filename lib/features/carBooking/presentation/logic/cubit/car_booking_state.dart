@@ -9,15 +9,20 @@ sealed class CarBookingState extends Equatable {
 
 final class CarBookingInitial extends CarBookingState {}
 
-class CounterState extends CarBookingState {
-  final int count;
-  final bool isLoading;
+final class SetLocationLoading extends CarBookingState {}
 
-  const CounterState(this.count, this.isLoading);
-  CounterState copyWith({int? count, bool? isLoading}) {
-    return CounterState(count ?? this.count, isLoading ?? this.isLoading);
-  }
+final class SetLocationSuccess extends CarBookingState {}
 
-  @override
-  List<Object> get props => [count];
+final class SetLocationError extends CarBookingState {
+  final String message;
+  const SetLocationError(this.message);
+}
+
+final class CarBookingLoading extends CarBookingState {}
+
+final class CarBookingSuccess extends CarBookingState {}
+
+final class CarBookingError extends CarBookingState {
+  final String message;
+  const CarBookingError(this.message);
 }

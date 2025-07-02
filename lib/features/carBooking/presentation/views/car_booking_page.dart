@@ -1,4 +1,3 @@
-// file: car_booking_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,24 +46,14 @@ class _CarBookingPageState extends State<CarBookingPage> {
                 child: Column(
                   children: [
                     CarImageCarouselComponent(),
-                    const SizedBox(height: 16),
-
                     ElevatedButton(
                       onPressed: () {
-                        context.read<CarBookingCubit>().increment();
+                        context.read<CarBookingCubit>().bookCar();
                       },
-                      child: const Text('Increment'),
+                      child: Text('Set Location'),
                     ),
                     const SizedBox(height: 16),
-                    BlocBuilder<CarBookingCubit, CarBookingState>(
-                      builder: (context, state) {
-                        if (state is CounterState) {
-                          return Text('Hello ${state.count}');
-                        }
-                        return const Text('Hello');
-                      },
-                    ),
-                    const SizedBox(height: 16),
+
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(

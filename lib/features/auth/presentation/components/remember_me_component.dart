@@ -28,7 +28,6 @@ class _RememberMeComponentState extends State<RememberMeComponent> {
                 });
               },
             ),
-            Checkbox(value: true, onChanged: (value) {}),
             Text('Remember me', style: AppStyles.s14),
           ],
         ),

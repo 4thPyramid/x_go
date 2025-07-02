@@ -12,7 +12,7 @@ abstract class RouterNames {
   static const String editProfile = '/edit_profile';
   static const String setAnewPassword = '/nmnhb';
   static const String addresses = '/addresses';
-
+  static const String carBooking = '/carBooking';
   static const String setting = '/setting';
 
   static const String orders = '/orders';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
-import 'package:x_go/features/carBooking/presentation/views/car_booking_page.dart' show CarBookingPage;
-
+import 'package:x_go/core/routes/router_names.dart';
 
 class BookingButton extends StatelessWidget {
   const BookingButton({super.key});
@@ -11,10 +11,7 @@ class BookingButton extends StatelessWidget {
     return CustomButton(
       text: 'Book Now',
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const CarBookingPage()),
-        );
+        context.push(RouterNames.carBooking);
       },
     );
   }

@@ -15,6 +15,8 @@ import 'package:x_go/features/auth/presentation/view/forget_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/otpview.dart';
 import 'package:x_go/features/auth/presentation/view/reset_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
+import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
+import 'package:x_go/features/carBooking/presentation/views/car_booking_page.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
 import 'package:x_go/features/location/presentation/view/location_view.dart';
@@ -111,6 +113,13 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.carDetails,
       builder: (context, state) => const CarDetailsPage(),
+    ),
+    GoRoute(
+      path: RouterNames.carBooking,
+      builder: (context, state) => BlocProvider(
+        create: (context) => CarBookingCubit(),
+        child: const CarBookingPage(),
+      ),
     ),
     GoRoute(
       path: RouterNames.profile,
