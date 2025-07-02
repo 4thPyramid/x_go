@@ -5,23 +5,8 @@ import 'package:x_go/features/carBooking/presentation/components/car_booking_car
 import 'package:x_go/features/carBooking/presentation/components/car_image_caursol.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/car_details_haeder.dart';
 
-class CarBookingPage extends StatefulWidget {
+class CarBookingPage extends StatelessWidget {
   const CarBookingPage({super.key});
-
-  @override
-  State<CarBookingPage> createState() => _CarBookingPageState();
-}
-
-class _CarBookingPageState extends State<CarBookingPage> {
-  bool isAdditionalDriverChecked = false;
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
-
-  final List<String> imageList = [
-    'assets/images/Group 7.png',
-    'assets/images/Group 7.png',
-    'assets/images/Group 7.png',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +28,7 @@ class _CarBookingPageState extends State<CarBookingPage> {
               child: Column(
                 children: [
                   CarImageCarousel(
-                    images: imageList,
-                    controller: _pageController,
-                    currentIndex: _currentPage,
-                    onPageChanged: (index) {
-                      setState(() {
-                        _currentPage = index;
-                      });
-                    },
+                    
                   ),
                   const SizedBox(height: 16),
                   Padding(
@@ -61,12 +39,7 @@ class _CarBookingPageState extends State<CarBookingPage> {
                         const CarDetailsHeader(),
                         const SizedBox(height: 16),
                         BookingCard(
-                          isAdditionalDriverChecked: isAdditionalDriverChecked,
-                          onAdditionalDriverChanged: (value) {
-                            setState(() {
-                              isAdditionalDriverChecked = value!;
-                            });
-                          },
+                         
                         ),
                       ],
                     ),

@@ -15,9 +15,9 @@ import 'package:x_go/features/auth/presentation/view/forget_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/otpview.dart';
 import 'package:x_go/features/auth/presentation/view/reset_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
+import 'package:x_go/features/carBooking/presentation/views/car_booking_page.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
-import 'package:x_go/features/language/presentation/logic/cubit/lang_cupit.dart';
-import 'package:x_go/features/language/presentation/view/language_view.dart';
 import 'package:x_go/features/payment/presentation/views/payment_view.dart';
 import 'package:x_go/features/profile/presentation/views/profile_settings_details.dart';
 import 'package:x_go/features/profile/presentation/views/profile_view.dart';
@@ -28,6 +28,9 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.splash,
       builder: (context, state) => const SplashView(),
+    ),GoRoute(
+      path: RouterNames.carBooking,
+      builder: (context, state) => const CarBookingPage(),
     ),
     GoRoute(
       path: RouterNames.profileDetails,
@@ -40,11 +43,7 @@ final GoRouter router = GoRouter(
     //     child: const LanguagePage(),
     //   ),
     // ),
-    GoRoute(
-      path: RouterNames.home,
-      builder: (context, state) => const HomeView(),
-    ),
-    GoRoute(path: RouterNames.app, builder: (context, state) => App()),
+    GoRoute(path: RouterNames.home, builder: (context, state) => HomeView()),
     GoRoute(
       path: RouterNames.login,
       builder: (context, state) => BlocProvider(
@@ -101,7 +100,11 @@ final GoRouter router = GoRouter(
       path: RouterNames.success_updated,
       builder: (context, state) => const SuccessUpdatedView(),
     ),
-    GoRoute(path: RouterNames.app, builder: (context, state) => App()),
+    GoRoute(
+      path: RouterNames.app,
+      builder: (context, state) =>
+          BlocProvider(create: (context) => getIt<HomeCubit>()..getHomeData(null, null, null, null), child: App()),
+    ),
     GoRoute(
       path: RouterNames.carDetails,
       builder: (context, state) => const CarDetailsPage(),

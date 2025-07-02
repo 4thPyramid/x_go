@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 
-class CarImageCarousel extends StatelessWidget {
-  final List<String> images;
-  final PageController controller;
-  final int currentIndex;
-  final void Function(int)? onPageChanged;
+class CarImageCarousel extends StatefulWidget {
+  const CarImageCarousel({super.key});
 
-  const CarImageCarousel({
-    required this.images,
-    required this.controller,
-    required this.currentIndex,
-    this.onPageChanged,
-    super.key,
-  });
+ 
 
+  @override
+  State<CarImageCarousel> createState() => _CarImageCarouselState();
+}
+
+class _CarImageCarouselState extends State<CarImageCarousel> {
+   final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  final List<String> imageList = [
+    'assets/images/Group 7.png',
+    'assets/images/Group 7.png',
+    'assets/images/Group 7.png',
+  ];
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -21,10 +25,10 @@ class CarImageCarousel extends StatelessWidget {
       child: Stack(
         children: [
           PageView.builder(
-            controller: controller,
-            itemCount: images.length,
-            onPageChanged: onPageChanged,
-            itemBuilder: (_, index) => Image.asset(images[index], fit: BoxFit.cover),
+            controller: _pageController,
+            itemCount: imageList.length,
+            onPageChanged: (index) => setState(() => _currentPage = index),
+            itemBuilder: (_, index) => Image.asset(imageList[index], fit: BoxFit.cover),
           ),
           Positioned(
             bottom: 12,
@@ -33,14 +37,14 @@ class CarImageCarousel extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                images.length,
+                imageList.length,
                 (index) => Container(
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   width: 8,
                   height: 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: currentIndex == index ? Colors.black : Colors.white,
+                    color: _currentPage == index ? Colors.black : Colors.white,
                   ),
                 ),
               ),

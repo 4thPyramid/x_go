@@ -20,7 +20,7 @@ class CarCardWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       child: Stack(
         children: [
-          Image.asset(
+          Image.network(
             imageUrl,
             width: double.infinity,
             height: 240,

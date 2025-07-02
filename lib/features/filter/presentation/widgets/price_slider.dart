@@ -48,9 +48,8 @@ class _PriceSliderState extends State<PriceSlider> {
             ),
           ),
         ),
-         SizedBox(height: 8.h),
+        SizedBox(height: 8.h),
         RangeSlider(
-          
           values: widget.rangeValues,
           min: 0,
           max: 15,

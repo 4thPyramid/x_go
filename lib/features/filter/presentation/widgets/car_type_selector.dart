@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
 
 class FuelTypeSelector extends StatelessWidget {
-  const FuelTypeSelector({super.key});
+  final String? selectedFuelType;
+  final ValueChanged<String> onFuelTypeSelected;
+
+  const FuelTypeSelector({
+    super.key,
+    required this.selectedFuelType,
+    required this.onFuelTypeSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final fuelTypes = ['suv', 'Manual', 'Automatic'];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('car Type', style: TextStyle(fontWeight: FontWeight.bold)),
+        const Text('Car Type', style: TextStyle(fontWeight: FontWeight.bold)),
         const SizedBox(height: 10),
-        Row(
-          children: [
-            FilterChip(label: const Text("Any"), selected: true, onSelected: (_) {}),
-            const SizedBox(width: 10),
-            FilterChip(label: const Text("Manual"), selected: false, onSelected: (_) {}),
-            const SizedBox(width: 10),
-            FilterChip(label: const Text("Automatic"), selected: false, onSelected: (_) {}),
-          ],
+        Wrap(
+          spacing: 10,
+          children: fuelTypes.map((type) {
+            final isSelected = selectedFuelType == type;
+            return FilterChip(
+              label: Text(type),
+              selected: isSelected,
+              onSelected: (_) => onFuelTypeSelected(type),
+              selectedColor: Colors.orange.shade200,
+              checkmarkColor: Colors.black,
+            );
+          }).toList(),
         ),
       ],
     );

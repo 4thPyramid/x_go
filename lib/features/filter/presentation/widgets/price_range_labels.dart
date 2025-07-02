@@ -7,8 +7,8 @@ class PriceRangeLabels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final minPrice = (rangeValues.start * 10).toInt(); // مثال: تحويل 4 => 40
-    final maxPrice = (rangeValues.end * 10).toInt();
+    final minPrice = (rangeValues.start * 100).toInt(); // مثال: تحويل 4 => 40
+    final maxPrice = (rangeValues.end * 100).toInt();
 
     return Row(
       children: [
