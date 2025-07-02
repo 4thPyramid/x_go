@@ -42,17 +42,6 @@ class CarBookingPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const CarDetailsHeader(),
-                        const SizedBox(height: 16),
-                        BookingCard(isAdditionalDriverChecked: true),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),

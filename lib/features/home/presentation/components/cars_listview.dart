@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
 import '../widgets/car_card_widget.dart';
 
@@ -9,11 +11,8 @@ class CarsListview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
     return BlocBuilder<HomeCubit, HomeState>(
-      
       builder: (context, state) {
-        
         if (state is HomeLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is HomeError) {
@@ -33,13 +32,17 @@ class CarsListview extends StatelessWidget {
               final car = cars[index];
               return InkWell(
                 onTap: () {
-                  // context.push('/carDetails'); // يمكنك تعديلها لاحقًا لتأخذ ID
+                  context.push(
+                    RouterNames.carDetails,
+                  ); // يمكنك تعديلها لاحقًا لتأخذ ID
                 },
                 child: CarCardWidget(
                   brand: car.relationship.brand.brandName ?? "Unknown",
                   model: car.attributes.name ?? "Unknown",
                   rentPrice: '\$${car.attributes.price ?? '0'}',
-                  imageUrl: car.attributes.image ?? 'assets/images/car.png', // تأكد من المسار الصحيح
+                  imageUrl:
+                      car.attributes.image ??
+                      'assets/images/car.png', // تأكد من المسار الصحيح
                 ),
               );
             },
