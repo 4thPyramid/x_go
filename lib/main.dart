@@ -10,7 +10,6 @@ import 'package:x_go/core/data/cached/cache_helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupLocator();
   await CacheHelper.init();
 
   setupLocator();
