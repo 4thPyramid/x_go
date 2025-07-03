@@ -4,6 +4,8 @@ class LocationState extends Equatable {
   final LatLng? currentPosition;
   final String? locationName;
   final bool isLoading;
+  final bool isSuccess;
+  final bool isError;
   final String? errorMessage;
   final Marker marker;
 
@@ -11,6 +13,8 @@ class LocationState extends Equatable {
     this.currentPosition,
     this.locationName,
     this.isLoading = false,
+    this.isSuccess = false,
+    this.isError = false,
     this.errorMessage,
     Marker? marker,
   }) : marker =
@@ -21,6 +25,8 @@ class LocationState extends Equatable {
     LatLng? currentPosition,
     String? locationName,
     bool? isLoading,
+    bool? isSuccess,
+    bool? isError,
     String? errorMessage,
     Marker? marker,
   }) {
@@ -28,6 +34,8 @@ class LocationState extends Equatable {
       currentPosition: currentPosition ?? this.currentPosition,
       locationName: locationName ?? this.locationName,
       isLoading: isLoading ?? this.isLoading,
+      isSuccess: isSuccess ?? this.isSuccess,
+      isError: isError ?? this.isError,
       errorMessage: errorMessage ?? this.errorMessage,
       marker: marker ?? this.marker,
     );

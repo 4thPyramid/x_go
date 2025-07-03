@@ -9,15 +9,6 @@ sealed class CarBookingState extends Equatable {
 
 final class CarBookingInitial extends CarBookingState {}
 
-final class SetLocationLoading extends CarBookingState {}
-
-final class SetLocationSuccess extends CarBookingState {}
-
-final class SetLocationError extends CarBookingState {
-  final String message;
-  const SetLocationError(this.message);
-}
-
 final class CarBookingLoading extends CarBookingState {}
 
 final class CarBookingSuccess extends CarBookingState {}

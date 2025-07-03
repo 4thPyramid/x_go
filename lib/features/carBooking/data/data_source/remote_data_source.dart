@@ -3,11 +3,6 @@ import 'package:x_go/core/data/api/api_consumer.dart';
 import 'package:x_go/core/errors/error_model.dart';
 
 abstract class CarBookingRemoteDataSource {
-  Future<Either<ErrorModel, void>> setLocation(
-    String latitude,
-    String longitude,
-    String location,
-  );
   Future<Either<ErrorModel, void>> bookCar({
     required String carId,
     required String startDate,
@@ -19,23 +14,6 @@ class CarBookingRemoteDataSourceImpl implements CarBookingRemoteDataSource {
   final ApiConsumer apiConsumer;
 
   CarBookingRemoteDataSourceImpl(this.apiConsumer);
-
-  @override
-  Future<Either<ErrorModel, void>> setLocation(
-    String latitude,
-    String longitude,
-    String location,
-  ) async {
-    var response = await apiConsumer.post(
-      '/user-location',
-      data: {
-        'latitude': latitude,
-        'longitude': longitude,
-        'location': location,
-      },
-    );
-    return response;
-  }
 
   @override
   Future<Either<ErrorModel, void>> bookCar({

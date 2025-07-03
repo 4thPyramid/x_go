@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/features/carBooking/presentation/components/car_booking_card.dart';
-import 'package:x_go/features/carBooking/presentation/components/carimage_carousel_component.dart';
-import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
+
 import 'package:x_go/features/carBooking/presentation/widgets/car_details_haeder.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/car_image_caursol_widget.dart';
 
@@ -38,7 +36,7 @@ class CarBookingPage extends StatelessWidget {
                       children: [
                         const CarDetailsHeader(),
                         const SizedBox(height: 16),
-                        BookingCard(isAdditionalDriverChecked: false),
+                        BookingCard(),
                       ],
                     ),
                   ),

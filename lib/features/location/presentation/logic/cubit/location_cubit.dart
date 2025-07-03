@@ -1,9 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:x_go/core/data/api/dio_consumer.dart';
 import 'package:x_go/core/services/google_map_service.dart';
+import 'package:x_go/features/location/data/data_source/location_data_source.dart';
+import 'package:x_go/features/location/data/repository/location_repo_impl.dart';
+import 'package:x_go/features/location/domain/use_cases/set_location_use_case.dart';
 
 part 'location_state.dart';
 
@@ -65,13 +70,34 @@ class LocationCubit extends Cubit<LocationState> {
             ),
           );
         } catch (e) {
-          print("❌ Failed to get location: $e");
+          print(" Failed to get location: $e");
         }
       } else {
-        print("❌ Location permission not granted.");
+        print(" Location permission not granted.");
       }
     } else {
-      print("❌ Location permission denied.");
+      print(" Location permission denied.");
     }
+  }
+
+  setLocation(String latitude, String longitude, String location) {
+    final useCase = SetLocationUseCase(
+      LocationRepoImpl(LocationDataSourceImpl(DioConsumer(dio: Dio()))),
+    );
+    emit(state.copyWith(isLoading: true));
+    useCase
+        .call(latitude: latitude, longitude: longitude, location: location)
+        .then((value) {
+          emit(state.copyWith(isLoading: false, isSuccess: true));
+        })
+        .catchError((error) {
+          emit(
+            state.copyWith(
+              isLoading: false,
+              isError: true,
+              errorMessage: error.toString(),
+            ),
+          );
+        });
   }
 }

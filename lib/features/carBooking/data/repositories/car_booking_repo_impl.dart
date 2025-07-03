@@ -8,14 +8,6 @@ class CarBookingRepoImpl implements CarBookingRepo {
 
   CarBookingRepoImpl(this.remoteDataSource);
   @override
-  Future<Either<ErrorModel, void>> setLocation({
-    required String latitude,
-    required String longitude,
-    required String location,
-  }) {
-    return remoteDataSource.setLocation(latitude, longitude, location);
-  }
-
   @override
   Future<Either<ErrorModel, void>> bookCar({
     required String carId,

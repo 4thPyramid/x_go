@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_go/features/carBooking/booking_date_time_picker.dart';
 
-class BookingDateTimeSection extends StatelessWidget {
+class BookingDateTimeSection extends StatefulWidget {
   final String label1;
   final String label2;
 
@@ -13,19 +12,62 @@ class BookingDateTimeSection extends StatelessWidget {
   });
 
   @override
+  State<BookingDateTimeSection> createState() => _BookingDateTimeSectionState();
+}
+
+class _BookingDateTimeSectionState extends State<BookingDateTimeSection> {
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedTime;
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        BookingDateTimePicker(
-          width: 150.w,
-          label: label1,
-          prefixIcon: const Icon(Icons.calendar_today),
+        ElevatedButton.icon(
+          onPressed: () async {
+            final DateTime? picked = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2100),
+            );
+            if (picked != null) {
+              setState(() {
+                _selectedDate = picked;
+              });
+            }
+          },
+          icon: const Icon(Icons.calendar_today),
+          label: Text(
+            _selectedDate != null
+                ? "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}"
+                : widget.label1,
+          ),
+          style: ElevatedButton.styleFrom(fixedSize: Size(150.w, 50.h)),
         ),
+
         const SizedBox(width: 8),
-        BookingDateTimePicker(
-          width: 110.w,
-          label: label2,
-          prefixIcon: const Icon(Icons.access_time),
+
+        // Time Button
+        ElevatedButton.icon(
+          onPressed: () async {
+            final TimeOfDay? picked = await showTimePicker(
+              context: context,
+              initialTime: TimeOfDay.now(),
+            );
+            if (picked != null) {
+              setState(() {
+                _selectedTime = picked;
+              });
+            }
+          },
+          icon: const Icon(Icons.access_time),
+          label: Text(
+            _selectedTime != null
+                ? _selectedTime!.format(context)
+                : widget.label2,
+          ),
+          style: ElevatedButton.styleFrom(fixedSize: Size(110.w, 50.h)),
         ),
       ],
     );
