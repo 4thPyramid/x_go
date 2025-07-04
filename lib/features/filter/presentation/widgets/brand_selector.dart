@@ -19,7 +19,7 @@ class BrandSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text('Brand', style: TextStyle(fontWeight: FontWeight.bold)),
-         SizedBox(height: 12.h),
+        SizedBox(height: 12.h),
         Row(
           children: brands.map((brand) {
             final isSelected = selectedBrand == brand;
@@ -28,33 +28,42 @@ class BrandSelector extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: GestureDetector(
                   onTap: () => onBrandSelected(brand),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 90.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: isSelected ? Colors.black : Color( 0xFF7B7B7B),
-                          )),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                radius: 30.r,
-                                backgroundColor: Colors.white,
-                                child: Icon(Icons.directions_car,
-                                  color: isSelected ? Colors.black :  Color( 0xFF7B7B7B),),
-                              ),
-                            
-                          
-                               SizedBox(height: 4),
-                      Text(brand, style:  TextStyle(fontSize: 14,fontWeight: FontWeight.w400, color: isSelected ? Colors.black :  Color( 0xFF7B7B7B))),]),
-                        ),
+                  child: Container(
+                    height: 110.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: isSelected ? Colors.black : const Color(0xFF7B7B7B),
                       ),
-                      
-                    ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 25.r,
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.directions_car,
+                            color: isSelected ? Colors.black : const Color(0xFF7B7B7B),
+                            size: 20.sp,
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        Flexible(
+                          child: Text(
+                            brand,
+                            style: TextStyle(
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w500,
+                              color: isSelected ? Colors.black : const Color(0xFF7B7B7B),
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

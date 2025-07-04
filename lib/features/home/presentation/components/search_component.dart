@@ -1,42 +1,83 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_go/features/filter/presentation/views/filter_view.dart';
-import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
+import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
 
-class SearchComponent extends StatelessWidget {
+class SearchComponent extends StatefulWidget {
   const SearchComponent({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        hintText: 'Search your cars',
-        prefixIcon: Icon(Icons.search),
-        suffixIcon: Builder(
-  builder: (context) {
-    return IconButton(
-      onPressed: () {
-          final homeCubit = context.read<HomeCubit>();  // جلب من السياق الصحيح هنا
+  State<SearchComponent> createState() => _SearchComponentState();
+}
 
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          shape: const RoundedRectangleBorder(
+class _SearchComponentState extends State<SearchComponent> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: Colors.grey[300]!),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.search, color: Colors.grey[600], size: 20.sp),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: TextField(
+              controller: _searchController,
+              decoration: const InputDecoration(
+                hintText: 'search Car',
+                border: InputBorder.none,
+                hintStyle: TextStyle(color: Colors.grey),
+              ),
+              onChanged: (query) {
+                context.read<CarCubit>().searchCars(query);
+              },
+            ),
+          ),
+          if (_searchController.text.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.clear, color: Colors.grey),
+              onPressed: () {
+                _searchController.clear();
+                context.read<CarCubit>().searchCars('');
+              },
+            ),
+          IconButton(
+            icon: const Icon(Icons.filter_list, color: Colors.orange),
+            onPressed: () => _showFilterModal(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showFilterModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (modalContext) => BlocProvider.value(
+        value: BlocProvider.of<CarCubit>(context, listen: false),
+        child: Container(
+          height: MediaQuery.of(modalContext).size.height * 0.9,
+          decoration: const BoxDecoration(
+            color: Colors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
-          builder: (context) {
-            return BlocProvider.value(
-              value: homeCubit,
-              child: const FilterView(),
-            );
-          },
-        );
-      },
-      icon: Icon(Icons.filter_alt_outlined),
-    );
-  },
-),
+          child: const FilterView(),
+        ),
       ),
     );
   }
 }
+

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/app.dart';
@@ -15,9 +16,7 @@ import 'package:x_go/features/auth/presentation/view/forget_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/otpview.dart';
 import 'package:x_go/features/auth/presentation/view/reset_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
-import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
-import 'package:x_go/features/carBooking/presentation/views/car_booking_page.dart';
-import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
+import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
 import 'package:x_go/features/location/presentation/view/location_view.dart';
@@ -47,6 +46,7 @@ final GoRouter router = GoRouter(
       path: RouterNames.profileDetails,
       builder: (context, state) => const ProfileSettingsScreen(),
     ),
+
     // GoRoute(
     //   path: RouterNames.language,
     //   builder: (context, state) => BlocProvider(
@@ -56,20 +56,38 @@ final GoRouter router = GoRouter(
     // ),
     GoRoute(path: RouterNames.home, builder: (context, state) => HomeView()),
     GoRoute(
-      path: RouterNames.auth,
-      builder: (context, state) {
-        final index = state.extra as int;
-        return BlocProvider(
-          create: (context) => AuthCubit(
-            getIt<LoginUseCase>(),
-            getIt<RegisterUseCase>(),
-            getIt<ForgetPasswordUseCase>(),
-            getIt<OtpUseCase>(),
-            getIt<ResetPasswordUseCase>(),
-          ),
-          child: AuthView(index: index),
+      path: RouterNames.home,
+      pageBuilder: (context, state) {
+        return MaterialPage(
+          child: HomeView(),
         );
       },
+    ),
+
+    GoRoute(
+      path: RouterNames.app,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<CarCubit>()
+
+          ),
+        ],
+        child: App(),
+      ),
+    ),
+    GoRoute(
+      path: RouterNames.login,
+      builder: (context, state) => BlocProvider(
+        create: (context) => AuthCubit(
+          getIt<LoginUseCase>(),
+          getIt<RegisterUseCase>(),
+          getIt<ForgetPasswordUseCase>(),
+          getIt<OtpUseCase>(),
+          getIt<ResetPasswordUseCase>(),
+        ),
+        child: const AuthView(),
+      ),
     ),
     GoRoute(
       path: RouterNames.forgotPassword,
@@ -145,10 +163,12 @@ final GoRouter router = GoRouter(
       },
     ),
 
-    GoRoute(
-      path: RouterNames.carDetails,
-      builder: (context, state) => const CarDetailsPage(),
-    ),
+    // GoRoute(
+    //   path: RouterNames.carDetails,
+    //   builder: (context, state) => const CarDetailsPage(
+    //
+    //   ),
+    // ),
     GoRoute(
       path: RouterNames.carBooking,
       builder: (context, state) => BlocProvider(

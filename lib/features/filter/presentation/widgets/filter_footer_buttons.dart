@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 
 class FilterFooterButtons extends StatelessWidget {
-  final void Function()? onPressed;
-  final void Function()? onApply;
+  final VoidCallback? onClearPressed;
+  final VoidCallback? onApplyPressed;
 
-  const FilterFooterButtons({super.key, this.onPressed, this.onApply});
+  const FilterFooterButtons({
+    super.key,
+    this.onClearPressed,
+    this.onApplyPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        TextButton(onPressed: onPressed, child: const Text("Clear All")),
+        TextButton(
+          onPressed: onClearPressed,
+          child: const Text("Delete Filters"),
+        ),
         ElevatedButton(
-          onPressed: onApply,
+          onPressed: onApplyPressed,
           style: ElevatedButton.styleFrom(
             
             backgroundColor: const Color(0xffE6911E),
@@ -21,9 +28,10 @@ class FilterFooterButtons extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
           ),
-          child: const Text("Show less"),
-        )
+          child: const Text("Show Cars"),
+        ),
       ],
     );
   }
 }
+

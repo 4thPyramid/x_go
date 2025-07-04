@@ -8,13 +8,11 @@ part of 'error_model.dart';
 
 ErrorModel _$ErrorModelFromJson(Map<String, dynamic> json) => ErrorModel(
   message: json['message'] as String,
-  key: json['key'] as String?,
-  data: json['data'] as List<dynamic>?,
+  errors: (json['errors'] as Map<String, dynamic>?)?.map(
+    (k, e) =>
+        MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
+  ),
 );
 
 Map<String, dynamic> _$ErrorModelToJson(ErrorModel instance) =>
-    <String, dynamic>{
-      'msg': instance.message,
-      //   'key': instance.key,
-      // 'data': instance.data,
-    };
+    <String, dynamic>{'message': instance.message, 'errors': instance.errors};
