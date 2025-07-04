@@ -4,9 +4,11 @@ import 'package:x_go/features/carBooking/presentation/components/car_booking_car
 
 import 'package:x_go/features/carBooking/presentation/widgets/car_details_haeder.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/car_image_caursol_widget.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
 
 class CarBookingPage extends StatelessWidget {
-  const CarBookingPage({super.key});
+  final CarEntity car;
+  const CarBookingPage({super.key, required this.car});
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +29,14 @@ class CarBookingPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CarImageCarouselWidget(),
+                  CarImageCarouselWidget(car: car),
                   const SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CarDetailsHeader(),
+                        CarDetailsHeader(car: car),
                         const SizedBox(height: 16),
                         BookingCardComponent(),
                       ],

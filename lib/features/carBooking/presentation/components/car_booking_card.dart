@@ -5,10 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
+import 'package:x_go/features/carBooking/presentation/components/select_location_component.dart';
 import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/boooking_data_time_section.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/driver_check_box.dart';
-
 
 class BookingCardComponent extends StatefulWidget {
   const BookingCardComponent({super.key});
@@ -23,6 +23,7 @@ class _BookingCardComponentState extends State<BookingCardComponent> {
 
   DateTime? returnDate;
   TimeOfDay? returnTime;
+  bool isAdditionalDriverChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +36,9 @@ class _BookingCardComponentState extends State<BookingCardComponent> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 20),
+            isAdditionalDriverChecked ? SelectLocationComponent() : Container(),
+
             Text(
               'Pickup',
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16.sp),
@@ -59,6 +63,14 @@ class _BookingCardComponentState extends State<BookingCardComponent> {
               onTimeSelected: (time) => returnTime = time,
             ),
             SizedBox(height: 35.h),
+            AdditionalDriverCheckbox(
+              value: isAdditionalDriverChecked,
+              onChanged: (value) {
+                setState(() {
+                  isAdditionalDriverChecked = value!;
+                });
+              },
+            ),
             Center(
               child: BlocConsumer<CarBookingCubit, CarBookingState>(
                 listener: (context, state) {
