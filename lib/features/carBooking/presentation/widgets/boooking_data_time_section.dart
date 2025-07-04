@@ -4,10 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class BookingDateTimeSection extends StatefulWidget {
   final String label1;
   final String label2;
+  final void Function(DateTime?) onDateSelected;
+  final void Function(TimeOfDay?) onTimeSelected;
 
   const BookingDateTimeSection({
     required this.label1,
     required this.label2,
+    required this.onDateSelected,
+    required this.onTimeSelected,
     super.key,
   });
 
@@ -35,6 +39,7 @@ class _BookingDateTimeSectionState extends State<BookingDateTimeSection> {
               setState(() {
                 _selectedDate = picked;
               });
+              widget.onDateSelected(picked);
             }
           },
           icon: const Icon(Icons.calendar_today),
@@ -45,10 +50,7 @@ class _BookingDateTimeSectionState extends State<BookingDateTimeSection> {
           ),
           style: ElevatedButton.styleFrom(fixedSize: Size(150.w, 50.h)),
         ),
-
         const SizedBox(width: 8),
-
-        // Time Button
         ElevatedButton.icon(
           onPressed: () async {
             final TimeOfDay? picked = await showTimePicker(
@@ -59,6 +61,7 @@ class _BookingDateTimeSectionState extends State<BookingDateTimeSection> {
               setState(() {
                 _selectedTime = picked;
               });
+              widget.onTimeSelected(picked);
             }
           },
           icon: const Icon(Icons.access_time),

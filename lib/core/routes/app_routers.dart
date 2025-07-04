@@ -38,7 +38,10 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouterNames.carBooking,
-      builder: (context, state) => const CarBookingPage(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => CarBookingCubit(),
+        child: const CarBookingPage(),
+      ),
     ),
     GoRoute(
       path: RouterNames.profileDetails,

@@ -12,20 +12,18 @@ part 'car_booking_state.dart';
 class CarBookingCubit extends Cubit<CarBookingState> {
   CarBookingCubit() : super(CarBookingInitial());
 
-  bookCar() {
+  bookCar(String carId, String startDate, String endDate) {
     final useCase = BookCarUseCase(
       CarBookingRepoImpl(
         CarBookingRemoteDataSourceImpl(DioConsumer(dio: Dio())),
       ),
     );
     emit(CarBookingLoading());
-    useCase
-        .call(carId: '1', startDate: '2025-07-02', endDate: '2025-07-02')
-        .then((value) {
-          emit(CarBookingSuccess());
-        })
-        .catchError((error) {
-          emit(CarBookingError(error.toString()));
-        });
+    try {
+      useCase.call(carId: carId, startDate: startDate, endDate: endDate);
+      emit(CarBookingSuccess());
+    } catch (e) {
+      emit(CarBookingError(e.toString()));
+    }
   }
 }
