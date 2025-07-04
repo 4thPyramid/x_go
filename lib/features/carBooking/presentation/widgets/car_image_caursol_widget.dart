@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
 
 class CarImageCarouselWidget extends StatefulWidget {
-  const CarImageCarouselWidget({super.key});
+  final CarEntity? car;
+  const CarImageCarouselWidget({super.key, this.car});
 
   @override
   State<CarImageCarouselWidget> createState() => _CarImageCarouselState();
@@ -27,7 +29,7 @@ class _CarImageCarouselState extends State<CarImageCarouselWidget> {
             itemCount: imageList.length,
             onPageChanged: (index) => setState(() => _currentPage = index),
             itemBuilder: (_, index) =>
-                Image.asset(imageList[index], fit: BoxFit.cover),
+                Image.network(widget.car!.image, fit: BoxFit.cover),
           ),
           Positioned(
             bottom: 12,

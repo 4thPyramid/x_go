@@ -16,10 +16,13 @@ import 'package:x_go/features/auth/presentation/view/forget_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/otpview.dart';
 import 'package:x_go/features/auth/presentation/view/reset_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
-import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
+import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
+import 'package:x_go/features/carBooking/presentation/views/car_booking_page.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
 import 'package:x_go/features/location/presentation/view/location_view.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
 import 'package:x_go/features/payment/presentation/views/payment_view.dart';
 import 'package:x_go/features/profile/presentation/views/profile_settings_details.dart';
 import 'package:x_go/features/profile/presentation/views/profile_view.dart';
@@ -37,10 +40,13 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouterNames.carBooking,
-      builder: (context, state) => BlocProvider(
-        create: (context) => CarBookingCubit(),
-        child: const CarBookingPage(),
-      ),
+      builder: (context, state) {
+        final car = state.extra as CarEntity;
+        return BlocProvider(
+          create: (context) => CarBookingCubit(),
+          child: CarBookingPage(car: car),
+        );
+      },
     ),
     GoRoute(
       path: RouterNames.profileDetails,
@@ -54,30 +60,39 @@ final GoRouter router = GoRouter(
     //     child: const LanguagePage(),
     //   ),
     // ),
-    GoRoute(path: RouterNames.home, builder: (context, state) => HomeView()),
+    GoRoute(path: RouterNames.home, builder: (context, state) => BlocProvider(
+  create: (context) => getIt<CarCubit>(),
+  child: HomeView(),
+)),
     GoRoute(
-      path: RouterNames.home,
-      pageBuilder: (context, state) {
-        return MaterialPage(
-          child: HomeView(),
+      path: RouterNames.auth,
+      builder: (context, state) {
+        final index = state.extra as int;
+        return BlocProvider(
+          create: (context) => AuthCubit(
+            getIt<LoginUseCase>(),
+            getIt<RegisterUseCase>(),
+            getIt<ForgetPasswordUseCase>(),
+            getIt<OtpUseCase>(),
+            getIt<ResetPasswordUseCase>(),
+          ),
+          child: AuthView(index: index),
         );
+      },
+      pageBuilder: (context, state) {
+        return MaterialPage(child: HomeView());
       },
     ),
 
     GoRoute(
       path: RouterNames.app,
       builder: (context, state) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => getIt<CarCubit>()
-
-          ),
-        ],
+        providers: [BlocProvider(create: (context) => getIt<CarCubit>())],
         child: App(),
       ),
     ),
     GoRoute(
-      path: RouterNames.login,
+      path: RouterNames.auth,
       builder: (context, state) => BlocProvider(
         create: (context) => AuthCubit(
           getIt<LoginUseCase>(),
@@ -86,7 +101,7 @@ final GoRouter router = GoRouter(
           getIt<OtpUseCase>(),
           getIt<ResetPasswordUseCase>(),
         ),
-        child: const AuthView(),
+        child: const AuthView(index: 0),
       ),
     ),
     GoRoute(
@@ -145,14 +160,7 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const SuccessUpdatedView(),
     ),
 
-    GoRoute(
-      path: RouterNames.app,
-      builder: (context, state) => BlocProvider(
-        create: (context) =>
-            getIt<HomeCubit>()..getHomeData(null, null, null, null),
-        child: App(),
-      ),
-    ),
+
     GoRoute(
       path: RouterNames.location,
       builder: (context, state) {
@@ -163,19 +171,23 @@ final GoRouter router = GoRouter(
       },
     ),
 
+    GoRoute(
+      path: RouterNames.carDetails,
+      builder: (context, state) {
+        final car =
+            state.extra
+                as CarEntity; // Pass the car object via state.extra when navigating
+        return CarDetailsPage(car: car);
+      },
+    ),
+    GoRoute(path: RouterNames.app, builder: (context, state) => App()),
+
     // GoRoute(
     //   path: RouterNames.carDetails,
     //   builder: (context, state) => const CarDetailsPage(
     //
     //   ),
     // ),
-    GoRoute(
-      path: RouterNames.carBooking,
-      builder: (context, state) => BlocProvider(
-        create: (context) => CarBookingCubit(),
-        child: const CarBookingPage(),
-      ),
-    ),
     GoRoute(
       path: RouterNames.profile,
       builder: (context, state) => const ProfilePage(),

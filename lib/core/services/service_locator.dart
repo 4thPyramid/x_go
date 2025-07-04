@@ -16,7 +16,7 @@ import 'package:x_go/features/home/data/repo/car_repo_impl.dart';
 import 'package:x_go/features/home/domain/repo/car_repository.dart';
 import 'package:x_go/features/home/domain/usecase/get_car_use_case.dart';
 import 'package:x_go/features/home/domain/usecase/get_filter_info_usecase.dart';
-import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 void setupLocator() {
@@ -34,9 +34,7 @@ void setupLocator() {
     () => CarRemoteDatasourceImpl(apiConsumer: getIt<DioConsumer>()),
   );
 
-   getIt.registerLazySingleton<HomeRemoteDs>(
-    () => HomeRemoteDsImpl( getIt<DioConsumer>()),
-  );
+
 
   /// !-- Repositories -- ///
   getIt.registerLazySingleton<AuthRepository>(
@@ -46,9 +44,6 @@ void setupLocator() {
     () => CarRepositoryImpl(remoteDatasource: getIt<CarRemoteDatasource>()),
   );
 
-   getIt.registerLazySingleton<HomeRepository>(
-  () => HomeRepository(getIt<HomeRemoteDs>()), // ✅ صح، النوع اللي مسجله
-);
 
 
   /// !-- UseCases -- ///
@@ -80,12 +75,9 @@ void setupLocator() {
   // !Cubits //
 
   getIt.registerFactory<CarCubit>(
-        () => CarCubit(
+    () => CarCubit(
       getCarsUseCase: getIt<GetCarsUseCase>(),
       getFilterInfoUseCase: getIt<GetFilterInfoUseCase>(),
     ),
-  );
-  getIt.registerFactory<HomeCubit>(
-    ()=>HomeCubit(getIt<HomeRepository>())
   );
 }

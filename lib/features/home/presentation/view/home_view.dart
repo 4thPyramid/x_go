@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:x_go/features/home/presentation/components/cars_listview.dart';
 import 'package:x_go/features/home/presentation/components/header_component.dart';
 import 'package:x_go/features/home/presentation/components/search_component.dart';
 import 'package:x_go/features/home/presentation/components/popular_cars_component.dart';
-import 'package:x_go/features/home/presentation/widgets/car_card_widget.dart'
-    show CarCardWidget;
+import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_state.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -38,8 +38,10 @@ class _HomeViewState extends State<HomeView> {
               SizedBox(height: 8.h),
               SearchComponent(),
               SizedBox(height: 4.h),
+
               const PopularCarsComponent(),
-              Expanded(child: CarsListview()),
+              SizedBox(height: 8.h),
+              Expanded(child: _buildCarsSection()),
             ],
           ),
         ),
