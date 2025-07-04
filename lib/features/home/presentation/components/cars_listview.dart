@@ -13,37 +13,67 @@ class CarsListview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (cars.isEmpty) {
-      return const Center(
-        child: Text(
-          'لا توجد سيارات متاحة',
-          style: TextStyle(fontSize: 16, color: Colors.grey),
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.all(8.w),
+          child: Text(
+            'No cars available',
+            style: TextStyle(
+              fontSize: 16.sp,
+              color: Colors.grey,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ),
       );
     }
-
     return ListView.separated(
       itemCount: cars.length,
       physics: const BouncingScrollPhysics(),
-      separatorBuilder: (_, __) => SizedBox(height: 7.h),
+      separatorBuilder: (_, __) => SizedBox(height: 16.h), // Increased spacing
       itemBuilder: (context, index) {
         final car = cars[index];
         return InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CarDetailsPage(car: car),
-              ),
-            );
-          },
+          borderRadius: BorderRadius.circular(
+            12.r,
+          ), // Added ripple effect border radius
+          onTap: () => _navigateToDetails(context, car),
           child: CarCardWidget(
+            key: ValueKey(car.id), // Added key for better widget management
             brand: car.brandName,
             model: car.name,
             rentPrice: car.price,
             imageUrl: car.image,
+            // Assuming CarEntity has availability
           ),
         );
       },
+    );
+  }
+
+  void _navigateToDetails(BuildContext context, CarEntity car) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            CarDetailsPage(car: car),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.easeOutSine;
+
+          var tween = Tween(
+            begin: begin,
+            end: end,
+          ).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(seconds: 1),
+      ),
     );
   }
 }

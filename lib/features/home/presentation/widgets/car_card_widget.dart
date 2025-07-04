@@ -62,11 +62,11 @@ class CarCardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "سعر الإيجار",
+                  "price",
                   style: TextStyle(color: Colors.white70, fontSize: 14),
                 ),
                 Text(
-                  '$rentPrice جنيه/يوم',
+                  '$rentPrice',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -91,7 +91,6 @@ class CarCardWidget extends StatelessWidget {
   }
 
   Widget _buildImage() {
-    // Check if it's a network URL or asset
     if (imageUrl.startsWith('http')) {
       return CachedNetworkImage(
         imageUrl: imageUrl,

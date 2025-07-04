@@ -34,7 +34,6 @@ class CarCubit extends Cubit<CarState> {
         _allCars = cars;
         _currentFilter = filterRequest;
 
-        // تطبيق البحث إذا كان موجود
         final filteredCars = _applySearch(cars);
 
         emit(CarsLoaded(
@@ -61,7 +60,6 @@ class CarCubit extends Cubit<CarState> {
     }
   }
 
-  // تطبيق الفلتر
   Future<void> applyFilter(FilterRequestEntity filterRequest) async {
     await getCars(filterRequest: filterRequest);
   }
@@ -91,7 +89,6 @@ class CarCubit extends Cubit<CarState> {
     );
   }
 
-  // تطبيق البحث على قائمة العربيات
   List<CarEntity> _applySearch(List<CarEntity> cars) {
     if (_currentSearchQuery == null || _currentSearchQuery!.isEmpty) {
       return cars;
@@ -105,12 +102,10 @@ class CarCubit extends Cubit<CarState> {
     }).toList();
   }
 
-  // إعادة تحميل البيانات
   Future<void> refresh() async {
     await getCars(filterRequest: _currentFilter);
   }
 
-  // getters للبيانات الحالية
   FilterInfoEntity? get currentFilterInfo => _filterInfo;
   FilterRequestEntity? get currentFilter => _currentFilter;
   String? get currentSearchQuery => _currentSearchQuery;

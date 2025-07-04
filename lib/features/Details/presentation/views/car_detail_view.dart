@@ -23,7 +23,7 @@ class CarDetailsPage extends StatelessWidget {
         actions: [
           IconButton(icon: const Icon(Icons.star_border), onPressed: () {}),
         ],
-        title: Image.asset('assets/images/logo.png', height: 40),
+        title: Image.asset('assets/images/logo.png', height: 40.h),
         centerTitle: true,
       ),
       body: Column(
@@ -40,7 +40,7 @@ class CarDetailsPage extends StatelessWidget {
                 child: CircularProgressIndicator(),
               ),
               errorWidget: (context, url, error) => Image.asset(
-                'assets/images/Group 7.png',
+                'assets/images/Group7.png',
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
@@ -70,7 +70,7 @@ class CarDetailsPage extends StatelessWidget {
                     const Icon(Icons.location_on, size: 16),
                     SizedBox(width: 4.w),
                     Text(
-                      'الجيزة, القاهرة, مصر',
+                      'caio /Egypt',
                       style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400),
                     ),
                   ],
@@ -86,13 +86,10 @@ class CarDetailsPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      '${car.price} جنيه ',
+                      '${car.price}  ',
                       style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500),
                     ),
-                    Text(
-                      '/يوم',
-                      style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400),
-                    ),
+
                   ],
                 ),
                 SizedBox(height: 20.h),

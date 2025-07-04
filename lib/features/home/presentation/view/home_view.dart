@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_go/features/home/domain/usecase/get_car_use_case.dart';
-import 'package:x_go/features/home/domain/usecase/get_filter_info_usecase.dart';
 import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
 import 'package:x_go/features/home/presentation/logic/home_state.dart';
 import '../components/cars_listview.dart';
@@ -10,55 +8,156 @@ import '../components/header_component.dart';
 import '../components/search_component.dart';
 import '../components/popular_cars_component.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CarCubit>().getCars();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return  // Load cars immediately
-      Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(15.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 10.h),
-                const HeaderComponent(),
-                SizedBox(height: 6.h),
-                const SearchComponent(),
-                SizedBox(height: 3.h),
-                const PopularCarsComponent(),
-                Expanded(
-                  child: BlocBuilder<CarCubit, CarState>(
-                    builder: (context, state) {
-                      if (state is CarLoading) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (state is CarError) {
-                        return Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('خطأ: ${state.message}'),
-                              ElevatedButton(
-                                onPressed: () => context.read<CarCubit>().refresh(),
-                                child: const Text('إعادة المحاولة'),
-                              ),
-                            ],
-                          ),
-                        );
-                      } else if (state is CarsLoaded) {
-                        return CarsListview(cars: state.cars);
-                      }
-                      return const SizedBox();
-                    },
-                  ),
-                ),
-              ],
-            ),
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const HeaderComponent(),
+              SizedBox(height: 8.h),
+              const SearchComponent(),
+              SizedBox(height: 4.h),
+              const PopularCarsComponent(),
+              SizedBox(height: 8.h),
+              Expanded(child: _buildCarsSection()),
+            ],
           ),
         ),
-
+      ),
     );
+  }
+
+  Widget _buildCarsSection() {
+    return BlocBuilder<CarCubit, CarState>(
+      builder: (context, state) {
+        return switch (state) {
+          CarInitial() || CarLoading() => _buildLoadingState(),
+          CarError() => _buildErrorState(state.message),
+          CarsLoaded() => _buildLoadedState(state),
+          _ => const SizedBox.shrink(),
+        };
+      },
+    );
+  }
+
+  Widget _buildLoadingState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const CircularProgressIndicator(strokeWidth: 2.0),
+          SizedBox(height: 16.h),
+          Text(
+            'جاري التحميل...',
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorState(String message) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(20.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, size: 48.w, color: Colors.red[400]),
+            SizedBox(height: 16.h),
+            Text(
+              'حدث خطأ',
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+            ),
+            SizedBox(height: 24.h),
+            ElevatedButton.icon(
+              onPressed: () => _handleRetry(),
+              icon: const Icon(Icons.refresh),
+              label: const Text('إعادة المحاولة'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadedState(CarsLoaded state) {
+    final hasSearch = state.searchQuery?.isNotEmpty ?? false;
+    final cars = hasSearch ? state.filteredCars : state.cars;
+
+    if (cars.isEmpty) {
+      return _buildEmptyState(hasSearch);
+    }
+
+    return CarsListview(cars: cars);
+  }
+
+  Widget _buildEmptyState(bool isSearchResult) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            isSearchResult ? Icons.search_off : Icons.directions_car_outlined,
+            size: 48.w,
+            color: Colors.grey[400],
+          ),
+          SizedBox(height: 16.h),
+          Text(
+            isSearchResult ? 'لا توجد نتائج للبحث' : 'لا توجد سيارات متاحة',
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(color: Colors.grey[600]),
+          ),
+          if (isSearchResult) ...[
+            SizedBox(height: 8.h),
+            Text(
+              'جرب البحث بكلمات مختلفة',
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: Colors.grey[500]),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  void _handleRetry() {
+    context.read<CarCubit>().refresh();
   }
 }

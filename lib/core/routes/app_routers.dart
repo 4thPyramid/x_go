@@ -16,18 +16,15 @@ import 'package:x_go/features/auth/presentation/view/forget_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/otpview.dart';
 import 'package:x_go/features/auth/presentation/view/reset_password_view.dart';
 import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
-import 'package:x_go/features/home/domain/usecase/get_car_use_case.dart';
 import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
-import 'package:x_go/features/language/presentation/logic/cubit/lang_cupit.dart';
-import 'package:x_go/features/language/presentation/view/language_view.dart';
+
 import 'package:x_go/features/payment/presentation/views/payment_view.dart';
 import 'package:x_go/features/profile/presentation/views/profile_settings_details.dart';
 import 'package:x_go/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/features/splash/views/splash_view.dart';
 
 final GoRouter router = GoRouter(
-
   routes: [
     GoRoute(
       path: RouterNames.splash,
@@ -49,15 +46,23 @@ final GoRouter router = GoRouter(
       path: RouterNames.home,
       pageBuilder: (context, state) {
         return MaterialPage(
-          child: BlocProvider(
-            create: (context) => getIt<CarCubit>()..getCars()..getFilterInfo(),
-            child: const HomeView(),
-          ),
+          child: HomeView(),
         );
       },
     ),
 
-    GoRoute(path: RouterNames.app, builder: (context, state) => App()),
+    GoRoute(
+      path: RouterNames.app,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<CarCubit>()
+
+          ),
+        ],
+        child: App(),
+      ),
+    ),
     GoRoute(
       path: RouterNames.login,
       builder: (context, state) => BlocProvider(
