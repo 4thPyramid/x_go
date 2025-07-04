@@ -5,8 +5,7 @@ import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/booking_location_field.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/boooking_data_time_section.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/driver_check_box.dart';
-import 'package:x_go/features/payment/presentation/views/payment_view.dart';
-import 'package:x_go/core/routes/router_names.dart';
+
 
 class BookingCard extends StatelessWidget {
   final bool isAdditionalDriverChecked;

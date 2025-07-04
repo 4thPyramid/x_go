@@ -17,7 +17,7 @@ class FilterFooterButtons extends StatelessWidget {
       children: [
         TextButton(
           onPressed: onClearPressed,
-          child: const Text("مسح الكل"),
+          child: const Text("Delete Filters"),
         ),
         ElevatedButton(
           onPressed: onApplyPressed,
@@ -27,7 +27,7 @@ class FilterFooterButtons extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
           ),
-          child: const Text("تطبيق الفلتر"),
+          child: const Text("Show Cars"),
         ),
       ],
     );

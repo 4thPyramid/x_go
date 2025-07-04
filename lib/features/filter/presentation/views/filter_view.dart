@@ -11,7 +11,6 @@ import 'package:x_go/features/home/domain/entity/filter_request_entity.dart';
 import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
 import 'package:x_go/features/home/presentation/logic/home_state.dart';
 
-
 class FilterView extends StatefulWidget {
   const FilterView({super.key});
 
@@ -44,8 +43,8 @@ class _FilterViewState extends State<FilterView> {
     final filterRequest = FilterRequestEntity(
       brand: selectedBrand,
       type: selectedType,
-      minPrice: (selectedRange.start * 100).toInt().toString(),
-      maxPrice: (selectedRange.end * 100).toInt().toString(),
+      minPrice: (selectedRange.start * 1000).toInt().toString(),
+      maxPrice: (selectedRange.end * 1000).toInt().toString(),
     );
 
     context.read<CarCubit>().applyFilter(filterRequest);
@@ -58,96 +57,191 @@ class _FilterViewState extends State<FilterView> {
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 252, 251, 251),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: BlocBuilder<CarCubit, CarState>(
-          builder: (context, state) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const FilterHeader(),
-                  const SizedBox(height: 15),
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 8,
+            right: 8,
+            top: 8,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 8,
+          ),
+          child: BlocBuilder<CarCubit, CarState>(
+            builder: (context, state) {
+              return SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const FilterHeader(),
+                    const SizedBox(height: 10),
 
-                  // Brand Selector
-                  if (state is FilterInfoLoaded)
-                    BrandSelector(
-                      brands: state.filterInfo.brands.map((b) => b.name).toList(),
-                      selectedBrand: selectedBrand,
-                      onBrandSelected: (brand) {
+                    // Brand Selector
+                    _buildBrandSelector(state),
+
+                    Divider(
+                      color: const Color.fromARGB(
+                        255,
+                        0,
+                        0,
+                        0,
+                      ).withOpacity(0.2),
+                      thickness: 1,
+                    ),
+                    const SizedBox(height: 18),
+
+                    // Price Slider
+                    PriceSlider(
+                      rangeValues: selectedRange,
+                      onChanged: (newRange) {
                         setState(() {
-                          selectedBrand = brand;
-                        });
-                      },
-                    )
-                  else if (state is FilterInfoLoading)
-                    const Center(child: CircularProgressIndicator())
-                  else
-                    BrandSelector(
-                      brands: const ['BMW', 'Mercedes', 'Toyota'],
-                      selectedBrand: selectedBrand,
-                      onBrandSelected: (brand) {
-                        setState(() {
-                          selectedBrand = brand;
+                          selectedRange = newRange;
                         });
                       },
                     ),
+                    const SizedBox(height: 10),
+                    PriceRangeLabels(rangeValues: selectedRange),
+                    const SizedBox(height: 20),
 
-                  Divider(
-                    color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
-                    thickness: 1,
-                  ),
-                  const SizedBox(height: 24),
+                    _buildTypeSelector(state),
 
-                  // Price Slider
-                  PriceSlider(
-                    rangeValues: selectedRange,
-                    onChanged: (newRange) {
-                      setState(() {
-                        selectedRange = newRange;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  PriceRangeLabels(rangeValues: selectedRange),
-                  const SizedBox(height: 24),
-
-                  // Type Selector
-                  if (state is FilterInfoLoaded)
-                    CarTypeSelector(
-                      types: state.filterInfo.types.map((t) => t.name).toList(),
-                      selectedType: selectedType,
-                      onTypeSelected: (type) {
-                        setState(() {
-                          selectedType = type;
-                        });
-                      },
-                    )
-                  else
-                    CarTypeSelector(
-                      types: const ['Manual', 'Automatic', 'Hybrid'],
-                      selectedType: selectedType,
-                      onTypeSelected: (type) {
-                        setState(() {
-                          selectedType = type;
-                        });
-                      },
+                    const SizedBox(height: 25),
+                    FilterFooterButtons(
+                      onClearPressed: _resetFilters,
+                      onApplyPressed: _applyFilters,
                     ),
-
-                  const SizedBox(height: 30),
-                  FilterFooterButtons(
-                    onClearPressed: _resetFilters,
-                    onApplyPressed: _applyFilters,
-                  ),
-                ],
-              ),
-            );
-          },
+                    SizedBox(
+                      height: MediaQuery.of(context).viewInsets.bottom > 0
+                          ? 100
+                          : 20,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
   }
+
+  Widget _buildBrandSelector(CarState state) {
+    if (state is FilterInfoLoading) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    if (state is FilterInfoLoaded) {
+      final brands = state.filterInfo.brands
+          .map((brand) => brand.name)
+          .toList();
+
+      return BrandSelector(
+        brands: brands,
+        selectedBrand: selectedBrand,
+        onBrandSelected: (brand) {
+          setState(() {
+            selectedBrand = brand;
+          });
+        },
+      );
+    }
+
+    if (state is FilterInfoError) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const Icon(Icons.error_outline, color: Colors.red, size: 48),
+            const SizedBox(height: 8),
+            Text(
+              'Error loading brands: ${state.message}',
+              style: const TextStyle(color: Colors.red),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () {
+                context.read<CarCubit>().getFilterInfo();
+              },
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return BrandSelector(
+      brands: const ['BMW', 'Mercedes', 'Toyota'],
+      selectedBrand: selectedBrand,
+      onBrandSelected: (brand) {
+        setState(() {
+          selectedBrand = brand;
+        });
+      },
+    );
+  }
+
+  Widget _buildTypeSelector(CarState state) {
+    if (state is FilterInfoLoading) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    if (state is FilterInfoLoaded) {
+      final types = state.filterInfo.types.map((type) => type.name).toList();
+
+      return CarTypeSelector(
+        types: types,
+        selectedType: selectedType,
+        onTypeSelected: (type) {
+          setState(() {
+            selectedType = type;
+          });
+        },
+      );
+    }
+
+    if (state is FilterInfoError) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const Icon(Icons.error_outline, color: Colors.red, size: 48),
+            const SizedBox(height: 8),
+            Text(
+              'Error loading types: ${state.message}',
+              style: const TextStyle(color: Colors.red),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () {
+                context.read<CarCubit>().getFilterInfo();
+              },
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Default types في حالة عدم وجود state محدد
+    return CarTypeSelector(
+      types: const ['Manual', 'Automatic', 'Hybrid'],
+      selectedType: selectedType,
+      onTypeSelected: (type) {
+        setState(() {
+          selectedType = type;
+        });
+      },
+    );
+  }
 }
-
-
-
