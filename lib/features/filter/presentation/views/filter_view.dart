@@ -8,8 +8,8 @@ import 'package:x_go/features/filter/presentation/widgets/filter_header.dart';
 import 'package:x_go/features/filter/presentation/widgets/price_range_labels.dart';
 import 'package:x_go/features/filter/presentation/widgets/price_slider.dart';
 import 'package:x_go/features/home/domain/entity/filter_request_entity.dart';
-import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
-import 'package:x_go/features/home/presentation/logic/home_state.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_state.dart';
 
 class FilterView extends StatefulWidget {
   const FilterView({super.key});

@@ -22,8 +22,6 @@ import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
 import 'package:x_go/features/location/presentation/view/location_view.dart';
-import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
-import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
 
 import 'package:x_go/features/payment/presentation/views/payment_view.dart';
@@ -68,7 +66,13 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.app,
       builder: (context, state) => MultiBlocProvider(
-        providers: [BlocProvider(create: (context) => getIt<CarCubit>())],
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<CarCubit>()
+              ..getCars()
+              ..getFilterInfo(),
+          ),
+        ],
         child: App(),
       ),
     ),
@@ -141,14 +145,6 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const SuccessUpdatedView(),
     ),
 
-    GoRoute(
-      path: RouterNames.app,
-      builder: (context, state) => BlocProvider(
-        create: (context) =>
-            getIt<HomeCubit>()..getHomeData(null, null, null, null),
-        child: App(),
-      ),
-    ),
     GoRoute(
       path: RouterNames.location,
       builder: (context, state) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/utils/app_styles.dart';
@@ -28,7 +29,10 @@ class _RememberMeComponentState extends State<RememberMeComponent> {
                 });
               },
             ),
-            Text('Remember me', style: AppStyles.ts16W400),
+            Text(
+              'Remember me',
+              style: AppStyles.ts16W400.copyWith(fontSize: 13.sp),
+            ),
           ],
         ),
         Spacer(),
@@ -36,7 +40,10 @@ class _RememberMeComponentState extends State<RememberMeComponent> {
           onPressed: () {
             context.push(RouterNames.forgotPassword);
           },
-          child: Text('Forgot Password?', style: AppStyles.ts16W400),
+          child: Text(
+            'Forgot Password?',
+            style: AppStyles.ts16W400.copyWith(fontSize: 13.sp),
+          ),
         ),
       ],
     );

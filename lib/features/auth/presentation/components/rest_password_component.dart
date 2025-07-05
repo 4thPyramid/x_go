@@ -12,6 +12,7 @@ import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
 class ResetPasswordComponent extends StatefulWidget {
   final String email;
   final String otp;
+
   const ResetPasswordComponent({
     super.key,
     required this.email,
@@ -23,51 +24,29 @@ class ResetPasswordComponent extends StatefulWidget {
 }
 
 class _ResetPasswordComponentState extends State<ResetPasswordComponent> {
-  final formKey = GlobalKey<FormState>();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: formKey,
+      key: _formKey,
       child: Column(
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Create New Password',
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
-            ),
-          ),
-          SizedBox(height: 8.h),
-          CustomTextFormField(
-            labelText: 'New Password',
-            controller: passwordController,
-            isPassword: true,
-            prefixIcon: Icon(Icons.lock, color: Colors.grey[600]),
-            fillColor: Colors.grey.withValues(alpha: 0.3),
-            keyboardType: TextInputType.visiblePassword,
-            validator: Validator.validatePassword,
-          ),
-
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Confirm New Password',
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
-            ),
-          ),
-          SizedBox(height: 8.h),
-          CustomTextFormField(
-            labelText: 'Confirm New Password',
-            controller: confirmPasswordController,
-            isPassword: true,
-            prefixIcon: Icon(Icons.lock, color: Colors.grey[600]),
-            fillColor: Colors.grey.withValues(alpha: 0.3),
-            keyboardType: TextInputType.visiblePassword,
-            validator: Validator.validatePassword,
-          ),
-
+          _buildPasswordField(),
+          SizedBox(height: 20.h),
+          _buildConfirmPasswordField(),
+          SizedBox(height: 25.h),
           BlocConsumer<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state is ResetPasswordError) {
@@ -78,32 +57,103 @@ class _ResetPasswordComponentState extends State<ResetPasswordComponent> {
               }
             },
             builder: (context, state) {
-              return state is ResetPasswordLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : CustomButton(
-                      text: 'Save New Password',
-                      onPressed: () {
-                        if (formKey.currentState?.validate() ?? false) {
-                          if (passwordController.text ==
-                              confirmPasswordController.text) {
-                            context.read<AuthCubit>().resetPassword(
-                              widget.email,
-                              passwordController.text,
-                              widget.otp,
-                            );
-                          } else {
-                            showToast(
-                              message: 'Passwords do not match',
-                              state: ToastStates.ERROR,
-                            );
-                          }
-                        }
-                      },
-                    );
+              if (state is ResetPasswordLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return CustomButton(
+                text: 'Save New Password',
+                onPressed: _handleResetPassword,
+              );
             },
           ),
         ],
       ),
+    );
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _isPasswordVisible = !_isPasswordVisible;
+    });
+  }
+
+  void _toggleConfirmPasswordVisibility() {
+    setState(() {
+      _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+    });
+  }
+
+  void _handleResetPassword() {
+    if (_formKey.currentState?.validate() ?? false) {
+      if (_passwordController.text != _confirmPasswordController.text) {
+        showToast(message: 'Passwords do not match', state: ToastStates.ERROR);
+        return;
+      }
+      context.read<AuthCubit>().resetPassword(
+        widget.email,
+        _passwordController.text,
+        widget.otp,
+      );
+    }
+  }
+
+  Widget _buildPasswordField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Create New Password',
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+        ),
+        SizedBox(height: 10.h),
+        CustomTextFormField(
+          controller: _passwordController,
+          isPassword: true,
+          prefixIcon: Icon(Icons.lock, color: Colors.grey[600]),
+          fillColor: Colors.grey.withOpacity(0.3),
+          keyboardType: TextInputType.visiblePassword,
+          validator: Validator.validatePassword,
+          obscureText: !_isPasswordVisible,
+          suffixIcon: IconButton(
+            icon: Icon(
+              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+              color: Colors.grey,
+            ),
+            onPressed: _togglePasswordVisibility,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildConfirmPasswordField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Confirm New Password',
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+        ),
+        SizedBox(height: 10.h),
+        CustomTextFormField(
+          controller: _confirmPasswordController,
+          isPassword: true,
+          prefixIcon: Icon(Icons.lock, color: Colors.grey[600]),
+          fillColor: Colors.grey.withOpacity(0.3),
+          keyboardType: TextInputType.visiblePassword,
+          validator: Validator.validatePassword,
+          obscureText: !_isConfirmPasswordVisible,
+          suffixIcon: IconButton(
+            icon: Icon(
+              _isConfirmPasswordVisible
+                  ? Icons.visibility
+                  : Icons.visibility_off,
+              color: Colors.grey,
+            ),
+            onPressed: _toggleConfirmPasswordVisibility,
+          ),
+        ),
+      ],
     );
   }
 }

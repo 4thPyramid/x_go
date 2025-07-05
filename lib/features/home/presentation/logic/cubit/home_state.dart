@@ -1,22 +1,52 @@
-part of 'home_cubit.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
+import 'package:x_go/features/home/domain/entity/filter_info_entity.dart';
 
-sealed class HomeState extends Equatable {
-  const HomeState();
+abstract class CarState {}
 
-  @override
-  List<Object> get props => [];
+class CarInitial extends CarState {}
+
+class CarLoading extends CarState {}
+
+class CarsLoaded extends CarState {
+  final List<CarEntity> cars;
+  final List<CarEntity> filteredCars;
+  final String? searchQuery;
+
+  CarsLoaded({
+    required this.cars,
+    required this.filteredCars,
+    this.searchQuery,
+  });
+
+  CarsLoaded copyWith({
+    List<CarEntity>? cars,
+    List<CarEntity>? filteredCars,
+    String? searchQuery,
+  }) {
+    return CarsLoaded(
+      cars: cars ?? this.cars,
+      filteredCars: filteredCars ?? this.filteredCars,
+      searchQuery: searchQuery ?? this.searchQuery,
+    );
+  }
 }
 
-final class HomeInitial extends HomeState {}
-
-final class HomeLoading extends HomeState {}
- 
-final class HomeError extends HomeState {
+class CarError extends CarState {
   final String message;
-  const HomeError({required this.message});
+
+  CarError(this.message);
 }
 
-final class HomeLoaded extends HomeState {
-  final List<CarModel> cars;
-  const HomeLoaded({required this.cars});
+class FilterInfoLoading extends CarState {}
+
+class FilterInfoLoaded extends CarState {
+  final FilterInfoEntity filterInfo;
+
+  FilterInfoLoaded(this.filterInfo);
+}
+
+class FilterInfoError extends CarState {
+  final String message;
+
+  FilterInfoError(this.message);
 }

@@ -7,8 +7,9 @@ import 'package:x_go/features/home/presentation/components/cars_listview.dart';
 import 'package:x_go/features/home/presentation/components/header_component.dart';
 import 'package:x_go/features/home/presentation/components/search_component.dart';
 import 'package:x_go/features/home/presentation/components/popular_cars_component.dart';
-import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
-import 'package:x_go/features/home/presentation/logic/home_state.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_state.dart';
+
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -18,12 +19,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CarCubit>().getCars();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,28 +1,111 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:x_go/features/home/data/models/home_model.dart';
-import 'package:x_go/features/home/domain/repos/home_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
+import 'package:x_go/features/home/domain/entity/filter_info_entity.dart';
+import 'package:x_go/features/home/domain/entity/filter_request_entity.dart';
+import 'package:x_go/features/home/domain/usecase/get_car_use_case.dart';
+import 'package:x_go/features/home/domain/usecase/get_filter_info_usecase.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_state.dart';
 
-part 'home_state.dart';
+class CarCubit extends Cubit<CarState> {
+  final GetCarsUseCase getCarsUseCase;
+  final GetFilterInfoUseCase getFilterInfoUseCase;
 
-class HomeCubit extends Cubit<HomeState> {
-  final HomeRepository homeRepository;
-  HomeCubit(this.homeRepository) : super(HomeInitial());
+  List<CarEntity> _allCars = [];
+  FilterInfoEntity? _filterInfo;
+  FilterRequestEntity? _currentFilter;
+  String? _currentSearchQuery;
 
-  Future<void> getHomeData( 
-    double? minPrice,
-  double? maxPrice,
-  String? brandId,
-  String? typeId,
-  ) async {
-    emit(HomeLoading());
-    final result = await homeRepository.getHomeData(minPrice, maxPrice, brandId, typeId,);
-    result.fold((error) => emit(
-          HomeError( message:  error.message),
-          ), (homeData) => emit(
-          HomeLoaded( cars: homeData),
-          ),
+  CarCubit({
+    required this.getCarsUseCase,
+    required this.getFilterInfoUseCase,
+  }) : super(CarInitial());
 
+  // جلب العربيات
+  Future<void> getCars({FilterRequestEntity? filterRequest}) async {
+    emit(CarLoading());
+
+    final result = await getCarsUseCase.call(filterRequest);
+
+    result.fold(
+          (error) => emit(CarError(error.message)),
+          (cars) {
+        _allCars = cars;
+        _currentFilter = filterRequest;
+
+        final filteredCars = _applySearch(cars);
+
+        emit(CarsLoaded(
+          cars: cars,
+          filteredCars: filteredCars,
+          searchQuery: _currentSearchQuery,
+        ));
+      },
     );
   }
+
+  // البحث بالاسم
+  void searchCars(String query) {
+    if (state is CarsLoaded) {
+      _currentSearchQuery = query.trim().isEmpty ? null : query.trim();
+
+      final currentState = state as CarsLoaded;
+      final filteredCars = _applySearch(currentState.cars);
+
+      emit(currentState.copyWith(
+        filteredCars: filteredCars,
+        searchQuery: _currentSearchQuery,
+      ));
+    }
+  }
+
+  Future<void> applyFilter(FilterRequestEntity filterRequest) async {
+    await getCars(filterRequest: filterRequest);
+  }
+
+  // مسح الفلتر
+  Future<void> clearFilter() async {
+    await getCars();
+  }
+
+  // جلب معلومات الفلتر
+  Future<void> getFilterInfo() async {
+    if (_filterInfo != null) {
+      emit(FilterInfoLoaded(_filterInfo!));
+      return;
+    }
+
+    emit(FilterInfoLoading());
+
+    final result = await getFilterInfoUseCase.calls();
+
+    result.fold(
+          (error) => emit(FilterInfoError(error.message)),
+          (filterInfo) {
+        _filterInfo = filterInfo;
+        emit(FilterInfoLoaded(filterInfo));
+      },
+    );
+  }
+
+  List<CarEntity> _applySearch(List<CarEntity> cars) {
+    if (_currentSearchQuery == null || _currentSearchQuery!.isEmpty) {
+      return cars;
+    }
+
+    return cars.where((car) {
+      final query = _currentSearchQuery!.toLowerCase();
+      return car.name.toLowerCase().contains(query) ||
+          car.brandName.toLowerCase().contains(query) ||
+          car.typeName.toLowerCase().contains(query);
+    }).toList();
+  }
+
+  Future<void> refresh() async {
+    await getCars(filterRequest: _currentFilter);
+  }
+
+  FilterInfoEntity? get currentFilterInfo => _filterInfo;
+  FilterRequestEntity? get currentFilter => _currentFilter;
+  String? get currentSearchQuery => _currentSearchQuery;
+  List<CarEntity> get allCars => _allCars;
 }
