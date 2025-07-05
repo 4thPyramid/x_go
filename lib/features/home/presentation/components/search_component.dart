@@ -75,13 +75,14 @@ class _SearchComponentState extends State<SearchComponent> {
 
   void _showFilterModal(BuildContext context) {
     showModalBottomSheet(
+      enableDrag: true,
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (modalContext) => BlocProvider.value(
         value: BlocProvider.of<CarCubit>(context, listen: false),
         child: Container(
-          height: MediaQuery.of(modalContext).size.height * 1.5,
+          height: MediaQuery.of(modalContext).size.height * .9,
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -89,6 +90,8 @@ class _SearchComponentState extends State<SearchComponent> {
           child: const FilterView(),
         ),
       ),
-    );
+    ).then((result) {
+      context.read<CarCubit>().refresh();
+    });
   }
 }
