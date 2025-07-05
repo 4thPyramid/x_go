@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:x_go/core/data/api/dio_consumer.dart';
 import 'package:x_go/core/services/payment_service.dart';
 import 'package:x_go/features/payment/data/data_source/payment_datasource.dart';
 import 'package:x_go/features/payment/data/repositories/payment_repo_impl.dart';
@@ -58,5 +60,23 @@ class PaymentCubit extends Cubit<PaymentState> {
         builder: (context) => PaymobPaymentScreen(iframeUrl: paymentUrl),
       ),
     );
+  }
+
+  paymentInfo(String paymentStatus, String transactionId) async {
+    emit(PaymentLoading());
+    final apiConsumer = DioConsumer(dio: Dio());
+    try {
+      final response = await apiConsumer.post(
+        '/Model/1/car-booking/6/paymob-info',
+        data: {
+          'payment_status': paymentStatus,
+          'transaction_id': transactionId,
+        },
+      );
+      print(response.data);
+      emit(PaymentSuccess());
+    } catch (e) {
+      emit(PaymentError(e.toString()));
+    }
   }
 }

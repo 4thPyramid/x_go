@@ -1,8 +1,12 @@
 import 'dart:convert';
- 
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:x_go/features/payment/domain/entites/payment_method.dart';
+import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
+
 class PaymobService {
   static const String apiKey =
       'ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TVRBeU9EazRNaXdpYm1GdFpTSTZJbWx1YVhScFlXd2lmUS5qd3hYTEpYWWYwOHYwS09uREpKWmRNbkNDZ3VVWUpEbkFrUUxRdzZmMzhvQzBkODN0U1J3UzBZOGkxdTlieDFKamlvbGc1clRSNGlVekk0SWpQRGpHZw==';
@@ -134,6 +138,8 @@ class _PaymobPaymentScreenState extends State<PaymobPaymentScreen> {
 
               final uri = Uri.tryParse(url);
               final transactionId = uri?.queryParameters['id'] ?? 'N/A';
+              final isSuccess = uri?.queryParameters['success'] ?? 'false';
+              final isPending = uri?.queryParameters['pending'] ?? 'false';
               print(
                 '----------------------------------------------------------',
               );
@@ -142,7 +148,14 @@ class _PaymobPaymentScreenState extends State<PaymobPaymentScreen> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => InvoiceScreen(transactionId: transactionId),
+                  builder: (_) => BlocProvider(
+                    create: (context) => PaymentCubit(),
+                    child: InvoiceScreen(
+                      transactionId: transactionId,
+                      isSuccess: isSuccess,
+                      isPending: isPending,
+                    ),
+                  ),
                 ),
               );
             }
@@ -170,10 +183,35 @@ class _PaymobPaymentScreenState extends State<PaymobPaymentScreen> {
   }
 }
 
-class InvoiceScreen extends StatelessWidget {
+class InvoiceScreen extends StatefulWidget {
   final String transactionId;
+  final String isSuccess;
+  final String isPending;
 
-  const InvoiceScreen({required this.transactionId, super.key});
+  const InvoiceScreen({
+    required this.transactionId,
+    required this.isSuccess,
+    required this.isPending,
+    super.key,
+  });
+
+  @override
+  State<InvoiceScreen> createState() => _InvoiceScreenState();
+}
+
+class _InvoiceScreenState extends State<InvoiceScreen> {
+  @override
+  void initState() {
+    context.read<PaymentCubit>().paymentInfo(
+      widget.isSuccess == 'true'
+          ? 'Successful'
+          : widget.isPending == 'true'
+          ? 'Pending'
+          : 'Declined',
+      widget.transactionId,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,9 +223,14 @@ class InvoiceScreen extends StatelessWidget {
           children: [
             const Icon(Icons.check_circle, color: Colors.green, size: 80),
             const SizedBox(height: 16),
-            const Text('Payment Successful!', style: TextStyle(fontSize: 22)),
+            Text(
+              widget.isSuccess == 'true'
+                  ? 'Payment Successful!'
+                  : 'Payment Failed!',
+              style: TextStyle(fontSize: 22),
+            ),
             const SizedBox(height: 8),
-            Text('Transaction ID: $transactionId'),
+            Text('Transaction ID: ${widget.transactionId}'),
           ],
         ),
       ),
