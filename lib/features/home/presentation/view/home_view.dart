@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_go/features/home/domain/entity/car_entity.dart';
 
 import 'package:x_go/features/home/presentation/components/cars_listview.dart';
 import 'package:x_go/features/home/presentation/components/header_component.dart';
@@ -10,23 +9,33 @@ import 'package:x_go/features/home/presentation/components/popular_cars_componen
 import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/home_state.dart';
 
-
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
 
-    BlocProvider.of<CarCubit>(context).getCars();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final cubit = context.read<CarCubit>();
+      final currentState = cubit.state;
+      if (currentState is CarInitial || currentState is CarError) {
+        cubit.getCars();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -39,7 +48,6 @@ class _HomeViewState extends State<HomeView> {
               SizedBox(height: 8.h),
               SearchComponent(),
               SizedBox(height: 4.h),
-
               const PopularCarsComponent(),
               SizedBox(height: 8.h),
               Expanded(child: _buildCarsSection()),
@@ -72,9 +80,9 @@ class _HomeViewState extends State<HomeView> {
           SizedBox(height: 16.h),
           Text(
             'جاري التحميل...',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Colors.grey[600],
+            ),
           ),
         ],
       ),
@@ -92,17 +100,17 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(height: 16.h),
             Text(
               'حدث خطأ',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(height: 8.h),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Colors.grey[600],
+              ),
             ),
             SizedBox(height: 24.h),
             ElevatedButton.icon(
@@ -143,17 +151,17 @@ class _HomeViewState extends State<HomeView> {
           SizedBox(height: 16.h),
           Text(
             isSearchResult ? 'لا توجد نتائج للبحث' : 'لا توجد سيارات متاحة',
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(color: Colors.grey[600]),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: Colors.grey[600],
+            ),
           ),
           if (isSearchResult) ...[
             SizedBox(height: 8.h),
             Text(
               'جرب البحث بكلمات مختلفة',
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: Colors.grey[500]),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Colors.grey[500],
+              ),
             ),
           ],
         ],

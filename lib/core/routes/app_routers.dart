@@ -68,9 +68,7 @@ final GoRouter router = GoRouter(
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => getIt<CarCubit>()
-              ..getCars()
-              ..getFilterInfo(),
+            create: (context) => getIt<CarCubit>(),
           ),
         ],
         child: App(),
