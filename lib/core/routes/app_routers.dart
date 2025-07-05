@@ -19,10 +19,13 @@ import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
 import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
 import 'package:x_go/features/carBooking/presentation/views/car_booking_page.dart';
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
 import 'package:x_go/features/location/presentation/view/location_view.dart';
-import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
+import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
+import 'package:x_go/features/home/presentation/view/home_view.dart';
+
 import 'package:x_go/features/payment/presentation/views/payment_view.dart';
 import 'package:x_go/features/profile/presentation/views/profile_settings_details.dart';
 import 'package:x_go/features/profile/presentation/views/profile_view.dart';
@@ -60,29 +63,7 @@ final GoRouter router = GoRouter(
     //     child: const LanguagePage(),
     //   ),
     // ),
-    GoRoute(path: RouterNames.home, builder: (context, state) => BlocProvider(
-  create: (context) => getIt<CarCubit>(),
-  child: HomeView(),
-)),
-    GoRoute(
-      path: RouterNames.auth,
-      builder: (context, state) {
-        final index = state.extra as int;
-        return BlocProvider(
-          create: (context) => AuthCubit(
-            getIt<LoginUseCase>(),
-            getIt<RegisterUseCase>(),
-            getIt<ForgetPasswordUseCase>(),
-            getIt<OtpUseCase>(),
-            getIt<ResetPasswordUseCase>(),
-          ),
-          child: AuthView(index: index),
-        );
-      },
-      pageBuilder: (context, state) {
-        return MaterialPage(child: HomeView());
-      },
-    ),
+    GoRoute(path: RouterNames.home, builder: (context, state) => HomeView()),
 
     GoRoute(
       path: RouterNames.app,
@@ -160,7 +141,14 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const SuccessUpdatedView(),
     ),
 
-
+    GoRoute(
+      path: RouterNames.app,
+      builder: (context, state) => BlocProvider(
+        create: (context) =>
+            getIt<HomeCubit>()..getHomeData(null, null, null, null),
+        child: App(),
+      ),
+    ),
     GoRoute(
       path: RouterNames.location,
       builder: (context, state) {

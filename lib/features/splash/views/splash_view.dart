@@ -57,18 +57,15 @@ class SplashView extends StatelessWidget {
                   // ), // Logo
                   Center(child: AppImageView(AppAssets.logo)),
                   SizedBox(height: 10.h),
-                  // Tagline (now on two lines)
                   HeaderSplash(),
                   Spacer(),
-                  // Start Driving Button
                   CustomButton(
                     height: 44.h,
-                   
+
                     text: 'Start Driving',
                     onPressed: () => context.go(RouterNames.app),
                   ),
                   SizedBox(height: 12.h),
-                  // Login Button
                   buildOutlineButton(
                     text: 'Login',
                     onPressed: () {
@@ -76,7 +73,6 @@ class SplashView extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 12.h),
-                  // Register Button
                   buildOutlineButton(
                     text: 'Register',
                     onPressed: () {
