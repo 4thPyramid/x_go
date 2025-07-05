@@ -14,10 +14,10 @@ class ResetPasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 100.h),
+        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 75.h),
         child: Center(
           child: Container(
-            padding: EdgeInsets.all(24.w),
+            padding: EdgeInsets.all(20.w),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16.r),
@@ -34,7 +34,7 @@ class ResetPasswordView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ResetPasswordDetails(),
-                SizedBox(height: 24.h),
+                SizedBox(height: 20.h),
                 ResetPasswordComponent(email: email, otp: otp),
               ],
             ),

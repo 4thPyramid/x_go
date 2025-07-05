@@ -22,7 +22,6 @@ class OtpComponent extends StatelessWidget {
         SizedBox(height: 8.h),
         OTPTextField(
           length: 6,
-
           width: MediaQuery.of(context).size.width,
           otpFieldStyle: OtpFieldStyle(
             focusBorderColor: AppColors.primaryColor,
@@ -31,7 +30,7 @@ class OtpComponent extends StatelessWidget {
           ),
           fieldWidth: 40,
 
-          style: TextStyle(fontSize: 17),
+          style: TextStyle(fontSize: 17.sp, ),
           textFieldAlignment: MainAxisAlignment.spaceAround,
           fieldStyle: FieldStyle.box,
 
@@ -41,8 +40,7 @@ class OtpComponent extends StatelessWidget {
             context.read<AuthCubit>().otp(email, pin);
           },
         ),
-        SizedBox(height: 24.h),
-
+        SizedBox(height: 14.h),
         BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
             return state is ForgotPasswordLoading
@@ -58,7 +56,7 @@ class OtpComponent extends StatelessWidget {
                   );
           },
         ),
-        SizedBox(height: 24.h),
+        SizedBox(height: 14.h),
         BlocConsumer<AuthCubit, AuthState>(
           builder: (context, state) {
             return state is OtpLoading
