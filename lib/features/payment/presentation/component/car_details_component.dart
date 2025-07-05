@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/core/utils/app_styles.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
 
 class CarDetailsComponent extends StatelessWidget {
-  const CarDetailsComponent({super.key});
+  final CarEntity car;
+  final String pickupDate;
+  final String returnDate;
+  const CarDetailsComponent({
+    super.key,
+    required this.car,
+    required this.pickupDate,
+    required this.returnDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +27,8 @@ class CarDetailsComponent extends StatelessWidget {
           ),
           child: SizedBox(
             height: 180.h,
-            child: Image.asset(
-              'assets/images/Group 7.png',
+            child: Image.network(
+              car.image,
               fit: BoxFit.cover,
               width: double.infinity,
             ),
@@ -27,9 +36,7 @@ class CarDetailsComponent extends StatelessWidget {
         ),
 
         const SizedBox(height: 24),
-        Center(
-          child: Text('Lamborghini Revuelto', style: AppStyles.ts13BlackW500),
-        ),
+        Center(child: Text(car.name, style: AppStyles.ts13BlackW500)),
         const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -41,11 +48,14 @@ class CarDetailsComponent extends StatelessWidget {
                   color: Colors.grey.shade50,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Column(
+                child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('Trip Dates'), Text('21 Dec - 22 Dec')],
+                      children: [
+                        Text('Trip Dates'),
+                        Text('$pickupDate - $returnDate'),
+                      ],
                     ),
                     SizedBox(height: 8),
                     Row(

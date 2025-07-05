@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_go/core/utils/app_styles.dart';
 import 'package:x_go/features/payment/presentation/component/car_details_component.dart';
 import 'package:x_go/features/payment/presentation/component/payment_component.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
 
 class PaymentView extends StatelessWidget {
-  const PaymentView({super.key});
+  final CarEntity car;
+  final String pickupDate;
+  final String returnDate;
+  const PaymentView({
+    super.key,
+    required this.car,
+    required this.pickupDate,
+    required this.returnDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +32,11 @@ class PaymentView extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CarDetailsComponent(),
+                CarDetailsComponent(
+                  car: car,
+                  pickupDate: pickupDate,
+                  returnDate: returnDate,
+                ),
                 const SizedBox(height: 32),
 
                 PaymentComponent(),

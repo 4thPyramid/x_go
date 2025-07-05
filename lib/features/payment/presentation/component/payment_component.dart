@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
+import 'package:x_go/core/functions/show_toast.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/payment_service.dart';
 import 'package:x_go/features/payment/domain/entites/payment_method.dart';
+import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
 import 'package:x_go/features/payment/presentation/widgets/confirmation_dailog.dart';
 import 'package:x_go/features/payment/presentation/widgets/payment_option_tile.dart';
 
@@ -40,14 +44,7 @@ class _PaymentComponentState extends State<PaymentComponent> {
           PaymentOptionTile(
             method: PaymentMethod.visa,
             icon: const Icon(Icons.credit_card, color: Colors.blue),
-            label: '**** **** **** 8395',
-            selectedMethod: _selectedMethod,
-            onSelected: (value) => setState(() => _selectedMethod = value),
-          ),
-          PaymentOptionTile(
-            method: PaymentMethod.apple,
-            icon: const Icon(Icons.apple, color: Colors.black),
-            label: '**** **** **** 4395',
+            label: 'Visa',
             selectedMethod: _selectedMethod,
             onSelected: (value) => setState(() => _selectedMethod = value),
           ),
@@ -58,29 +55,31 @@ class _PaymentComponentState extends State<PaymentComponent> {
             selectedMethod: _selectedMethod,
             onSelected: (value) => setState(() => _selectedMethod = value),
           ),
-          CustomButton(
-            text: 'Submit',
-            onPressed: () async {
-              final authToken = await PaymobService.getAuthToken();
-              final orderId = await PaymobService.createOrder(
-                authToken,
-                int.parse('100') * 100,
-              );
-              final paymentKey = await PaymobService.getPaymentKey(
-                authToken,
-                orderId,
-                int.parse('100') * 100,
-              );
-              String paymentUrl =
-                  "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
-              // ignore: use_build_context_synchronously
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      PaymobPaymentScreen(iframeUrl: paymentUrl),
-                ),
-              );
+          BlocConsumer<PaymentCubit, PaymentState>(
+            listener: (context, state) {
+              if (state is PaymentError) {
+                showToast(message: state.message, state: ToastStates.ERROR);
+              } else if (state is PaymentSuccess) {
+                _selectedMethod == PaymentMethod.visa
+                    ? showToast(
+                        message: 'wait for pay',
+                        state: ToastStates.WARNING,
+                      )
+                    : _showConfirmationDialog(context);
+              }
+            },
+            builder: (context, state) {
+              return state is PaymentLoading
+                  ? CircularProgressIndicator()
+                  : CustomButton(
+                      text: 'Submit',
+                      onPressed: () async {
+                        context.read<PaymentCubit>().setPaymentMethod(
+                          _selectedMethod,
+                          context,
+                        );
+                      },
+                    );
             },
           ),
         ],
