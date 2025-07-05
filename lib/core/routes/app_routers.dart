@@ -64,25 +64,6 @@ final GoRouter router = GoRouter(
     //   ),
     // ),
     GoRoute(path: RouterNames.home, builder: (context, state) => HomeView()),
-    GoRoute(
-      path: RouterNames.auth,
-      builder: (context, state) {
-        final index = state.extra as int;
-        return BlocProvider(
-          create: (context) => AuthCubit(
-            getIt<LoginUseCase>(),
-            getIt<RegisterUseCase>(),
-            getIt<ForgetPasswordUseCase>(),
-            getIt<OtpUseCase>(),
-            getIt<ResetPasswordUseCase>(),
-          ),
-          child: AuthView(index: index),
-        );
-      },
-      pageBuilder: (context, state) {
-        return MaterialPage(child: HomeView());
-      },
-    ),
 
     GoRoute(
       path: RouterNames.app,
