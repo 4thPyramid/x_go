@@ -9,9 +9,12 @@ import 'package:x_go/features/carBooking/presentation/components/select_location
 import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/boooking_data_time_section.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/driver_check_box.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
 
 class BookingCardComponent extends StatefulWidget {
-  const BookingCardComponent({super.key});
+  const BookingCardComponent({super.key, required this.car});
+
+  final CarEntity car;
 
   @override
   State<BookingCardComponent> createState() => _BookingCardComponentState();
@@ -75,7 +78,16 @@ class _BookingCardComponentState extends State<BookingCardComponent> {
               child: BlocConsumer<CarBookingCubit, CarBookingState>(
                 listener: (context, state) {
                   state is CarBookingSuccess
-                      ? context.go(RouterNames.payment)
+                      ? context.push(
+                          RouterNames.payment,
+                          extra: {
+                            'car': widget.car,
+                            'pickupDate':
+                                '${pickupDate!.day}-${pickupDate!.month}-${pickupDate!.year} ${pickupTime!.hour}:${pickupTime!.minute}',
+                            'returnDate':
+                                '${returnDate!.day}-${returnDate!.month}-${returnDate!.year} ${returnTime!.hour}:${returnTime!.minute}',
+                          },
+                        )
                       : state is CarBookingError
                       ? showToast(
                           message: state.message,
@@ -102,9 +114,9 @@ class _BookingCardComponentState extends State<BookingCardComponent> {
                             }
 
                             context.read<CarBookingCubit>().bookCar(
-                              '1',
-                              '${pickupDate!.toIso8601String()} ${pickupTime!.format(context)}',
-                              '${returnDate!.toIso8601String()} ${returnTime!.format(context)}',
+                              widget.car.id,
+                              '${pickupDate!.day}-${pickupDate!.month}-${pickupDate!.year} ${pickupTime!.hour}:${pickupTime!.minute}',
+                              '${returnDate!.day}-${returnDate!.month}-${returnDate!.year} ${returnTime!.hour}:${returnTime!.minute}',
                             );
                           },
                           text: 'Confirm',

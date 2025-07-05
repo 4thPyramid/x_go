@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/app.dart';
@@ -25,6 +24,7 @@ import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.d
 import 'package:x_go/features/location/presentation/view/location_view.dart';
 import 'package:x_go/features/home/presentation/logic/home_cubit.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
+import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
 
 import 'package:x_go/features/payment/presentation/views/payment_view.dart';
 import 'package:x_go/features/profile/presentation/views/profile_settings_details.dart';
@@ -182,7 +182,20 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouterNames.payment,
-      builder: (context, state) => const PaymentView(),
+      builder: (context, state) {
+        final args = state.extra as Map<String, dynamic>;
+        final car = args['car'] as CarEntity;
+        final pickupDate = args['pickupDate'].toString();
+        final returnDate = args['returnDate'].toString();
+        return BlocProvider(
+          create: (context) => PaymentCubit(),
+          child: PaymentView(
+            car: car,
+            pickupDate: pickupDate,
+            returnDate: returnDate,
+          ),
+        );
+      },
     ),
   ],
 );

@@ -38,7 +38,7 @@ class CarBookingPage extends StatelessWidget {
                       children: [
                         CarDetailsHeader(car: car),
                         const SizedBox(height: 16),
-                        BookingCardComponent(),
+                        BookingCardComponent(car: car),
                       ],
                     ),
                   ),
