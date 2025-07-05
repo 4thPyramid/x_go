@@ -6,5 +6,9 @@ abstract class CarBookingRepo {
     required String carId,
     required String startDate,
     required String endDate,
+    required String isAdditionalDriverChecked,
+    required String lat,
+    required String long,
+    required String location,
   });
 }

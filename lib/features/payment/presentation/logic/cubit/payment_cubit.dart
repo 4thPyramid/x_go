@@ -7,9 +7,7 @@ import 'package:x_go/core/services/payment_service.dart';
 import 'package:x_go/features/payment/data/data_source/payment_datasource.dart';
 import 'package:x_go/features/payment/data/repositories/payment_repo_impl.dart';
 import 'package:x_go/features/payment/domain/entites/payment_method.dart';
-import 'package:x_go/features/payment/domain/repositories/payment_repo.dart';
 import 'package:x_go/features/payment/domain/use_cases/set_payment_use_case.dart';
-
 part 'payment_state.dart';
 
 class PaymentCubit extends Cubit<PaymentState> {

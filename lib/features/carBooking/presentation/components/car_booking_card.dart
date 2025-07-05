@@ -77,15 +77,17 @@ class _BookingCardComponentState extends State<BookingCardComponent> {
             Center(
               child: BlocConsumer<CarBookingCubit, CarBookingState>(
                 listener: (context, state) {
+                  print('llllllllllllllllllllllllllllllllll');
+                  print(state);
                   state is CarBookingSuccess
                       ? context.push(
                           RouterNames.payment,
                           extra: {
                             'car': widget.car,
                             'pickupDate':
-                                '${pickupDate!.day}-${pickupDate!.month}-${pickupDate!.year} ${pickupTime!.hour}:${pickupTime!.minute}',
+                                '${pickupDate!.year}-${pickupDate!.month}-${pickupDate!.day} ${pickupTime!.hour}:${pickupTime!.minute}',
                             'returnDate':
-                                '${returnDate!.day}-${returnDate!.month}-${returnDate!.year} ${returnTime!.hour}:${returnTime!.minute}',
+                                '${returnDate!.year}-${returnDate!.month}-${returnDate!.day} ${returnTime!.hour}:${returnTime!.minute}',
                           },
                         )
                       : state is CarBookingError
@@ -113,10 +115,20 @@ class _BookingCardComponentState extends State<BookingCardComponent> {
                               );
                             }
 
+                            print(
+                              '${pickupDate!.day}-${pickupDate!.month}-${pickupDate!.year} ${pickupTime!.hour}:${pickupTime!.minute}',
+                            );
+                            print(
+                              '${returnDate!.day}-${returnDate!.month}-${returnDate!.year} ${returnTime!.hour}:${returnTime!.minute}',
+                            );
                             context.read<CarBookingCubit>().bookCar(
                               widget.car.id,
-                              '${pickupDate!.day}-${pickupDate!.month}-${pickupDate!.year} ${pickupTime!.hour}:${pickupTime!.minute}',
-                              '${returnDate!.day}-${returnDate!.month}-${returnDate!.year} ${returnTime!.hour}:${returnTime!.minute}',
+                              '${pickupDate!.year}-${pickupDate!.month}-${pickupDate!.day} ${pickupTime!.hour}:${pickupTime!.minute}',
+                              '${returnDate!.year}-${returnDate!.month}-${returnDate!.day} ${returnTime!.hour}:${returnTime!.minute}',
+                              isAdditionalDriverChecked ? '1' : '0',
+                              lat: '0',
+                              long: '0',
+                              location: '0',
                             );
                           },
                           text: 'Confirm',
