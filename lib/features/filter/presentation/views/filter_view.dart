@@ -7,6 +7,7 @@ import 'package:x_go/features/filter/presentation/widgets/filter_footer_buttons.
 import 'package:x_go/features/filter/presentation/widgets/filter_header.dart';
 import 'package:x_go/features/filter/presentation/widgets/price_range_labels.dart';
 import 'package:x_go/features/filter/presentation/widgets/price_slider.dart';
+import 'package:x_go/features/home/domain/entity/filter_info_entity.dart';
 import 'package:x_go/features/home/domain/entity/filter_request_entity.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/home_state.dart';
@@ -135,12 +136,8 @@ class _FilterViewState extends State<FilterView> {
     }
 
     if (state is FilterInfoLoaded) {
-      final brands = state.filterInfo.brands
-          .map((brand) => brand.name)
-          .toList();
-
       return BrandSelector(
-        brands: brands,
+        brands: state.filterInfo.brands,
         selectedBrand: selectedBrand,
         onBrandSelected: (brand) {
           setState(() {
@@ -175,7 +172,11 @@ class _FilterViewState extends State<FilterView> {
     }
 
     return BrandSelector(
-      brands: const ['BMW', 'Mercedes', 'Toyota'],
+      brands: const [
+        BrandEntity(name: 'BMW', logo: ''),
+        BrandEntity(name: 'Mercedes', logo: ''),
+        BrandEntity(name: 'Toyota', logo: ''),
+      ],
       selectedBrand: selectedBrand,
       onBrandSelected: (brand) {
         setState(() {
@@ -233,7 +234,6 @@ class _FilterViewState extends State<FilterView> {
       );
     }
 
-    // Default types في حالة عدم وجود state محدد
     return CarTypeSelector(
       types: const ['Manual', 'Automatic', 'Hybrid'],
       selectedType: selectedType,

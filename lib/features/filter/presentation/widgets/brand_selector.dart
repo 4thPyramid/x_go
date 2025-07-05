@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/features/home/domain/entity/filter_info_entity.dart';
 
 class BrandSelector extends StatelessWidget {
-  final List<String> brands;
+  final List<BrandEntity> brands;
   final ValueChanged<String> onBrandSelected;
   final String? selectedBrand;
 
@@ -22,12 +23,12 @@ class BrandSelector extends StatelessWidget {
         SizedBox(height: 12.h),
         Row(
           children: brands.map((brand) {
-            final isSelected = selectedBrand == brand;
+            final isSelected = selectedBrand == brand.name;
             return Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: GestureDetector(
-                  onTap: () => onBrandSelected(brand),
+                  onTap: () => onBrandSelected(brand.name),
                   child: Container(
                     height: 110.h,
                     decoration: BoxDecoration(
@@ -42,16 +43,40 @@ class BrandSelector extends StatelessWidget {
                         CircleAvatar(
                           radius: 25.r,
                           backgroundColor: Colors.white,
-                          child: Icon(
-                            Icons.directions_car,
-                            color: isSelected ? Colors.black : const Color(0xFF7B7B7B),
-                            size: 20.sp,
+                          child: ClipOval(
+                            child: Image.network(
+                              brand.logo,
+                              fit: BoxFit.contain,
+                              width: 40.w,
+                              height: 40.h,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return SizedBox(
+                                  width: 40.w,
+                                  height: 40.h,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    value: loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return Icon(
+                                  Icons.car_rental,
+                                  size: 30.r,
+                                  color: Colors.grey,
+                                );
+                              },
+                            ),
                           ),
                         ),
                         SizedBox(height: 8.h),
                         Flexible(
                           child: Text(
-                            brand,
+                            brand.name,
                             style: TextStyle(
                               fontSize: 11.sp,
                               fontWeight: FontWeight.w500,
