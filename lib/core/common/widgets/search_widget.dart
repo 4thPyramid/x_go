@@ -23,7 +23,6 @@ class SearchWidget extends StatelessWidget {
             onChanged: (value) {},
             decoration: InputDecoration(
               hintText: 'ابحث عن منتج',
-
               hintStyle: TextStyle(color: AppColors.grey),
               prefixIcon: Icon(Icons.search, color: AppColors.fillGrey),
               border: InputBorder.none,

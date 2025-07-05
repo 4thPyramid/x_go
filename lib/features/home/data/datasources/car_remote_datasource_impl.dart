@@ -1,3 +1,4 @@
+import 'package:x_go/core/constants/endpoints_strings.dart';
 import 'package:x_go/core/data/api/api_consumer.dart';
 import 'package:x_go/features/home/data/datasources/car_remote_datasource.dart';
 import 'package:x_go/features/home/data/models/cars_response_model.dart';
@@ -22,7 +23,7 @@ class CarRemoteDatasourceImpl implements CarRemoteDatasource {
     }
 
     final response = await apiConsumer.post(
-      'https://xgo.ibrahimbashaa.com/api/user/Home',
+      EndpointsStrings.home,
       data: data,
     );
 
@@ -31,7 +32,7 @@ class CarRemoteDatasourceImpl implements CarRemoteDatasource {
 
   @override
   Future<FilterInfoModel> getFilterInfo() async {
-    final response = await apiConsumer.get('https://xgo.ibrahimbashaa.com/api/user/filter-Info',);
+    final response = await apiConsumer.get(EndpointsStrings.filter,);
     return FilterInfoModel.fromJson(response);
   }
 }

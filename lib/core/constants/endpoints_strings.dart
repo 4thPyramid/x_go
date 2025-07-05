@@ -1,15 +1,14 @@
 abstract class EndpointsStrings {
   static const String baseUrl = "https://xgo.ibrahimbashaa.com/api/user/";
 
-  static const String login = 'api/delegate/login';
-  static const String logout = 'api/logout';
-  static const String deleteAccount = 'api/delete-account';
+  static const String login = 'login';
   static const String register = 'register';
-  static const String verifyEmail = 'api/verify-email';
-  static const String forgetPassword = 'api/reset-password-send-code';
-  static const String checkCode = 'api/reset-password-check-code';
+  static const String resetPassword = 'reset-password';
+  static const String forgetPassword = 'forgot-password';
+  static const String verifyCode = 'verify-code';
   static const String profile = 'user/user/profile/';
   static const String updateProfile = 'user/user/update-profile/';
   static const String change_password = 'user/user/change-password/';
   static const String home = 'Home';
+  static const String filter = 'filter-Info';
 }
