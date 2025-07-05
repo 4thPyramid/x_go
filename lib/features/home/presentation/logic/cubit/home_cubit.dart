@@ -43,7 +43,6 @@ class CarCubit extends Cubit<CarState> {
     );
   }
 
-  // البحث بالاسم
   void searchCars(String query) {
     if (state is CarsLoaded) {
       _currentSearchQuery = query.trim().isEmpty ? null : query.trim();
@@ -67,7 +66,6 @@ class CarCubit extends Cubit<CarState> {
     await getCars();
   }
 
-  // جلب معلومات الفلتر
   Future<void> getFilterInfo() async {
     if (_filterInfo != null) {
       emit(FilterInfoLoaded(_filterInfo!));

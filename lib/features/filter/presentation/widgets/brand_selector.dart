@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/theme/app_colors.dart' show AppColors;
 import 'package:x_go/features/home/domain/entity/filter_info_entity.dart';
 
 class BrandSelector extends StatelessWidget {
@@ -34,7 +35,9 @@ class BrandSelector extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: isSelected ? Colors.black : const Color(0xFF7B7B7B),
+                        color: isSelected
+                            ? AppColors.primaryColor
+                            : Colors.black,
                       ),
                     ),
                     child: Column(
@@ -49,20 +52,26 @@ class BrandSelector extends StatelessWidget {
                               fit: BoxFit.contain,
                               width: 40.w,
                               height: 40.h,
-                              loadingBuilder: (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return SizedBox(
-                                  width: 40.w,
-                                  height: 40.h,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return SizedBox(
+                                      width: 40.w,
+                                      height: 40.h,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        value:
+                                            loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
                               errorBuilder: (context, error, stackTrace) {
                                 return Icon(
                                   Icons.car_rental,
@@ -79,8 +88,10 @@ class BrandSelector extends StatelessWidget {
                             brand.name,
                             style: TextStyle(
                               fontSize: 11.sp,
-                              fontWeight: FontWeight.w500,
-                              color: isSelected ? Colors.black : const Color(0xFF7B7B7B),
+                              fontWeight: FontWeight.w600,
+                              color: isSelected
+                                  ? AppColors.primaryColor
+                                  : Colors.black,
                             ),
                             textAlign: TextAlign.center,
                             maxLines: 2,

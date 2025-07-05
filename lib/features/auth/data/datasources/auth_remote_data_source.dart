@@ -71,7 +71,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required bool isRememberMe,
   }) async {
     final response = await apiConsumer.post(
-      '/login',
+      EndpointsStrings.login,
       data: {'email': email, 'password': password},
       headers: {
         'Accept': 'application/vnd.api+json',
@@ -89,7 +89,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<AuthResponseModel> forgetPassword({required String email}) async {
     final response = await apiConsumer.post(
-      '/forgot-password',
+       EndpointsStrings.forgetPassword,
       data: {'email': email},
       headers: {
         'Accept': 'application/vnd.api+json',
@@ -105,7 +105,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String otp,
   }) async {
     final response = await apiConsumer.post(
-      '/verify-code',
+      EndpointsStrings.verifyCode,
       data: {'email': email, 'code': otp},
       headers: {
         'Accept': 'application/vnd.api+json',
@@ -122,7 +122,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String otp,
   }) async {
     final response = await apiConsumer.post(
-      '/reset-password',
+      EndpointsStrings.resetPassword,
       data: {
         'email': email,
         'password': password,
