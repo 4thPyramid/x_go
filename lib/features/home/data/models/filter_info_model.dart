@@ -36,22 +36,25 @@ class FilterInfoModel extends FilterInfoEntity {
 
 @JsonSerializable()
 class BrandModel extends BrandEntity {
-  @JsonKey(name: 'name')
-  final String name;
-
-  @JsonKey(name: 'logo')
-  final String logo;
-
   const BrandModel({
-    required this.name,
-    required this.logo,
+    required String name,
+    required String logo,
   }) : super(name: name, logo: logo);
 
-  factory BrandModel.fromJson(Map<String, dynamic> json) =>
-      _$BrandModelFromJson(json);
-  Map<String, dynamic> toJson() => _$BrandModelToJson(this);
-}
+  factory BrandModel.fromJson(Map<String, dynamic> json) {
+    // استخرج البيانات من attributes
+    final attributes = json['attributes'] as Map<String, dynamic>;
+    return BrandModel(
+      name: attributes['name'] as String,
+      logo: attributes['logo'] as String,
+    );
+  }
 
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'logo': logo,
+  };
+}
 @JsonSerializable()
 class TypeModel extends TypeEntity {
   @JsonKey(name: 'name')

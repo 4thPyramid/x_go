@@ -19,6 +19,11 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
+  void initState() {
+    super.initState();
+
+    BlocProvider.of<CarCubit>(context).getCars();
+  }
 
   @override
   Widget build(BuildContext context) {
