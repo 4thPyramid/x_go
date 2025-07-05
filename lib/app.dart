@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/profile/presentation/views/profile_view.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_cubit.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -18,7 +20,7 @@ class _AppState extends State<App> {
       label: 'Home',
       icon: Icons.home_outlined,
       activeIcon: Icons.home,
-      page:  HomeView(),
+      page: const HomeView(),
     ),
     NavigationItem(
       label: 'Profile',
@@ -72,11 +74,14 @@ class _AppState extends State<App> {
 
   void _onItemTapped(int index) {
     if (index == _currentIndex) return; // Prevent rebuilding if same tab is tapped
+
+    if (index == 0 && _currentIndex != 0) {
+      context.read<CarCubit>().searchCars('');
+    }
     setState(() => _currentIndex = index);
   }
 }
 
-// Helper class to organize navigation items
 class NavigationItem {
   final String label;
   final IconData icon;
