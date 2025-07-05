@@ -32,6 +32,9 @@ class CarBookingRemoteDataSourceImpl implements CarBookingRemoteDataSource {
     required String location,
   }) async {
     try {
+      final locationData = isAdditionalDriverChecked == '0'
+          ? {'latitude': lat, 'longitude': long, 'location': location}
+          : {};
       var response = await apiConsumer.post(
         '/Model/3/car-booking',
         data: {
@@ -39,9 +42,7 @@ class CarBookingRemoteDataSourceImpl implements CarBookingRemoteDataSource {
           'start_date': startDate,
           'end_date': endDate,
           'additional_driver': isAdditionalDriverChecked,
-          'latitude': lat,
-          'longitude': long,
-          'location': location,
+          ...locationData,
         },
       );
       return Right(response);

@@ -77,8 +77,6 @@ class _BookingCardComponentState extends State<BookingCardComponent> {
             Center(
               child: BlocConsumer<CarBookingCubit, CarBookingState>(
                 listener: (context, state) {
-                  print('llllllllllllllllllllllllllllllllll');
-                  print(state);
                   state is CarBookingSuccess
                       ? context.push(
                           RouterNames.payment,
@@ -114,13 +112,6 @@ class _BookingCardComponentState extends State<BookingCardComponent> {
                                 ),
                               );
                             }
-
-                            print(
-                              '${pickupDate!.day}-${pickupDate!.month}-${pickupDate!.year} ${pickupTime!.hour}:${pickupTime!.minute}',
-                            );
-                            print(
-                              '${returnDate!.day}-${returnDate!.month}-${returnDate!.year} ${returnTime!.hour}:${returnTime!.minute}',
-                            );
                             context.read<CarBookingCubit>().bookCar(
                               widget.car.id,
                               '${pickupDate!.year}-${pickupDate!.month}-${pickupDate!.day} ${pickupTime!.hour}:${pickupTime!.minute}',
