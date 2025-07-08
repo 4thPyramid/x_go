@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/utils/app_assets.dart';
 import 'package:x_go/core/utils/app_image_view.dart';
+import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
 import 'package:x_go/features/splash/widgets/dark_overlay.dart';
 import 'package:x_go/features/splash/widgets/header_splash.dart';
 import 'package:x_go/features/splash/widgets/outline_button.dart';
+
+bool isGuest = false;
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -63,7 +67,10 @@ class SplashView extends StatelessWidget {
                     height: 44.h,
 
                     text: 'Start Driving',
-                    onPressed: () => context.go(RouterNames.app),
+                    onPressed: () {
+                      isGuest = true;
+                      context.go(RouterNames.app);
+                    },
                   ),
                   SizedBox(height: 12.h),
                   buildOutlineButton(

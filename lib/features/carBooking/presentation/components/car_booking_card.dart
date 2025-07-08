@@ -12,6 +12,7 @@ import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cu
 import 'package:x_go/features/carBooking/presentation/widgets/boooking_data_time_section.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/driver_check_box.dart';
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
+import 'package:x_go/features/splash/views/splash_view.dart';
 
 class BookingCardComponent extends StatefulWidget {
   const BookingCardComponent({super.key, required this.car});
@@ -111,39 +112,34 @@ class _BookingCardComponentState extends State<BookingCardComponent> {
                       ? Center(child: CircularProgressIndicator())
                       : CustomButton(
                           onPressed: () {
-                            if (pickupDate == null ||
-                                pickupTime == null ||
-                                returnDate == null ||
-                                returnTime == null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Please select all date & time',
+                            if (isGuest) {
+                              context.go(RouterNames.auth, extra: 0);
+                            } else {
+                              if (pickupDate == null ||
+                                  pickupTime == null ||
+                                  returnDate == null ||
+                                  returnTime == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Please select all date & time',
+                                    ),
                                   ),
-                                ),
-                              );
-                            }
-                            print(widget.car.id);
-                            print(
-                              '${pickupDate!.year}-${pickupDate!.month}-${pickupDate!.day} ${pickupTime!.hour}:${pickupTime!.minute}',
-                            );
-                            print(
-                              '${returnDate!.year}-${returnDate!.month}-${returnDate!.day} ${returnTime!.hour}:${returnTime!.minute}',
-                            );
-                            print(isAdditionalDriverChecked.toString());
-                            print(location_Id);
-                            try {
-                              context.read<CarBookingCubit>().bookCar(
-                                widget.car.id,
-                                '${pickupDate!.year}-${pickupDate!.month}-${pickupDate!.day} ${pickupTime!.hour}:${pickupTime!.minute}',
-                                '${returnDate!.year}-${returnDate!.month}-${returnDate!.day} ${returnTime!.hour}:${returnTime!.minute}',
-                                isAdditionalDriverChecked ? '1' : '0',
-                                isAdditionalDriverChecked ? location_Id! : '',
-                              );
-                            } catch (e, trace) {
-                              print('=======');
-                              print(e.toString());
-                              print(trace.toString());
+                                );
+                              }
+                              try {
+                                context.read<CarBookingCubit>().bookCar(
+                                  widget.car.id,
+                                  '${pickupDate!.year}-${pickupDate!.month}-${pickupDate!.day} ${pickupTime!.hour}:${pickupTime!.minute}',
+                                  '${returnDate!.year}-${returnDate!.month}-${returnDate!.day} ${returnTime!.hour}:${returnTime!.minute}',
+                                  isAdditionalDriverChecked ? '1' : '0',
+                                  isAdditionalDriverChecked ? location_Id! : '',
+                                );
+                              } catch (e, trace) {
+                                print('=======');
+                                print(e.toString());
+                                print(trace.toString());
+                              }
                             }
                           },
                           text: 'Confirm',

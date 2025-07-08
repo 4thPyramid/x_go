@@ -9,6 +9,7 @@ import 'package:x_go/features/carBooking/data/repositories/car_booking_repo_impl
 import 'package:x_go/features/carBooking/domain/use_cases/book_car_use_case.dart';
 import 'package:x_go/features/carBooking/domain/use_cases/get_locations_use_case.dart';
 import 'package:x_go/features/location/domain/use_cases/set_location_use_case.dart';
+import 'package:x_go/features/splash/views/splash_view.dart';
 
 part 'car_booking_state.dart';
 
@@ -31,6 +32,7 @@ class CarBookingCubit extends Cubit<CarBookingState> {
         CarBookingRemoteDataSourceImpl(DioConsumer(dio: Dio())),
       ),
     );
+
     try {
       final result = await useCase.call(
         carId: carId,

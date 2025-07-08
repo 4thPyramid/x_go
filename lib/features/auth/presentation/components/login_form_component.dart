@@ -9,6 +9,7 @@ import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/auth/presentation/components/remember_me_component.dart';
 import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
+import 'package:x_go/features/splash/views/splash_view.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -29,6 +30,11 @@ class _LoginFormState extends State<LoginForm> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    isGuest = false;
   }
 
   @override

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_cubit.dart';
+import 'package:x_go/features/splash/views/splash_view.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -23,7 +26,7 @@ class _AppState extends State<App> {
       icon: Icons.home_outlined,
       activeIcon: Icons.home,
       page: BlocProvider(
-        create: (context) => getIt<HomeCubit>(), // إنشاء الـ Cubit وتحميل البيانات
+        create: (context) => getIt<HomeCubit>(),
         child: const HomeView(),
       ),
     ),
@@ -45,11 +48,7 @@ class _AppState extends State<App> {
 
   Widget _buildBottomNavigationBar() {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 4,
-        right: 4,
-        bottom: 8,
-      ),
+      padding: const EdgeInsets.only(left: 4, right: 4, bottom: 8),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
         child: Container(
@@ -66,29 +65,34 @@ class _AppState extends State<App> {
             unselectedFontSize: 12,
             showSelectedLabels: true,
             showUnselectedLabels: true,
-            items: _navigationItems.map((item) => BottomNavigationBarItem(
-              icon: Icon(item.icon),
-              activeIcon: Icon(item.activeIcon),
-              label: item.label,
-            )).toList(),
+            items: _navigationItems
+                .map(
+                  (item) => BottomNavigationBarItem(
+                    icon: Icon(item.icon),
+                    activeIcon: Icon(item.activeIcon),
+                    label: item.label,
+                  ),
+                )
+                .toList(),
           ),
         ),
       ),
     );
   }
 
-void _onItemTapped(int index) {
-  if (index == _currentIndex) return;
+  void _onItemTapped(int index) {
+    if (isGuest) {
+      context.go(RouterNames.auth, extra: 0);
+    }
+    if (index == _currentIndex) return;
 
-  if (index == 0 && !_hasLoadedCars) {
-    // Load cars data only the first time home tab is selected
-    getIt<HomeCubit>().getCars();
-    _hasLoadedCars = true;
+    if (index == 0 && !_hasLoadedCars) {
+      getIt<HomeCubit>().getCars();
+      _hasLoadedCars = true;
+    }
+
+    setState(() => _currentIndex = index);
   }
-
-  setState(() => _currentIndex = index);
-}
-
 }
 
 class NavigationItem {

@@ -37,6 +37,7 @@ final GoRouter router = GoRouter(
   initialLocation: CacheHelper.getToken() != null
       ? RouterNames.app
       : RouterNames.splash,
+
   routes: [
     GoRoute(
       path: RouterNames.splash,
@@ -183,7 +184,11 @@ final GoRouter router = GoRouter(
     // ),
     GoRoute(
       path: RouterNames.profile,
-      builder: (context, state) => const ProfilePage(),
+      builder: (context, state) {
+        print('======================');
+        print(isGuest);
+        return !isGuest ? const ProfilePage() : const AuthView(index: 0);
+      },
     ),
     GoRoute(
       path: RouterNames.payment,

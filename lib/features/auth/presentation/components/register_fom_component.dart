@@ -8,6 +8,7 @@ import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
+import 'package:x_go/features/splash/views/splash_view.dart';
 
 class RegisterForm extends StatefulWidget {
   final int index;
@@ -37,6 +38,11 @@ class _RegisterFormState extends State<RegisterForm> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void initState() {
+    isGuest = false;
+    super.initState();
   }
 
   @override
