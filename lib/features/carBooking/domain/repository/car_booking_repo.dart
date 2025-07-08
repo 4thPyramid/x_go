@@ -11,6 +11,7 @@ abstract class CarBookingRepo {
     required String isAdditionalDriverChecked,
 
     required String locationId,
+    required String modelId,
   });
   Future<Either<ErrorModel, LocationsModel>> getLocations();
 }

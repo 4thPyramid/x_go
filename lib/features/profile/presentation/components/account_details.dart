@@ -27,7 +27,7 @@ class AccountDetails extends StatelessWidget {
           color: Colors.red,
           onTap: () {
             CacheHelper.deleteToken();
-            context.go(RouterNames.auth, extra: 0);
+            context.go(RouterNames.splash);
           },
         ),
       ],

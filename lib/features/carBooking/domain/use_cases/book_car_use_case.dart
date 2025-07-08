@@ -14,6 +14,7 @@ class BookCarUseCase {
     required String endDate,
     required String isAdditionalDriverChecked,
     required String locationId,
+    required String modelId,
   }) async {
     return await carBookingRepo.bookCar(
       carId: carId,
@@ -21,6 +22,7 @@ class BookCarUseCase {
       endDate: endDate,
       isAdditionalDriverChecked: isAdditionalDriverChecked,
       locationId: locationId,
+      modelId: modelId,
     );
   }
 }

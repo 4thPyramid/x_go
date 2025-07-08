@@ -15,16 +15,16 @@ part 'location_state.dart';
 class LocationCubit extends Cubit<LocationState> {
   LocationCubit()
     : super(
-    LocationState(
-          currentPosition: const LatLng(30.0, 30.0),
+        LocationState(
+          currentPosition: const LatLng(30.99, 30.99),
           marker: const Marker(
             markerId: MarkerId('1'),
-            position: LatLng(31.8978, 31.2987),
+            position: LatLng(30.99, 30.99),
           ),
         ),
       );
 
-  void changeMarkerPosition(LatLng position) {
+  void changeMarkerPosition(LatLng position, GoogleMapController controller) {
     final newMarker = state.marker.copyWith(positionParam: position);
     getLocationName(position).then((value) {
       emit(
@@ -35,6 +35,11 @@ class LocationCubit extends Cubit<LocationState> {
         ),
       );
     });
+    animateCamera(position, controller);
+  }
+
+  void animateCamera(LatLng position, GoogleMapController controller) {
+    controller.animateCamera(CameraUpdate.newLatLng(position));
   }
 
   Future<String> getLocationName(LatLng position) async {

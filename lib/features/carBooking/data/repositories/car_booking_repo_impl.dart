@@ -16,16 +16,16 @@ class CarBookingRepoImpl implements CarBookingRepo {
     required String startDate,
     required String endDate,
     required String isAdditionalDriverChecked,
-
     required String locationId,
+    required String modelId,
   }) {
     return remoteDataSource.bookCar(
       carId: carId,
       startDate: startDate,
       endDate: endDate,
       isAdditionalDriverChecked: isAdditionalDriverChecked,
-
       locationId: locationId,
+      modelId: modelId,
     );
   }
 

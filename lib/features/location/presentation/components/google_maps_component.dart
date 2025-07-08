@@ -19,9 +19,15 @@ class _GoogleMapsComponentState extends State<GoogleMapsComponent> {
     return BlocBuilder<LocationCubit, LocationState>(
       builder: (context, state) {
         return GoogleMapWidget(
+          onMapCreated: (controller) {
+            this.controller = controller;
+          },
           initialLocation: state.currentPosition!,
           onTap: (position) {
-            context.read<LocationCubit>().changeMarkerPosition(position);
+            context.read<LocationCubit>().changeMarkerPosition(
+              position,
+              controller!,
+            );
           },
 
           markers: {state.marker},

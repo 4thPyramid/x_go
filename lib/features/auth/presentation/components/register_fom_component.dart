@@ -40,6 +40,7 @@ class _RegisterFormState extends State<RegisterForm> {
     super.dispose();
   }
 
+  @override
   void initState() {
     isGuest = false;
     super.initState();

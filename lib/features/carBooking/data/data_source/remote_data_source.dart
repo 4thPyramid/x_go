@@ -13,6 +13,7 @@ abstract class CarBookingRemoteDataSource {
     required String endDate,
     required String isAdditionalDriverChecked,
     required String locationId,
+    required String modelId,
   });
   Future<Either<ErrorModel, LocationsModel>> getLocations();
 }
@@ -29,13 +30,14 @@ class CarBookingRemoteDataSourceImpl implements CarBookingRemoteDataSource {
     required String endDate,
     required String isAdditionalDriverChecked,
     required String locationId,
+    required String modelId,
   }) async {
     try {
       final locationData = isAdditionalDriverChecked == '1'
           ? {'location_id': locationId}
           : {};
       var response = await apiConsumer.post(
-        '/Model/3/car-booking',
+        '/Model/$modelId/car-booking',
         data: {
           'car_id': carId,
           'start_date': startDate,

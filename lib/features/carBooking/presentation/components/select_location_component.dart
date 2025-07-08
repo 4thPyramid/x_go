@@ -56,18 +56,24 @@ class _SelectLocationComponentState extends State<SelectLocationComponent> {
                     if (state is GetLocationLoading) {
                       return Center(child: CircularProgressIndicator());
                     } else if (state is GetLocationSuccess) {
+                      print('================================');
+                      print(state.locations.data!.isEmpty);
+
                       return Column(
                         children: [
                           Expanded(
-                            child: ListView.builder(
-                              itemCount: state.locations.data!.length,
-                              itemBuilder: (context, index) {
-                                final location = state.locations.data![index];
-                                return state.locations.data!.isEmpty
-                                    ? const Center(
-                                        child: Text('No locations found'),
-                                      )
-                                    : ListTile(
+                            child: state.locations.data!.isEmpty
+                                ? const Center(
+                                    child: Text('لا يوجد عناوين متاحه'),
+                                  )
+                                : ListView.builder(
+                                    itemCount: state.locations.data!.length,
+                                    itemBuilder: (context, index) {
+                                      print('================================');
+                                      print(state.locations.data!.isEmpty);
+                                      final location =
+                                          state.locations.data![index];
+                                      return ListTile(
                                         textColor:
                                             state
                                                     .locations
@@ -113,8 +119,8 @@ class _SelectLocationComponentState extends State<SelectLocationComponent> {
                                           context.pop();
                                         },
                                       );
-                              },
-                            ),
+                                    },
+                                  ),
                           ),
                           const SizedBox(height: 16),
                           CustomButton(

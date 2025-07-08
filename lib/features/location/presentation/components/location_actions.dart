@@ -40,12 +40,12 @@ class _LocationActionsComponentState extends State<LocationActionsComponent> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Expanded(child: Text(state.locationName ?? 'حدد عنوانك')),
-                  SizedBox(width: 16.w),
                   Icon(
                     Icons.location_on_outlined,
                     color: AppColors.primaryColor,
                   ),
+                  Spacer(),
+                  Text(state.locationName ?? 'حدد عنوانك'),
                 ],
               ),
               SizedBox(height: 16.h),

@@ -22,9 +22,8 @@ class CarBookingCubit extends Cubit<CarBookingState> {
     String endDate,
     String isAdditionalDriverChecked,
     String locationId,
+    String modelId,
   ) async {
-    print(']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
-    print(locationId);
     emit(CarBookingLoading());
 
     final useCase = BookCarUseCase(
@@ -40,6 +39,7 @@ class CarBookingCubit extends Cubit<CarBookingState> {
         endDate: endDate,
         isAdditionalDriverChecked: isAdditionalDriverChecked,
         locationId: locationId,
+        modelId: modelId,
       );
       result.fold((l) => emit(CarBookingError(l.message)), (r) {
         emit(CarBookingSuccess(r));
