@@ -9,7 +9,7 @@ class ProfileItemTile extends StatelessWidget {
   final ValueChanged<bool>? onSwitchChanged;
   final bool showTrailing;
   final Color? color;
-  final Function()? onTap;
+  final void Function()? onTap;
 
   const ProfileItemTile({
     super.key,

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/services/service_locator.dart';
 
 import 'package:x_go/features/profile/presentation/components/account_details.dart';
 import 'package:x_go/features/profile/presentation/components/profile_details.dart';
 import 'package:x_go/features/profile/presentation/components/profile_hader_section.dart';
+import 'package:x_go/features/profile/presentation/logic/cubit/profile_edit_cubit.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -15,7 +18,10 @@ class ProfilePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ProfileHaderSection(),
+            BlocProvider(
+              create: (context) => getIt<ProfileEditCubit>()..getProfileData(),
+              child: ProfileHaderSection(),
+            ),
             const ProfileDetails(),
             SizedBox(height: 16.h),
             const AccountDetails(),

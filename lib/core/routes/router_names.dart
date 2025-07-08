@@ -9,6 +9,7 @@ abstract class RouterNames {
   static const String otp = '/otp';
   static const String app = '/app';
   static const String language = '/language';
+  static const String myBooking = '/myBooking';
 
   static const String home = '/home';
   static const String editProfile = '/edit_profile';

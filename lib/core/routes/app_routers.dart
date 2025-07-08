@@ -24,6 +24,7 @@ import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_cubi
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
 import 'package:x_go/features/location/presentation/view/location_view.dart';
+import 'package:x_go/features/my_bookings/presentation/views/my_booking_view.dart';
 import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
 
 import 'package:x_go/features/payment/presentation/views/payment_view.dart';
@@ -42,6 +43,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.splash,
       builder: (context, state) => const SplashView(),
+    ),
+    GoRoute(
+      path: RouterNames.myBooking,
+      builder: (context, state) => const MyBookingView(),
     ),
     GoRoute(
       path: RouterNames.carBooking,

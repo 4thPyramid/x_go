@@ -15,7 +15,6 @@ class AccountDetails extends StatelessWidget {
     return ProfileSection(
       title: 'Account Setting',
       items: [
-        ProfileItemTile(title: 'Payment', icon: Icons.payment),
         LanguageDropdownTile(),
         ProfileItemTile(title: 'Help & support', icon: Icons.help_outline),
         ProfileItemTile(title: 'Add feedback', icon: Icons.feedback),
