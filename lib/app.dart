@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_cubit.dart';
-import 'package:x_go/features/splash/views/splash_view.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -18,37 +15,46 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int _currentIndex = 0;
-  bool _hasLoadedCars = false;
+  late final HomeCubit _homeCubit;
 
-  static final List<NavigationItem> _navigationItems = [
-    NavigationItem(
-      label: 'Home',
-      icon: Icons.home_outlined,
-      activeIcon: Icons.home,
-      page: BlocProvider(
-        create: (context) => getIt<HomeCubit>(),
-        child: const HomeView(),
-      ),
+  @override
+  void initState() {
+    super.initState();
+    _homeCubit = getIt<HomeCubit>();
+  }
+
+  @override
+  void dispose() {
+    _homeCubit.close();
+    super.dispose();
+  }
+
+  List<Widget> get _pages => [
+    BlocProvider<HomeCubit>.value(
+      value: _homeCubit,
+      child: const HomeView(),
     ),
-    NavigationItem(
-      label: 'Profile',
-      icon: Icons.person_outlined,
-      activeIcon: Icons.person,
-      page: const ProfilePage(),
-    ),
+    const ProfilePage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _navigationItems[_currentIndex].page,
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
   Widget _buildBottomNavigationBar() {
     return Padding(
-      padding: const EdgeInsets.only(left: 4, right: 4, bottom: 8),
+      padding: const EdgeInsets.only(
+        left: 4,
+        right: 4,
+        bottom: 8,
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
         child: Container(
@@ -65,15 +71,18 @@ class _AppState extends State<App> {
             unselectedFontSize: 12,
             showSelectedLabels: true,
             showUnselectedLabels: true,
-            items: _navigationItems
-                .map(
-                  (item) => BottomNavigationBarItem(
-                    icon: Icon(item.icon),
-                    activeIcon: Icon(item.activeIcon),
-                    label: item.label,
-                  ),
-                )
-                .toList(),
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                activeIcon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_outlined),
+                activeIcon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
           ),
         ),
       ),
@@ -81,30 +90,12 @@ class _AppState extends State<App> {
   }
 
   void _onItemTapped(int index) {
-    if (isGuest) {
-      context.go(RouterNames.auth, extra: 0);
-    }
     if (index == _currentIndex) return;
 
-    if (index == 0 && !_hasLoadedCars) {
-      getIt<HomeCubit>().getCars();
-      _hasLoadedCars = true;
+    if (index == 0) {
+      _homeCubit.getCars();
     }
 
     setState(() => _currentIndex = index);
   }
-}
-
-class NavigationItem {
-  final String label;
-  final IconData icon;
-  final IconData activeIcon;
-  final Widget page;
-
-  const NavigationItem({
-    required this.label,
-    required this.icon,
-    required this.activeIcon,
-    required this.page,
-  });
 }

@@ -1,0 +1,90 @@
+// filter_content.dart
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_state.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
+import '../widgets/filter_header.dart';
+import '../widgets/price_slider.dart';
+import '../widgets/price_range_labels.dart';
+import '../widgets/filter_footer_buttons.dart';
+import 'filter_brand_section.dart';
+import 'filter_type_section.dart';
+
+class FilterContent extends StatelessWidget {
+  final HomeState state;
+  final List<Brand> cachedBrands;
+  final List<CarType> cachedTypes;
+  final bool hasLoadedData;
+  final String? selectedBrand;
+  final String? selectedType;
+  final RangeValues selectedRange;
+  final Function(String?) onBrandSelected;
+  final Function(String?) onTypeSelected;
+  final Function(RangeValues) onRangeChanged;
+  final VoidCallback onClearPressed;
+  final VoidCallback onApplyPressed;
+
+  const FilterContent({
+    super.key,
+    required this.state,
+    required this.cachedBrands,
+    required this.cachedTypes,
+    required this.hasLoadedData,
+    required this.selectedBrand,
+    required this.selectedType,
+    required this.selectedRange,
+    required this.onBrandSelected,
+    required this.onTypeSelected,
+    required this.onRangeChanged,
+    required this.onClearPressed,
+    required this.onApplyPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const FilterHeader(),
+          const SizedBox(height: 10),
+          FilterBrandSection(
+            state: state,
+            cachedBrands: cachedBrands,
+            hasLoadedData: hasLoadedData,
+            selectedBrand: selectedBrand,
+            onBrandSelected: onBrandSelected,
+          ),
+          Divider(
+            color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+            thickness: 1,
+          ),
+          const SizedBox(height: 18),
+          PriceSlider(
+            rangeValues: selectedRange,
+            onChanged: onRangeChanged,
+          ),
+          const SizedBox(height: 10),
+          PriceRangeLabels(rangeValues: selectedRange),
+          const SizedBox(height: 20),
+          FilterTypeSection(
+            state: state,
+            cachedTypes: cachedTypes,
+            hasLoadedData: hasLoadedData,
+            selectedType: selectedType,
+            onTypeSelected: onTypeSelected,
+          ),
+          const SizedBox(height: 25),
+          FilterFooterButtons(
+            onClearPressed: onClearPressed,
+            onApplyPressed: onApplyPressed,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).viewInsets.bottom > 0 ? 100 : 20,
+          ),
+        ],
+      ),
+    );
+  }
+}
