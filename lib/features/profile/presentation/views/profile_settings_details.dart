@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/features/profile/presentation/components/profile_form_fields.dart';
 import 'package:x_go/features/profile/presentation/components/profile_header_section.dart';
@@ -45,12 +46,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   void _onSavePressed() {
     context.read<ProfileEditCubit>().updateProfileData(
-          name: _firstNameController.text.trim(),
-          lastName: _lastNameController.text.trim(),
-          image: _image,
-          email: _emailController.text.trim(),
-          phone: _phoneController.text.trim(),
-        );
+      name: _firstNameController.text.trim(),
+      lastName: _lastNameController.text.trim(),
+      image: _image,
+      email: _emailController.text.trim(),
+      phone: _phoneController.text.trim(),
+    );
   }
 
   @override
@@ -73,16 +74,27 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 const SnackBar(content: Text('Profile updated successfully!')),
               );
             } else if (state is ProfileEditError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
             }
           },
           builder: (context, state) {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                 ProfileHeaderSection(),
+                  ProfileHeaderSection(
+                    icon: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                      onPressed: () {
+                        context.pop();
+                      },
+                    ),
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 45.w),
                     child: Column(
@@ -118,4 +130,3 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     );
   }
 }
- 

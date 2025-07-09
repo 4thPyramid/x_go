@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/routes/router_names.dart';
 
 class UserInfoCard extends StatelessWidget {
   final String name;
-  final String location;
   final String imageUrl;
+  final String lastName;
+  final String email;
 
   const UserInfoCard({
     super.key,
     required this.name,
-    required this.location,
     required this.imageUrl,
+    required this.email,
+    required this.lastName,
   });
 
   @override
@@ -28,12 +32,35 @@ class UserInfoCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  Text(location, style: const TextStyle(color: Colors.grey)),
+                  Row(
+                    children: [
+                      Text(
+                        name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        lastName,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(email, style: const TextStyle(color: Colors.grey)),
                 ],
               ),
             ),
-            const Icon(Icons.edit, color: Colors.grey)
+            InkWell(
+              onTap: () {
+                context.push(RouterNames.profileDetails);
+              },
+              child: Icon(Icons.edit, color: Colors.grey),
+            ),
           ],
         ),
       ),

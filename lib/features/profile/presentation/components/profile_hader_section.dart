@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/features/profile/presentation/logic/cubit/profile_edit_cubit.dart';
 import 'package:x_go/features/profile/presentation/widgets/profile_header.dart';
@@ -35,7 +37,18 @@ class ProfileHaderSection extends StatelessWidget {
                     height: 126.h,
                     width: double.infinity,
                     decoration: BoxDecoration(color: AppColors.primaryColor),
-                    child: const ProfileHeader(),
+                    child: CustomProfileHeader(
+                      leadingIcon: IconButton(
+                        icon: Icon(
+                          Icons.settings,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                        onPressed: () {
+                          context.push(RouterNames.profileDetails);
+                        },
+                      ),
+                    ),
                   ),
                 ),
                 Transform.translate(
@@ -44,9 +57,8 @@ class ProfileHaderSection extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 17.w),
                     child: UserInfoCard(
                       name: loadedState.userProfile.data.name,
-                      location:
-                          loadedState.userProfile.data.location?.toString() ??
-                          '',
+                      lastName: loadedState.userProfile.data.lastName,
+                      email: loadedState.userProfile.data.email,
                       imageUrl:
                           'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?...', // الصورة ثابتة مؤقتًا
                     ),

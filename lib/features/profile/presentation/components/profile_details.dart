@@ -12,7 +12,13 @@ class ProfileDetails extends StatelessWidget {
     return ProfileSection(
       title: 'Profile Details',
       items: [
-        ProfileItemTile(title: 'My details', icon: Icons.person),
+        ProfileItemTile(
+          title: 'My details',
+          icon: Icons.person,
+          onTap: () {
+            context.push(RouterNames.profileDetails);
+          },
+        ),
         ProfileItemTile(
           title: 'My Cars',
           icon: Icons.directions_car,

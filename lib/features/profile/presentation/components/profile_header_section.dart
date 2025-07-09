@@ -5,7 +5,8 @@ import 'package:x_go/features/profile/presentation/widgets/profile_header.dart';
 import 'package:x_go/features/profile/presentation/widgets/profile_image.dart';
 
 class ProfileHeaderSection extends StatelessWidget {
-  const ProfileHeaderSection({super.key});
+  final Widget? icon;
+  const ProfileHeaderSection({super.key, this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ProfileHeaderSection extends StatelessWidget {
             height: 126.h,
             width: double.infinity,
             decoration: BoxDecoration(color: AppColors.primaryColor),
-            child: const ProfileHeader(),
+            child: CustomProfileHeader(icon: icon),
           ),
         ),
         Transform.translate(
@@ -33,4 +34,4 @@ class ProfileHeaderSection extends StatelessWidget {
       ],
     );
   }
-  }
+}

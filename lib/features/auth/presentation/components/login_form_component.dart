@@ -41,77 +41,71 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-      child: AutofillGroup(
-        child: Form(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CustomTextFormField(
+              controller: _emailController,
+              labelText: 'Email',
+              keyboardType: TextInputType.emailAddress,
+              validator: Validator.validateEmail,
+            ),
+            SizedBox(height: 16.h),
+            CustomTextFormField(
+              controller: _passwordController,
 
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CustomTextFormField(
-                controller: _emailController,
-                labelText: 'Email',
-                keyboardType: TextInputType.emailAddress,
-                validator: Validator.validateEmail,
-                autofillHints: [AutofillHints.email],
-              ),
-              SizedBox(height: 16.h),
-              CustomTextFormField(
-                controller: _passwordController,
-                labelText: 'Password',
-                obscureText: !_isPasswordVisible,
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
+              labelText: 'Password',
+              obscureText: !_isPasswordVisible,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.grey,
                 ),
-                validator: Validator.validatePassword,
-              ),
-              SizedBox(height: 24.h),
-              RememberMeComponent(
-                onChanged: (value) {
+                onPressed: () {
                   setState(() {
-                    _isRememberMe = value;
+                    _isPasswordVisible = !_isPasswordVisible;
                   });
                 },
               ),
-              SizedBox(height: 16.h),
-              BlocConsumer<AuthCubit, AuthState>(
-                builder: (context, state) {
-                  return state is LoginLoading
-                      ? const Center(child: CircularProgressIndicator())
-                      : CustomButton(
-                          text: 'Login',
-                          onPressed: () {
-                            if (_formKey.currentState?.validate() ?? false) {
-                              context.read<AuthCubit>().login(
-                                _emailController.text,
-                                _passwordController.text,
-                                _isRememberMe,
-                              );
-                            }
-                          },
-                        );
-                },
-                listener: (BuildContext context, AuthState state) {
-                  if (state is LoginSuccess) {
-                    context.push(RouterNames.app);
-                  } else if (state is LoginError) {
-                    showToast(message: state.message, state: ToastStates.ERROR);
-                  }
-                },
-              ),
-            ],
-          ),
+              validator: Validator.validatePassword,
+            ),
+            SizedBox(height: 24.h),
+            RememberMeComponent(
+              onChanged: (value) {
+                setState(() {
+                  _isRememberMe = value;
+                });
+              },
+            ),
+            SizedBox(height: 16.h),
+            BlocConsumer<AuthCubit, AuthState>(
+              builder: (context, state) {
+                return state is LoginLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : CustomButton(
+                        text: 'Login',
+                        onPressed: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            context.read<AuthCubit>().login(
+                              _emailController.text,
+                              _passwordController.text,
+                              _isRememberMe,
+                            );
+                          }
+                        },
+                      );
+              },
+              listener: (BuildContext context, AuthState state) {
+                if (state is LoginSuccess) {
+                  context.push(RouterNames.app);
+                } else if (state is LoginError) {
+                  showToast(message: state.message, state: ToastStates.ERROR);
+                }
+              },
+            ),
+          ],
         ),
       ),
     );
