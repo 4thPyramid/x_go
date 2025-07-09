@@ -23,6 +23,11 @@ import 'package:x_go/features/home/domain/usecase/get_car_use_case.dart';
 import 'package:x_go/features/home/domain/usecase/get_filter_info_usecase.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/active_location/active_location_cubit.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_cubit.dart';
+import 'package:x_go/features/my_bookings/data/remote_d_s/booking_remote_d_s.dart';
+import 'package:x_go/features/my_bookings/data/repos/booking_repo_impl.dart';
+import 'package:x_go/features/my_bookings/domain/repos/booking_repo.dart';
+import 'package:x_go/features/my_bookings/domain/usecases/get_booking_use_case.dart';
+import 'package:x_go/features/my_bookings/presentation/logic/cubit/my_booking_cubit.dart';
 
 // Home Feature - New Architecture
 
@@ -44,86 +49,99 @@ void setupLocator() {
 
   ///! --DataSources-- ///
   getIt.registerLazySingleton<AuthRemoteDataSource>(
-        () => AuthRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
+    () => AuthRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
+  );
+
+  getIt.registerLazySingleton<BookingRemoteDataSource>(
+    () => BookingRemoteDataSource(getIt<DioConsumer>()),
   );
 
   // Home Remote Data Source
   getIt.registerLazySingleton<HomeRemoteDataSource>(
-        () => HomeRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
+    () => HomeRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
   );
   getIt.registerLazySingleton<ProfileRemoteDs>(
-        () => ProfileRemoteDsImpl(getIt<ApiConsumer>()),
+    () => ProfileRemoteDsImpl(getIt<ApiConsumer>()),
   );
 
   /// !-- Repositories -- ///
   getIt.registerLazySingleton<AuthRepository>(
-        () => AuthRepositoryImpl(remoteDataSource: getIt<AuthRemoteDataSource>()),
+    () => AuthRepositoryImpl(remoteDataSource: getIt<AuthRemoteDataSource>()),
+  );
+  getIt.registerLazySingleton<BookingRepository>(
+    () => BookingRepoImpl(remoteDataSource: getIt<BookingRemoteDataSource>()),
   );
   getIt.registerLazySingleton<ProfileEditRepo>(
-        () => ProfileEditRepo(getIt<ProfileRemoteDs>()),
+    () => ProfileEditRepo(getIt<ProfileRemoteDs>()),
   );
 
   // Home Repository
   getIt.registerLazySingleton<HomeRepository>(
-        () => HomeRepositoryImpl(remoteDataSource: getIt<HomeRemoteDataSource>()),
+    () => HomeRepositoryImpl(remoteDataSource: getIt<HomeRemoteDataSource>()),
   );
   getIt.registerLazySingleton<ActiveLocationRemoteDataSource>(
-        () => ActiveLocationRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
+    () => ActiveLocationRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
   );
 
   /// !-- UseCases -- ///
   // Auth UseCases
   getIt.registerLazySingleton<LoginUseCase>(
-        () => LoginUseCase(getIt<AuthRepository>()),
+    () => LoginUseCase(getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton<GetBookingList>(
+    () => GetBookingList(getIt<BookingRepository>()),
   );
   getIt.registerLazySingleton<RegisterUseCase>(
-        () => RegisterUseCase(getIt<AuthRepository>()),
+    () => RegisterUseCase(getIt<AuthRepository>()),
   );
   getIt.registerLazySingleton<ForgetPasswordUseCase>(
-        () => ForgetPasswordUseCase(getIt<AuthRepository>()),
+    () => ForgetPasswordUseCase(getIt<AuthRepository>()),
   );
   getIt.registerLazySingleton<OtpUseCase>(
-        () => OtpUseCase(getIt<AuthRepository>()),
+    () => OtpUseCase(getIt<AuthRepository>()),
   );
   getIt.registerLazySingleton<ResetPasswordUseCase>(
-        () => ResetPasswordUseCase(getIt<AuthRepository>()),
+    () => ResetPasswordUseCase(getIt<AuthRepository>()),
   );
   getIt.registerLazySingleton<ActiveLocationRepository>(
-        () => ActiveLocationRepositoryImpl(
+    () => ActiveLocationRepositoryImpl(
       remoteDataSource: getIt<ActiveLocationRemoteDataSource>(),
     ),
   );
 
   // Home UseCases
   getIt.registerLazySingleton<GetCarsUseCase>(
-        () => GetCarsUseCase(getIt<HomeRepository>()),
+    () => GetCarsUseCase(getIt<HomeRepository>()),
   );
   getIt.registerLazySingleton<GetFilterInfoUseCase>(
-        () => GetFilterInfoUseCase(getIt<HomeRepository>()),
+    () => GetFilterInfoUseCase(getIt<HomeRepository>()),
   );
   getIt.registerLazySingleton<GetProfileUC>(
-        () => GetProfileUC(getIt<ProfileEditRepo>()),
+    () => GetProfileUC(getIt<ProfileEditRepo>()),
   );
   getIt.registerLazySingleton<UpdateProfileUC>(
-        () => UpdateProfileUC(getIt<ProfileEditRepo>()),
+    () => UpdateProfileUC(getIt<ProfileEditRepo>()),
   );
   getIt.registerLazySingleton<GetActiveLocationUseCase>(
-        () => GetActiveLocationUseCase(getIt<ActiveLocationRepository>()),
+    () => GetActiveLocationUseCase(getIt<ActiveLocationRepository>()),
   );
 
   // !Cubits //
   getIt.registerFactory<ActiveLocationCubit>(
-        () => ActiveLocationCubit(
+    () => ActiveLocationCubit(
       getActiveLocationUseCase: getIt<GetActiveLocationUseCase>(),
     ),
   );
+  getIt.registerFactory<MyBookingCubit>(
+    () => MyBookingCubit(getIt<GetBookingList>()),
+  );
   getIt.registerFactory<HomeCubit>(
-        () => HomeCubit(
+    () => HomeCubit(
       getCarsUseCase: getIt<GetCarsUseCase>(),
       getFilterInfoUseCase: getIt<GetFilterInfoUseCase>(),
     ),
   );
   getIt.registerFactory<ProfileEditCubit>(
-        () => ProfileEditCubit(getIt<UpdateProfileUC>(), getIt<GetProfileUC>()),
+    () => ProfileEditCubit(getIt<UpdateProfileUC>(), getIt<GetProfileUC>()),
   );
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:x_go/features/my_bookings/presentation/logic/cubit/my_booking_cubit.dart';
 import 'package:x_go/features/my_bookings/presentation/widgets/car_card.dart';
 
 class MyBookingView extends StatelessWidget {
@@ -14,7 +16,7 @@ class MyBookingView extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
         ),
         centerTitle: true,
         title: const Text(
@@ -26,10 +28,33 @@ class MyBookingView extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: 3, // عدد الكروت اللي عايز تظهرها
-        itemBuilder: (context, index) => const BookingCard(),
+      body: BlocBuilder<MyBookingCubit, MyBookingState>(
+        builder: (context, state) {
+          if (state is MyBookingLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is MyBookingLoaded) {
+            final bookings = state.bookings;
+            return ListView.builder(
+              itemCount: bookings.length,
+              itemBuilder: (context, index) {
+                final booking = bookings[index];
+                return BookingCard(
+                  imageUrl: booking.carImage,
+                  model: '',
+                  brand: booking.brandName,
+                  fromDate: booking.startDate,
+                  toDate: booking.endDate,
+                  price: booking.finalPrice,
+                  status: booking.status,
+                );
+              },
+            );
+          } else if (state is MyBookingError) {
+            return Center(child: Text('Error: ${state.message}'));
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
       ),
     );
   }

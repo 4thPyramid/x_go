@@ -1,7 +1,24 @@
 import 'package:flutter/material.dart';
 
 class BookingCard extends StatelessWidget {
-  const BookingCard({super.key});
+  final String imageUrl;
+  final String brand;
+  final String model;
+  final String fromDate;
+  final String toDate;
+  final String price;
+  final String status;
+
+  const BookingCard({
+    super.key,
+    required this.imageUrl,
+    required this.brand,
+    required this.model,
+    required this.fromDate,
+    required this.toDate,
+    required this.price,
+    required this.status,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,53 +39,33 @@ class BookingCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // صورة ثابتة
           Center(
-            child: Image.network(
-              'https://xgo.ibrahimbashaa.com/models/1751380183.png',
-              height: 250,
-              fit: BoxFit.cover,
-            ),
+            child: Image.network(imageUrl, height: 250, fit: BoxFit.cover),
           ),
-
           const SizedBox(height: 12),
-
-          // اسم السيارة والماركة
-          const Text(
-            'Benz - Mercedes',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          Text(
+            '$brand - $model',
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-
           const SizedBox(height: 6),
-
-          // تواريخ الحجز
-          const Text(
-            'From: 2024-11-05 08:25:00',
-            style: TextStyle(color: Colors.grey),
-          ),
-          const Text(
-            'To:   2024-11-06 08:25:00',
-            style: TextStyle(color: Colors.grey),
-          ),
-
+          Text('From: $fromDate', style: const TextStyle(color: Colors.grey)),
+          Text('To:   $toDate', style: const TextStyle(color: Colors.grey)),
           const SizedBox(height: 10),
-
-          // السعر والحالة
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                '\$8000.00',
-                style: TextStyle(
+              Text(
+                price,
+                style: const TextStyle(
                   fontSize: 16,
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Chip(
-                label: const Text(
-                  'PENDING',
-                  style: TextStyle(color: Colors.white),
+                label: Text(
+                  status.toUpperCase(),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 backgroundColor: Colors.orange,
               ),

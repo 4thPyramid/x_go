@@ -24,6 +24,7 @@ import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_cubi
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
 import 'package:x_go/features/location/presentation/view/location_view.dart';
+import 'package:x_go/features/my_bookings/presentation/logic/cubit/my_booking_cubit.dart';
 import 'package:x_go/features/my_bookings/presentation/views/my_booking_view.dart';
 import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
 
@@ -46,7 +47,10 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouterNames.myBooking,
-      builder: (context, state) => const MyBookingView(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => getIt<MyBookingCubit>()..getBookingList(),
+        child: const MyBookingView(),
+      ),
     ),
     GoRoute(
       path: RouterNames.carBooking,
@@ -164,7 +168,13 @@ final GoRouter router = GoRouter(
         return CarDetailsPage(car: car);
       },
     ),
-    GoRoute(path: RouterNames.app, builder: (context, state) => App()),
+    GoRoute(
+      path: RouterNames.app,
+      builder: (context, state) => BlocProvider(
+        create: (context) => getIt<ProfileEditCubit>()..getProfileData(),
+        child: App(),
+      ),
+    ),
     GoRoute(
       path: RouterNames.auth,
       builder: (context, state) {

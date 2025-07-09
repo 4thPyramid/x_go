@@ -1,4 +1,6 @@
-import 'package:x_go/features/carBooking/data/model/book_car_model.dart';
+import 'package:dartz/dartz.dart';
+import 'package:x_go/core/errors/error_model.dart';
+import 'package:x_go/features/my_bookings/data/models/booking_model.dart';
 import 'package:x_go/features/my_bookings/domain/repos/booking_repo.dart';
 
 class GetBookingList {
@@ -6,7 +8,7 @@ class GetBookingList {
 
   GetBookingList(this.repository);
 
-  Future<List<Booking>> call() {
-    return repository.getBookingList();
+  Future<Either<ErrorModel, List<BookingModel>>> call() async {
+    return await repository.getBookingList();
   }
 }
