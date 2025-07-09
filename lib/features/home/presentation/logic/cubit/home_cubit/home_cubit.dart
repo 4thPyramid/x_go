@@ -16,12 +16,15 @@ class HomeCubit extends Cubit<HomeState> {
 
   List<CarEntity>? _allCarsCache;
 
-  HomeCubit({
-    required this.getCarsUseCase,
-    required this.getFilterInfoUseCase,
-  }) : super(HomeInitial());
+  FilterInfo? _cachedFilterInfo;
+  bool _isFilterInfoLoading = false;
+
+  HomeCubit({required this.getCarsUseCase, required this.getFilterInfoUseCase})
+      : super(HomeInitial());
 
   HomeRequestParams? get lastAppliedFilter => _lastAppliedFilter;
+
+  FilterInfo? get cachedFilterInfo => _cachedFilterInfo;
 
   Future<void> getCars({bool isRefresh = false}) async {
     if (isRefresh) {
@@ -71,11 +74,13 @@ class HomeCubit extends Cubit<HomeState> {
               _allCarsCache = updatedCars;
             }
 
-            emit(CarsLoaded(
-              cars: updatedCars,
-              currentParams: newParams,
-              hasReachedMax: false,
-            ));
+            emit(
+              CarsLoaded(
+                cars: updatedCars,
+                currentParams: newParams,
+                hasReachedMax: false,
+              ),
+            );
           }
         },
       );
@@ -84,7 +89,6 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> searchCars(String query) async {
     final trimmedQuery = query.trim().toLowerCase();
-
 
     if (trimmedQuery.isEmpty) {
       _lastSearchQuery = null;
@@ -100,11 +104,13 @@ class HomeCubit extends Cubit<HomeState> {
       final cachedCars = _searchCache[trimmedQuery]!;
 
       final params = HomeRequestParams(page: 1, search: trimmedQuery);
-      emit(CarsLoaded(
-        cars: cachedCars,
-        currentParams: params,
-        hasReachedMax: true,
-      ));
+      emit(
+        CarsLoaded(
+          cars: cachedCars,
+          currentParams: params,
+          hasReachedMax: true,
+        ),
+      );
       return;
     }
     if (_lastSearchQuery == trimmedQuery) {
@@ -124,18 +130,15 @@ class HomeCubit extends Cubit<HomeState> {
           emit(HomeError(message: failure.message));
         },
             (cars) {
-
           _searchCache[trimmedQuery] = cars;
 
           if (_searchCache.length > 15) {
             final oldestKey = _searchCache.keys.first;
             _searchCache.remove(oldestKey);
           }
-          emit(CarsLoaded(
-            cars: cars,
-            currentParams: params,
-            hasReachedMax: true,
-          ));
+          emit(
+            CarsLoaded(cars: cars, currentParams: params, hasReachedMax: true),
+          );
         },
       );
     } catch (e) {
@@ -143,18 +146,37 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  Future<void> getFilterInfo() async {
-    final result = await getFilterInfoUseCase(NoParams());
+  Future<void> getFilterInfo({bool forceRefresh = false}) async {
+    if (_isFilterInfoLoading) return;
+    if (_cachedFilterInfo != null && !forceRefresh) {
+      emit(FilterInfoLoaded(filterInfo: _cachedFilterInfo!));
+      return;
+    }
+    _isFilterInfoLoading = true;
+    emit(FilterLoading());
+    try {
+      final result = await getFilterInfoUseCase(NoParams());
 
-    result.fold(
-          (failure) {
-        emit(HomeError(message: failure.message));
-      },
-          (filterInfo) {
-        emit(FilterInfoLoaded(filterInfo: filterInfo));
-      },
-    );
+      result.fold(
+            (failure) {
+          _isFilterInfoLoading = false;
+          emit(HomeError(message: failure.message));
+        },
+            (filterInfo) {
+          _cachedFilterInfo = filterInfo;
+          _isFilterInfoLoading = false;
+          emit(FilterInfoLoaded(filterInfo: filterInfo));
+        },
+      );
+    } catch (e) {
+      _isFilterInfoLoading = false;
+      emit(HomeError(message: 'Filter info failed: $e'));
+    }
   }
+
+  Future<void> refreshFilterInfo() => getFilterInfo(forceRefresh: true);
+
+
 
   Future<void> applyFilter({
     String? brand,
@@ -162,11 +184,6 @@ class HomeCubit extends Cubit<HomeState> {
     String? model,
     String? minPrice,
     String? maxPrice,
-    String? engineType,
-    String? transmissionType,
-    String? seatType,
-    int? minSeats,
-    int? maxSeats,
   }) async {
     emit(FilterLoading());
 
@@ -177,11 +194,6 @@ class HomeCubit extends Cubit<HomeState> {
       model: model,
       minPrice: minPrice,
       maxPrice: maxPrice,
-      engineType: engineType,
-      transmissionType: transmissionType,
-      seatType: seatType,
-      minSeats: minSeats,
-      maxSeats: maxSeats,
     );
 
     _lastAppliedFilter = params;
@@ -194,7 +206,9 @@ class HomeCubit extends Cubit<HomeState> {
         emit(HomeError(message: failure.message));
       },
           (cars) {
-        emit(CarsLoaded(cars: cars, currentParams: params, hasReachedMax: true));
+        emit(
+          CarsLoaded(cars: cars, currentParams: params, hasReachedMax: true),
+        );
       },
     );
   }
@@ -205,71 +219,10 @@ class HomeCubit extends Cubit<HomeState> {
     getCars(isRefresh: true);
   }
 
-  Future<void> combineSearchAndFilter({
-    String? searchQuery,
-    String? brand,
-    String? type,
-    String? model,
-    String? minPrice,
-    String? maxPrice,
-    String? engineType,
-    String? transmissionType,
-    String? seatType,
-    int? minSeats,
-    int? maxSeats,
-  }) async {
-    emit(FilterLoading());
-
-    final params = HomeRequestParams(
-      page: 1,
-      search: searchQuery?.trim().isNotEmpty == true ? searchQuery?.trim() : null,
-      brand: brand,
-      type: type,
-      model: model,
-      minPrice: minPrice,
-      maxPrice: maxPrice,
-      engineType: engineType,
-      transmissionType: transmissionType,
-      seatType: seatType,
-      minSeats: minSeats,
-      maxSeats: maxSeats,
-    );
-
-
-    if (params.hasFilters) {
-      _lastAppliedFilter = params;
-    }
-
-    final result = await getCarsUseCase(params);
-
-    result.fold(
-          (failure) {
-        emit(HomeError(message: failure.message));
-      },
-          (cars) {
-        emit(CarsLoaded(cars: cars, currentParams: params, hasReachedMax: true));
-      },
-    );
-  }
-
-
-
-
-
-
-
 
   void _clearSearchState() {
     _lastSearchQuery = null;
     _searchCache.clear();
-    print('🧹 Search state cleared');
-  }
-
-  void clearAllCache() {
-    _clearSearchState();
-    _allCarsCache = null;
-    _lastAppliedFilter = null;
-    print('🗑️ All cache cleared');
   }
 
   bool get hasActiveFilters {
@@ -279,31 +232,6 @@ class HomeCubit extends Cubit<HomeState> {
     }
     return false;
   }
-  String get activeFiltersDescription {
-    final currentState = state;
-    if (currentState is CarsLoaded) {
-      final params = currentState.currentParams;
-      final filters = <String>[];
-
-      if (params.search?.isNotEmpty == true) filters.add('Search: ${params.search}');
-      if (params.brand?.isNotEmpty == true) filters.add('Brand: ${params.brand}');
-      if (params.type?.isNotEmpty == true) filters.add('Type: ${params.type}');
-      if (params.engineType?.isNotEmpty == true) filters.add('Engine: ${params.engineType}');
-      if (params.transmissionType?.isNotEmpty == true) filters.add('Transmission: ${params.transmissionType}');
-      if (params.seatType?.isNotEmpty == true) filters.add('Seat Type: ${params.seatType}');
-      if (params.minSeats != null || params.maxSeats != null) {
-        filters.add('Seats: ${params.minSeats ?? 'Any'} - ${params.maxSeats ?? 'Any'}');
-      }
-      if (params.minPrice?.isNotEmpty == true || params.maxPrice?.isNotEmpty == true) {
-        filters.add('Price: ${params.minPrice ?? '0'} - ${params.maxPrice ?? 'Any'} EGP');
-      }
-
-      return filters.join(' | ');
-    }
-    return '';
-  }
-
-
 
 
 }

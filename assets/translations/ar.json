@@ -54,5 +54,8 @@
   "your_car_rental_is_confirmed!": "تم تأكيد حجز سيارتك!",
   "thank_you_for_choosing_our_service._you_will_receive_a_confirmation_email_shortly.": "شكرًا لاختيارك خدمتنا. ستتلقى بريدًا إلكترونيًا بالتأكيد قريبًا.",
   "view_my_booking": "عرض حجزي",
-  "back_to_home": "العودة إلى الرئيسية"
+  "back_to_home": "العودة إلى الرئيسية",
+  "language_changed": "تم تغيير اللغة إلى {0}",
+  "error_changing_language": "خطأ في تغيير اللغة",
+  "search_cars_or_brands": "ابحث عن سيارات أو علامات تجارية"
 }

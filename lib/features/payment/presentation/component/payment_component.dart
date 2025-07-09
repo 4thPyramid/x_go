@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/functions/show_toast.dart';
-
 import 'package:x_go/features/payment/domain/entites/payment_method.dart';
 import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
 import 'package:x_go/features/payment/presentation/widgets/confirmation_dailog.dart';

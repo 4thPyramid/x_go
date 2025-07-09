@@ -8,7 +8,6 @@ class AppCubit extends Cubit<AppState> {
   AppCubit()
     : super(
         AppState(
-          language: CacheHelper().getDataString(key: 'language') ?? "en",
           themeEnum: CacheHelper().getDataString(key: 'theme') == "light"
               ? ThemeEnum.light
               : ThemeEnum.dark,
@@ -34,14 +33,5 @@ class AppCubit extends Cubit<AppState> {
   void changeBottomNavBarSelectedIndex(int index) {
     bottomNavBar = index;
     emit(state.copyWith(bottomNavBarSelectedIndex: index));
-  }
-
-  //! ----------- Change Language ----------- //
-  Future<void> changeLanguage([String? value]) async {
-    final newLanguage = state.language == "ar" ? "en" : "ar";
-
-    emit(state.copyWith(language: newLanguage));
-
-    await CacheHelper.saveData(key: 'language', value: newLanguage);
   }
 }

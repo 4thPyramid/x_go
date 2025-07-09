@@ -29,7 +29,8 @@ class AppStrings {
   static const String cash = 'cash';
   static const String submit = 'submit';
   static const String yourCarRentalIsConfirmed = 'your_car_rental_is_confirmed';
-  static const String thankYouForChoosingOurService = 'thank_you_for_choosing_our_service';
+  static const String thankYouForChoosingOurService =
+      'thank_you_for_choosing_our_service';
   static const String viewMyBooking = 'view_my_booking';
   static const String backToHome = 'back_to_home';
   static const String accountSetting = 'account_setting';
@@ -53,5 +54,7 @@ class AppStrings {
   static const String login = 'login';
   static const String register = 'register';
   static const String languageChanged = 'language_changed';
+  static const String searchCarsOrBrands = 'search_cars_or_brands';
+
   static const String errorChangingLanguage = 'error_changing_language';
 }

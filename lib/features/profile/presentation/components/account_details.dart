@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/router_names.dart';
-
+import 'package:x_go/core/utils/app_strings.dart';
 import 'package:x_go/features/language/presentation/view/language_view.dart';
+import 'package:x_go/features/language/presentation/widgets/instant_language_builder.dart';
 import 'package:x_go/features/profile/presentation/widgets/profile_item.dart';
 import 'package:x_go/features/profile/presentation/widgets/profile_section.dart';
 
@@ -12,24 +14,34 @@ class AccountDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProfileSection(
-      title: 'Account Setting',
-      items: [
-        LanguageDropdownTile(),
-        ProfileItemTile(title: 'Help & support', icon: Icons.help_outline),
-        ProfileItemTile(title: 'Add feedback', icon: Icons.feedback),
-        ProfileItemTile(
-          title: 'Logout',
-          icon: Icons.logout,
-          showTrailing: false,
-          titleStyle: TextStyle(color: Colors.red),
-          color: Colors.red,
-          onTap: () {
-            CacheHelper.deleteToken();
-            context.go(RouterNames.splash);
-          },
-        ),
-      ],
+    return InstantLanguageBuilder(
+      builder: (context, locale) {
+        return ProfileSection(
+          title: AppStrings.accountSetting.tr(),
+          items: [
+            const LanguageDropdownTile(),
+            ProfileItemTile(
+              title: AppStrings.helpSupport.tr(),
+              icon: Icons.help_outline,
+            ),
+            ProfileItemTile(
+              title: AppStrings.addFeedback.tr(),
+              icon: Icons.feedback,
+            ),
+            ProfileItemTile(
+              title: AppStrings.logout.tr(),
+              icon: Icons.logout,
+              showTrailing: false,
+              titleStyle: const TextStyle(color: Colors.red),
+              color: Colors.red,
+              onTap: () {
+                CacheHelper.deleteToken();
+                context.go(RouterNames.splash);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
