@@ -51,6 +51,9 @@
   "your_car_rental_is_confirmed!": "Your car rental is confirmed!",
   "thank_you_for_choosing_our_service._you_will_receive_a_confirmation_email_shortly.": "Thank you for choosing our service. You will receive a confirmation email shortly.",
   "view_my_booking": "View My Booking",
-  "back_to_home": "Back to Home"
+  "back_to_home": "Back to Home",
+  "search_cars_or_brands": "Search for cars or brands..",
+  "language_changed": "Language changed to {0}",
+  "error_changing_language": "Error changing language"
 }
 

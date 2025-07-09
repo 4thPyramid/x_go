@@ -31,6 +31,7 @@ import 'package:x_go/features/profile/domain/repos/profile_edit_repo.dart';
 import 'package:x_go/features/profile/domain/usecase/get_profile_u_c.dart';
 import 'package:x_go/features/profile/domain/usecase/update_profile_u_c.dart';
 import 'package:x_go/features/profile/presentation/logic/cubit/profile_edit_cubit.dart';
+import 'package:x_go/features/language/presentation/logic/cubit/lang_cupit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -125,5 +126,8 @@ void setupLocator() {
   );
   getIt.registerFactory<ProfileEditCubit>(
         () => ProfileEditCubit(getIt<UpdateProfileUC>(), getIt<GetProfileUC>()),
+  );
+  getIt.registerFactory<LocalizationCubit>(
+        () => LocalizationCubit(),
   );
 }

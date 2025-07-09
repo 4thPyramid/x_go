@@ -54,5 +54,8 @@
   "your_car_rental_is_confirmed!": "Ваша аренда автомобиля подтверждена!",
   "thank_you_for_choosing_our_service._you_will_receive_a_confirmation_email_shortly.": "Спасибо за выбор нашего сервиса. Скоро вы получите подтверждение по электронной почте.",
   "view_my_booking": "Просмотреть мой заказ",
-  "back_to_home": "Вернуться на главную"
+  "back_to_home": "Вернуться на главную",
+  "language_changed": "Язык изменен на {0}",
+  "error_changing_language": "Ошибка изменения языка",
+  "search_cars_or_brands": "Поиск автомобилей или брендов.."
 }

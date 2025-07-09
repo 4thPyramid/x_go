@@ -1,6 +1,5 @@
 // filter_content.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_state.dart';
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
 import '../widgets/filter_header.dart';
@@ -61,10 +60,7 @@ class FilterContent extends StatelessWidget {
             thickness: 1,
           ),
           const SizedBox(height: 18),
-          PriceSlider(
-            rangeValues: selectedRange,
-            onChanged: onRangeChanged,
-          ),
+          PriceSlider(rangeValues: selectedRange, onChanged: onRangeChanged),
           const SizedBox(height: 10),
           PriceRangeLabels(rangeValues: selectedRange),
           const SizedBox(height: 20),
