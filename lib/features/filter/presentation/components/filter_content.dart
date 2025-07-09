@@ -8,35 +8,46 @@ import '../widgets/price_range_labels.dart';
 import '../widgets/filter_footer_buttons.dart';
 import 'filter_brand_section.dart';
 import 'filter_type_section.dart';
+import 'filter_year_section.dart';
 
 class FilterContent extends StatelessWidget {
   final HomeState state;
   final List<Brand> cachedBrands;
   final List<CarType> cachedTypes;
+  final List<String> cachedYears;
   final bool hasLoadedData;
   final String? selectedBrand;
   final String? selectedType;
+  final String? selectedYear;
   final RangeValues selectedRange;
   final Function(String?) onBrandSelected;
   final Function(String?) onTypeSelected;
+  final Function(String?) onYearSelected;
   final Function(RangeValues) onRangeChanged;
   final VoidCallback onClearPressed;
   final VoidCallback onApplyPressed;
+  final double? minPrice;
+  final double? maxPrice;
 
   const FilterContent({
     super.key,
     required this.state,
     required this.cachedBrands,
     required this.cachedTypes,
+    required this.cachedYears,
     required this.hasLoadedData,
     required this.selectedBrand,
     required this.selectedType,
+    required this.selectedYear,
     required this.selectedRange,
     required this.onBrandSelected,
     required this.onTypeSelected,
+    required this.onYearSelected,
     required this.onRangeChanged,
     required this.onClearPressed,
     required this.onApplyPressed,
+    this.minPrice,
+    this.maxPrice,
   });
 
   @override
@@ -60,7 +71,12 @@ class FilterContent extends StatelessWidget {
             thickness: 1,
           ),
           const SizedBox(height: 18),
-          PriceSlider(rangeValues: selectedRange, onChanged: onRangeChanged),
+          PriceSlider(
+            rangeValues: selectedRange,
+            onChanged: onRangeChanged,
+            minPrice: minPrice ?? 2000,
+            maxPrice: maxPrice ?? 9000,
+          ),
           const SizedBox(height: 10),
           PriceRangeLabels(rangeValues: selectedRange),
           const SizedBox(height: 20),
@@ -70,6 +86,19 @@ class FilterContent extends StatelessWidget {
             hasLoadedData: hasLoadedData,
             selectedType: selectedType,
             onTypeSelected: onTypeSelected,
+          ),
+          const SizedBox(height: 18),
+          Divider(
+            color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+            thickness: 1,
+          ),
+          const SizedBox(height: 18),
+          FilterYearSection(
+            state: state,
+            cachedYears: cachedYears,
+            hasLoadedData: hasLoadedData,
+            selectedYear: selectedYear,
+            onYearSelected: onYearSelected,
           ),
           const SizedBox(height: 25),
           FilterFooterButtons(

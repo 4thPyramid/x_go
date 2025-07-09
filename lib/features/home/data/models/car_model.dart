@@ -1,3 +1,5 @@
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
+
 class CarModel {
   final String id;
   final CarAttributes attributes;
@@ -24,10 +26,26 @@ class CarModel {
       'relationship': relationship.toJson(),
     };
   }
+
+  CarEntity toEntity() {
+    return CarEntity(
+      id: id,
+      year: attributes.year,
+      price: attributes.price,
+      engineType: attributes.engineType,
+      transmissionType: attributes.transmissionType,
+      seatType: attributes.seatType,
+      seatsCount: attributes.seatsCount,
+      acceleration: attributes.acceleration,
+      image: attributes.image,
+      typeName: relationship.types.typeName,
+      brandName: relationship.brand.brandName,
+      modelName: relationship.modelNames.modelName,
+    );
+  }
 }
 
 class CarAttributes {
-  final String name;
   final String year;
   final String price;
   final String engineType;
@@ -38,7 +56,6 @@ class CarAttributes {
   final String image;
 
   CarAttributes({
-    required this.name,
     required this.year,
     required this.price,
     required this.engineType,
@@ -51,21 +68,19 @@ class CarAttributes {
 
   factory CarAttributes.fromJson(Map<String, dynamic> json) {
     return CarAttributes(
-      name: json['name'] as String,
-      year: json['year'] as String,
-      price: json['price'] as String,
-      engineType: json['engine_type'] as String,
-      transmissionType: json['transmission_type'] as String,
-      seatType: json['seat_type'] as String,
-      seatsCount: json['seats_count'] as int,
-      acceleration: json['acceleration'] as String,
-      image: json['image'] as String,
+      year: json['year'] as String? ?? '',
+      price: json['price'] as String? ?? '0',
+      engineType: json['engine_type'] as String? ?? '',
+      transmissionType: json['transmission_type'] as String? ?? '',
+      seatType: json['seat_type'] as String? ?? '',
+      seatsCount: json['seats_count'] as int? ?? 0,
+      acceleration: json['acceleration'] as String? ?? '0.0',
+      image: json['image'] as String? ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
       'year': year,
       'price': price,
       'engine_type': engineType,
@@ -81,16 +96,19 @@ class CarAttributes {
 class CarRelationships {
   final CarType types;
   final CarBrand brand;
+  final CarModelName modelNames;
 
   CarRelationships({
     required this.types,
     required this.brand,
+    required this.modelNames,
   });
 
   factory CarRelationships.fromJson(Map<String, dynamic> json) {
     return CarRelationships(
       types: CarType.fromJson(json['Types']),
       brand: CarBrand.fromJson(json['Brand']),
+      modelNames: CarModelName.fromJson(json['Model Names']),
     );
   }
 
@@ -98,6 +116,7 @@ class CarRelationships {
     return {
       'Types': types.toJson(),
       'Brand': brand.toJson(),
+      'Model Names': modelNames.toJson(),
     };
   }
 }
@@ -106,10 +125,7 @@ class CarType {
   final String typeId;
   final String typeName;
 
-  CarType({
-    required this.typeId,
-    required this.typeName,
-  });
+  CarType({required this.typeId, required this.typeName});
 
   factory CarType.fromJson(Map<String, dynamic> json) {
     return CarType(
@@ -119,10 +135,7 @@ class CarType {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'type_id': typeId,
-      'type_name': typeName,
-    };
+    return {'type_id': typeId, 'type_name': typeName};
   }
 }
 
@@ -130,10 +143,7 @@ class CarBrand {
   final int brandId;
   final String brandName;
 
-  CarBrand({
-    required this.brandId,
-    required this.brandName,
-  });
+  CarBrand({required this.brandId, required this.brandName});
 
   factory CarBrand.fromJson(Map<String, dynamic> json) {
     return CarBrand(
@@ -143,9 +153,24 @@ class CarBrand {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'brand_id': brandId,
-      'brand_name': brandName,
-    };
+    return {'brand_id': brandId, 'brand_name': brandName};
+  }
+}
+
+class CarModelName {
+  final String modelNameId;
+  final String modelName;
+
+  CarModelName({required this.modelNameId, required this.modelName});
+
+  factory CarModelName.fromJson(Map<String, dynamic> json) {
+    return CarModelName(
+      modelNameId: json['model_name_id'] as String,
+      modelName: json['model_name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'model_name_id': modelNameId, 'model_name': modelName};
   }
 }

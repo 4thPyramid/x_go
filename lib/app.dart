@@ -30,31 +30,21 @@ class _AppState extends State<App> {
   }
 
   List<Widget> get _pages => [
-    BlocProvider<HomeCubit>.value(
-      value: _homeCubit,
-      child: const HomeView(),
-    ),
+    BlocProvider<HomeCubit>.value(value: _homeCubit, child: const HomeView()),
     const ProfilePage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
   Widget _buildBottomNavigationBar() {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 4,
-        right: 4,
-        bottom: 8,
-      ),
+      padding: const EdgeInsets.only(left: 4, right: 4, bottom: 8),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
         child: Container(

@@ -6,60 +6,66 @@ import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_cubi
 
 class FilterLogic {
   static void restoreLastFilter(
-      BuildContext context,
-      Function(String?) setBrand,
-      Function(String?) setType,
-      Function(RangeValues) setRange,
-      ) {
+    BuildContext context,
+    Function(String?) setBrand,
+    Function(String?) setType,
+    Function(String?) setYear,
+    Function(RangeValues) setRange,
+  ) {
     final lastFilter = context.read<HomeCubit>().lastAppliedFilter;
     if (lastFilter != null) {
       setBrand(lastFilter.brand);
       setType(lastFilter.type);
+      setYear(lastFilter.year);
       if (lastFilter.minPrice != null || lastFilter.maxPrice != null) {
-        final minPrice = double.tryParse(lastFilter.minPrice ?? '4000') ?? 4000;
-        final maxPrice = double.tryParse(lastFilter.maxPrice ?? '12000') ?? 12000;
-        setRange(RangeValues(minPrice / 1000, maxPrice / 1000));
+        final minPrice = double.tryParse(lastFilter.minPrice ?? '2000') ?? 2000;
+        final maxPrice = double.tryParse(lastFilter.maxPrice ?? '9000') ?? 9000;
+        setRange(RangeValues(minPrice, maxPrice));
       }
     }
   }
 
   static void resetFilters(
-      Function(String?) setBrand,
-      Function(String?) setType,
-      Function(RangeValues) setRange,
-      ) {
+    Function(String?) setBrand,
+    Function(String?) setType,
+    Function(String?) setYear,
+    Function(RangeValues) setRange,
+  ) {
     setBrand(null);
     setType(null);
-    setRange(const RangeValues(4, 12));
+    setYear(null);
+    setRange(const RangeValues(2000, 9000));
   }
 
   static HomeRequestParams createFilterParams({
     String? brand,
     String? type,
+    String? year,
     required RangeValues range,
   }) {
     return HomeRequestParams(
       page: 1,
       brand: brand,
       type: type,
-      minPrice: range.start != 4 ? (range.start * 1000).toInt().toString() : null,
-      maxPrice: range.end != 12 ? (range.end * 1000).toInt().toString() : null,
+      year: year,
+      minPrice: range.start.round().toString(),
+      maxPrice: range.end.round().toString(),
     );
   }
 
   static void applyFilter(
-      BuildContext context, {
-        String? brand,
-        String? type,
-        required RangeValues range,
-      }) {
+    BuildContext context, {
+    String? brand,
+    String? type,
+    String? year,
+    required RangeValues range,
+  }) {
     context.read<HomeCubit>().applyFilter(
       brand: brand,
       type: type,
-      minPrice: range.start != 4 ? (range.start * 1000).toInt().toString() : null,
-      maxPrice: range.end != 12 ? (range.end * 1000).toInt().toString() : null,
+      year: year,
+      minPrice: range.start.round().toString(),
+      maxPrice: range.end.round().toString(),
     );
   }
-
-
 }

@@ -15,10 +15,7 @@ import 'cars_empty_status.dart';
 class CarsListComponent extends StatefulWidget {
   final HomeRequestParams? currentParams;
 
-  const CarsListComponent({
-    super.key,
-    this.currentParams,
-  });
+  const CarsListComponent({super.key, this.currentParams});
 
   @override
   State<CarsListComponent> createState() => _CarsListComponentState();
@@ -42,7 +39,7 @@ class _CarsListComponentState extends State<CarsListComponent> {
 
   void _onScroll() {
     if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200 &&
+            _scrollController.position.maxScrollExtent - 200 &&
         !_isLoadingMore) {
       _loadMoreCars();
     }
@@ -74,7 +71,9 @@ class _CarsListComponentState extends State<CarsListComponent> {
           HomeError() => CarsErrorState(message: state.message),
           CarsLoaded() => _buildLoadedState(state),
           SearchLoading() => const CarsLoadingState(message: 'جاري البحث...'),
-          FilterLoading() => const CarsLoadingState(message: 'جاري تطبيق الفلتر...'),
+          FilterLoading() => const CarsLoadingState(
+            message: 'جاري تطبيق الفلتر...',
+          ),
           FilterInfoLoaded() => const SizedBox.shrink(),
           _ => const SizedBox.shrink(),
         };
@@ -106,7 +105,7 @@ class _CarsListComponentState extends State<CarsListComponent> {
                 onTap: () => _navigateToDetails(context, car),
                 child: CarCardWidget(
                   brand: car.brandName,
-                  model: car.name,
+                  model: car.modelName,
                   rentPrice: car.price,
                   imageUrl: car.image,
                 ),
@@ -130,8 +129,14 @@ class _CarsListComponentState extends State<CarsListComponent> {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
           const curve = Curves.easeOutSine;
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          return SlideTransition(position: animation.drive(tween), child: child);
+          var tween = Tween(
+            begin: begin,
+            end: end,
+          ).chain(CurveTween(curve: curve));
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
         },
         transitionDuration: const Duration(seconds: 1),
       ),

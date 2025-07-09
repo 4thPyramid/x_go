@@ -29,8 +29,6 @@ import 'package:x_go/features/my_bookings/domain/repos/booking_repo.dart';
 import 'package:x_go/features/my_bookings/domain/usecases/get_booking_use_case.dart';
 import 'package:x_go/features/my_bookings/presentation/logic/cubit/my_booking_cubit.dart';
 
-// Home Feature - New Architecture
-
 import 'package:x_go/features/profile/data/dataSource/profile_remote_d_s.dart';
 import 'package:x_go/features/profile/domain/repos/profile_edit_repo.dart';
 import 'package:x_go/features/profile/domain/usecase/get_profile_u_c.dart';
@@ -145,7 +143,5 @@ void setupLocator() {
   getIt.registerFactory<ProfileEditCubit>(
     () => ProfileEditCubit(getIt<UpdateProfileUC>(), getIt<GetProfileUC>()),
   );
-  getIt.registerFactory<LocalizationCubit>(
-        () => LocalizationCubit(),
-  );
+  getIt.registerFactory<LocalizationCubit>(() => LocalizationCubit());
 }

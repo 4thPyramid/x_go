@@ -48,7 +48,7 @@ class CarDetailsComponent extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(6.0),
-          child: Text(car.name, style: AppStyles.ts13BlackW500),
+          child: Text(car.modelName, style: AppStyles.ts13BlackW500),
         ),
         const SizedBox(height: 8),
 

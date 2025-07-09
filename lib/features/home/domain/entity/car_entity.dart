@@ -1,6 +1,6 @@
 class CarEntity {
   final String id;
-  final String name;
+  final String modelName; // استخدام model name بدلاً من name
   final String year;
   final String price;
   final String engineType;
@@ -14,7 +14,7 @@ class CarEntity {
 
   const CarEntity({
     required this.id,
-    required this.name,
+    required this.modelName,
     required this.year,
     required this.price,
     required this.engineType,
@@ -33,11 +33,7 @@ class Brand {
   final String name;
   final String logo;
 
-  const Brand({
-    required this.id,
-    required this.name,
-    required this.logo,
-  });
+  const Brand({required this.id, required this.name, required this.logo});
 }
 
 class CarType {
@@ -49,12 +45,14 @@ class CarType {
 class FilterInfo {
   final List<Brand> brands;
   final List<CarType> types;
+  final List<String> years;
   final String maxPrice;
   final String minPrice;
 
   const FilterInfo({
     required this.brands,
     required this.types,
+    required this.years,
     required this.maxPrice,
     required this.minPrice,
   });

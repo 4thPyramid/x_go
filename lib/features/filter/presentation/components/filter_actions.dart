@@ -22,17 +22,19 @@ class FilterActions {
   void restoreLastFilter() {
     FilterLogic.restoreLastFilter(
       context,
-          (brand) => _updateState(selectedBrand: brand),
-          (type) => _updateState(selectedType: type),
-          (range) => _updateState(selectedRange: range),
+      (brand) => _updateState(selectedBrand: brand),
+      (type) => _updateState(selectedType: type),
+      (year) => _updateState(selectedYear: year),
+      (range) => _updateState(selectedRange: range),
     );
   }
 
   void resetFilters() {
     FilterLogic.resetFilters(
-          (brand) => _updateState(selectedBrand: brand),
-          (type) => _updateState(selectedType: type),
-          (range) => _updateState(selectedRange: range),
+      (brand) => _updateState(selectedBrand: brand),
+      (type) => _updateState(selectedType: type),
+      (year) => _updateState(selectedYear: year),
+      (range) => _updateState(selectedRange: range),
     );
 
     final params = HomeRequestParams(page: 1);
@@ -44,6 +46,7 @@ class FilterActions {
     final params = FilterLogic.createFilterParams(
       brand: stateManager.selectedBrand,
       type: stateManager.selectedType,
+      year: stateManager.selectedYear,
       range: stateManager.selectedRange,
     );
 
@@ -51,6 +54,7 @@ class FilterActions {
       context,
       brand: stateManager.selectedBrand,
       type: stateManager.selectedType,
+      year: stateManager.selectedYear,
       range: stateManager.selectedRange,
     );
 
@@ -65,11 +69,13 @@ class FilterActions {
   void _updateState({
     String? selectedBrand,
     String? selectedType,
+    String? selectedYear,
     RangeValues? selectedRange,
   }) {
     final newState = stateManager.copyWith(
       selectedBrand: selectedBrand,
       selectedType: selectedType,
+      selectedYear: selectedYear,
       selectedRange: selectedRange,
     );
     onStateChanged(newState);

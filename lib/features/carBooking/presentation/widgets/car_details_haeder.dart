@@ -10,7 +10,7 @@ class CarDetailsHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(car!.name, style: TextStyle(color: Colors.orange)),
+        Text(car!.modelName, style: TextStyle(color: Colors.orange)),
         Text(
           car!.brandName,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),

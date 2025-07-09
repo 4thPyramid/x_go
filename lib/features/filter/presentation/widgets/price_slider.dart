@@ -5,11 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class PriceSlider extends StatefulWidget {
   final RangeValues rangeValues;
   final ValueChanged<RangeValues> onChanged;
+  final double minPrice;
+  final double maxPrice;
 
   const PriceSlider({
     super.key,
     required this.rangeValues,
     required this.onChanged,
+    this.minPrice = 2000,
+    this.maxPrice = 9000,
   });
 
   @override
@@ -30,8 +34,12 @@ class _PriceSliderState extends State<PriceSlider> {
               barTouchData: BarTouchData(enabled: false),
               titlesData: FlTitlesData(show: false),
               borderData: FlBorderData(show: false),
-              barGroups: List.generate(16, (i) {
-                final isSelected = i >= widget.rangeValues.start && i <= widget.rangeValues.end;
+              barGroups: List.generate(10, (i) {
+                final stepSize = (widget.maxPrice - widget.minPrice) / 10;
+                final barValue = widget.minPrice + (i * stepSize);
+                final isSelected =
+                    barValue >= widget.rangeValues.start &&
+                    barValue <= widget.rangeValues.end;
                 return BarChartGroupData(
                   x: i,
                   barRods: [
@@ -51,9 +59,9 @@ class _PriceSliderState extends State<PriceSlider> {
         SizedBox(height: 8.h),
         RangeSlider(
           values: widget.rangeValues,
-          min: 0,
-          max: 15,
-          divisions: 15,
+          min: widget.minPrice,
+          max: widget.maxPrice,
+          divisions: ((widget.maxPrice - widget.minPrice) / 100).round(),
           activeColor: Colors.black,
           onChanged: widget.onChanged,
         ),

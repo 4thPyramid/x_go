@@ -36,7 +36,6 @@ class CarDetailsPage extends StatelessWidget {
               width: double.infinity,
               margin: EdgeInsets.all(8.w),
               decoration: BoxDecoration(
-
                 borderRadius: BorderRadius.circular(8.r),
                 boxShadow: [
                   BoxShadow(
@@ -50,23 +49,22 @@ class CarDetailsPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.r),
                 child: car.image.startsWith('http')
                     ? CachedNetworkImage(
-                  imageUrl: car.image,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  errorWidget: (context, url, error) => Image.asset(
-                    'assets/images/Group7.png',
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-                )
+                        imageUrl: car.image,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Image.asset(
+                          'assets/images/Group7.png',
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
+                      )
                     : Image.asset(
-                  car.image,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
+                        car.image,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
               ),
             ),
 
@@ -86,7 +84,7 @@ class CarDetailsPage extends StatelessWidget {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    car.name,
+                    car.modelName,
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
@@ -96,7 +94,11 @@ class CarDetailsPage extends StatelessWidget {
                   SizedBox(height: 8.h),
                   Row(
                     children: [
-                      Icon(Icons.location_on, size: 16.sp, color: Colors.grey[600]),
+                      Icon(
+                        Icons.location_on,
+                        size: 16.sp,
+                        color: Colors.grey[600],
+                      ),
                       SizedBox(width: 4.w),
                       Text(
                         'Cairo, Egypt',
@@ -140,13 +142,13 @@ class CarDetailsPage extends StatelessWidget {
                                 color: Colors.grey[700],
                               ),
                             ),
-
                           ],
                         ),
                         Row(
                           children: [
                             Text(
-                              '${car.price}',                          style: TextStyle(
+                              '${car.price}',
+                              style: TextStyle(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -157,7 +159,6 @@ class CarDetailsPage extends StatelessWidget {
                                 fontSize: 15.sp,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w700,
-
                               ),
                             ),
                           ],

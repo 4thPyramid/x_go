@@ -6,32 +6,21 @@ import 'package:x_go/features/home/domain/entity/car_entity.dart';
 import 'package:x_go/features/home/domain/repo/car_repository.dart';
 import 'package:x_go/features/home/domain/usecase/get_filter_info_usecase.dart';
 
-
 class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource remoteDataSource;
 
   HomeRepositoryImpl({required this.remoteDataSource});
 
   @override
-  @override
-  Future<Either<Failure, List<CarEntity>>> getCars(HomeRequestParams params) async {
+  Future<Either<Failure, List<CarEntity>>> getCars(
+    HomeRequestParams params,
+  ) async {
     try {
       final response = await remoteDataSource.getCars(params);
 
-      final cars = response.data.map((carModel) => CarEntity(
-        id: carModel.id,
-        name: carModel.attributes.name,
-        year: carModel.attributes.year,
-        price: carModel.attributes.price,
-        engineType: carModel.attributes.engineType,
-        transmissionType: carModel.attributes.transmissionType,
-        seatType: carModel.attributes.seatType,
-        seatsCount: carModel.attributes.seatsCount,
-        acceleration: carModel.attributes.acceleration,
-        image: carModel.attributes.image,
-        typeName: carModel.relationship.types.typeName,
-        brandName: carModel.relationship.brand.brandName,
-      )).toList();
+      final cars = response.data
+          .map((carModel) => carModel.toEntity())
+          .toList();
 
       return Right(cars);
     } on ServerException catch (e) {
@@ -45,12 +34,17 @@ class HomeRepositoryImpl implements HomeRepository {
       final response = await remoteDataSource.getFilterInfo();
 
       final filterInfo = FilterInfo(
-        brands: response.brands.map((brand) => Brand(
-          id: brand.id,
-          name: brand.attributes.name,
-          logo: brand.attributes.logo,
-        )).toList(),
+        brands: response.brands
+            .map(
+              (brand) => Brand(
+                id: brand.id,
+                name: brand.attributes.name,
+                logo: brand.attributes.logo,
+              ),
+            )
+            .toList(),
         types: response.types.map((type) => CarType(name: type.name)).toList(),
+        years: response.years,
         maxPrice: response.maxPrice,
         minPrice: response.minPrice,
       );

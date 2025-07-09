@@ -20,10 +20,14 @@ class FilterView extends StatefulWidget {
 class _FilterViewState extends State<FilterView> {
   String? selectedBrand;
   String? selectedType;
-  RangeValues selectedRange = const RangeValues(3, 15);
+  String? selectedYear;
+  RangeValues selectedRange = const RangeValues(2000, 9000);
 
   List<Brand> _cachedBrands = [];
   List<CarType> _cachedTypes = [];
+  List<String> _cachedYears = [];
+  double _minPrice = 2000;
+  double _maxPrice = 9000;
   bool _hasLoadedData = false;
 
   @override
@@ -43,10 +47,17 @@ class _FilterViewState extends State<FilterView> {
         setState(() {
           _cachedBrands = cubit.cachedFilterInfo!.brands;
           _cachedTypes = cubit.cachedFilterInfo!.types;
+          _cachedYears = cubit.cachedFilterInfo!.years;
+          _minPrice = double.tryParse(cubit.cachedFilterInfo!.minPrice) ?? 2000;
+          _maxPrice = double.tryParse(cubit.cachedFilterInfo!.maxPrice) ?? 9000;
+          // تحديث selectedRange ليعكس النطاق الفعلي
+          if (selectedRange.start < _minPrice ||
+              selectedRange.end > _maxPrice) {
+            selectedRange = RangeValues(_minPrice, _maxPrice);
+          }
           _hasLoadedData = true;
         });
       });
-      cubit.emit(FilterInfoLoaded(filterInfo: cubit.cachedFilterInfo!));
     } else {
       cubit.getFilterInfo();
     }
@@ -55,17 +66,19 @@ class _FilterViewState extends State<FilterView> {
   void _restoreLastFilter() {
     FilterLogic.restoreLastFilter(
       context,
-          (brand) => setState(() => selectedBrand = brand),
-          (type) => setState(() => selectedType = type),
-          (range) => setState(() => selectedRange = range),
+      (brand) => setState(() => selectedBrand = brand),
+      (type) => setState(() => selectedType = type),
+      (year) => setState(() => selectedYear = year),
+      (range) => setState(() => selectedRange = range),
     );
   }
 
   void _resetFilters() {
     FilterLogic.resetFilters(
-          (brand) => setState(() => selectedBrand = brand),
-          (type) => setState(() => selectedType = type),
-          (range) => setState(() => selectedRange = range),
+      (brand) => setState(() => selectedBrand = brand),
+      (type) => setState(() => selectedType = type),
+      (year) => setState(() => selectedYear = year),
+      (range) => setState(() => selectedRange = range),
     );
 
     final params = HomeRequestParams(page: 1);
@@ -77,6 +90,7 @@ class _FilterViewState extends State<FilterView> {
     final params = FilterLogic.createFilterParams(
       brand: selectedBrand,
       type: selectedType,
+      year: selectedYear,
       range: selectedRange,
     );
 
@@ -84,6 +98,7 @@ class _FilterViewState extends State<FilterView> {
       context,
       brand: selectedBrand,
       type: selectedType,
+      year: selectedYear,
       range: selectedRange,
     );
 
@@ -108,6 +123,16 @@ class _FilterViewState extends State<FilterView> {
                   setState(() {
                     _cachedBrands = state.filterInfo.brands;
                     _cachedTypes = state.filterInfo.types;
+                    _cachedYears = state.filterInfo.years;
+                    _minPrice =
+                        double.tryParse(state.filterInfo.minPrice) ?? 2000;
+                    _maxPrice =
+                        double.tryParse(state.filterInfo.maxPrice) ?? 9000;
+                    // تحديث selectedRange ليعكس النطاق الفعلي
+                    if (selectedRange.start < _minPrice ||
+                        selectedRange.end > _maxPrice) {
+                      selectedRange = RangeValues(_minPrice, _maxPrice);
+                    }
                     _hasLoadedData = true;
                   });
                 }
@@ -119,12 +144,17 @@ class _FilterViewState extends State<FilterView> {
               state: state,
               cachedBrands: _cachedBrands,
               cachedTypes: _cachedTypes,
+              cachedYears: _cachedYears,
               hasLoadedData: _hasLoadedData,
               selectedBrand: selectedBrand,
               selectedType: selectedType,
+              selectedYear: selectedYear,
               selectedRange: selectedRange,
+              minPrice: _minPrice,
+              maxPrice: _maxPrice,
               onBrandSelected: (brand) => setState(() => selectedBrand = brand),
               onTypeSelected: (type) => setState(() => selectedType = type),
+              onYearSelected: (year) => setState(() => selectedYear = year),
               onRangeChanged: (range) => setState(() => selectedRange = range),
               onClearPressed: _resetFilters,
               onApplyPressed: _applyFilters,

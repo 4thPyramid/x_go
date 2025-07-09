@@ -5,27 +5,28 @@ import 'package:x_go/features/home/domain/usecase/get_filter_info_usecase.dart';
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
 import 'home_state.dart';
 
+/// Simplified HomeCubit that delegates specific responsibilities to other cubits
+/// This cubit now mainly serves as a coordinator and maintains backward compatibility
 class HomeCubit extends Cubit<HomeState> {
   final GetCarsUseCase getCarsUseCase;
   final GetFilterInfoUseCase getFilterInfoUseCase;
 
+  // Backward compatibility fields
   HomeRequestParams? _lastAppliedFilter;
-
   final Map<String, List<CarEntity>> _searchCache = {};
   String? _lastSearchQuery;
-
   List<CarEntity>? _allCarsCache;
-
   FilterInfo? _cachedFilterInfo;
   bool _isFilterInfoLoading = false;
 
   HomeCubit({required this.getCarsUseCase, required this.getFilterInfoUseCase})
-      : super(HomeInitial());
+    : super(HomeInitial());
 
+  // Getters for backward compatibility
   HomeRequestParams? get lastAppliedFilter => _lastAppliedFilter;
-
   FilterInfo? get cachedFilterInfo => _cachedFilterInfo;
 
+  /// Main cars loading function - delegates to CarsCubit logic
   Future<void> getCars({bool isRefresh = false}) async {
     if (isRefresh) {
       emit(HomeLoading());
@@ -42,16 +43,17 @@ class HomeCubit extends Cubit<HomeState> {
     final result = await getCarsUseCase(params);
 
     result.fold(
-          (failure) {
+      (failure) {
         emit(HomeError(message: failure.message));
       },
-          (cars) {
+      (cars) {
         _allCarsCache = cars;
         emit(CarsLoaded(cars: cars, currentParams: params));
       },
     );
   }
 
+  /// Load more cars for pagination - delegates to CarsCubit logic
   Future<void> loadMoreCars() async {
     final currentState = state;
     if (currentState is CarsLoaded && !currentState.hasReachedMax) {
@@ -61,10 +63,10 @@ class HomeCubit extends Cubit<HomeState> {
       final result = await getCarsUseCase(newParams);
 
       result.fold(
-            (failure) {
+        (failure) {
           emit(HomeError(message: failure.message));
         },
-            (newCars) {
+        (newCars) {
           if (newCars.isEmpty) {
             emit(currentState.copyWith(hasReachedMax: true));
           } else {
@@ -87,6 +89,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  /// Search cars - delegates to SearchCubit logic
   Future<void> searchCars(String query) async {
     final trimmedQuery = query.trim().toLowerCase();
 
@@ -126,10 +129,10 @@ class HomeCubit extends Cubit<HomeState> {
       final result = await getCarsUseCase(params);
 
       result.fold(
-            (failure) {
+        (failure) {
           emit(HomeError(message: failure.message));
         },
-            (cars) {
+        (cars) {
           _searchCache[trimmedQuery] = cars;
 
           if (_searchCache.length > 15) {
@@ -146,6 +149,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  /// Get filter info - delegates to FilterCubit logic
   Future<void> getFilterInfo({bool forceRefresh = false}) async {
     if (_isFilterInfoLoading) return;
     if (_cachedFilterInfo != null && !forceRefresh) {
@@ -158,11 +162,11 @@ class HomeCubit extends Cubit<HomeState> {
       final result = await getFilterInfoUseCase(NoParams());
 
       result.fold(
-            (failure) {
+        (failure) {
           _isFilterInfoLoading = false;
           emit(HomeError(message: failure.message));
         },
-            (filterInfo) {
+        (filterInfo) {
           _cachedFilterInfo = filterInfo;
           _isFilterInfoLoading = false;
           emit(FilterInfoLoaded(filterInfo: filterInfo));
@@ -174,14 +178,15 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  /// Refresh filter info
   Future<void> refreshFilterInfo() => getFilterInfo(forceRefresh: true);
 
-
-
+  /// Apply filter - delegates to FilterCubit logic
   Future<void> applyFilter({
     String? brand,
     String? type,
     String? model,
+    String? year,
     String? minPrice,
     String? maxPrice,
   }) async {
@@ -192,6 +197,7 @@ class HomeCubit extends Cubit<HomeState> {
       brand: brand,
       type: type,
       model: model,
+      year: year,
       minPrice: minPrice,
       maxPrice: maxPrice,
     );
@@ -202,10 +208,10 @@ class HomeCubit extends Cubit<HomeState> {
     final result = await getCarsUseCase(params);
 
     result.fold(
-          (failure) {
+      (failure) {
         emit(HomeError(message: failure.message));
       },
-          (cars) {
+      (cars) {
         emit(
           CarsLoaded(cars: cars, currentParams: params, hasReachedMax: true),
         );
@@ -213,18 +219,20 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
+  /// Clear filter
   Future<void> clearFilter() async {
     _lastAppliedFilter = null;
     _clearSearchState();
     getCars(isRefresh: true);
   }
 
-
+  /// Clear search state
   void _clearSearchState() {
     _lastSearchQuery = null;
     _searchCache.clear();
   }
 
+  /// Check if has active filters
   bool get hasActiveFilters {
     final currentState = state;
     if (currentState is CarsLoaded) {
@@ -232,6 +240,4 @@ class HomeCubit extends Cubit<HomeState> {
     }
     return false;
   }
-
-
 }

@@ -1,4 +1,3 @@
-// features/home/data/datasources/home_remote_data_source.dart
 import 'package:x_go/core/data/api/api_consumer.dart';
 import 'package:x_go/features/home/data/models/Pagination_response_odel%20.dart';
 import 'package:x_go/features/home/data/models/filter_info_model.dart';
@@ -14,14 +13,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   HomeRemoteDataSourceImpl({required this.apiConsumer});
 
   @override
-// HomeRemoteDataSource - مبسط بدون duplicate checking
   @override
   Future<CarsPaginationResponse> getCars(HomeRequestParams params) async {
-    print('🌐 === API REQUEST ===');
-    print('Search term: "${params.search ?? 'none'}"');
-
     final requestData = params.toMap();
-    print('📤 Request data: $requestData');
 
     final response = await apiConsumer.post(
       ApiEndPoints.home,
@@ -29,14 +23,10 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     );
     final responseMap = Map<String, dynamic>.from(response);
 
-    print('📥 Backend response: ${responseMap['data']?.length ?? 0} cars');
-
-    // تطبيق فلترة محلية للبحث إذا لزم الأمر
+    // تطبيق فلترة محلية
     if (params.search?.isNotEmpty == true) {
       final originalData = responseMap['data'] as List;
       final searchTerm = params.search!.toLowerCase().trim();
-
-      print('🔍 Checking backend search accuracy for: "$searchTerm"');
 
       // تحقق من دقة نتائج البحث من الـ backend
       bool needsClientFiltering = false;
@@ -51,10 +41,13 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
         final brandName = brand['brand_name'].toString().toLowerCase();
         final typeName = types['type_name'].toString().toLowerCase();
         final engineType = attributes['engine_type'].toString().toLowerCase();
-        final transmissionType = attributes['transmission_type'].toString().toLowerCase();
+        final transmissionType = attributes['transmission_type']
+            .toString()
+            .toLowerCase();
         final seatType = attributes['seat_type'].toString().toLowerCase();
 
-        final matches = name.contains(searchTerm) ||
+        final matches =
+            name.contains(searchTerm) ||
             brandName.contains(searchTerm) ||
             typeName.contains(searchTerm) ||
             engineType.contains(searchTerm) ||
@@ -68,8 +61,6 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       }
 
       if (needsClientFiltering) {
-        print('⚙️ Applying client-side filtering...');
-
         final filteredData = originalData.where((item) {
           final car = Map<String, dynamic>.from(item);
           final attributes = Map<String, dynamic>.from(car['attributes']);
@@ -81,10 +72,13 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
           final brandName = brand['brand_name'].toString().toLowerCase();
           final typeName = types['type_name'].toString().toLowerCase();
           final engineType = attributes['engine_type'].toString().toLowerCase();
-          final transmissionType = attributes['transmission_type'].toString().toLowerCase();
+          final transmissionType = attributes['transmission_type']
+              .toString()
+              .toLowerCase();
           final seatType = attributes['seat_type'].toString().toLowerCase();
 
-          final matches = name.contains(searchTerm) ||
+          final matches =
+              name.contains(searchTerm) ||
               brandName.contains(searchTerm) ||
               typeName.contains(searchTerm) ||
               engineType.contains(searchTerm) ||
@@ -98,8 +92,6 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
           return matches;
         }).toList();
 
-        print('🎯 Client-side filtered results: ${filteredData.length} cars');
-
         responseMap['data'] = filteredData;
         responseMap['meta'] = <String, dynamic>{
           ...Map<String, dynamic>.from(responseMap['meta']),
@@ -109,9 +101,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
           'from': filteredData.isNotEmpty ? 1 : 0,
           'to': filteredData.length,
         };
-      } else {
-        print('✅ Backend search working correctly!');
-      }
+      } else {}
     }
 
     return CarsPaginationResponse.fromJson(responseMap);
@@ -120,12 +110,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<FilterInfoResponse> getFilterInfo() async {
     try {
-      print('📋 Fetching filter info...');
       final response = await apiConsumer.get(ApiEndPoints.filterInfo);
-      print('✅ Filter info loaded successfully');
       return FilterInfoResponse.fromJson(response);
     } catch (e) {
-      print('❌ Filter info error: $e');
       rethrow;
     }
   }

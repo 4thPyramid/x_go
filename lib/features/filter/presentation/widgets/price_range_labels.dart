@@ -7,8 +7,8 @@ class PriceRangeLabels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final minPrice = (rangeValues.start * 100).toInt(); // مثال: تحويل 4 => 40
-    final maxPrice = (rangeValues.end * 100).toInt();
+    final minPrice = rangeValues.start.round();
+    final maxPrice = rangeValues.end.round();
 
     return Row(
       children: [
@@ -20,7 +20,10 @@ class PriceRangeLabels extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(),
             ),
-            child: Text("Minimum\n\$$minPrice", textAlign: TextAlign.center),
+            child: Text(
+              "Minimum\n\$${minPrice.toString()}",
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         const SizedBox(width: 10),
@@ -32,7 +35,10 @@ class PriceRangeLabels extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(),
             ),
-            child: Text("Maximum\n\$$maxPrice", textAlign: TextAlign.center),
+            child: Text(
+              "Maximum\n\$${maxPrice.toString()}",
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ],

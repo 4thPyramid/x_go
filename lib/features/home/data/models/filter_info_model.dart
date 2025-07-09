@@ -11,6 +11,7 @@ class HomeRequestParams {
   final String? seatType;
   final int? minSeats;
   final int? maxSeats;
+  final String? year;
 
   HomeRequestParams({
     this.page,
@@ -25,6 +26,7 @@ class HomeRequestParams {
     this.seatType,
     this.minSeats,
     this.maxSeats,
+    this.year,
   });
 
   factory HomeRequestParams.fromJson(Map<String, dynamic> json) {
@@ -41,6 +43,7 @@ class HomeRequestParams {
       seatType: json['seat_type'] as String?,
       minSeats: json['min_seats'] as int?,
       maxSeats: json['max_seats'] as int?,
+      year: json['year'] as String?,
     );
   }
 
@@ -58,6 +61,7 @@ class HomeRequestParams {
       'seat_type': seatType,
       'min_seats': minSeats,
       'max_seats': maxSeats,
+      'year': year,
     };
   }
 
@@ -110,6 +114,10 @@ class HomeRequestParams {
       data['max_seats'] = maxSeats!;
     }
 
+    if (year != null && year!.trim().isNotEmpty) {
+      data['year'] = year!.trim();
+    }
+
     return data;
   }
 
@@ -126,6 +134,7 @@ class HomeRequestParams {
     String? seatType,
     int? minSeats,
     int? maxSeats,
+    String? year,
   }) {
     return HomeRequestParams(
       page: page ?? this.page,
@@ -140,6 +149,7 @@ class HomeRequestParams {
       seatType: seatType ?? this.seatType,
       minSeats: minSeats ?? this.minSeats,
       maxSeats: maxSeats ?? this.maxSeats,
+      year: year ?? this.year,
     );
   }
 
@@ -154,29 +164,44 @@ class HomeRequestParams {
         (seatType != null && seatType!.trim().isNotEmpty) ||
         minSeats != null ||
         maxSeats != null ||
+        (year != null && year!.trim().isNotEmpty) ||
         (search != null && search!.trim().isNotEmpty);
   }
 
   @override
   String toString() {
-    return 'HomeRequestParams(page: $page, search: $search, brand: $brand, type: $type, model: $model, minPrice: $minPrice, maxPrice: $maxPrice, engineType: $engineType, transmissionType: $transmissionType, seatType: $seatType, minSeats: $minSeats, maxSeats: $maxSeats)';
+    return 'HomeRequestParams(page: $page, search: $search, brand: $brand, type: $type, model: $model, minPrice: $minPrice, maxPrice: $maxPrice, engineType: $engineType, transmissionType: $transmissionType, seatType: $seatType, minSeats: $minSeats, maxSeats: $maxSeats, year: $year)';
   }
 }
 
 class FilterInfoResponse {
   final List<BrandModel> brands;
   final List<TypeModel> types;
+  final List<String> years;
   final String maxPrice;
   final String minPrice;
 
   FilterInfoResponse({
     required this.brands,
     required this.types,
+    required this.years,
     required this.maxPrice,
     required this.minPrice,
   });
 
   factory FilterInfoResponse.fromJson(Map<String, dynamic> json) {
+    List<String> yearsList = [];
+    if (json['years'] != null) {
+      yearsList = (json['years'] as List)
+          .map((item) => item.toString())
+          .toList();
+    } else {
+      final currentYear = DateTime.now().year;
+      for (int year = currentYear; year >= 1970; year--) {
+        yearsList.add(year.toString());
+      }
+    }
+
     return FilterInfoResponse(
       brands: (json['brands'] as List)
           .map((item) => BrandModel.fromJson(item))
@@ -184,6 +209,7 @@ class FilterInfoResponse {
       types: (json['types'] as List)
           .map((item) => TypeModel.fromJson(item))
           .toList(),
+      years: yearsList,
       maxPrice: json['max_price'] as String,
       minPrice: json['min_price'] as String,
     );
@@ -193,6 +219,7 @@ class FilterInfoResponse {
     return {
       'brands': brands.map((brand) => brand.toJson()).toList(),
       'types': types.map((type) => type.toJson()).toList(),
+      'years': years,
       'max_price': maxPrice,
       'min_price': minPrice,
     };
@@ -200,7 +227,7 @@ class FilterInfoResponse {
 
   @override
   String toString() {
-    return 'FilterInfoResponse(brands: ${brands.length}, types: ${types.length}, maxPrice: $maxPrice, minPrice: $minPrice)';
+    return 'FilterInfoResponse(brands: ${brands.length}, types: ${types.length}, years: ${years.length}, maxPrice: $maxPrice, minPrice: $minPrice)';
   }
 }
 
@@ -208,10 +235,7 @@ class BrandModel {
   final String id;
   final BrandAttributes attributes;
 
-  BrandModel({
-    required this.id,
-    required this.attributes,
-  });
+  BrandModel({required this.id, required this.attributes});
 
   factory BrandModel.fromJson(Map<String, dynamic> json) {
     return BrandModel(
@@ -221,10 +245,7 @@ class BrandModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'attributes': attributes.toJson(),
-    };
+    return {'id': id, 'attributes': attributes.toJson()};
   }
 
   @override
@@ -237,10 +258,7 @@ class BrandAttributes {
   final String name;
   final String logo;
 
-  BrandAttributes({
-    required this.name,
-    required this.logo,
-  });
+  BrandAttributes({required this.name, required this.logo});
 
   factory BrandAttributes.fromJson(Map<String, dynamic> json) {
     return BrandAttributes(
@@ -250,10 +268,7 @@ class BrandAttributes {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'logo': logo,
-    };
+    return {'name': name, 'logo': logo};
   }
 
   @override
@@ -268,15 +283,11 @@ class TypeModel {
   TypeModel({required this.name});
 
   factory TypeModel.fromJson(Map<String, dynamic> json) {
-    return TypeModel(
-      name: json['name'] as String,
-    );
+    return TypeModel(name: json['name'] as String);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-    };
+    return {'name': name};
   }
 
   @override
