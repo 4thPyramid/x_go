@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/routes/router_names.dart';
 
 class PopularCarsComponent extends StatelessWidget {
   const PopularCarsComponent({super.key});
@@ -17,20 +18,14 @@ class PopularCarsComponent extends StatelessWidget {
             children: [
               Text(
                 'Popular',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
               ),
               const Spacer(),
               TextButton(
                 onPressed: () {
-                  // TODO: Navigate to full list
+                  context.push(RouterNames.popularCars);
                 },
-                child: Text(
-                  'View all',
-                  style: TextStyle(fontSize: 14.sp),
-                ),
+                child: Text('View all', style: TextStyle(fontSize: 14.sp)),
               ),
             ],
           ),

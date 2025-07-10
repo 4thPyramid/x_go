@@ -8,6 +8,7 @@ import 'package:x_go/core/utils/app_image_view.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/active_location/active_location_cubit.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/active_location/active_location_state.dart';
 import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
+import 'package:x_go/features/carBooking/presentation/components/select_location_component.dart';
 
 class HeaderComponent extends StatefulWidget {
   const HeaderComponent({super.key});
@@ -31,9 +32,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
         BlocBuilder<ActiveLocationCubit, ActiveLocationState>(
           builder: (context, state) {
             return GestureDetector(
-              onTap: () {
-                context.read<ActiveLocationCubit>().getActiveLocation();
-              },
+              onTap: () {},
               child: Row(
                 children: [
                   _buildLocationText(state),
