@@ -1,53 +1,40 @@
-import 'package:equatable/equatable.dart';
-
-class BookingModel extends Equatable {
+class MyBookingModel {
+  final int id;
   final String startDate;
   final String endDate;
   final String status;
   final String finalPrice;
   final String carModelYear;
-  final String carImage;
+  final String carModelImage;
+  final int carModelId;
   final String modelName;
   final String brandName;
 
-  const BookingModel({
+  MyBookingModel({
+    required this.id,
     required this.startDate,
     required this.endDate,
     required this.status,
     required this.finalPrice,
     required this.carModelYear,
-    required this.carImage,
+    required this.carModelImage,
+    required this.carModelId,
     required this.modelName,
     required this.brandName,
   });
 
-  factory BookingModel.fromJson(Map<String, dynamic> json) {
-    return BookingModel(
-      startDate: json['start_date'] ?? '',
-      endDate: json['end_date'] ?? '',
-      status: json['status'] ?? '',
-      finalPrice: json['final_price'] ?? '',
-      carModelYear: json['car_model_year'] ?? '',
-      carImage: json['car_model_image'] ?? '',
-      modelName: json['model_name'] ?? '',
-      brandName: json['brand_name'] ?? '',
+  factory MyBookingModel.fromJson(Map<String, dynamic> json) {
+    return MyBookingModel(
+      id: json['id'],
+      startDate: json['start_date'],
+      endDate: json['end_date'],
+      status: json['status'],
+      finalPrice: json['final_price'],
+      carModelYear: json['car_model_year'],
+      carModelImage: json['car_model_image'],
+      carModelId: json['car_model_id'],
+      modelName: json['model_name'],
+      brandName: json['brand_name'],
     );
-  }
-
-  @override
-  List<Object?> get props => [
-        startDate,
-        endDate,
-        status,
-        finalPrice,
-        carModelYear,
-        carImage,
-        modelName,
-        brandName,
-      ];
-
-  @override
-  String toString() {
-    return 'BookingModel(status: $status, car: $brandName $modelName $carModelYear)';
   }
 }

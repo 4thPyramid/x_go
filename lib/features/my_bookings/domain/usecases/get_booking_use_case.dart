@@ -8,7 +8,7 @@ class GetBookingList {
 
   GetBookingList(this.repository);
 
-  Future<Either<ErrorModel, List<BookingModel>>> call() async {
+  Future<Either<ErrorModel, List<MyBookingModel>>> call() async {
     return await repository.getBookingList();
   }
 }

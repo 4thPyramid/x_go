@@ -39,16 +39,15 @@ class MyBookingView extends StatelessWidget {
               itemBuilder: (context, index) {
                 final booking = bookings[index];
                 return BookingCard(
-  imageUrl: booking.carImage,
-  model: booking.modelName,
-  modelYear: booking.carModelYear,
-  brand: booking.brandName,
-  fromDate: booking.startDate,
-  toDate: booking.endDate,
-  price: booking.finalPrice,
-  status: booking.status,
-);
-
+                  imageUrl: booking.carModelImage,
+                  model: booking.modelName,
+                  modelYear: booking.carModelYear,
+                  brand: booking.brandName,
+                  fromDate: booking.startDate,
+                  toDate: booking.endDate,
+                  price: booking.finalPrice,
+                  status: booking.status,
+                );
               },
             );
           } else if (state is MyBookingError) {

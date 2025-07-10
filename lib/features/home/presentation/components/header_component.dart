@@ -76,9 +76,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
             Icon(Icons.location_on, size: 16.sp, color: Colors.black),
             SizedBox(width: 4.w),
             Text(
-              _formatLocationName(
-                locationState.activeLocation.location.toString(),
-              ),
+              locationState.activeLocation.location.toString(),
               style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w500,
@@ -103,10 +101,5 @@ class _HeaderComponentState extends State<HeaderComponent> {
       default:
         return Text('No Location Selected', style: TextStyle(fontSize: 13.sp));
     }
-  }
-
-  String _formatLocationName(String location) {
-    if (location.isEmpty) return 'Unknown Location';
-    return '${location[0].toUpperCase()}${location.substring(65)}, Egypt';
   }
 }

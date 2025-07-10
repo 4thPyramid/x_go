@@ -93,11 +93,10 @@ class _CarsListComponentState extends State<CarsListComponent> {
     return Column(
       children: [
         Expanded(
-          child: ListView.separated(
+          child: GridView.builder(
             controller: _scrollController,
             itemCount: cars.length,
             physics: const BouncingScrollPhysics(),
-            separatorBuilder: (_, __) => SizedBox(height: 16.h),
             itemBuilder: (context, index) {
               final car = cars[index];
               return InkWell(
@@ -111,6 +110,11 @@ class _CarsListComponentState extends State<CarsListComponent> {
                 ),
               );
             },
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 10,
+            ),
           ),
         ),
         if (_isLoadingMore && !state.hasReachedMax)

@@ -12,7 +12,7 @@ final class MyBookingInitial extends MyBookingState {}
 final class MyBookingLoading extends MyBookingState {}
 
 final class MyBookingLoaded extends MyBookingState {
-  final List<BookingModel> bookings;
+  final List<MyBookingModel> bookings;
 
   const MyBookingLoaded({required this.bookings});
 

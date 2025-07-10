@@ -81,7 +81,7 @@ class CarCardWidget extends StatelessWidget {
             right: 16,
             child: CircleAvatar(
               backgroundColor: Colors.orange,
-              radius: 28,
+              radius: 19,
               child: const Icon(Icons.arrow_forward, color: Colors.black),
             ),
           ),

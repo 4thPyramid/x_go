@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/routes/router_names.dart';
+import 'package:x_go/features/carBooking/data/model/book_car_model.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
+import 'package:x_go/features/my_bookings/data/models/booking_model.dart';
+
 class BookingCard extends StatelessWidget {
   final String imageUrl;
   final String brand;
@@ -8,6 +14,10 @@ class BookingCard extends StatelessWidget {
   final String toDate;
   final String price;
   final String status;
+
+  final CarEntity? car;
+  final MyBookingModel? myBookingModel;
+  final BookingModel? bookingModel;
 
   const BookingCard({
     super.key,
@@ -19,13 +29,33 @@ class BookingCard extends StatelessWidget {
     required this.toDate,
     required this.price,
     required this.status,
+    this.car,
+    this.myBookingModel,
+    this.bookingModel,
   });
+
+  Color getStatusColor(String status) {
+    switch (status) {
+      case 'initiated':
+        return Colors.blue;
+      case 'awaiting_payment':
+        return Colors.amber;
+      case 'payment_pending':
+        return Colors.red;
+      case 'confirmed':
+        return Colors.green;
+      case 'cancelled':
+        return Colors.grey;
+      default:
+        return Colors.black;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
@@ -41,7 +71,13 @@ class BookingCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: Image.network(imageUrl, height: 250, fit: BoxFit.cover),
+            child: Image.network(
+              imageUrl.startsWith("http")
+                  ? imageUrl
+                  : 'https://xgo.ibrahimbashaa.com/$imageUrl',
+              height: 250,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(height: 12),
           Text(
@@ -63,12 +99,24 @@ class BookingCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Chip(
-                label: Text(
-                  status.toUpperCase(),
-                  style: const TextStyle(color: Colors.white),
+              InkWell(
+                onTap: () {
+                  context.push(
+                    RouterNames.payment,
+                    extra: {
+                      'myBookingModel': myBookingModel,
+                      'car': car,
+                      'model': bookingModel,
+                    },
+                  );
+                },
+                child: Chip(
+                  label: Text(
+                    status,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: getStatusColor(status),
                 ),
-                backgroundColor: Colors.orange,
               ),
             ],
           ),

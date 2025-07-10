@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:x_go/core/common/widgets/logo.dart';
 import 'package:x_go/features/carBooking/data/model/book_car_model.dart';
+import 'package:x_go/features/my_bookings/data/models/booking_model.dart';
 import 'package:x_go/features/payment/presentation/component/car_details_component.dart';
 import 'package:x_go/features/payment/presentation/component/payment_component.dart';
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
@@ -8,10 +9,12 @@ import 'package:x_go/features/home/domain/entity/car_entity.dart';
 class PaymentView extends StatelessWidget {
   final CarEntity car;
   final BookingModel booking_model;
+  final MyBookingModel? myBookingModel;
   const PaymentView({
     super.key,
     required this.car,
     required this.booking_model,
+    this.myBookingModel,
   });
 
   @override
@@ -35,10 +38,18 @@ class PaymentView extends StatelessWidget {
                 const SizedBox(height: 32),
 
                 PaymentComponent(
-                  finalPrice: booking_model.data!.booking!.finalPrice
-                      .toString(),
-                  modelId: booking_model.data!.booking!.carmodelId!.toString(),
-                  bookingId: booking_model.data!.booking!.id!.toString(),
+                  finalPrice:
+                      booking_model.data!.booking!.finalPrice.toString() ??
+                      myBookingModel?.finalPrice.toString() ??
+                      '',
+                  modelId:
+                      booking_model.data!.booking!.carmodelId!.toString() ??
+                      myBookingModel?.carModelId.toString() ??
+                      '',
+                  bookingId:
+                      booking_model.data!.booking!.id!.toString() ??
+                      myBookingModel?.id.toString() ??
+                      '',
                 ),
               ],
             ),

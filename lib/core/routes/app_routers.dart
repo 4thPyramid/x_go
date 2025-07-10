@@ -24,6 +24,7 @@ import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_cubi
 import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
 import 'package:x_go/features/location/presentation/view/location_view.dart';
+import 'package:x_go/features/my_bookings/data/models/booking_model.dart';
 import 'package:x_go/features/my_bookings/presentation/logic/cubit/my_booking_cubit.dart';
 import 'package:x_go/features/my_bookings/presentation/views/my_booking_view.dart';
 import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
@@ -207,11 +208,16 @@ final GoRouter router = GoRouter(
       builder: (context, state) {
         final args = state.extra as Map<String, dynamic>;
         final car = args['car'] as CarEntity;
-        final booking_model = args['model'] as BookingModel;
+        final bookingModel = args['model'] as BookingModel;
+        final myBookingModel = args['myBookingModel'] as MyBookingModel?;
 
         return BlocProvider(
           create: (context) => PaymentCubit(),
-          child: PaymentView(car: car, booking_model: booking_model),
+          child: PaymentView(
+            car: car,
+            booking_model: bookingModel,
+            myBookingModel: myBookingModel,
+          ),
         );
       },
     ),

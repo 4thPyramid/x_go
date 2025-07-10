@@ -10,7 +10,7 @@ class BookingRepoImpl extends BookingRepository {
   BookingRepoImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<ErrorModel, List<BookingModel>>> getBookingList() async {
+  Future<Either<ErrorModel, List<MyBookingModel>>> getBookingList() async {
     try {
       final bookings = await remoteDataSource.getBookingList();
       return Right(bookings);
