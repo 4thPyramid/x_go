@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/payment/domain/entites/payment_method.dart';
 import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
@@ -227,11 +229,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Invoice'),
-        leading: IconButton(
-          onPressed: () => context.go(RouterNames.app),
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
       ),
       body: Center(
         child: Column(
@@ -247,6 +246,11 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
             ),
             const SizedBox(height: 8),
             Text('Transaction ID: ${widget.transactionId}'),
+            SizedBox(height: 40.h),
+            CustomButton(
+              text: 'Back to Home',
+              onPressed: () => context.go(RouterNames.app),
+            ),
           ],
         ),
       ),
@@ -260,14 +264,22 @@ class PaymentFailedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Payment Failed')),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('Payment Failed'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Icon(Icons.error, color: Colors.red, size: 80),
             SizedBox(height: 16),
             Text('Payment Failed!', style: TextStyle(fontSize: 22)),
+            SizedBox(height: 40.h),
+            CustomButton(
+              text: 'Back to Home',
+              onPressed: () => context.go(RouterNames.app),
+            ),
           ],
         ),
       ),

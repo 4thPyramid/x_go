@@ -51,10 +51,24 @@ class AppStrings {
   static const String starts = 'starts';
   static const String here = 'here';
   static const String startDriving = 'start_driving';
-  static const String login = 'login';
+  static const String email = 'email';
+  static const String password = 'password';
+  static const String confirmPassword = 'confirm_password';
+  static const String firstName = 'first_name';
+  static const String lastName = 'last_name';
+  static const String phoneNumber = 'phone_number';
+  static const String rememberMe = 'remember_me';
+  static const String forgotPassword = 'forgot_password';
   static const String register = 'register';
+  static const String login = 'login';
   static const String languageChanged = 'language_changed';
   static const String searchCarsOrBrands = 'search_cars_or_brands';
+  static const String youAreAllSet = 'you_are_all_set';
+  static const String yourPasswordHasBeenUpdated =
+      'your_password_has_been_updated';
+  static const String sendingEmail = 'sending_email';
+  static const String emailSent = 'email_sent';
+  static const String registerEmail = 'register_email';
 
   static const String errorChangingLanguage = 'error_changing_language';
 }

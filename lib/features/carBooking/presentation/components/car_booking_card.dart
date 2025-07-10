@@ -6,7 +6,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
-import 'package:x_go/features/carBooking/data/model/book_car_model.dart';
 import 'package:x_go/features/carBooking/presentation/components/select_location_component.dart';
 import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
 import 'package:x_go/features/carBooking/presentation/widgets/boooking_data_time_section.dart';

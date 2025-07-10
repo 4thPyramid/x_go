@@ -36,7 +36,7 @@ import 'package:x_go/features/splash/views/splash_view.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: CacheHelper.getToken() != null
+  initialLocation: CacheHelper.getData(key: 'isRememberMe') != null
       ? RouterNames.app
       : RouterNames.splash,
 
@@ -200,8 +200,6 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.profile,
       builder: (context, state) {
-        print('======================');
-        print(isGuest);
         return !isGuest ? const ProfilePage() : const AuthView(index: 0);
       },
     ),

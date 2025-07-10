@@ -106,6 +106,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
 
   String _formatLocationName(String location) {
     if (location.isEmpty) return 'Unknown Location';
-    return '${location[0].toUpperCase()}${location.substring(65)}, Egypt';
+    return '${location[0].toUpperCase()}${location.substring(1)}';
   }
 }

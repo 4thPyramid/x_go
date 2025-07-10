@@ -13,7 +13,7 @@
   "notification": "الإشعارات",
 
   "profile": "الملف الشخصي",
-  "your": "قيادتك",
+  "your": "قيادتك ",
   "sporty": "الرياضية",
   "drive": "تنطلق",
   "starts": "تبدأ",
@@ -57,5 +57,18 @@
   "back_to_home": "العودة إلى الرئيسية",
   "language_changed": "تم تغيير اللغة إلى {0}",
   "error_changing_language": "خطأ في تغيير اللغة",
+  "you_are_all_set": "كل شيء جاهز!",
+  "first_name": "الاسم الأول",
+  "last_name": "الاسم الأخير",
+  "email": "البريد الإلكتروني",
+  "phone_number": "رقم الهاتف",
+  "password": "كلمة المرور",
+  "confirm_password": "تأكيد كلمة المرور",
+  "remember_me": "تذكرني",
+  "forgot_password": "نسيت كلمة المرور؟",
+  "sending_email": "يرجى إدخال عنوان بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور.",
+  "email_sent": "تم إرسال البريد الإلكتروني بنجاح.",
+  "register_email": "البريد الإلكتروني للتسجيل",
+  "your_password_has_been_updated": "تم تحديث كلمة مرورك بنجاح",
   "search_cars_or_brands": "ابحث عن سيارات أو علامات تجارية"
 }
