@@ -44,8 +44,8 @@ class _LocationActionsComponentState extends State<LocationActionsComponent> {
                     Icons.location_on_outlined,
                     color: AppColors.primaryColor,
                   ),
-                  Spacer(),
-                  Text(state.locationName ?? 'حدد عنوانك'),
+
+                  Expanded(child: Text(state.locationName ?? 'حدد عنوانك',textAlign: TextAlign.right,maxLines: 2,overflow:  TextOverflow.ellipsis,style: TextStyle( ),)),
                 ],
               ),
               SizedBox(height: 16.h),
