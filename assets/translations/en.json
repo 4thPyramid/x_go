@@ -65,7 +65,21 @@
   "forgot_password": "Forgot Password?",
   "email_sent": "Email sent successfully.",
   "register_email": "Register Email",
+  "send_otp": "Send OTP",
+  "enter_otp": "Enter OTP",
   "sending_email": "Please enter your email address to receive a password reset link.",
+  "please_enter_otp": "Please enter the OTP sent to your email",
+  "wait_for_otp": "Wait for the OTP",
+  "resend_code": "Resend Code",
+  "verify": "Verify",
+  "secure_your_account": "Secure your account",
+  "please_create_strong_password": "Please create a strong password to secure your account.",
+  "saveNewPassword": "Save New Password",
+  "passwords_do_not_match": "Passwords do not match",
+  "create_new_password": "Create New Password",
+  "confirm_new_password": "Confirm New Password",
+  "home": "Home",
+  
   "language_changed": "Language changed to {0}",
   "error_changing_language": "Error changing language"
 }

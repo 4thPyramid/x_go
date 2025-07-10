@@ -11,7 +11,7 @@ class ForgetPasswordDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InstantLanguageBuilder(
+    return RealTimeLanguageBuilder(
       builder: (context, locale) {
         return Column(
           children: [

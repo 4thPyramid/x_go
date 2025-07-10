@@ -19,7 +19,7 @@ class _RememberMeComponentState extends State<RememberMeComponent> {
   bool isRememberMe = false;
   @override
   Widget build(BuildContext context) {
-    return InstantLanguageBuilder(
+    return RealTimeLanguageBuilder(
       builder: (context, locale) {
         return Row(
           children: [

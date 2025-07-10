@@ -6,7 +6,8 @@ import 'package:x_go/features/home/presentation/logic/cubit/active_location/acti
 class ActiveLocationCubit extends Cubit<ActiveLocationState> {
   final GetActiveLocationUseCase getActiveLocationUseCase;
 
-  ActiveLocationCubit({required this.getActiveLocationUseCase}) : super(ActiveLocationInitial());
+  ActiveLocationCubit({required this.getActiveLocationUseCase})
+    : super(ActiveLocationInitial());
 
   Future<void> getActiveLocation() async {
     emit(ActiveLocationLoading());
@@ -14,8 +15,8 @@ class ActiveLocationCubit extends Cubit<ActiveLocationState> {
     final result = await getActiveLocationUseCase(NoParams());
 
     result.fold(
-          (failure) => emit(ActiveLocationError(message: failure.message)),
-          (location) => emit(ActiveLocationLoaded(activeLocation: location)),
+      (failure) => emit(ActiveLocationError(message: failure.message)),
+      (location) => emit(ActiveLocationLoaded(activeLocation: location)),
     );
   }
 }

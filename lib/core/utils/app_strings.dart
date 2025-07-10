@@ -69,6 +69,20 @@ class AppStrings {
   static const String sendingEmail = 'sending_email';
   static const String emailSent = 'email_sent';
   static const String registerEmail = 'register_email';
-
+  static const String sendOtp = 'send_otp';
+  static const String enterOtp = 'enter_otp';
+  static const String pleaseEnterOtp = 'please_enter_otp';
+  static const String waitForOtp = 'wait_for_otp';
+  static const String resendCode = 'resend_code';
+  static const String verify = 'verify';
+  static const String secureYourAccount = 'secure_your_account';
+  static const String pleaseCreateStrongPassword =
+      'please_create_strong_password';
+  static const String saveNewPassword = 'save_new_password';
+  static const String passwordsDoNotMatch = 'passwords_do_not_match';
+  static const String createNewPassword = 'create_new_password';
+  static const String resetPassword = 'reset_password';
+  static const String confirmNewPassword = 'confirm_new_password';
+  static const String home = 'home';
   static const String errorChangingLanguage = 'error_changing_language';
 }

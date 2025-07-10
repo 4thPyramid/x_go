@@ -20,7 +20,7 @@ class ForgetPasswordComponent extends StatelessWidget {
     final _formKey = GlobalKey<FormState>();
     final _emailController = TextEditingController();
 
-    return InstantLanguageBuilder(
+    return RealTimeLanguageBuilder(
       builder: (context, locale) {
         return Form(
           key: _formKey,
@@ -38,7 +38,7 @@ class ForgetPasswordComponent extends StatelessWidget {
               ),
               SizedBox(height: 8.h),
               CustomTextFormField(
-                labelText: AppStrings.email,
+                labelText: AppStrings.email.tr(),
                 controller: _emailController,
                 prefixIcon: Icon(Icons.email, color: Colors.grey[600]),
                 fillColor: Colors.grey.withValues(alpha: 0.3),
@@ -51,7 +51,7 @@ class ForgetPasswordComponent extends StatelessWidget {
                   return state is ForgotPasswordLoading
                       ? const Center(child: CircularProgressIndicator())
                       : CustomButton(
-                          text: 'Send OTP Code',
+                          text: AppStrings.sendOtp.tr(),
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
                               context.read<AuthCubit>().forgetPassword(
