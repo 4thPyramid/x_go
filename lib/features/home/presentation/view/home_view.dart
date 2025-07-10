@@ -1,9 +1,13 @@
 // features/home/presentation/views/home_view.dart
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/features/home/data/models/filter_info_model.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
 import 'package:x_go/features/home/presentation/components/car_component.dart';
+import 'package:x_go/features/home/presentation/components/custom_cursor_slider.dart';
 import 'package:x_go/features/language/presentation/widgets/instant_language_builder.dart';
 import '../components/header_component.dart';
 import '../components/popular_cars_component.dart';
@@ -55,7 +59,9 @@ class _HomeViewState extends State<HomeView>
                   const HeaderComponent(),
                   SizedBox(height: 8.h),
                   SearchComponent(onParamsChanged: _updateParams),
-                  SizedBox(height: 4.h),
+                  SizedBox(height: 12.h),
+                  const CustomCursorSlider(),
+                  SizedBox(height: 0.h),
                   const PopularCarsComponent(),
                   SizedBox(height: 8.h),
                   Expanded(
