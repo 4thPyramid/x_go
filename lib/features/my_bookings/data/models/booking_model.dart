@@ -1,40 +1,53 @@
-class BookingModel {
-  final int bookingId;
+import 'package:equatable/equatable.dart';
+
+class BookingModel extends Equatable {
   final String startDate;
   final String endDate;
-  final String finalPrice;
   final String status;
-  final String carName;
-  final String brandName;
+  final String finalPrice;
+  final String carModelYear;
   final String carImage;
+  final String modelName;
+  final String brandName;
 
-  BookingModel({
-    required this.bookingId,
+  const BookingModel({
     required this.startDate,
     required this.endDate,
-    required this.finalPrice,
     required this.status,
-    required this.carName,
-    required this.brandName,
+    required this.finalPrice,
+    required this.carModelYear,
     required this.carImage,
+    required this.modelName,
+    required this.brandName,
   });
 
   factory BookingModel.fromJson(Map<String, dynamic> json) {
-    final model = json['model'];
-    final attributes = model?['attributes'] ?? {};
-    final relationship = model?['relationship'] ?? {};
-    final modelNames = relationship['Model Names'] ?? {};
-    final brand = relationship['Brand'] ?? {};
-
     return BookingModel(
-      bookingId: json['booking_id'],
-      startDate: json['start_date'],
-      endDate: json['end_date'],
-      finalPrice: json['final_price'],
-      status: json['status'],
-      carName: modelNames['model_name'] ?? '',
-      brandName: brand['brand_name'] ?? '',
-      carImage: attributes['image'] ?? '',
+      startDate: json['start_date'] ?? '',
+      endDate: json['end_date'] ?? '',
+      status: json['status'] ?? '',
+      finalPrice: json['final_price'] ?? '',
+      carModelYear: json['car_model_year'] ?? '',
+      carImage: json['car_model_image'] ?? '',
+      modelName: json['model_name'] ?? '',
+      brandName: json['brand_name'] ?? '',
     );
+  }
+
+  @override
+  List<Object?> get props => [
+        startDate,
+        endDate,
+        status,
+        finalPrice,
+        carModelYear,
+        carImage,
+        modelName,
+        brandName,
+      ];
+
+  @override
+  String toString() {
+    return 'BookingModel(status: $status, car: $brandName $modelName $carModelYear)';
   }
 }

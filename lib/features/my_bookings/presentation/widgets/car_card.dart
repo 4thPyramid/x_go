@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
 class BookingCard extends StatelessWidget {
   final String imageUrl;
   final String brand;
   final String model;
+  final String modelYear;
   final String fromDate;
   final String toDate;
   final String price;
@@ -14,6 +14,7 @@ class BookingCard extends StatelessWidget {
     required this.imageUrl,
     required this.brand,
     required this.model,
+    required this.modelYear,
     required this.fromDate,
     required this.toDate,
     required this.price,
@@ -44,7 +45,7 @@ class BookingCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            '$brand - $model',
+            '$brand - $model ($modelYear)',
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 6),

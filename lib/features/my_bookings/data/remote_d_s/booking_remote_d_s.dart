@@ -7,11 +7,24 @@ class BookingRemoteDataSource {
   BookingRemoteDataSource(this.apiConsumer);
 
   Future<List<BookingModel>> getBookingList() async {
-    final response = await apiConsumer.get('booking-list');
-    final List<dynamic> data = response['data'] ?? [];
+    try {
+      final response = await apiConsumer.get('booking-list');
+      final List<dynamic> data = response['data'];
 
-    return data
-        .map((json) => BookingModel.fromJson(json as Map<String, dynamic>))
-        .toList();
+      return data
+          .map((json) {
+            try {
+              return BookingModel.fromJson(json as Map<String, dynamic>);
+            } catch (e) {
+              print('❌ Failed to parse booking item: $e');
+              return null;
+            }
+          })
+          .whereType<BookingModel>()
+          .toList();
+        } catch (e) {
+      print('❌ Error getting booking list: $e');
+      rethrow;
+    }
   }
 }
