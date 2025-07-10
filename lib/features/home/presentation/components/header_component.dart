@@ -25,13 +25,12 @@ class _HeaderComponentState extends State<HeaderComponent> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        AppImageView(AppAssets.menu),
         const Spacer(),
         BlocBuilder<ActiveLocationCubit, ActiveLocationState>(
           builder: (context, state) {
             return GestureDetector(
               onTap: () {
-                print('Location tapped');
+                context.read<ActiveLocationCubit>().getActiveLocation();
               },
               child: Row(
                 children: [
@@ -89,12 +88,13 @@ class _HeaderComponentState extends State<HeaderComponent> {
         );
 
       case const (ActiveLocationError):
+        final errorState = state as ActiveLocationError;
         return Row(
           children: [
             Icon(Icons.location_off, size: 16.sp, color: Colors.red),
             SizedBox(width: 4.w),
             Text(
-              'Location Error',
+              errorState.message,
               style: TextStyle(fontSize: 13.sp, color: Colors.red),
             ),
           ],
