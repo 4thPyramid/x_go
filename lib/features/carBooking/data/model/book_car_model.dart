@@ -65,12 +65,12 @@ class Booking {
     return Booking(
       startDate: json['start_date'],
       endDate: json['end_date'],
-      finalPrice: json['final_price'],
-      userId: json['user_id'],
-      carmodelId: json['carmodel_id'],
+      finalPrice: json['final_price']?.toInt(),
+      userId: json['user_id']?.toInt(),
+      carmodelId: json['carmodel_id']?.toInt(),
       additionalDriver: json['additional_driver'],
-      id: json['id'],
-      locationId: json['location_id'],
+      id: json['id']?.toInt(),
+      locationId: json['location_id']?.toInt(),
       location: json['location'] != null
           ? Location.fromJson(json['location'])
           : null,

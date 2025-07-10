@@ -24,7 +24,6 @@ class SplashView extends StatelessWidget {
           SizedBox.expand(
             child: AppImageView(AppAssets.splash, fit: BoxFit.cover),
           ),
-          // Dark Overlay
           darkOverlay(),
           // Content
           SafeArea(
@@ -33,6 +32,7 @@ class SplashView extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 20.h),
+
                   Center(child: AppImageView(AppAssets.logo)),
                   SizedBox(height: 10.h),
                   HeaderSplash(),
