@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:x_go/features/language/presentation/logic/cubit/lang_cupit.dart';
 
-class InstantLanguageBuilder extends StatelessWidget {
+class RealTimeLanguageBuilder extends StatelessWidget {
   final Widget Function(BuildContext context, Locale locale) builder;
 
-  const InstantLanguageBuilder({super.key, required this.builder});
+  const RealTimeLanguageBuilder({super.key, required this.builder});
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +33,6 @@ class LanguageInstantWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InstantLanguageBuilder(builder: (context, locale) => child);
+    return RealTimeLanguageBuilder(builder: (context, locale) => child);
   }
 }

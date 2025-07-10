@@ -51,7 +51,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    return InstantLanguageBuilder(
+    return RealTimeLanguageBuilder(
       builder: (context, locale) {
         return SingleChildScrollView(
           child: Padding(

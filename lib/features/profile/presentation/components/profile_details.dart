@@ -12,7 +12,7 @@ class ProfileDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InstantLanguageBuilder(
+    return RealTimeLanguageBuilder(
       builder: (context, locale) {
         return ProfileSection(
           title: AppStrings.profileDetails.tr(),

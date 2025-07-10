@@ -70,5 +70,19 @@
   "email_sent": "تم إرسال البريد الإلكتروني بنجاح.",
   "register_email": "البريد الإلكتروني للتسجيل",
   "your_password_has_been_updated": "تم تحديث كلمة مرورك بنجاح",
-  "search_cars_or_brands": "ابحث عن سيارات أو علامات تجارية"
+  "send_otp": "إرسال رمز التحقق",
+  "enter_otp": "أدخل رمز التحقق",
+  "please_enter_otp": "يرجى إدخال رمز التحقق المرسل إلى بريدك الإلكتروني",
+  "wait_for_otp": "انتظر رمز التحقق",
+  "resend_code": "إعادة إرسال الرمز",
+  "verify": "تحقق",
+  "secure_your_account": "قم بتأمين حسابك",
+  "please_create_strong_password": "يرجى إنشاء كلمة مرور قوية لتأمين حسابك.",
+  "save_new_password": "حفظ كلمة المرور الجديدة",
+  "passwords_do_not_match": "كلمات المرور غير متطابقة",
+  "create_new_password": "إنشاء كلمة مرور جديدة",
+  "confirm_new_password": "تأكيد كلمة المرور الجديدة",
+  "search_cars_or_brands": "ابحث عن سيارات أو علامات تجارية",
+  "home": "الصفحة الرئيسية",
+  "car_details": "تفاصيل السيارة"
 }

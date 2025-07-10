@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +8,9 @@ import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
+import 'package:x_go/core/utils/app_strings.dart';
 import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
+import 'package:x_go/features/language/presentation/widgets/instant_language_builder.dart';
 
 class ResetPasswordComponent extends StatefulWidget {
   final String email;
@@ -39,35 +42,42 @@ class _ResetPasswordComponentState extends State<ResetPasswordComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          _buildPasswordField(),
-          SizedBox(height: 20.h),
-          _buildConfirmPasswordField(),
-          SizedBox(height: 25.h),
-          BlocConsumer<AuthCubit, AuthState>(
-            listener: (context, state) {
-              if (state is ResetPasswordError) {
-                showToast(message: state.message, state: ToastStates.ERROR);
-              } else if (state is ResetPasswordSuccess) {
-                showToast(message: state.message, state: ToastStates.SUCCESS);
-                context.push(RouterNames.success_updated);
-              }
-            },
-            builder: (context, state) {
-              if (state is ResetPasswordLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              return CustomButton(
-                text: 'Save New Password',
-                onPressed: _handleResetPassword,
-              );
-            },
+    return RealTimeLanguageBuilder(
+      builder: (context, locale) {
+        return Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              _buildPasswordField(),
+              SizedBox(height: 20.h),
+              _buildConfirmPasswordField(),
+              SizedBox(height: 25.h),
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is ResetPasswordError) {
+                    showToast(message: state.message, state: ToastStates.ERROR);
+                  } else if (state is ResetPasswordSuccess) {
+                    showToast(
+                      message: state.message,
+                      state: ToastStates.SUCCESS,
+                    );
+                    context.push(RouterNames.success_updated);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is ResetPasswordLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return CustomButton(
+                    text: AppStrings.saveNewPassword.tr(),
+                    onPressed: _handleResetPassword,
+                  );
+                },
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -86,7 +96,10 @@ class _ResetPasswordComponentState extends State<ResetPasswordComponent> {
   void _handleResetPassword() {
     if (_formKey.currentState?.validate() ?? false) {
       if (_passwordController.text != _confirmPasswordController.text) {
-        showToast(message: 'Passwords do not match', state: ToastStates.ERROR);
+        showToast(
+          message: AppStrings.passwordsDoNotMatch.tr(),
+          state: ToastStates.ERROR,
+        );
         return;
       }
       context.read<AuthCubit>().resetPassword(
@@ -102,7 +115,7 @@ class _ResetPasswordComponentState extends State<ResetPasswordComponent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Create New Password',
+          AppStrings.createNewPassword.tr(),
           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10.h),
@@ -131,7 +144,7 @@ class _ResetPasswordComponentState extends State<ResetPasswordComponent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Confirm New Password',
+          AppStrings.confirmNewPassword.tr(),
           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10.h),

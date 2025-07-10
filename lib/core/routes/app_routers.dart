@@ -27,7 +27,6 @@ import 'package:x_go/features/location/presentation/view/location_view.dart';
 import 'package:x_go/features/my_bookings/presentation/logic/cubit/my_booking_cubit.dart';
 import 'package:x_go/features/my_bookings/presentation/views/my_booking_view.dart';
 import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
-
 import 'package:x_go/features/payment/presentation/views/payment_view.dart';
 import 'package:x_go/features/profile/presentation/logic/cubit/profile_edit_cubit.dart';
 import 'package:x_go/features/profile/presentation/views/profile_settings_details.dart';
