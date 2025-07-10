@@ -56,7 +56,7 @@ class _HomeViewState extends State<HomeView>
                   SizedBox(height: 8.h),
                   SearchComponent(onParamsChanged: _updateParams),
                   SizedBox(height: 4.h),
-                  const PopularCarsComponent(),
+                  //  const PopularCarsComponent(),
                   SizedBox(height: 8.h),
                   Expanded(
                     child: CarsListComponent(currentParams: _currentParams),

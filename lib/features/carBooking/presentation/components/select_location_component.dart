@@ -42,106 +42,108 @@ class _SelectLocationComponentState extends State<SelectLocationComponent> {
           label: locationName ?? 'Add Return Location',
           onTap: () async {
             showModalBottomSheet(
-
               enableDrag: true,
               showDragHandle: true,
 
               context: context,
-              builder: (context) =>
-                  BlocProvider(
-                    create: (context) => CarBookingCubit()..getAllLocations(),
-                    child: Container(
-
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(50.r),
-                          topRight: Radius.circular(50.r),
-                        ),
-                      ),
-                      height: 400.h,
-                      child: BlocBuilder<CarBookingCubit, CarBookingState>(
-                        builder: (context, state) {
-                          if (state is GetLocationLoading) {
-                            return Center(child: CircularProgressIndicator());
-                          } else if (state is GetLocationSuccess) {
-                            return Column(
-                              children: [
-                                Expanded(
-                                  child: state.locations.data!.isEmpty
-                                      ? const Center(
-                                    child: Text('لا يوجد عناوين متاحه'),
-                                  )
-                                      : ListView.builder(
-                                    itemCount: state.locations.data!.length,
-                                    itemBuilder: (context, index) {
-                                      final location =
-                                      state.locations.data![index];
-                                      return ListTile(
-                                        textColor:
-                                        state
-                                            .locations
-                                            .data![index]
-                                            .isActive ==
-                                            1
-                                            ? Colors.green
-                                            : Colors.black,
-                                        iconColor:
-                                        state
-                                            .locations
-                                            .data![index]
-                                            .isActive ==
-                                            1
-                                            ? Colors.green
-                                            : Colors.black,
-                                        title: Text(location.location ?? ''),
-
-                                        trailing: const Icon(
-                                          Icons.arrow_forward_ios,
-                                        ),
-                                        leading: const Icon(Icons.location_on),
-                                        subtitle: Text(location.latitude ?? ''),
-                                        onTap: () {
-                                          setState(() {
-                                            locationName = location.location;
-                                            latLng = LatLng(
-                                              double.parse(
-                                                location.latitude ?? '',
-                                              ),
-                                              double.parse(
-                                                location.longitude ?? '',
-                                              ),
-                                            );
-                                            locationId = location.id.toString();
-                                            widget.onLocationSelected(
-                                              locationName!,
-                                              latLng!,
-                                              locationId!,
-                                            );
-                                          });
-
-                                          context.pop();
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ),
-                                CustomButton(
-                                  text: 'Add New Location',
-                                  onPressed: () {
-                                    context.push(RouterNames.location);
-                                  },
-                                ),
-                                const SizedBox(height: 16),
-                              ],
-                            );
-                          } else if (state is GetLocationError) {
-                            return Center(child: Text(state.message));
-                          }
-                          return const Center(child: Text('Bottom Sheet'));
-                        },
-                      ),
+              builder: (context) => BlocProvider(
+                create: (context) => CarBookingCubit()..getAllLocations(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50.r),
+                      topRight: Radius.circular(50.r),
                     ),
                   ),
+                  height: 400.h,
+                  child: BlocBuilder<CarBookingCubit, CarBookingState>(
+                    builder: (context, state) {
+                      if (state is GetLocationLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state is GetLocationSuccess) {
+                        return Column(
+                          children: [
+                            Expanded(
+                              child: state.locations.data!.isEmpty
+                                  ? const Center(
+                                      child: Text('لا يوجد عناوين متاحه'),
+                                    )
+                                  : ListView.builder(
+                                      itemCount: state.locations.data!.length,
+                                      itemBuilder: (context, index) {
+                                        final location =
+                                            state.locations.data![index];
+                                        return ListTile(
+                                          textColor:
+                                              state
+                                                      .locations
+                                                      .data![index]
+                                                      .isActive ==
+                                                  1
+                                              ? Colors.green
+                                              : Colors.black,
+                                          iconColor:
+                                              state
+                                                      .locations
+                                                      .data![index]
+                                                      .isActive ==
+                                                  1
+                                              ? Colors.green
+                                              : Colors.black,
+                                          title: Text(location.location ?? ''),
+
+                                          trailing: const Icon(
+                                            Icons.arrow_forward_ios,
+                                          ),
+                                          leading: const Icon(
+                                            Icons.location_on,
+                                          ),
+                                          subtitle: Text(
+                                            location.latitude ?? '',
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              locationName = location.location;
+                                              latLng = LatLng(
+                                                double.parse(
+                                                  location.latitude ?? '',
+                                                ),
+                                                double.parse(
+                                                  location.longitude ?? '',
+                                                ),
+                                              );
+                                              locationId = location.id
+                                                  .toString();
+                                              widget.onLocationSelected(
+                                                locationName!,
+                                                latLng!,
+                                                locationId!,
+                                              );
+                                            });
+
+                                            context.pop();
+                                          },
+                                        );
+                                      },
+                                    ),
+                            ),
+                            CustomButton(
+                              text: 'Add New Location',
+                              onPressed: () {
+                                context.push(RouterNames.location);
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                          ],
+                        );
+                      } else if (state is GetLocationError) {
+                        return Center(child: Text(state.message));
+                      }
+                      return const Center(child: Text('Bottom Sheet'));
+                    },
+                  ),
+                ),
+              ),
             );
           },
         ),
