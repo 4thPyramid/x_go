@@ -8,6 +8,8 @@ import 'package:x_go/core/common/widgets/location_button.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
 
+import '../../../../core/services/service_locator.dart';
+
 class SelectLocationComponent extends StatefulWidget {
   final Function(String name, LatLng latLng, String locationId)
   onLocationSelected;
@@ -39,50 +41,56 @@ class _SelectLocationComponentState extends State<SelectLocationComponent> {
         LocationButton(
           label: locationName ?? 'Add Return Location',
           onTap: () async {
-            context.read<CarBookingCubit>().getAllLocations();
-            showBottomSheet(
+            showModalBottomSheet(
+
+              enableDrag: true,
+              showDragHandle: true,
+
               context: context,
-              builder: (context) => Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50.r),
-                    topRight: Radius.circular(50.r),
-                  ),
-                ),
-                height: 400.h,
-                child: BlocBuilder<CarBookingCubit, CarBookingState>(
-                  builder: (context, state) {
-                    if (state is GetLocationLoading) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (state is GetLocationSuccess) {
-                      return Column(
-                        children: [
-                          Expanded(
-                            child: state.locations.data!.isEmpty
-                                ? const Center(
+              builder: (context) =>
+                  BlocProvider(
+                    create: (context) => CarBookingCubit()..getAllLocations(),
+                    child: Container(
+
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50.r),
+                          topRight: Radius.circular(50.r),
+                        ),
+                      ),
+                      height: 400.h,
+                      child: BlocBuilder<CarBookingCubit, CarBookingState>(
+                        builder: (context, state) {
+                          if (state is GetLocationLoading) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (state is GetLocationSuccess) {
+                            return Column(
+                              children: [
+                                Expanded(
+                                  child: state.locations.data!.isEmpty
+                                      ? const Center(
                                     child: Text('لا يوجد عناوين متاحه'),
                                   )
-                                : ListView.builder(
+                                      : ListView.builder(
                                     itemCount: state.locations.data!.length,
                                     itemBuilder: (context, index) {
                                       final location =
-                                          state.locations.data![index];
+                                      state.locations.data![index];
                                       return ListTile(
                                         textColor:
-                                            state
-                                                    .locations
-                                                    .data![index]
-                                                    .isActive ==
-                                                1
+                                        state
+                                            .locations
+                                            .data![index]
+                                            .isActive ==
+                                            1
                                             ? Colors.green
                                             : Colors.black,
                                         iconColor:
-                                            state
-                                                    .locations
-                                                    .data![index]
-                                                    .isActive ==
-                                                1
+                                        state
+                                            .locations
+                                            .data![index]
+                                            .isActive ==
+                                            1
                                             ? Colors.green
                                             : Colors.black,
                                         title: Text(location.location ?? ''),
@@ -116,23 +124,24 @@ class _SelectLocationComponentState extends State<SelectLocationComponent> {
                                       );
                                     },
                                   ),
-                          ),
-                          CustomButton(
-                            text: 'Add New Location',
-                            onPressed: () {
-                              context.push(RouterNames.location);
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                        ],
-                      );
-                    } else if (state is GetLocationError) {
-                      return Center(child: Text(state.message));
-                    }
-                    return const Center(child: Text('Bottom Sheet'));
-                  },
-                ),
-              ),
+                                ),
+                                CustomButton(
+                                  text: 'Add New Location',
+                                  onPressed: () {
+                                    context.push(RouterNames.location);
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                              ],
+                            );
+                          } else if (state is GetLocationError) {
+                            return Center(child: Text(state.message));
+                          }
+                          return const Center(child: Text('Bottom Sheet'));
+                        },
+                      ),
+                    ),
+                  ),
             );
           },
         ),

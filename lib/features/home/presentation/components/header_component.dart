@@ -7,6 +7,7 @@ import 'package:x_go/core/utils/app_assets.dart';
 import 'package:x_go/core/utils/app_image_view.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/active_location/active_location_cubit.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/active_location/active_location_state.dart';
+import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
 
 class HeaderComponent extends StatefulWidget {
   const HeaderComponent({super.key});
@@ -107,6 +108,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
 
   String _formatLocationName(String location) {
     if (location.isEmpty) return 'Unknown Location';
-    return '${location[0].toUpperCase()}${location.substring(65)}, Egypt';
+    return '${location[0].toUpperCase()}${location.substring(65)}';
   }
 }
