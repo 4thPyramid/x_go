@@ -200,8 +200,6 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.profile,
       builder: (context, state) {
-        print('======================');
-        print(isGuest);
         return !isGuest ? const ProfilePage() : const AuthView(index: 0);
       },
     ),
