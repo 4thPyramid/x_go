@@ -29,12 +29,15 @@ class DioConsumer extends ApiConsumer {
   }) async {
     try {
       final token = CacheHelper.getToken();
+      final lang = CacheHelper.getData(key: 'languageKey') ?? 'en';
       final response = await dio.get(
         path,
         queryParameters: queryParameters,
         options: Options(
           headers: {
             'Accept': 'application/vnd.api+json',
+
+            'accept-language': lang,
             'Content-Type': 'application/vnd.api+json',
             'Authorization': 'Bearer $token',
           },
@@ -56,6 +59,8 @@ class DioConsumer extends ApiConsumer {
   }) async {
     try {
       final token = CacheHelper.getToken();
+      final lang = CacheHelper.getData(key: 'languageKey') ?? 'en';
+
       final response = await dio.post(
         path,
         data: isFormData
@@ -66,6 +71,8 @@ class DioConsumer extends ApiConsumer {
           headers: {
             'Accept': 'application/vnd.api+json',
             'Content-Type': 'application/vnd.api+json',
+            'accept-language': lang,
+
             'Authorization': 'Bearer $token',
           },
         ),
