@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/features/home/data/models/filter_info_model.dart';
 import 'package:x_go/features/home/presentation/components/car_component.dart';
+import 'package:x_go/features/language/presentation/widgets/instant_language_builder.dart';
 import '../components/header_component.dart';
 import '../components/popular_cars_component.dart';
 import '../components/search_component.dart';
@@ -42,23 +43,29 @@ class _HomeViewState extends State<HomeView>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 15.h),
-              const HeaderComponent(),
-              SizedBox(height: 8.h),
-              SearchComponent(onParamsChanged: _updateParams),
-              SizedBox(height: 4.h),
-              const PopularCarsComponent(),
-              SizedBox(height: 8.h),
-              Expanded(child: CarsListComponent(currentParams: _currentParams)),
-            ],
-          ),
-        ),
+      body: RealTimeLanguageBuilder(
+        builder: (context, locale) {
+          return SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 15.h),
+                  const HeaderComponent(),
+                  SizedBox(height: 8.h),
+                  SearchComponent(onParamsChanged: _updateParams),
+                  SizedBox(height: 4.h),
+                  const PopularCarsComponent(),
+                  SizedBox(height: 8.h),
+                  Expanded(
+                    child: CarsListComponent(currentParams: _currentParams),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

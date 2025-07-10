@@ -43,7 +43,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return InstantLanguageBuilder(
+    return RealTimeLanguageBuilder(
       builder: (context, locale) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
