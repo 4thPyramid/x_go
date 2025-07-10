@@ -79,9 +79,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'Content-Type': 'application/vnd.api+json',
       },
     );
-    print('==============================');
-    print(isRememberMe.toString());
-    isRememberMe ? CacheHelper.saveToken(value: response['token']) : null;
+
+    CacheHelper.saveToken(value: response['token']);
+    isRememberMe
+        ? CacheHelper.saveData(key: 'isRememberMe', value: true)
+        : null;
     return LoginResponseModel.fromJson(response);
   }
 

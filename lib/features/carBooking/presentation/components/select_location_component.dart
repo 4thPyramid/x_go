@@ -56,9 +56,6 @@ class _SelectLocationComponentState extends State<SelectLocationComponent> {
                     if (state is GetLocationLoading) {
                       return Center(child: CircularProgressIndicator());
                     } else if (state is GetLocationSuccess) {
-                      print('================================');
-                      print(state.locations.data!.isEmpty);
-
                       return Column(
                         children: [
                           Expanded(
@@ -69,8 +66,6 @@ class _SelectLocationComponentState extends State<SelectLocationComponent> {
                                 : ListView.builder(
                                     itemCount: state.locations.data!.length,
                                     itemBuilder: (context, index) {
-                                      print('================================');
-                                      print(state.locations.data!.isEmpty);
                                       final location =
                                           state.locations.data![index];
                                       return ListTile(
@@ -122,13 +117,13 @@ class _SelectLocationComponentState extends State<SelectLocationComponent> {
                                     },
                                   ),
                           ),
-                          const SizedBox(height: 16),
                           CustomButton(
                             text: 'Add New Location',
                             onPressed: () {
                               context.push(RouterNames.location);
                             },
                           ),
+                          const SizedBox(height: 16),
                         ],
                       );
                     } else if (state is GetLocationError) {
@@ -139,21 +134,6 @@ class _SelectLocationComponentState extends State<SelectLocationComponent> {
                 ),
               ),
             );
-            /*
-            setState(() async {
-              final result = await context.push<Map<String, dynamic>>(
-                RouterNames.location,
-              );
-              if (result != null && mounted) {
-                setState(() {
-                  locationName = result['name'];
-                  latLng = result['position'];
-
-                  widget.onLocationSelected(locationName!, latLng!);
-                });
-              }
-            });
-    */
           },
         ),
         const SizedBox(height: 35),

@@ -1,5 +1,3 @@
-import 'package:x_go/features/my_bookings/domain/entities/booking_intity.dart';
-
 class BookingModel {
   final int bookingId;
   final String startDate;
@@ -25,6 +23,7 @@ class BookingModel {
     final model = json['model'];
     final attributes = model?['attributes'] ?? {};
     final relationship = model?['relationship'] ?? {};
+    final modelNames = relationship['Model Names'] ?? {};
     final brand = relationship['Brand'] ?? {};
 
     return BookingModel(
@@ -33,22 +32,9 @@ class BookingModel {
       endDate: json['end_date'],
       finalPrice: json['final_price'],
       status: json['status'],
-      carName: attributes['name'] ?? '',
+      carName: modelNames['model_name'] ?? '',
       brandName: brand['brand_name'] ?? '',
       carImage: attributes['image'] ?? '',
-    );
-  }
-
-  BookingIntity toEntity() {
-    return BookingIntity(
-      bookingId: bookingId,
-      startDate: startDate,
-      endDate: endDate,
-      finalPrice: finalPrice,
-      status: status,
-      carName: carName,
-      brandName: brandName,
-      carImage: carImage,
     );
   }
 }

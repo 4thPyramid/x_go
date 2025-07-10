@@ -23,7 +23,6 @@ class SplashView extends StatelessWidget {
           SizedBox.expand(
             child: AppImageView(AppAssets.splash, fit: BoxFit.cover),
           ),
-          // Dark Overlay
           darkOverlay(),
           // Content
           SafeArea(
@@ -32,31 +31,7 @@ class SplashView extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 20.h),
-                  // ElevatedButton(
-                  //   onPressed: () async {
-                  //     final authToken = await PaymobService.getAuthToken();
-                  //     final orderId = await PaymobService.createOrder(
-                  //       authToken,
-                  //       int.parse('100') * 100,
-                  //     );
-                  //     final paymentKey = await PaymobService.getPaymentKey(
-                  //       authToken,
-                  //       orderId,
-                  //       int.parse('100') * 100,
-                  //     );
-                  //     String paymentUrl =
-                  //         "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
-                  //     // ignore: use_build_context_synchronously
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) =>
-                  //             PaymobPaymentScreen(iframeUrl: paymentUrl),
-                  //       ),
-                  //     );
-                  //   },
-                  //   child: Text('Test'),
-                  // ), // Logo
+
                   Center(child: AppImageView(AppAssets.logo)),
                   SizedBox(height: 10.h),
                   HeaderSplash(),
