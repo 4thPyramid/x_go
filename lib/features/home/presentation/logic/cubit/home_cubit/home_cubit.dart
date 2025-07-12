@@ -89,7 +89,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  /// Search cars - delegates to SearchCubit logic
+  /// Search cars - supports searching by brand, model, and general search
   Future<void> searchCars(String query) async {
     final trimmedQuery = query.trim().toLowerCase();
 
@@ -103,6 +103,7 @@ class HomeCubit extends Cubit<HomeState> {
       return;
     }
 
+    // Check cache first
     if (_searchCache.containsKey(trimmedQuery)) {
       final cachedCars = _searchCache[trimmedQuery]!;
 
@@ -116,6 +117,7 @@ class HomeCubit extends Cubit<HomeState> {
       );
       return;
     }
+
     if (_lastSearchQuery == trimmedQuery) {
       return;
     }
@@ -125,27 +127,103 @@ class HomeCubit extends Cubit<HomeState> {
     emit(SearchLoading());
 
     try {
+      // Try searching with general search first
       final params = HomeRequestParams(page: 1, search: trimmedQuery);
       final result = await getCarsUseCase(params);
 
       result.fold(
         (failure) {
-          emit(HomeError(message: failure.message));
-        },
-        (cars) {
-          _searchCache[trimmedQuery] = cars;
-
-          if (_searchCache.length > 15) {
-            final oldestKey = _searchCache.keys.first;
-            _searchCache.remove(oldestKey);
-          }
+          // Keep the search params even on error so UI maintains the search text
           emit(
-            CarsLoaded(cars: cars, currentParams: params, hasReachedMax: true),
+            CarsLoaded(
+              cars: [],
+              currentParams: params,
+              hasReachedMax: true,
+              errorMessage: failure.message,
+            ),
           );
+        },
+        (cars) async {
+          // If no results with general search, try searching by model
+          if (cars.isEmpty) {
+            final modelParams = HomeRequestParams(page: 1, model: trimmedQuery);
+            final modelResult = await getCarsUseCase(modelParams);
+
+            modelResult.fold(
+              (failure) {
+                // Return empty results but keep search params for UI consistency
+                emit(
+                  CarsLoaded(
+                    cars: [],
+                    currentParams:
+                        params, // Use original search params, not model params
+                    hasReachedMax: true,
+                    errorMessage: "No results found for '$trimmedQuery'",
+                  ),
+                );
+              },
+              (modelCars) {
+                // Cache results with empty list if no model results either
+                if (modelCars.isEmpty) {
+                  _searchCache[trimmedQuery] = [];
+                  emit(
+                    CarsLoaded(
+                      cars: [],
+                      currentParams:
+                          params, // Use original search params for UI consistency
+                      hasReachedMax: true,
+                      errorMessage: "No results found for '$trimmedQuery'",
+                    ),
+                  );
+                } else {
+                  _searchCache[trimmedQuery] = modelCars;
+
+                  if (_searchCache.length > 15) {
+                    final oldestKey = _searchCache.keys.first;
+                    _searchCache.remove(oldestKey);
+                  }
+
+                  emit(
+                    CarsLoaded(
+                      cars: modelCars,
+                      currentParams:
+                          params, // Use original search params for UI consistency
+                      hasReachedMax: true,
+                    ),
+                  );
+                }
+              },
+            );
+          } else {
+            // Cache successful general search results
+            _searchCache[trimmedQuery] = cars;
+
+            if (_searchCache.length > 15) {
+              final oldestKey = _searchCache.keys.first;
+              _searchCache.remove(oldestKey);
+            }
+
+            emit(
+              CarsLoaded(
+                cars: cars,
+                currentParams: params,
+                hasReachedMax: true,
+              ),
+            );
+          }
         },
       );
     } catch (e) {
-      emit(HomeError(message: 'Search failed: $e'));
+      // Keep search params on exception
+      final params = HomeRequestParams(page: 1, search: trimmedQuery);
+      emit(
+        CarsLoaded(
+          cars: [],
+          currentParams: params,
+          hasReachedMax: true,
+          errorMessage: 'Search failed: $e',
+        ),
+      );
     }
   }
 
@@ -239,5 +317,110 @@ class HomeCubit extends Cubit<HomeState> {
       return currentState.currentParams.hasFilters;
     }
     return false;
+  }
+
+  /// Search cars by model specifically
+  Future<void> searchByModel(String modelName) async {
+    final trimmedModel = modelName.trim();
+
+    if (trimmedModel.isEmpty) {
+      getCars();
+      return;
+    }
+
+    emit(SearchLoading());
+
+    try {
+      final params = HomeRequestParams(page: 1, model: trimmedModel);
+      final result = await getCarsUseCase(params);
+
+      result.fold(
+        (failure) {
+          emit(HomeError(message: failure.message));
+        },
+        (cars) {
+          emit(
+            CarsLoaded(cars: cars, currentParams: params, hasReachedMax: true),
+          );
+        },
+      );
+    } catch (e) {
+      emit(HomeError(message: 'Model search failed: $e'));
+    }
+  }
+
+  /// Search cars by brand specifically
+  Future<void> searchByBrand(String brandName) async {
+    final trimmedBrand = brandName.trim();
+
+    if (trimmedBrand.isEmpty) {
+      getCars();
+      return;
+    }
+
+    emit(SearchLoading());
+
+    try {
+      final params = HomeRequestParams(page: 1, brand: trimmedBrand);
+      final result = await getCarsUseCase(params);
+
+      result.fold(
+        (failure) {
+          emit(HomeError(message: failure.message));
+        },
+        (cars) {
+          emit(
+            CarsLoaded(cars: cars, currentParams: params, hasReachedMax: true),
+          );
+        },
+      );
+    } catch (e) {
+      emit(HomeError(message: 'Brand search failed: $e'));
+    }
+  }
+
+  /// Advanced search that searches in multiple fields
+  Future<void> advancedSearch({
+    String? generalQuery,
+    String? brand,
+    String? model,
+    String? type,
+  }) async {
+    emit(SearchLoading());
+
+    try {
+      final params = HomeRequestParams(
+        page: 1,
+        search: generalQuery?.trim(),
+        brand: brand?.trim(),
+        model: model?.trim(),
+        type: type?.trim(),
+      );
+
+      final result = await getCarsUseCase(params);
+
+      result.fold(
+        (failure) {
+          emit(HomeError(message: failure.message));
+        },
+        (cars) {
+          // Create cache key for advanced search
+          final cacheKey =
+              'advanced_${generalQuery ?? ''}_${brand ?? ''}_${model ?? ''}_${type ?? ''}';
+          _searchCache[cacheKey] = cars;
+
+          if (_searchCache.length > 15) {
+            final oldestKey = _searchCache.keys.first;
+            _searchCache.remove(oldestKey);
+          }
+
+          emit(
+            CarsLoaded(cars: cars, currentParams: params, hasReachedMax: true),
+          );
+        },
+      );
+    } catch (e) {
+      emit(HomeError(message: 'Advanced search failed: $e'));
+    }
   }
 }

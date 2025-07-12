@@ -17,12 +17,13 @@ class CustomCursorSlider extends StatelessWidget {
         if (state is CarsLoaded) {
           return CarouselSlider(
             options: CarouselOptions(
-              height: 120.0.h,
+              height: 100.0.h,
               autoPlay: true,
+
               autoPlayAnimationDuration: const Duration(seconds: 4),
               autoPlayCurve: Curves.fastOutSlowIn,
-              aspectRatio: 16 / 9,
-              viewportFraction: 0.8,
+              aspectRatio: 10 / 4,
+              viewportFraction: 0.6,
               enlargeCenterPage: true,
               autoPlayInterval: const Duration(seconds: 5),
             ),
@@ -47,7 +48,7 @@ class CustomCursorSlider extends StatelessWidget {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.transparent,
-                            Colors.black.withAlpha(179), // 0.7 * 255 = 179
+                            Colors.black.withAlpha(179),
                           ],
                         ),
                       ),

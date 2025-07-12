@@ -18,7 +18,7 @@ class PopularCarsComponent extends StatelessWidget {
             children: [
               Text(
                 'Popular',
-                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
               ),
               const Spacer(),
               TextButton(
