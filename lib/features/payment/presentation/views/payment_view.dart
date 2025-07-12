@@ -7,21 +7,24 @@ import 'package:x_go/features/payment/presentation/component/payment_component.d
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
 
 class PaymentView extends StatelessWidget {
-  final CarEntity car;
-  final BookingModel booking_model;
+  final CarEntity? car;
+  final BookingModel? bookingModel;
   final MyBookingModel? myBookingModel;
+
   const PaymentView({
     super.key,
-    required this.car,
-    required this.booking_model,
+    this.car,
+    this.bookingModel,
     this.myBookingModel,
   });
 
   @override
   Widget build(BuildContext context) {
+    // تحديد مصدر البيانات تلقائياً
+    final isFromMyBookings = myBookingModel != null;
+    
     return Scaffold(
       backgroundColor: Colors.white,
-
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -34,22 +37,17 @@ class PaymentView extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CarDetailsComponent(car: car, booking_model: booking_model),
+                // CarDetailsComponent يتعامل مع جميع الحالات تلقائياً
+                CarDetailsComponent(
+                  car: car,
+                  bookinModel: bookingModel,
+                  myBookingModel: myBookingModel,
+                ),
                 const SizedBox(height: 32),
-
                 PaymentComponent(
-                  finalPrice:
-                      booking_model.data!.booking!.finalPrice.toString() ??
-                      myBookingModel?.finalPrice.toString() ??
-                      '',
-                  modelId:
-                      booking_model.data!.booking!.carmodelId!.toString() ??
-                      myBookingModel?.carModelId.toString() ??
-                      '',
-                  bookingId:
-                      booking_model.data!.booking!.id!.toString() ??
-                      myBookingModel?.id.toString() ??
-                      '',
+                  finalPrice: _getFinalPrice(),
+                  modelId: _getModelId(),
+                  bookingId: _getBookingId(),
                 ),
               ],
             ),
@@ -57,5 +55,33 @@ class PaymentView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Helper methods لاستخراج البيانات من المصدر الصحيح
+  String _getFinalPrice() {
+    if (myBookingModel != null) {
+      return myBookingModel!.finalPrice;
+    } else if (bookingModel != null) {
+      return bookingModel!.data!.booking!.finalPrice.toString();
+    }
+    return '0';
+  }
+
+  String _getModelId() {
+    if (myBookingModel != null) {
+      return myBookingModel!.carModelId.toString();
+    } else if (bookingModel != null) {
+      return bookingModel!.data!.booking!.carmodelId!.toString();
+    }
+    return '0';
+  }
+
+  String _getBookingId() {
+    if (myBookingModel != null) {
+      return myBookingModel!.id.toString();
+    } else if (bookingModel != null) {
+      return bookingModel!.data!.booking!.id!.toString();
+    }
+    return '0';
   }
 }

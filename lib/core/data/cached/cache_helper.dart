@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:x_go/features/home/domain/entity/car_entity.dart';
 
 class CacheHelper {
   static late SharedPreferences sharedPreferences;
@@ -97,4 +98,20 @@ class CacheHelper {
     }
     return null;
   }
+  // 1. إضافة وظائف لتخزين واسترجاع CarEntity في CacheHelper
+// static Future<bool> saveCarEntity(CarEntity carEntity) async {
+//   return await saveJson(
+//     key: 'cached_car',
+//     json: carEntity.toJson(),
+//   );
+// }
+
+// static CarEntity? getCarEntity() {
+//   final json = getJson(key: 'cached_car');
+//   if (json != null) {
+//     return CarEntity.fromJson(json);
+//   }
+//   return null;
+// }
+
 }

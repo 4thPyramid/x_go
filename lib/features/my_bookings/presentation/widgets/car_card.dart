@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/routes/router_names.dart';
-import 'package:x_go/features/carBooking/data/model/book_car_model.dart';
-import 'package:x_go/features/home/domain/entity/car_entity.dart';
 import 'package:x_go/features/my_bookings/data/models/booking_model.dart';
 
 class BookingCard extends StatelessWidget {
@@ -14,10 +12,7 @@ class BookingCard extends StatelessWidget {
   final String toDate;
   final String price;
   final String status;
-
-  final CarEntity? car;
   final MyBookingModel? myBookingModel;
-  final BookingModel? bookingModel;
 
   const BookingCard({
     super.key,
@@ -29,9 +24,7 @@ class BookingCard extends StatelessWidget {
     required this.toDate,
     required this.price,
     required this.status,
-    this.car,
     this.myBookingModel,
-    this.bookingModel,
   });
 
   Color getStatusColor(String status) {
@@ -101,12 +94,11 @@ class BookingCard extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
+                  // تمرير MyBookingModel فقط عند القدوم من MyBookings
                   context.push(
                     RouterNames.payment,
                     extra: {
                       'myBookingModel': myBookingModel,
-                      'car': car,
-                      'model': bookingModel,
                     },
                   );
                 },

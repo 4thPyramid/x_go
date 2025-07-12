@@ -57,3 +57,4 @@ class FilterInfo {
     required this.minPrice,
   });
 }
+

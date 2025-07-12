@@ -203,23 +203,24 @@ final GoRouter router = GoRouter(
         return !isGuest ? const ProfilePage() : const AuthView(index: 0);
       },
     ),
-    GoRoute(
-      path: RouterNames.payment,
-      builder: (context, state) {
-        final args = state.extra as Map<String, dynamic>;
-        final car = args['car'] as CarEntity;
-        final bookingModel = args['model'] as BookingModel;
-        final myBookingModel = args['myBookingModel'] as MyBookingModel?;
+  GoRoute(
+  path: RouterNames.payment,
+  builder: (context, state) {
+    final args = state.extra as Map<String, dynamic>;
+    
+    final CarEntity? car = args['car'] as CarEntity?;
+    final BookingModel? bookingModel = args['model'] as BookingModel?;
+    final MyBookingModel? myBookingModel = args['myBookingModel'] as MyBookingModel?;
 
-        return BlocProvider(
-          create: (context) => PaymentCubit(),
-          child: PaymentView(
-            car: car,
-            booking_model: bookingModel,
-            myBookingModel: myBookingModel,
-          ),
-        );
-      },
-    ),
+    return BlocProvider(
+      create: (context) => PaymentCubit(),
+      child: PaymentView(
+        car: car,
+        bookingModel: bookingModel,
+        myBookingModel: myBookingModel,
+      ),
+    );
+  },
+)
   ],
 );

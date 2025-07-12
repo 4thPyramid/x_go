@@ -3,19 +3,45 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/core/utils/app_styles.dart';
 import 'package:x_go/features/carBooking/data/model/book_car_model.dart';
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
+import 'package:x_go/features/my_bookings/data/models/booking_model.dart';
 
 class CarDetailsComponent extends StatelessWidget {
-  final CarEntity car;
-  final BookingModel booking_model;
+  final CarEntity? car;
+  final BookingModel? bookinModel;
+  final MyBookingModel? myBookingModel;
 
   const CarDetailsComponent({
     super.key,
-    required this.car,
-    required this.booking_model,
+    this.car,
+    this.bookinModel,
+    this.myBookingModel,
   });
 
   @override
   Widget build(BuildContext context) {
+    // إعطاء أولوية لـ MyBookingModel عند توفره
+    final image = myBookingModel?.carImage ?? car?.image ?? '';
+    final brand = myBookingModel?.brandName ?? car?.brandName ?? '';
+    final model = myBookingModel?.modelName ?? car?.modelName ?? '';
+    final startDate = myBookingModel?.startDate ?? 
+        bookinModel?.data?.booking?.startDate ?? '';
+    final endDate = myBookingModel?.endDate ?? 
+        bookinModel?.data?.booking?.endDate ?? '';
+    
+    // تحسين معالجة additional driver
+    final additionalDriver = myBookingModel?.additionalDriver ?? 
+        bookinModel?.data?.booking?.additionalDriver ?? 0;
+    
+    // تحسين معالجة location
+    final location = myBookingModel != null
+        ? (myBookingModel!.additionalDriver == 1
+            ? 'With additional driver'
+            : 'Without additional driver')
+        : (bookinModel?.data?.booking?.location?.location ?? 'Location not specified');
+    
+    final finalPrice = myBookingModel?.finalPrice ?? 
+        bookinModel?.data?.booking?.finalPrice?.toString() ?? '';
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,12 +53,20 @@ class CarDetailsComponent extends StatelessWidget {
             color: Colors.grey.shade200,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: SizedBox(
-            height: 180.h,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
             child: Image.network(
-              car.image,
+              image.startsWith("http") 
+                  ? image 
+                  : 'https://xgo.ibrahimbashaa.com/$image',
               fit: BoxFit.cover,
               width: double.infinity,
+              height: 200,
+              errorBuilder: (_, __, ___) => const Icon(
+                Icons.car_rental,
+                size: 50,
+                color: Colors.grey,
+              ),
             ),
           ),
         ),
@@ -40,7 +74,7 @@ class CarDetailsComponent extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(6.0),
           child: Text(
-            car.brandName,
+            brand,
             style: AppStyles.ts13BlackW500.copyWith(
               color: Colors.grey.shade600,
             ),
@@ -48,10 +82,9 @@ class CarDetailsComponent extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(6.0),
-          child: Text(car.modelName, style: AppStyles.ts13BlackW500),
+          child: Text(model, style: AppStyles.ts13BlackW500),
         ),
         const SizedBox(height: 8),
-
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
@@ -66,7 +99,6 @@ class CarDetailsComponent extends StatelessWidget {
                 child: Column(
                   children: [
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'Trip Dates',
@@ -76,33 +108,21 @@ class CarDetailsComponent extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 8),
-
-                        Text(
-                          '${booking_model.data!.booking!.startDate!} -- ${booking_model.data!.booking!.endDate!}',
-                        ),
+                        Text('$startDate -- $endDate'),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 16),
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Pickup & Return',
+                          'Driver Details',
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         SizedBox(height: 8),
-                        booking_model.data!.booking!.additionalDriver == '1'
-                            ? Text(
-                                booking_model
-                                    .data!
-                                    .booking!
-                                    .location!
-                                    .location!,
-                              )
-                            : Text('without additional driver'),
+                        Text(location),
                       ],
                     ),
                   ],
@@ -126,10 +146,11 @@ class CarDetailsComponent extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '\$${booking_model.data!.booking!.finalPrice}',
+                      '\$$finalPrice',
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: Colors.green,
                       ),
                     ),
                   ],

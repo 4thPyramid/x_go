@@ -147,7 +147,7 @@ class CarDetailsPage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              '${car.price}',
+                              car.price,
                               style: TextStyle(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
