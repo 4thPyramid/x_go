@@ -33,4 +33,5 @@ abstract class RouterNames {
   static const String search = '/search';
   static const String carDetails = '/carDetails';
   static const String location = '/location';
+  static const String popularCars = '/popularCars';
 }

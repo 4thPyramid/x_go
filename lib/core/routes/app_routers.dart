@@ -22,6 +22,7 @@ import 'package:x_go/features/home/domain/entity/car_entity.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/active_location/active_location_cubit.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_cubit.dart';
 import 'package:x_go/features/home/presentation/view/home_view.dart';
+import 'package:x_go/features/home/presentation/view/popular_cars.dart';
 import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
 import 'package:x_go/features/location/presentation/view/location_view.dart';
 import 'package:x_go/features/my_bookings/data/models/booking_model.dart';
@@ -44,6 +45,13 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.splash,
       builder: (context, state) => const SplashView(),
+    ),
+    GoRoute(
+      path: RouterNames.popularCars,
+      builder: (context, state) => BlocProvider(
+        create: (context) => getIt<HomeCubit>(),
+        child: const PopularCarsView(),
+      ),
     ),
     GoRoute(
       path: RouterNames.myBooking,

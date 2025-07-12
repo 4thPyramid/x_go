@@ -86,7 +86,8 @@ class _CarsListComponentState extends State<CarsListComponent> {
 
     if (cars.isEmpty) {
       return CarsEmptyState(
-        isSearchResult: widget.currentParams?.search?.isNotEmpty ?? false,
+        isSearchResult: state.currentParams.search?.isNotEmpty ?? false,
+        errorMessage: state.errorMessage,
       );
     }
 

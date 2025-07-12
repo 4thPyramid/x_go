@@ -7,7 +7,6 @@ import 'package:x_go/core/utils/app_assets.dart';
 import 'package:x_go/core/utils/app_image_view.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/active_location/active_location_cubit.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/active_location/active_location_state.dart';
-import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
 
 class HeaderComponent extends StatefulWidget {
   const HeaderComponent({super.key});
@@ -23,6 +22,38 @@ class _HeaderComponentState extends State<HeaderComponent> {
     context.read<ActiveLocationCubit>().getActiveLocation();
   }
 
+  void _showFullLocation(String location) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              Icon(Icons.location_on, size: 20.sp, color: Colors.black),
+              SizedBox(width: 8.w),
+              Text(
+                'الموقع الكامل',
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Text(
+              location,
+              style: TextStyle(fontSize: 14.sp, color: Colors.black87),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('إغلاق', style: TextStyle(fontSize: 14.sp)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -32,7 +63,9 @@ class _HeaderComponentState extends State<HeaderComponent> {
           builder: (context, state) {
             return GestureDetector(
               onTap: () {
-                context.read<ActiveLocationCubit>().getActiveLocation();
+                if (state is ActiveLocationLoaded) {
+                  _showFullLocation(state.activeLocation.location.toString());
+                }
               },
               child: Row(
                 children: [
@@ -74,14 +107,21 @@ class _HeaderComponentState extends State<HeaderComponent> {
         final locationState = state as ActiveLocationLoaded;
         return Row(
           children: [
+            AppImageView(AppAssets.logo, width: 60.w, height: 30.h),
+            SizedBox(width: 8.w),
             Icon(Icons.location_on, size: 16.sp, color: Colors.black),
             SizedBox(width: 4.w),
-            Text(
-              locationState.activeLocation.location.toString(),
-              style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w500,
-                color: Colors.black87,
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 170.w),
+              child: Text(
+                locationState.activeLocation.location.toString(),
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
             ),
           ],
@@ -93,9 +133,14 @@ class _HeaderComponentState extends State<HeaderComponent> {
           children: [
             Icon(Icons.location_off, size: 16.sp, color: Colors.red),
             SizedBox(width: 4.w),
-            Text(
-              errorState.message.tr(),
-              style: TextStyle(fontSize: 13.sp, color: Colors.red),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 200.w),
+              child: Text(
+                errorState.message.tr(),
+                style: TextStyle(fontSize: 13.sp, color: Colors.red),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
           ],
         );

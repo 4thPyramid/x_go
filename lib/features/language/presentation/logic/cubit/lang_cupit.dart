@@ -67,7 +67,7 @@ class LocalizationCubit extends Cubit<Locale> {
       default:
         newCode = 'en';
     }
-
+    await CacheHelper.saveLanguageCode(newCode);
     await changeLanguageByCode(newCode, context);
   }
 }

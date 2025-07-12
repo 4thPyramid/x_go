@@ -54,12 +54,10 @@ class SearchManager extends ChangeNotifier with WidgetsBindingObserver {
     _debounceTimer = Timer(const Duration(milliseconds: 1000), () {
       final trimmedQuery = query.trim().toLowerCase();
 
-
       if (trimmedQuery != _lastSearchQuery) {
         _lastSearchQuery = trimmedQuery;
 
         if (trimmedQuery.isEmpty) {
-          print('🔄 Empty query - resetting to all cars');
           onSearchChanged('');
         } else if (trimmedQuery.length >= 1) {
           onSearchChanged(trimmedQuery);
@@ -67,7 +65,9 @@ class SearchManager extends ChangeNotifier with WidgetsBindingObserver {
           print('⚠️ Query too short (${trimmedQuery.length} chars), ignoring');
         }
       } else {
-        print('⏭️ SearchManager: Duplicate search prevented for "$trimmedQuery"');
+        print(
+          '⏭️ SearchManager: Duplicate search prevented for "$trimmedQuery"',
+        );
       }
     });
   }
@@ -103,7 +103,11 @@ class SearchManager extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   void handleStateChange(HomeState state) {
-    if (state is CarsLoaded && (state.currentParams.search?.isEmpty ?? true)) {
+    // Only clear search if we explicitly got cars without any search params
+    // Don't clear if it's an empty result with search params (no results found)
+    if (state is CarsLoaded &&
+        (state.currentParams.search?.isEmpty ?? true) &&
+        state.cars.isNotEmpty) {
       if (_searchController.text.isNotEmpty) {
         _searchController.clear();
         _lastSearchQuery = '';
@@ -111,6 +115,8 @@ class SearchManager extends ChangeNotifier with WidgetsBindingObserver {
         notifyListeners();
       }
     }
+    // If it's CarsLoaded with search params but empty cars, keep the search text
+    // If it's an error state, also keep the search text
   }
 
   @override

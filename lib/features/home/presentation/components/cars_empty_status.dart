@@ -4,10 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CarsEmptyState extends StatelessWidget {
   final bool isSearchResult;
+  final String? errorMessage;
 
   const CarsEmptyState({
     super.key,
     this.isSearchResult = false,
+    this.errorMessage,
   });
 
   @override
@@ -23,18 +25,32 @@ class CarsEmptyState extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           Text(
-            isSearchResult ? 'لا توجد نتائج للبحث' : 'لا توجد سيارات متاحة',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Colors.grey[600],
-            ),
+            errorMessage ??
+                (isSearchResult
+                    ? 'لا توجد نتائج للبحث'
+                    : 'لا توجد سيارات متاحة'),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(color: Colors.grey[600]),
+            textAlign: TextAlign.center,
           ),
-          if (isSearchResult) ...[
+          if (isSearchResult && errorMessage == null) ...[
             SizedBox(height: 8.h),
             Text(
               'جرب البحث بكلمات مختلفة',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.grey[500],
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: Colors.grey[500]),
+            ),
+          ],
+          if (errorMessage != null) ...[
+            SizedBox(height: 8.h),
+            Text(
+              'تأكد من كتابة اسم السيارة أو العلامة التجارية بشكل صحيح',
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: Colors.grey[500]),
+              textAlign: TextAlign.center,
             ),
           ],
         ],
