@@ -14,8 +14,9 @@ import 'cars_empty_status.dart';
 
 class CarsListComponent extends StatefulWidget {
   final HomeRequestParams? currentParams;
+  final bool isGrid;
 
-  const CarsListComponent({super.key, this.currentParams});
+  CarsListComponent({super.key, this.currentParams, required this.isGrid});
 
   @override
   State<CarsListComponent> createState() => _CarsListComponentState();
@@ -94,29 +95,56 @@ class _CarsListComponentState extends State<CarsListComponent> {
     return Column(
       children: [
         Expanded(
-          child: GridView.builder(
-            controller: _scrollController,
-            itemCount: cars.length,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              final car = cars[index];
-              return InkWell(
-                borderRadius: BorderRadius.circular(12.r),
-                onTap: () => _navigateToDetails(context, car),
-                child: CarCardWidget(
-                  brand: car.brandName,
-                  model: car.modelName,
-                  rentPrice: car.price,
-                  imageUrl: car.image,
+          child: widget.isGrid == true
+              ? GridView.builder(
+                  controller: _scrollController,
+                  itemCount: cars.length,
+                  physics: const BouncingScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemBuilder: (context, index) {
+                    final car = cars[index];
+                    return InkWell(
+                      borderRadius: BorderRadius.circular(12.r),
+                      onTap: () => _navigateToDetails(context, car),
+                      child: CarCardWidget(
+                        brand: car.brandName,
+                        model: car.modelName,
+                        rentPrice: car.price,
+                        imageUrl: car.image,
+                        isGridView: true,
+                      ),
+                    );
+                  },
+                )
+              : ListView.builder(
+                  controller: _scrollController,
+                  itemCount: cars.length,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final car = cars[index];
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 8.h,
+                      ),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(12.r),
+                        onTap: () => _navigateToDetails(context, car),
+                        child: CarCardWidget(
+                          brand: car.brandName,
+                          model: car.modelName,
+                          rentPrice: car.price,
+                          imageUrl: car.image,
+                          isGridView: false,
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 10,
-            ),
-          ),
         ),
         if (_isLoadingMore && !state.hasReachedMax)
           const LoadingMoreIndicator(),

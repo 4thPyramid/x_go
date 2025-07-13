@@ -60,7 +60,10 @@ class _HomeViewState extends State<HomeView>
                   const CustomCursorSlider(),
                   const PopularCarsComponent(),
                   Expanded(
-                    child: CarsListComponent(currentParams: _currentParams),
+                    child: CarsListComponent(
+                      currentParams: _currentParams,
+                      isGrid: true,
+                    ),
                   ),
                 ],
               ),
