@@ -33,6 +33,8 @@ import 'package:x_go/features/payment/presentation/views/payment_view.dart';
 import 'package:x_go/features/profile/presentation/logic/cubit/profile_edit_cubit.dart';
 import 'package:x_go/features/profile/presentation/views/profile_settings_details.dart';
 import 'package:x_go/features/profile/presentation/views/profile_view.dart';
+import 'package:x_go/features/review/presentation/logic/cubit/review_cubit.dart';
+import 'package:x_go/features/review/presentation/views/review_view.dart';
 import 'package:x_go/features/splash/views/splash_view.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
 
@@ -211,24 +213,33 @@ final GoRouter router = GoRouter(
         return !isGuest ? const ProfilePage() : const AuthView(index: 0);
       },
     ),
-  GoRoute(
-  path: RouterNames.payment,
-  builder: (context, state) {
-    final args = state.extra as Map<String, dynamic>;
-    
-    final CarEntity? car = args['car'] as CarEntity?;
-    final BookingModel? bookingModel = args['model'] as BookingModel?;
-    final MyBookingModel? myBookingModel = args['myBookingModel'] as MyBookingModel?;
-
-    return BlocProvider(
-      create: (context) => PaymentCubit(),
-      child: PaymentView(
-        car: car,
-        bookingModel: bookingModel,
-        myBookingModel: myBookingModel,
+    GoRoute(
+      path: RouterNames.review,
+      builder: (context, state) => BlocProvider(
+        create: (context) =>
+            ReviewCubit()..getReviews(int.parse(state.extra as String)),
+        child: ReviewView(id: int.parse(state.extra as String)),
       ),
-    );
-  },
-)
+    ),
+    GoRoute(
+      path: RouterNames.payment,
+      builder: (context, state) {
+        final args = state.extra as Map<String, dynamic>;
+
+        final CarEntity? car = args['car'] as CarEntity?;
+        final BookingModel? bookingModel = args['model'] as BookingModel?;
+        final MyBookingModel? myBookingModel =
+            args['myBookingModel'] as MyBookingModel?;
+
+        return BlocProvider(
+          create: (context) => PaymentCubit(),
+          child: PaymentView(
+            car: car,
+            bookingModel: bookingModel,
+            myBookingModel: myBookingModel,
+          ),
+        );
+      },
+    ),
   ],
 );

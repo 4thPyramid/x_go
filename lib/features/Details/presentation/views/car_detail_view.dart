@@ -3,6 +3,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/common/widgets/custom_btn.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/core/utils/app_strings.dart';
 import 'package:x_go/features/Details/presentation/widgets/booking_button.dart';
@@ -39,7 +42,7 @@ class CarDetailsPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.r),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -73,7 +76,6 @@ class CarDetailsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // معلومات السيارة الأساسية
                   Text(
                     car.brandName,
                     style: TextStyle(
@@ -124,7 +126,6 @@ class CarDetailsPage extends StatelessWidget {
                   SizedBox(height: 10.h),
                   CarInfoSection(car: car),
                   SizedBox(height: 18.h),
-                  // السعر
                   Container(
                     padding: EdgeInsets.all(16.w),
 
@@ -168,6 +169,15 @@ class CarDetailsPage extends StatelessWidget {
                   ),
                   SizedBox(height: 24.h),
                   BookingButton(care: car),
+                  SizedBox(height: 24.h),
+                  Center(
+                    child: CustomButton(
+                      text: 'Add Review',
+                      onPressed: () {
+                        context.push(RouterNames.review, extra: car.id);
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
