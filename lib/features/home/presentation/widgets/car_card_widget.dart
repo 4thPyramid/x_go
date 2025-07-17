@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/theme/app_colors.dart';
+import 'package:x_go/core/utils/app_shimmer.dart';
 import 'package:x_go/core/utils/app_strings.dart';
 
 class CarCardWidget extends StatelessWidget {
@@ -333,7 +334,7 @@ class CarCardWidget extends StatelessWidget {
               width: double.infinity,
               height: double.infinity,
               color: Colors.grey[300],
-              child: const Center(child: CircularProgressIndicator()),
+              child: const Center(child: AppShimmer()),
             ),
             errorWidget: (context, url, error) => Container(
               width: double.infinity,

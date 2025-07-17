@@ -34,10 +34,6 @@ class _PopularCarsViewState extends State<PopularCarsView> {
     });
   }
 
-  void _updateParams(HomeRequestParams params) {
-    _currentParams = params;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

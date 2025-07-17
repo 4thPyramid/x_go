@@ -46,13 +46,7 @@ class PaymentCubit extends Cubit<PaymentState> {
   ) async {
     model_id = modelId;
     booking_id = bookingId;
-    print('===================================================');
-    print('===================================================');
-    print('===================================================');
-    print(model_id);
-    print(booking_id);
-    print(modelId);
-    print(bookingId);
+
     if (paymentMethod == PaymentMethod.visa) {
       await paymoobServise(context, final_price);
     } else if (paymentMethod == PaymentMethod.cash) {}
@@ -83,11 +77,6 @@ class PaymentCubit extends Cubit<PaymentState> {
     emit(PaymentLoading());
     final apiConsumer = DioConsumer(dio: Dio());
     try {
-      print('===================================================');
-      print('===================================================');
-      print('===================================================');
-      print(model_id);
-      print(booking_id);
       final response = await apiConsumer.post(
         '/Model/$model_id/car-booking/$booking_id/paymob-info',
         data: {
@@ -95,7 +84,6 @@ class PaymentCubit extends Cubit<PaymentState> {
           'transaction_id': transactionId,
         },
       );
-      print(response.data);
       emit(PaymentSuccess());
     } catch (e) {
       emit(PaymentError(e.toString()));
