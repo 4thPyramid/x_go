@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:x_go/app.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
+import 'package:x_go/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
 import 'package:x_go/features/Details/presentation/views/car_detail_view.dart';
 import 'package:x_go/features/auth/domain/usecases/forget_password_use_case.dart';
 import 'package:x_go/features/auth/domain/usecases/login_usecase.dart';
@@ -170,10 +171,20 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.carDetails,
       builder: (context, state) {
-        final car =
-            state.extra
-                as CarEntity; // Pass the car object via state.extra when navigating
-        return CarDetailsPage(car: car);
+        if (state.extra is String) {
+          // New way using car ID
+          final carId = state.extra as String;
+          return BlocProvider(
+            create: (context) => getIt<CarDetailCubit>(),
+            child: CarDetailsPage(carId: carId),
+          );
+        } else {
+          // Handle error case
+          return BlocProvider(
+            create: (context) => getIt<CarDetailCubit>(),
+            child: const CarDetailsPage(carId: "1"), // Default to car with ID 1
+          );
+        }
       },
     ),
     GoRoute(
@@ -211,24 +222,25 @@ final GoRouter router = GoRouter(
         return !isGuest ? const ProfilePage() : const AuthView(index: 0);
       },
     ),
-  GoRoute(
-  path: RouterNames.payment,
-  builder: (context, state) {
-    final args = state.extra as Map<String, dynamic>;
-    
-    final CarEntity? car = args['car'] as CarEntity?;
-    final BookingModel? bookingModel = args['model'] as BookingModel?;
-    final MyBookingModel? myBookingModel = args['myBookingModel'] as MyBookingModel?;
+    GoRoute(
+      path: RouterNames.payment,
+      builder: (context, state) {
+        final args = state.extra as Map<String, dynamic>;
 
-    return BlocProvider(
-      create: (context) => PaymentCubit(),
-      child: PaymentView(
-        car: car,
-        bookingModel: bookingModel,
-        myBookingModel: myBookingModel,
-      ),
-    );
-  },
-)
+        final CarEntity? car = args['car'] as CarEntity?;
+        final BookingModel? bookingModel = args['model'] as BookingModel?;
+        final MyBookingModel? myBookingModel =
+            args['myBookingModel'] as MyBookingModel?;
+
+        return BlocProvider(
+          create: (context) => PaymentCubit(),
+          child: PaymentView(
+            car: car,
+            bookingModel: bookingModel,
+            myBookingModel: myBookingModel,
+          ),
+        );
+      },
+    ),
   ],
 );

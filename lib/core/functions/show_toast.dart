@@ -8,9 +8,10 @@ showToast({
 }) {
   return Fluttertoast.showToast(
     msg: message!,
-    toastLength: Toast.LENGTH_LONG,
+    toastLength: Toast.LENGTH_SHORT,
     gravity: gravity,
-    timeInSecForIosWeb: 5,
+    timeInSecForIosWeb: 1,
+
     backgroundColor: chooseToastColor(state),
     textColor: Colors.white,
     fontSize: 16.0,

@@ -1,7 +1,8 @@
 import 'package:dartz/dartz.dart';
+import 'package:x_go/core/utils/faluire.dart';
+import 'package:x_go/core/utils/use_case.dart';
 import 'package:x_go/features/home/domain/entity/active_location.dart';
 import 'package:x_go/features/home/domain/repo/active_location_repository.dart';
-import 'package:x_go/features/home/domain/usecase/get_filter_info_usecase.dart';
 
 class GetActiveLocationUseCase implements UseCase<LocationActive, NoParams> {
   final ActiveLocationRepository repository;

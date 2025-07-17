@@ -166,6 +166,8 @@ class AppImageView extends StatelessWidget {
   }
 }
 
+enum ImageType { svg, png, network, file, unknown, svgNetwork }
+
 extension ImageTypeExtension on String {
   ImageType get imageType {
     if ((startsWith('http') || startsWith('https')) && endsWith('.svg')) {
@@ -181,8 +183,6 @@ extension ImageTypeExtension on String {
     }
   }
 }
-
-enum ImageType { svg, png, network, file, unknown, svgNetwork }
 
 Future<dynamic> imageHeroFunction(
   BuildContext context,

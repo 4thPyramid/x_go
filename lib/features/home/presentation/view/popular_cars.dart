@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/core/utils/app_assets.dart';
 import 'package:x_go/core/utils/app_image_view.dart';
+import 'package:x_go/features/favorites/presentation/logic/cubit/favorites_cubit.dart';
 import 'package:x_go/features/home/data/models/filter_info_model.dart';
 import 'package:x_go/features/home/presentation/components/car_component.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_cubit.dart';
@@ -55,7 +57,13 @@ class _PopularCarsViewState extends State<PopularCarsView> {
         ),
       ), // AppBar with title
       body: SafeArea(
-        child: CarsListComponent(currentParams: _currentParams, isGrid: false),
+        child: BlocProvider.value(
+          value: getIt<FavoritesCubit>(),
+          child: CarsListComponent(
+            currentParams: _currentParams,
+            isGrid: false,
+          ),
+        ),
       ),
     );
   }

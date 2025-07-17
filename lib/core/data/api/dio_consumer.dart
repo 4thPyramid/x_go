@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../../constants/endpoints_strings.dart';
+import 'package:x_go/core/constants/endpoints_strings.dart';
 import '../../errors/exceptions.dart';
 import '../cached/cache_helper.dart';
 import 'api_consumer.dart';

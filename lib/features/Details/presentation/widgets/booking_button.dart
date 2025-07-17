@@ -5,8 +5,8 @@ import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
 
 class BookingButton extends StatelessWidget {
-  final CarEntity care;
-  const BookingButton({super.key, required this.care});
+  final CarEntity car;
+  const BookingButton({super.key, required this.car});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class BookingButton extends StatelessWidget {
       child: CustomButton(
         text: 'Book Now',
         onPressed: () {
-          context.push(RouterNames.carBooking, extra: care);
+          context.push(RouterNames.carBooking, extra: car);
         },
       ),
     );

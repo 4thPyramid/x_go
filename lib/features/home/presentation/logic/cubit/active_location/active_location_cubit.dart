@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:x_go/core/utils/use_case.dart';
 import 'package:x_go/features/home/domain/usecase/get_active_location_usecase.dart';
-import 'package:x_go/features/home/domain/usecase/get_filter_info_usecase.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/active_location/active_location_state.dart';
 
 class ActiveLocationCubit extends Cubit<ActiveLocationState> {

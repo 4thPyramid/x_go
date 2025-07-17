@@ -1,9 +1,15 @@
 // core/di/dependency_injection.dart
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 import 'package:x_go/core/app_cubit/app_cubit.dart';
 import 'package:x_go/core/data/api/api_consumer.dart';
 import 'package:x_go/core/data/api/dio_consumer.dart';
+import 'package:x_go/features/Details/data/datasources/car_detail_remote_data_source.dart';
+import 'package:x_go/features/Details/data/repo/car_detail_repository_impl.dart';
+import 'package:x_go/features/Details/domain/repo/car_detail_repository.dart';
+import 'package:x_go/features/Details/domain/usecase/get_car_detail_usecase.dart';
+import 'package:x_go/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
 import 'package:x_go/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:x_go/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:x_go/features/auth/domain/repositories/auth_repository.dart';
@@ -35,6 +41,8 @@ import 'package:x_go/features/profile/domain/usecase/get_profile_u_c.dart';
 import 'package:x_go/features/profile/domain/usecase/update_profile_u_c.dart';
 import 'package:x_go/features/profile/presentation/logic/cubit/profile_edit_cubit.dart';
 import 'package:x_go/features/language/presentation/logic/cubit/lang_cupit.dart';
+import 'package:x_go/features/favorites/data/repositories/favorites_repository.dart';
+import 'package:x_go/features/favorites/presentation/logic/cubit/favorites_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -144,4 +152,32 @@ void setupLocator() {
     () => ProfileEditCubit(getIt<UpdateProfileUC>(), getIt<GetProfileUC>()),
   );
   getIt.registerFactory<LocalizationCubit>(() => LocalizationCubit());
+
+  // Favorites Feature
+  getIt.registerLazySingleton<FavoritesRepository>(
+    () => FavoritesRepository(apiConsumer: getIt<ApiConsumer>()),
+  );
+
+  // Car Detail Feature
+  getIt.registerLazySingleton<CarDetailRemoteDataSource>(
+    () => CarDetailRemoteDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
+  );
+
+  getIt.registerLazySingleton<CarDetailRepository>(
+    () => CarDetailRepositoryImpl(
+      remoteDataSource: getIt<CarDetailRemoteDataSource>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<GetCarDetailUseCase>(
+    () => GetCarDetailUseCase(repository: getIt<CarDetailRepository>()),
+  );
+
+  getIt.registerFactory<CarDetailCubit>(
+    () => CarDetailCubit(getCarDetailUseCase: getIt<GetCarDetailUseCase>()),
+  );
+
+  getIt.registerLazySingleton<FavoritesCubit>(
+    () => FavoritesCubit(favoritesRepository: getIt<FavoritesRepository>()),
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:x_go/core/utils/use_case.dart';
 import 'package:x_go/features/home/data/models/filter_info_model.dart';
 import 'package:x_go/features/home/domain/usecase/get_car_use_case.dart';
 import 'package:x_go/features/home/domain/usecase/get_filter_info_usecase.dart';
@@ -376,51 +377,6 @@ class HomeCubit extends Cubit<HomeState> {
       );
     } catch (e) {
       emit(HomeError(message: 'Brand search failed: $e'));
-    }
-  }
-
-  /// Advanced search that searches in multiple fields
-  Future<void> advancedSearch({
-    String? generalQuery,
-    String? brand,
-    String? model,
-    String? type,
-  }) async {
-    emit(SearchLoading());
-
-    try {
-      final params = HomeRequestParams(
-        page: 1,
-        search: generalQuery?.trim(),
-        brand: brand?.trim(),
-        model: model?.trim(),
-        type: type?.trim(),
-      );
-
-      final result = await getCarsUseCase(params);
-
-      result.fold(
-        (failure) {
-          emit(HomeError(message: failure.message));
-        },
-        (cars) {
-          // Create cache key for advanced search
-          final cacheKey =
-              'advanced_${generalQuery ?? ''}_${brand ?? ''}_${model ?? ''}_${type ?? ''}';
-          _searchCache[cacheKey] = cars;
-
-          if (_searchCache.length > 15) {
-            final oldestKey = _searchCache.keys.first;
-            _searchCache.remove(oldestKey);
-          }
-
-          emit(
-            CarsLoaded(cars: cars, currentParams: params, hasReachedMax: true),
-          );
-        },
-      );
-    } catch (e) {
-      emit(HomeError(message: 'Advanced search failed: $e'));
     }
   }
 }

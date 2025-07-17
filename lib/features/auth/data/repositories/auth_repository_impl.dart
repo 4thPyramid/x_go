@@ -1,11 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/errors/error_model.dart';
 import 'package:x_go/core/errors/exceptions.dart';
 import 'package:x_go/features/auth/data/models/login_response_model.dart';
 import '../../domain/entities/auth_response.dart';
-import '../../domain/entities/login_response.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
 
