@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:x_go/core/errors/exceptions.dart';
+import 'package:x_go/core/utils/faluire.dart';
 import 'package:x_go/features/home/data/datasources/car_remote_datasource_impl.dart';
 import 'package:x_go/features/home/data/models/filter_info_model.dart';
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
 import 'package:x_go/features/home/domain/repo/car_repository.dart';
-import 'package:x_go/features/home/domain/usecase/get_filter_info_usecase.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource remoteDataSource;

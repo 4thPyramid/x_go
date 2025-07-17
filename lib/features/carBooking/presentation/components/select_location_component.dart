@@ -8,8 +8,6 @@ import 'package:x_go/core/common/widgets/location_button.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
 
-import '../../../../core/services/service_locator.dart';
-
 class SelectLocationComponent extends StatefulWidget {
   final Function(String name, LatLng latLng, String locationId)
   onLocationSelected;

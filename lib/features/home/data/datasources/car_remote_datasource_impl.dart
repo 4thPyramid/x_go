@@ -13,7 +13,6 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   HomeRemoteDataSourceImpl({required this.apiConsumer});
 
   @override
-  @override
   Future<CarsPaginationResponse> getCars(HomeRequestParams params) async {
     final requestData = params.toMap();
 

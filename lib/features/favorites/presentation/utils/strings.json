@@ -1,0 +1,7 @@
+{
+  "no_favorites": "لا توجد سيارات مفضلة بعد",
+  "car_added_to_favorites": "تم إضافة السيارة إلى المفضلة",
+  "car_removed_from_favorites": "تم إزالة السيارة من المفضلة",
+  "error_adding_to_favorites": "حدث خطأ أثناء إضافة السيارة إلى المفضلة",
+  "error_removing_from_favorites": "حدث خطأ أثناء إزالة السيارة من المفضلة"
+}

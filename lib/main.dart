@@ -11,7 +11,6 @@ import 'package:x_go/features/language/presentation/logic/cubit/lang_cupit.dart'
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
-
   setupLocator();
   await EasyLocalization.ensureInitialized();
   runApp(
@@ -20,7 +19,6 @@ Future<void> main() async {
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       startLocale: Locale(CacheHelper.getSavedLanguageCode()),
-
       child: const MyApp(),
     ),
   );

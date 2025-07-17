@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../../constants/endpoints_strings.dart';
+import 'package:x_go/core/constants/endpoints_strings.dart';
 import '../../errors/exceptions.dart';
 import '../cached/cache_helper.dart';
 import 'api_consumer.dart';
@@ -36,7 +36,6 @@ class DioConsumer extends ApiConsumer {
         options: Options(
           headers: {
             'Accept': 'application/vnd.api+json',
-
             'accept-language': lang,
             'Content-Type': 'application/vnd.api+json',
             'Authorization': 'Bearer $token',

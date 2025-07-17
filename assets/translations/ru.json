@@ -13,6 +13,7 @@
   "notification": "Уведомления",
 
   "profile": "Профиль",
+  "favorites": "Избранное",
   "your": "Ваша",
   "sporty": "Спортивная",
   "drive": "Поездка",
@@ -83,5 +84,9 @@
   "create_new_password": "Создать новый пароль",
   "confirm_new_password": "Подтвердить новый пароль",
   "home": "Главная",
-  "search_cars_or_brands": "Поиск автомобилей или брендов.."
+  "search_cars_or_brands": "Поиск автомобилей или брендов..",
+  
+  "car_added_to_favorites": "Автомобиль добавлен в избранное",
+  "car_removed_from_favorites": "Автомобиль удален из избранного",
+  "no_favorite_cars_yet": "Пока нет избранных автомобилей"
 }

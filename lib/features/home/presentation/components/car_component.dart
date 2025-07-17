@@ -2,7 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/services/service_locator.dart';
+import 'package:x_go/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
 import 'package:x_go/features/Details/presentation/views/car_detail_view.dart';
+import 'package:x_go/features/favorites/presentation/logic/cubit/favorites_cubit.dart';
+import 'package:x_go/features/favorites/presentation/logic/cubit/favorites_state.dart';
 import 'package:x_go/features/home/data/models/filter_info_model.dart';
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
 import 'package:x_go/features/home/presentation/components/Cars_loading_states.dart';
@@ -14,8 +18,13 @@ import 'cars_empty_status.dart';
 
 class CarsListComponent extends StatefulWidget {
   final HomeRequestParams? currentParams;
+  final bool isGrid;
 
-  const CarsListComponent({super.key, this.currentParams});
+  const CarsListComponent({
+    super.key,
+    this.currentParams,
+    required this.isGrid,
+  });
 
   @override
   State<CarsListComponent> createState() => _CarsListComponentState();
@@ -94,29 +103,84 @@ class _CarsListComponentState extends State<CarsListComponent> {
     return Column(
       children: [
         Expanded(
-          child: GridView.builder(
-            controller: _scrollController,
-            itemCount: cars.length,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              final car = cars[index];
-              return InkWell(
-                borderRadius: BorderRadius.circular(12.r),
-                onTap: () => _navigateToDetails(context, car),
-                child: CarCardWidget(
-                  brand: car.brandName,
-                  model: car.modelName,
-                  rentPrice: car.price,
-                  imageUrl: car.image,
+          child: widget.isGrid == true
+              ? GridView.builder(
+                  controller: _scrollController,
+                  itemCount: cars.length,
+                  physics: const BouncingScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemBuilder: (context, index) {
+                    final car = cars[index];
+                    return InkWell(
+                      borderRadius: BorderRadius.circular(12.r),
+                      onTap: () => _navigateToDetails(context, car),
+                      child: BlocBuilder<FavoritesCubit, FavoritesState>(
+                        builder: (context, state) {
+                          final isFavorite = context
+                              .read<FavoritesCubit>()
+                              .isFavorite(car.id);
+                          return CarCardWidget(
+                            brand: car.brandName,
+                            model: car.modelName,
+                            rentPrice: car.price,
+                            imageUrl: car.image,
+                            carId: car.id,
+                            isGridView: true,
+                            isFavorite: isFavorite,
+                            onFavoriteToggle: () {
+                              context.read<FavoritesCubit>().toggleFavorite(
+                                car.id,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    );
+                  },
+                )
+              : ListView.builder(
+                  controller: _scrollController,
+                  itemCount: cars.length,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final car = cars[index];
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 8.h,
+                      ),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(12.r),
+                        onTap: () => _navigateToDetails(context, car),
+                        child: BlocBuilder<FavoritesCubit, FavoritesState>(
+                          builder: (context, state) {
+                            final isFavorite = context
+                                .read<FavoritesCubit>()
+                                .isFavorite(car.id);
+                            return CarCardWidget(
+                              brand: car.brandName,
+                              model: car.modelName,
+                              rentPrice: car.price,
+                              imageUrl: car.image,
+                              carId: car.id,
+                              isGridView: false,
+                              isFavorite: isFavorite,
+                              onFavoriteToggle: () {
+                                context.read<FavoritesCubit>().toggleFavorite(
+                                  car.id,
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 10,
-            ),
-          ),
         ),
         if (_isLoadingMore && !state.hasReachedMax)
           const LoadingMoreIndicator(),
@@ -128,22 +192,10 @@ class _CarsListComponentState extends State<CarsListComponent> {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            CarDetailsPage(car: car),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(0.0, 1.0);
-          const end = Offset.zero;
-          const curve = Curves.easeOutSine;
-          var tween = Tween(
-            begin: begin,
-            end: end,
-          ).chain(CurveTween(curve: curve));
-          return SlideTransition(
-            position: animation.drive(tween),
-            child: child,
-          );
-        },
-        transitionDuration: const Duration(seconds: 1),
+        pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
+          create: (context) => getIt<CarDetailCubit>(),
+          child: CarDetailsPage(carId: car.id),
+        ),
       ),
     );
   }

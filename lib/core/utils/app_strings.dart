@@ -84,5 +84,9 @@ class AppStrings {
   static const String resetPassword = 'reset_password';
   static const String confirmNewPassword = 'confirm_new_password';
   static const String home = 'home';
+  static const String favorites = 'favorites';
   static const String errorChangingLanguage = 'error_changing_language';
+  static const String carAddedToFavorites = 'car_added_to_favorites';
+  static const String carRemovedFromFavorites = 'car_removed_from_favorites';
+  static const String noFavoriteCarsYet = 'no_favorite_cars_yet';
 }

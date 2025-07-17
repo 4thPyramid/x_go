@@ -8,6 +8,8 @@ import 'package:x_go/features/home/presentation/view/home_view.dart';
 import 'package:x_go/features/language/presentation/widgets/instant_language_builder.dart';
 import 'package:x_go/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_cubit.dart';
+import 'package:x_go/features/favorites/presentation/views/favorites_view.dart';
+import 'package:x_go/features/favorites/presentation/logic/cubit/favorites_cubit.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -19,21 +21,31 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int _currentIndex = 0;
   late final HomeCubit _homeCubit;
+  late final FavoritesCubit _favoritesCubit;
 
   @override
   void initState() {
     super.initState();
     _homeCubit = getIt<HomeCubit>();
+    _favoritesCubit = getIt<FavoritesCubit>();
+
+    // Load favorites when app starts
+    _favoritesCubit.getFavorites();
   }
 
   @override
   void dispose() {
     _homeCubit.close();
+    _favoritesCubit.close();
     super.dispose();
   }
 
   List<Widget> get _pages => [
     BlocProvider<HomeCubit>.value(value: _homeCubit, child: const HomeView()),
+    BlocProvider<FavoritesCubit>.value(
+      value: _favoritesCubit,
+      child: const FavoritesView(),
+    ),
     const ProfilePage(),
   ];
 
@@ -73,6 +85,11 @@ class _AppState extends State<App> {
                     label: AppStrings.home.tr(),
                   ),
                   BottomNavigationBarItem(
+                    icon: Icon(Icons.favorite_outline),
+                    activeIcon: Icon(Icons.favorite),
+                    label: AppStrings.favorites.tr(),
+                  ),
+                  BottomNavigationBarItem(
                     icon: Icon(Icons.person_outlined),
                     activeIcon: Icon(Icons.person),
                     label: AppStrings.profile.tr(),
@@ -91,6 +108,8 @@ class _AppState extends State<App> {
 
     if (index == 0) {
       _homeCubit.getCars();
+    } else if (index == 1) {
+      _favoritesCubit.getFavorites();
     }
 
     setState(() => _currentIndex = index);

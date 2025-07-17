@@ -1,6 +1,6 @@
 class CarEntity {
   final String id;
-  final String modelName; // استخدام model name بدلاً من name
+  final String modelName;
   final String year;
   final String price;
   final String engineType;
@@ -57,4 +57,3 @@ class FilterInfo {
     required this.minPrice,
   });
 }
-

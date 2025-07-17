@@ -13,6 +13,7 @@
   "notification": "الإشعارات",
 
   "profile": "الملف الشخصي",
+  "favorites": "المفضلة",
   "your": "قيادتك ",
   "sporty": "الرياضية",
   "drive": "تنطلق",
@@ -84,5 +85,9 @@
   "confirm_new_password": "تأكيد كلمة المرور الجديدة",
   "search_cars_or_brands": "ابحث عن سيارات أو علامات تجارية",
   "home": "الصفحة الرئيسية",
-  "car_details": "تفاصيل السيارة"
+  "car_details": "تفاصيل السيارة",
+  
+  "car_added_to_favorites": "تمت إضافة السيارة إلى المفضلة",
+  "car_removed_from_favorites": "تمت إزالة السيارة من المفضلة",
+  "no_favorite_cars_yet": "لا توجد سيارات مفضلة  الآن"
 }

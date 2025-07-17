@@ -11,5 +11,9 @@ abstract class EndpointsStrings {
   static const String getProfile = 'user-profile';
   static const String change_password = 'user/user/change-password/';
   static const String home = 'Home';
+  static const String carDetail = 'Model';
   static const String filter = 'filter-Info';
+  // Favorites Endpoints
+  static const String favorites = 'favorites';
+  static const String favoritesToggle = 'favorites/toggle';
 }
