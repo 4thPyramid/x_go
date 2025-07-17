@@ -10,14 +10,12 @@ import 'package:x_go/features/Details/presentation/logic/cubit/car_detail_cubit.
 import 'package:x_go/features/Details/presentation/logic/cubit/car_detail_state.dart';
 import 'package:x_go/features/Details/presentation/widgets/booking_button.dart';
 import 'package:x_go/features/Details/presentation/widgets/car_detail_info_cards.dart';
-import 'package:x_go/features/Details/presentation/widgets/ratings_display_card.dart';
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
 
 class CarDetailsPage extends StatefulWidget {
   final String? carId;
-  final CarEntity? car;
 
-  const CarDetailsPage({super.key, this.carId, this.car});
+  const CarDetailsPage({super.key, this.carId});
 
   @override
   State<CarDetailsPage> createState() => _CarDetailsPageState();
@@ -51,7 +49,6 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-<<<<<<< HEAD
       body: widget.carId != null ? _buildDetailView() : Container(),
     );
   }
@@ -148,73 +145,6 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                   padding: EdgeInsets.all(16.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-=======
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 220.h,
-              width: double.infinity,
-              margin: EdgeInsets.all(8.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.r),
-                child: car.image.startsWith('http')
-                    ? CachedNetworkImage(
-                        imageUrl: car.image,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        placeholder: (context, url) =>
-                            const Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => Image.asset(
-                          'assets/images/Group7.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                      )
-                    : Image.asset(
-                        car.image,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                      ),
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.all(16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    car.brandName,
-                    style: TextStyle(
-                      color: AppColors.primaryColor,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    car.modelName,
-                    style: TextStyle(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Row(
->>>>>>> 4d9b87ab2aaab0a85186a708e6ac57f20b090961
                     children: [
                       // Brand and Model info
                       Text(
@@ -308,81 +238,22 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 24.h),
+                      Center(
+                        child: CustomButton(
+                          text: 'Add Review',
+                          onPressed: () {
+                            context.push(
+                              RouterNames.review,
+                              extra: widget.carId,
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
-<<<<<<< HEAD
                 ),
               ],
-=======
-
-                  SizedBox(height: 15.h),
-
-                  Text(
-                    'Car Details',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  CarInfoSection(car: car),
-                  SizedBox(height: 18.h),
-                  Container(
-                    padding: EdgeInsets.all(16.w),
-
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppStrings.rentPrice.tr(),
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              car.price,
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              ' /1 Day',
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 24.h),
-                  BookingButton(care: car),
-                  SizedBox(height: 24.h),
-                  Center(
-                    child: CustomButton(
-                      text: 'Add Review',
-                      onPressed: () {
-                        context.push(RouterNames.review, extra: car.id);
-                      },
-                    ),
-                  ),
-                ],
-              ),
->>>>>>> 4d9b87ab2aaab0a85186a708e6ac57f20b090961
             ),
           );
         }

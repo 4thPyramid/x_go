@@ -12,8 +12,7 @@ class AddReviewComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ReviewCubit, ReviewState>(
-      listener: (context, state) {},
+    return BlocBuilder<ReviewCubit, ReviewState>(
       builder: (context, state) {
         return Center(
           child: Column(
