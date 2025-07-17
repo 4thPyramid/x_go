@@ -10,6 +10,7 @@ import 'package:x_go/features/Details/presentation/logic/cubit/car_detail_cubit.
 import 'package:x_go/features/Details/presentation/logic/cubit/car_detail_state.dart';
 import 'package:x_go/features/Details/presentation/widgets/booking_button.dart';
 import 'package:x_go/features/Details/presentation/widgets/car_detail_info_cards.dart';
+import 'package:x_go/features/Details/presentation/widgets/ratings_display_card.dart';
 import 'package:x_go/features/home/domain/entity/car_entity.dart';
 
 class CarDetailsPage extends StatefulWidget {
@@ -193,8 +194,6 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
 
                       SizedBox(height: 18.h),
 
-                      // Ratings section
-                      //RatingsDisplayCard(ratings: relationship.ratings),
                       SizedBox(height: 18.h),
                       // Price section
                       Row(
