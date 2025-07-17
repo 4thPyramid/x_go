@@ -106,8 +106,15 @@ class PaymobService {
 
 class PaymobPaymentScreen extends StatefulWidget {
   final String iframeUrl;
+  final String? modelId;
+  final String? bookingId;
 
-  const PaymobPaymentScreen({required this.iframeUrl});
+  const PaymobPaymentScreen({
+    required this.iframeUrl,
+    this.modelId,
+    this.bookingId,
+    super.key,
+  });
 
   @override
   State<PaymobPaymentScreen> createState() => _PaymobPaymentScreenState();
@@ -143,11 +150,17 @@ class _PaymobPaymentScreenState extends State<PaymobPaymentScreen> {
               final transactionId = uri?.queryParameters['id'] ?? 'N/A';
               final isSuccess = uri?.queryParameters['success'] ?? 'false';
               final isPending = uri?.queryParameters['pending'] ?? 'false';
-              final modelId = uri?.queryParameters['modelId'] ?? 'N/A';
-              final bookingId = uri?.queryParameters['bookingId'] ?? 'N/A';
-              print(
-                '----------------------------------------------------------',
-              );
+              
+              // استخدام الـ IDs المرسلة من الـ PaymentCubit
+              final modelId = widget.modelId ?? PaymentCubit.model_id ?? 'N/A';
+              final bookingId = widget.bookingId ?? PaymentCubit.booking_id ?? 'N/A';
+              
+              print('----------------------------------------------------------');
+              print('Transaction ID: $transactionId');
+              print('Model ID: $modelId');
+              print('Booking ID: $bookingId');
+              print('Success: $isSuccess');
+              print('Pending: $isPending');
               print(uri?.queryParameters.toString());
 
               Navigator.pushReplacement(
@@ -213,6 +226,8 @@ class InvoiceScreen extends StatefulWidget {
 class _InvoiceScreenState extends State<InvoiceScreen> {
   @override
   void initState() {
+    super.initState();
+    // استدعاء paymentInfo مع الـ IDs الصحيحة
     context.read<PaymentCubit>().paymentInfo(
       widget.isSuccess == 'true'
           ? 'Successful'
@@ -221,7 +236,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
           : 'Declined',
       widget.transactionId,
     );
-    super.initState();
   }
 
   @override
@@ -231,26 +245,70 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         automaticallyImplyLeading: false,
         title: const Text('Invoice'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.check_circle, color: Colors.green, size: 80),
-            const SizedBox(height: 16),
-            Text(
-              widget.isSuccess == 'true'
-                  ? 'Payment Successful!'
-                  : 'Payment Failed!',
-              style: TextStyle(fontSize: 22),
-            ),
-            const SizedBox(height: 8),
-            Text('Transaction ID: ${widget.transactionId}'),
-            SizedBox(height: 40.h),
-            CustomButton(
-              text: 'Back to Home',
-              onPressed: () => context.go(RouterNames.app),
-            ),
-          ],
+      body: BlocListener<PaymentCubit, PaymentState>(
+        listener: (context, state) {
+          if (state is PaymentSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Payment information saved successfully'),
+                backgroundColor: Colors.green,
+              ),
+            );
+          } else if (state is PaymentError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Error: ${state.message}'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                widget.isSuccess == 'true' 
+                    ? Icons.check_circle 
+                    : Icons.error,
+                color: widget.isSuccess == 'true' 
+                    ? Colors.green 
+                    : Colors.red,
+                size: 80,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                widget.isSuccess == 'true'
+                    ? 'Payment Successful!'
+                    : 'Payment Failed!',
+                style: const TextStyle(fontSize: 22),
+              ),
+              const SizedBox(height: 8),
+              Text('Transaction ID: ${widget.transactionId}'),
+              const SizedBox(height: 8),
+              Text('Model ID: ${widget.modelId}'),
+              const SizedBox(height: 8),
+              Text('Booking ID: ${widget.bookingId}'),
+              SizedBox(height: 40.h),
+              BlocBuilder<PaymentCubit, PaymentState>(
+                builder: (context, state) {
+                  if (state is PaymentLoading) {
+                    return const Column(
+                      children: [
+                        CircularProgressIndicator(),
+                        SizedBox(height: 16),
+                        Text('Saving payment information...'),
+                      ],
+                    );
+                  }
+                  return CustomButton(
+                    text: 'Back to Home',
+                    onPressed: () => context.go(RouterNames.app),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -271,9 +329,9 @@ class PaymentFailedScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error, color: Colors.red, size: 80),
-            SizedBox(height: 16),
-            Text('Payment Failed!', style: TextStyle(fontSize: 22)),
+            const Icon(Icons.error, color: Colors.red, size: 80),
+            const SizedBox(height: 16),
+            const Text('Payment Failed!', style: TextStyle(fontSize: 22)),
             SizedBox(height: 40.h),
             CustomButton(
               text: 'Back to Home',

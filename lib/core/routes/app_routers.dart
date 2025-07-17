@@ -58,9 +58,17 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouterNames.myBooking,
-      builder: (context, state) => BlocProvider(
-        create: (context) => getIt<MyBookingCubit>()..getBookingList(),
-        child: const MyBookingView(),
+      builder: (context, state) => MultiBlocProvider(
+          providers: [
+              BlocProvider(
+              create: (context) => getIt<MyBookingCubit>()..getBookingList(),
+      
+            ),
+              BlocProvider(
+                  create: (context) => PaymentCubit(),
+              ),
+          ],
+                  child: const MyBookingView()
       ),
     ),
     GoRoute(
