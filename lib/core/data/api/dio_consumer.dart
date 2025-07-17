@@ -36,7 +36,6 @@ class DioConsumer extends ApiConsumer {
         options: Options(
           headers: {
             'Accept': 'application/vnd.api+json',
-
             'accept-language': lang,
             'Content-Type': 'application/vnd.api+json',
             'Authorization': 'Bearer $token',
