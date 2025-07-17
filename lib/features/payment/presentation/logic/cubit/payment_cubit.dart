@@ -60,14 +60,16 @@ class PaymentCubit extends Cubit<PaymentState> {
 
   Future<void> paymoobServise(BuildContext context, final_price) async {
     final authToken = await PaymobService.getAuthToken();
+      final priceInCents = (double.parse(final_price.toString()) * 100).toInt();
+
     final orderId = await PaymobService.createOrder(
       authToken,
-      int.parse(final_price) * 100,
+      priceInCents,
     );
     final paymentKey = await PaymobService.getPaymentKey(
       authToken,
       orderId,
-      int.parse(final_price) * 100,
+      priceInCents,
     );
     String paymentUrl =
         "https://accept.paymob.com/api/acceptance/iframes/905872?payment_token=$paymentKey";
