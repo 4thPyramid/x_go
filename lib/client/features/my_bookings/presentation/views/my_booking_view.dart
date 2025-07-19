@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-<<<<<<< HEAD:lib/client/features/my_bookings/presentation/views/my_booking_view.dart
 import 'package:x_go/client/features/my_bookings/presentation/logic/cubit/my_booking_cubit.dart';
 import 'package:x_go/client/features/my_bookings/presentation/widgets/car_card.dart';
-=======
-import 'package:x_go/features/my_bookings/presentation/logic/cubit/my_booking_cubit.dart';
-import 'package:x_go/features/my_bookings/presentation/widgets/car_card.dart';
-import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
->>>>>>> 1f289b7ffc4b18ed4f1a0f182ce278bd53634cb8:lib/features/my_bookings/presentation/views/my_booking_view.dart
+import 'package:x_go/client/features/payment/presentation/logic/cubit/payment_cubit.dart';
 
 class MyBookingView extends StatelessWidget {
   const MyBookingView({super.key});

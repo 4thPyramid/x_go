@@ -3,23 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
-<<<<<<< HEAD:lib/client/features/Details/presentation/views/car_detail_view.dart
-import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
 import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_state.dart';
 import 'package:x_go/client/features/Details/presentation/widgets/booking_button.dart';
 import 'package:x_go/client/features/Details/presentation/widgets/car_detail_info_cards.dart';
 import 'package:x_go/client/features/home/domain/entity/car_entity.dart';
-=======
-import 'package:x_go/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
-import 'package:x_go/features/Details/presentation/logic/cubit/car_detail_state.dart';
-import 'package:x_go/features/Details/presentation/widgets/booking_button.dart';
-import 'package:x_go/features/Details/presentation/widgets/car_detail_info_cards.dart';
-import 'package:x_go/features/Details/presentation/widgets/ratings_display_card.dart';
-import 'package:x_go/features/home/domain/entity/car_entity.dart';
->>>>>>> 1f289b7ffc4b18ed4f1a0f182ce278bd53634cb8:lib/features/Details/presentation/views/car_detail_view.dart
 
 class CarDetailsPage extends StatefulWidget {
   final String? carId;

@@ -3,14 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
-<<<<<<< HEAD:lib/client/features/my_bookings/presentation/widgets/car_card.dart
 import 'package:x_go/client/features/my_bookings/data/models/booking_model.dart';
-=======
-import 'package:x_go/features/my_bookings/data/models/booking_model.dart';
-import 'package:x_go/features/payment/domain/entites/payment_method.dart';
-import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
-import 'package:x_go/features/payment/presentation/widgets/confirmation_dailog.dart';
->>>>>>> 1f289b7ffc4b18ed4f1a0f182ce278bd53634cb8:lib/features/my_bookings/presentation/widgets/car_card.dart
+import 'package:x_go/client/features/payment/domain/entites/payment_method.dart';
+import 'package:x_go/client/features/payment/presentation/logic/cubit/payment_cubit.dart';
+import 'package:x_go/client/features/payment/presentation/widgets/confirmation_dailog.dart';
 
 class BookingCard extends StatefulWidget {
   final String imageUrl;
@@ -139,8 +135,14 @@ class _BookingCardState extends State<BookingCard> {
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 6),
-          Text('From: ${widget.fromDate}', style: const TextStyle(color: Colors.grey)),
-          Text('To:   ${widget.toDate}', style: const TextStyle(color: Colors.grey)),
+          Text(
+            'From: ${widget.fromDate}',
+            style: const TextStyle(color: Colors.grey),
+          ),
+          Text(
+            'To:   ${widget.toDate}',
+            style: const TextStyle(color: Colors.grey),
+          ),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -153,34 +155,22 @@ class _BookingCardState extends State<BookingCard> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-<<<<<<< HEAD:lib/client/features/my_bookings/presentation/widgets/car_card.dart
-              InkWell(
-                onTap: () {
-                  // تمرير MyBookingModel فقط عند القدوم من MyBookings
-                  context.push(
-                    RouterNames.payment,
-                    extra: {'myBookingModel': myBookingModel},
-                  );
-                },
-                child: Chip(
-                  label: Text(
-                    status,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  backgroundColor: getStatusColor(status),
-                ),
-              ),
-=======
               widget.status == 'awaiting_payment' && _isAwaitingPaymentTapped
                   ? BlocConsumer<PaymentCubit, PaymentState>(
                       listener: (context, state) {
                         if (state is PaymentError) {
-                          showToast(message: state.message, state: ToastStates.ERROR);
+                          showToast(
+                            message: state.message,
+                            state: ToastStates.ERROR,
+                          );
                           setState(() {
                             _isAwaitingPaymentTapped = false;
                           });
                         } else if (state is PaymentSuccess) {
-                          showToast(message: 'Payment processing...', state: ToastStates.WARNING);
+                          showToast(
+                            message: 'Payment processing...',
+                            state: ToastStates.WARNING,
+                          );
                           _showConfirmationDialog(context);
                         }
                       },
@@ -206,7 +196,6 @@ class _BookingCardState extends State<BookingCard> {
                         backgroundColor: getStatusColor(widget.status),
                       ),
                     ),
->>>>>>> 1f289b7ffc4b18ed4f1a0f182ce278bd53634cb8:lib/features/my_bookings/presentation/widgets/car_card.dart
             ],
           ),
         ],
