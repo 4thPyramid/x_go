@@ -1,54 +1,62 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:x_go/app.dart';
+import 'package:x_go/client/features/app.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
-import 'package:x_go/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
-import 'package:x_go/features/Details/presentation/views/car_detail_view.dart';
-import 'package:x_go/features/auth/domain/usecases/forget_password_use_case.dart';
-import 'package:x_go/features/auth/domain/usecases/login_usecase.dart';
-import 'package:x_go/features/auth/domain/usecases/otp_usecase.dart';
-import 'package:x_go/features/auth/domain/usecases/register_usecase.dart';
-import 'package:x_go/features/auth/domain/usecases/reset_password_use_case.dart';
-import 'package:x_go/features/auth/presentation/logic/cubit/auth_cubit.dart';
-import 'package:x_go/features/auth/presentation/view/auth_view.dart';
-import 'package:x_go/features/auth/presentation/view/forget_password_view.dart';
-import 'package:x_go/features/auth/presentation/view/otpview.dart';
-import 'package:x_go/features/auth/presentation/view/reset_password_view.dart';
-import 'package:x_go/features/auth/presentation/view/success_updated_view.dart';
-import 'package:x_go/features/carBooking/data/model/book_car_model.dart';
-import 'package:x_go/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
-import 'package:x_go/features/carBooking/presentation/views/car_booking_page.dart';
-import 'package:x_go/features/home/domain/entity/car_entity.dart';
-import 'package:x_go/features/home/presentation/logic/cubit/active_location/active_location_cubit.dart';
-import 'package:x_go/features/home/presentation/logic/cubit/home_cubit/home_cubit.dart';
-import 'package:x_go/features/home/presentation/view/home_view.dart';
-import 'package:x_go/features/home/presentation/view/popular_cars.dart';
-import 'package:x_go/features/location/presentation/logic/cubit/location_cubit.dart';
-import 'package:x_go/features/location/presentation/view/location_view.dart';
-import 'package:x_go/features/my_bookings/data/models/booking_model.dart';
-import 'package:x_go/features/my_bookings/presentation/logic/cubit/my_booking_cubit.dart';
-import 'package:x_go/features/my_bookings/presentation/views/my_booking_view.dart';
-import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
-import 'package:x_go/features/payment/presentation/views/payment_view.dart';
-import 'package:x_go/features/profile/presentation/logic/cubit/profile_edit_cubit.dart';
-import 'package:x_go/features/profile/presentation/views/profile_settings_details.dart';
-import 'package:x_go/features/profile/presentation/views/profile_view.dart';
-import 'package:x_go/features/review/presentation/logic/cubit/review_cubit.dart';
-import 'package:x_go/features/review/presentation/views/review_view.dart';
-import 'package:x_go/features/splash/views/splash_view.dart';
+import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
+import 'package:x_go/client/features/Details/presentation/views/car_detail_view.dart';
+import 'package:x_go/client/features/auth/domain/usecases/forget_password_use_case.dart';
+import 'package:x_go/client/features/auth/domain/usecases/login_usecase.dart';
+import 'package:x_go/client/features/auth/domain/usecases/otp_usecase.dart';
+import 'package:x_go/client/features/auth/domain/usecases/register_usecase.dart';
+import 'package:x_go/client/features/auth/domain/usecases/reset_password_use_case.dart';
+import 'package:x_go/client/features/auth/presentation/logic/cubit/auth_cubit.dart';
+import 'package:x_go/client/features/auth/presentation/view/auth_view.dart';
+import 'package:x_go/client/features/auth/presentation/view/forget_password_view.dart';
+import 'package:x_go/client/features/auth/presentation/view/otpview.dart';
+import 'package:x_go/client/features/auth/presentation/view/reset_password_view.dart';
+import 'package:x_go/client/features/auth/presentation/view/success_updated_view.dart';
+import 'package:x_go/client/features/carBooking/data/model/book_car_model.dart';
+import 'package:x_go/client/features/carBooking/presentation/logic/cubit/car_booking_cubit.dart';
+import 'package:x_go/client/features/carBooking/presentation/views/car_booking_page.dart';
+import 'package:x_go/client/features/home/domain/entity/car_entity.dart';
+import 'package:x_go/client/features/home/presentation/logic/cubit/active_location/active_location_cubit.dart';
+import 'package:x_go/client/features/home/presentation/logic/cubit/home_cubit/home_cubit.dart';
+import 'package:x_go/client/features/home/presentation/view/home_view.dart';
+import 'package:x_go/client/features/home/presentation/view/popular_cars.dart';
+import 'package:x_go/client/features/location/presentation/logic/cubit/location_cubit.dart';
+import 'package:x_go/client/features/location/presentation/view/location_view.dart';
+import 'package:x_go/client/features/my_bookings/data/models/booking_model.dart';
+import 'package:x_go/client/features/my_bookings/presentation/logic/cubit/my_booking_cubit.dart';
+import 'package:x_go/client/features/my_bookings/presentation/views/my_booking_view.dart';
+import 'package:x_go/client/features/payment/presentation/logic/cubit/payment_cubit.dart';
+import 'package:x_go/client/features/payment/presentation/views/payment_view.dart';
+import 'package:x_go/client/features/profile/presentation/logic/cubit/profile_edit_cubit.dart';
+import 'package:x_go/client/features/profile/presentation/views/profile_settings_details.dart';
+import 'package:x_go/client/features/profile/presentation/views/profile_view.dart';
+import 'package:x_go/client/features/review/presentation/logic/cubit/review_cubit.dart';
+import 'package:x_go/client/features/review/presentation/views/review_view.dart';
+import 'package:x_go/client/features/splash/views/splash_view.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
+import 'package:x_go/delivery/features/location/presentation/view/delivery_location_view.dart';
+import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: CacheHelper.getData(key: 'isRememberMe') != null
-      ? RouterNames.app
-      : RouterNames.splash,
+  initialLocation: RouterNames.userType,
 
+  // CacheHelper.getData(key: 'isRememberMe') != null
+  //     ? RouterNames.app
+  //     : RouterNames.splash,
   routes: [
+    GoRoute(
+      path: RouterNames.userType,
+      builder: (context, state) => const UserTypeView(),
+    ),
     GoRoute(
       path: RouterNames.splash,
       builder: (context, state) => const SplashView(),
     ),
+
     GoRoute(
       path: RouterNames.popularCars,
       builder: (context, state) => BlocProvider(
@@ -251,6 +259,10 @@ final GoRouter router = GoRouter(
           ),
         );
       },
+    ),
+    GoRoute(
+      path: RouterNames.deliveryLocation,
+      builder: (context, state) => const DeliveryLocationView(),
     ),
   ],
 );

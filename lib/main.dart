@@ -6,7 +6,7 @@ import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/app_routers.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/theme/app_colors.dart';
-import 'package:x_go/features/language/presentation/logic/cubit/lang_cupit.dart';
+import 'package:x_go/client/features/language/presentation/logic/cubit/lang_cupit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

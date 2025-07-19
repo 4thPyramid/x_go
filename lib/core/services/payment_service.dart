@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/routes/router_names.dart';
-import 'package:x_go/features/payment/presentation/logic/cubit/payment_cubit.dart';
+import 'package:x_go/client/features/payment/presentation/logic/cubit/payment_cubit.dart';
 
 class PaymobService {
   static const String apiKey =
