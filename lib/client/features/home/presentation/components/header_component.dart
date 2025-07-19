@@ -90,11 +90,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
       case const (ActiveLocationLoading):
         return Row(
           children: [
-            SizedBox(
-              width: 12.w,
-              height: 12.h,
-              child: const CircularProgressIndicator(strokeWidth: 2),
-            ),
             SizedBox(width: 8.w),
             Text(
               'Loading...',

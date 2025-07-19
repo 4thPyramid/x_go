@@ -30,6 +30,8 @@ class ReviewComponent extends StatelessWidget {
                         itemCount:
                             state.reviews.relationship.ratings.reviews.length,
                         itemBuilder: (context, index) {
+                          print('........................');
+                          print(state.reviews.relationship.ratings.reviews);
                           final review =
                               state.reviews.relationship.ratings.reviews[index];
 

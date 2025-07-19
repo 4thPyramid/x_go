@@ -20,9 +20,6 @@ class PaymentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // تحديد مصدر البيانات تلقائياً
-    final isFromMyBookings = myBookingModel != null;
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

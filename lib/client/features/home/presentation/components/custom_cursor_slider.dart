@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,9 +73,7 @@ class CustomCursorSlider extends StatelessWidget {
             }).toList(),
           );
         }
-        return const Center(
-          child: CircularProgressIndicator(color: AppColors.primaryColor),
-        );
+        return const Center(child: SizedBox());
       },
     );
   }
