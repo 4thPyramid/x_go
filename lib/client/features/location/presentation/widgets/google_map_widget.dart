@@ -18,7 +18,7 @@ class GoogleMapWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GoogleMap(
       mapType: MapType.normal,
-      initialCameraPosition: CameraPosition(zoom: 10, target: initialLocation),
+      initialCameraPosition: CameraPosition(zoom: 12, target: initialLocation),
       onMapCreated: onMapCreated,
       onTap: onTap,
       markers: markers,
