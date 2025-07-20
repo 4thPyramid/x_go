@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "389303500192",
+    "project_id": "x-go-70bed",
+    "storage_bucket": "x-go-70bed.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389303500192:android:f831c79e492332709a78c5",
+        "android_client_info": {
+          "package_name": "com.example.x_go_new"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9l0yQ8bS6k8sLMIpaCmX06VgCLPUWDno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
