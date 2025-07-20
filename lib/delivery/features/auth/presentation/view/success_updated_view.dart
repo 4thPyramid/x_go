@@ -40,7 +40,7 @@ class DeliverySuccessUpdatedView extends StatelessWidget {
                   child: CustomButton(
                     text: AppStrings.login.tr(),
                     onPressed: () {
-                      context.push(RouterNames.delivery, extra: 0);
+                      context.push(RouterNames.auth, extra: 0);
                     },
                   ),
                 ),
