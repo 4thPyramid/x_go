@@ -19,10 +19,14 @@ final class CurrentLocationSuccess extends DeliveryLocationState {
     required this.currentPosition,
     required this.markers,
   });
+  @override
+  List<Object> get props => [currentPosition, markers];
 }
 
 final class CurrentLocationError extends DeliveryLocationState {
   final String errorMessage;
 
   const CurrentLocationError({required this.errorMessage});
+  @override
+  List<Object> get props => [errorMessage];
 }
