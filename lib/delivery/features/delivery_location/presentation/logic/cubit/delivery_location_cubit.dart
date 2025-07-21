@@ -11,6 +11,7 @@ part 'delivery_location_state.dart';
 
 class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   DeliveryLocationCubit() : super(DeliveryLocationInitial());
+  StreamSubscription<Position>? _positionStreamSubscription;
 
   late Set<Marker> markers;
   void getCurrentLocation() async {
@@ -57,42 +58,45 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   }
 
   void startStream(LatLng currentPosition) {
-    Geolocator.getPositionStream(
-      locationSettings: LocationSettings(timeLimit: Duration(seconds: 5)),
-    ).listen((position) {
-      final latLng = LatLng(position.latitude, position.longitude);
+    _positionStreamSubscription?.cancel();
+    try {
+      _positionStreamSubscription =
+          Geolocator.getPositionStream(
+            locationSettings: LocationSettings(
+              accuracy: LocationAccuracy.high,
+              distanceFilter: 10,
+            ),
+          ).listen((position) {
+            final latLng = LatLng(position.latitude, position.longitude);
 
-      markers = {
-        Marker(
-          markerId: const MarkerId('current_location'),
-          position: latLng,
-          infoWindow: const InfoWindow(title: 'Current Location'),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-        ),
-      };
+            markers = {
+              Marker(
+                markerId: const MarkerId('current_location'),
+                position: latLng,
+                infoWindow: const InfoWindow(title: 'Current Location'),
+                icon: BitmapDescriptor.defaultMarkerWithHue(
+                  BitmapDescriptor.hueRed,
+                ),
+              ),
+            };
 
-      addToFirebase(latLng);
+            addToFirebase(latLng);
 
-      emit(CurrentLocationSuccess(currentPosition: latLng, markers: markers));
-    });
+            emit(
+              CurrentLocationSuccess(currentPosition: latLng, markers: markers),
+            );
+          });
+    } catch (e) {
+      emit(CurrentLocationError(errorMessage: e.toString()));
+    }
   }
 
   void addToFirebase(LatLng currentPosition) async {
     try {
-      Timer.periodic(Duration(seconds: 5), (timer) async {
-        await FirebaseDatabase.instance
-            .ref('orders/order_abc123/location')
-            .set({
-              'latitude': currentPosition.latitude,
-              'longitude': currentPosition.longitude,
-            });
+      await FirebaseDatabase.instance.ref('orders/order_abc123/location').set({
+        'latitude': currentPosition.latitude,
+        'longitude': currentPosition.longitude,
       });
-      emit(
-        CurrentLocationSuccess(
-          currentPosition: currentPosition,
-          markers: markers,
-        ),
-      );
     } catch (e) {
       emit(CurrentLocationError(errorMessage: e.toString()));
     }

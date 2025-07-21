@@ -44,15 +44,6 @@ class DeliveryLocationView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        ElevatedButton(
-                          onPressed: () async {
-                            context.read<DeliveryLocationCubit>().startStream(
-                              state.currentPosition,
-                            );
-                          },
-                          child: Text('start stream'),
-                        ),
-
                         Directionality(
                           textDirection: TextDirection.rtl,
                           child: ListTile(
