@@ -1,21 +1,21 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:x_go/client/features/auth/domain/usecases/forget_password_use_case.dart';
-import 'package:x_go/client/features/auth/domain/usecases/login_usecase.dart';
-import 'package:x_go/client/features/auth/domain/usecases/otp_usecase.dart';
-import 'package:x_go/client/features/auth/domain/usecases/register_usecase.dart';
-import 'package:x_go/client/features/auth/domain/usecases/reset_password_use_case.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/forget_password_use_case.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/login_usecase.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/otp_usecase.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/register_usecase.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/reset_password_use_case.dart';
 
 part 'auth_state.dart';
 
-class AuthCubit extends Cubit<AuthState> {
-  final LoginUseCase loginUseCase;
-  final RegisterUseCase registerUseCase;
-  final ForgetPasswordUseCase forgetPasswordUseCase;
-  final OtpUseCase otpUseCase;
-  final ResetPasswordUseCase resetPasswordUseCase;
-  AuthCubit(
+class DeliveryAuthCubit extends Cubit<DeliveryAuthState> {
+  final DeliveryLoginUseCase loginUseCase;
+  final DeliveryRegisterUseCase registerUseCase;
+  final DeliveryForgetPasswordUseCase forgetPasswordUseCase;
+  final DeliveryOtpUseCase otpUseCase;
+  final DeliveryResetPasswordUseCase resetPasswordUseCase;
+  DeliveryAuthCubit(
     this.loginUseCase,
     this.registerUseCase,
     this.forgetPasswordUseCase,

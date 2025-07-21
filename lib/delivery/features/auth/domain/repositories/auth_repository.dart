@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:x_go/core/errors/error_model.dart';
 import 'package:x_go/delivery/features/auth/data/models/login_response_model.dart';
 import 'package:x_go/delivery/features/auth/domain/entities/auth_response.dart';
-abstract class AuthRepository {
+abstract class DeliveryAuthRepository {
   Future<Either<ErrorModel, AuthResponse>> register({
     required String firstName,
     required String lastName,

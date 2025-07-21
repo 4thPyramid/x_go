@@ -1,75 +1,75 @@
 part of 'auth_cubit.dart';
 
 @immutable
-sealed class AuthState {}
+sealed class DeliveryAuthState {}
 
-final class AuthInitial extends AuthState {}
+final class AuthInitial extends DeliveryAuthState {}
 
-final class LoginLoading extends AuthState {}
+final class LoginLoading extends DeliveryAuthState {}
 
-final class LoginSuccess extends AuthState {
+final class LoginSuccess extends DeliveryAuthState {
   final String message;
 
   LoginSuccess(this.message);
 }
 
-final class LoginError extends AuthState {
+final class LoginError extends DeliveryAuthState {
   final String message;
 
   LoginError(this.message);
 }
 
-final class RegisterLoading extends AuthState {}
+final class RegisterLoading extends DeliveryAuthState {}
 
-final class RegisterSuccess extends AuthState {
+final class RegisterSuccess extends DeliveryAuthState {
   final String message;
 
   RegisterSuccess(this.message);
 }
 
-final class RegisterError extends AuthState {
+final class RegisterError extends DeliveryAuthState {
   final String message;
 
   RegisterError(this.message);
 }
 
-final class ForgotPasswordLoading extends AuthState {}
+final class ForgotPasswordLoading extends DeliveryAuthState {}
 
-final class ForgotPasswordSuccess extends AuthState {
+final class ForgotPasswordSuccess extends DeliveryAuthState {
   final String message;
 
   ForgotPasswordSuccess(this.message);
 }
 
-final class ForgotPasswordError extends AuthState {
+final class ForgotPasswordError extends DeliveryAuthState {
   final String message;
 
   ForgotPasswordError(this.message);
 }
 
-final class OtpLoading extends AuthState {}
+final class OtpLoading extends DeliveryAuthState {}
 
-final class OtpSuccess extends AuthState {
+final class OtpSuccess extends DeliveryAuthState {
   final String message;
 
   OtpSuccess(this.message);
 }
 
-final class OtpError extends AuthState {
+final class OtpError extends DeliveryAuthState {
   final String message;
 
   OtpError(this.message);
 }
 
-final class ResetPasswordLoading extends AuthState {}
+final class ResetPasswordLoading extends DeliveryAuthState {}
 
-final class ResetPasswordSuccess extends AuthState {
+final class ResetPasswordSuccess extends DeliveryAuthState {
   final String message;
 
   ResetPasswordSuccess(this.message);
 }
 
-final class ResetPasswordError extends AuthState {
+final class ResetPasswordError extends DeliveryAuthState {
   final String message;
 
   ResetPasswordError(this.message);

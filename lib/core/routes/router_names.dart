@@ -1,5 +1,5 @@
 abstract class RouterNames {
-  static const String userType = '/';
+  static const String userType = '/dscs';
   static const String splash = '/splash';
   static const String onboarding = '/onboarding';
   static const String auth = '/auth';
@@ -11,8 +11,14 @@ abstract class RouterNames {
   static const String app = '/app';
   static const String language = '/language';
   static const String myBooking = '/myBooking';
-
+  static const String orderDetails = '/';
   static const String home = '/home';
+  static const String delivery = '/delivery';
+  static const String deliveryRegister = '/register';
+  static const String deliveryForgotPassword = '/forgotPassword';
+  static const String deliveryResetPassword = '/resetPassword';
+  static const String deliverySuccessUpdated = '/success_updated';
+  static const String deliveryOtp = '/otp';
   static const String editProfile = '/edit_profile';
   static const String setAnewPassword = '/nmnhb';
   static const String addresses = '/addresses';

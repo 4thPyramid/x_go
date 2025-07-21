@@ -37,13 +37,22 @@ import 'package:x_go/client/features/profile/presentation/views/profile_view.dar
 import 'package:x_go/client/features/review/presentation/logic/cubit/review_cubit.dart';
 import 'package:x_go/client/features/review/presentation/views/review_view.dart';
 import 'package:x_go/client/features/splash/views/splash_view.dart';
-import 'package:x_go/core/data/cached/cache_helper.dart';
-import 'package:x_go/delivery/features/delivery_location/presentation/logic/cubit/delivery_location_cubit.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/forget_password_use_case.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/login_usecase.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/otp_usecase.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/register_usecase.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/reset_password_use_case.dart';
+import 'package:x_go/delivery/features/auth/presentation/logic/cubit/auth_cubit.dart';
+import 'package:x_go/delivery/features/auth/presentation/view/auth_view.dart';
+import 'package:x_go/delivery/features/auth/presentation/view/forget_password_view.dart';
+import 'package:x_go/delivery/features/auth/presentation/view/otpview.dart';
+import 'package:x_go/delivery/features/auth/presentation/view/reset_password_view.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/view/delivery_location_view.dart';
+import 'package:x_go/delivery/features/orderDetails/presentation/views/order_details_view.dart';
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.userType,
+  // initialLocation: RouterNames.userType, 
 
   // CacheHelper.getData(key: 'isRememberMe') != null
   //     ? RouterNames.app
@@ -68,13 +77,16 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.myBooking,
       builder: (context, state) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => getIt<MyBookingCubit>()..getBookingList(),
-          ),
-          BlocProvider(create: (context) => PaymentCubit()),
-        ],
-        child: const MyBookingView(),
+          providers: [
+              BlocProvider(
+              create: (context) => getIt<MyBookingCubit>()..getBookingList(),
+      
+            ),
+              BlocProvider(
+                  create: (context) => PaymentCubit(),
+              ),
+          ],
+                  child: const MyBookingView()
       ),
     ),
     GoRoute(
@@ -131,6 +143,21 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
+      path: RouterNames.deliveryForgotPassword,
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context) => DeliveryAuthCubit(
+            getIt<DeliveryLoginUseCase>(),
+            getIt<DeliveryRegisterUseCase>(),
+            getIt<DeliveryForgetPasswordUseCase>(),
+            getIt<DeliveryOtpUseCase>(),
+            getIt<DeliveryResetPasswordUseCase>(),
+          ),
+          child: DeliveryForgetPasswordView(),
+        );
+      },
+    ),
+    GoRoute(
       path: RouterNames.otp,
       builder: (context, state) {
         final email = state.extra as String;
@@ -144,6 +171,23 @@ final GoRouter router = GoRouter(
             getIt<ResetPasswordUseCase>(),
           ),
           child: OtpView(email: email),
+        );
+      },
+    ),
+    GoRoute(
+      path: RouterNames.deliveryOtp,
+      builder: (context, state) {
+        final email = state.extra as String;
+
+        return BlocProvider(
+          create: (context) => DeliveryAuthCubit(
+            getIt<DeliveryLoginUseCase>(),
+            getIt<DeliveryRegisterUseCase>(),
+            getIt<DeliveryForgetPasswordUseCase>(),
+            getIt<DeliveryOtpUseCase>(),
+            getIt<DeliveryResetPasswordUseCase>(),
+          ),
+          child: DeliveryOtpView(email: email),
         );
       },
     ),
@@ -163,6 +207,24 @@ final GoRouter router = GoRouter(
             getIt<ResetPasswordUseCase>(),
           ),
           child: ResetPasswordView(email: email, otp: otp),
+        );
+      },
+    ), GoRoute(
+      path: RouterNames.deliveryResetPassword,
+      builder: (context, state) {
+        final data = state.extra as Map<String, dynamic>;
+        final email = data['email'];
+        final otp = data['otp'];
+
+        return BlocProvider(
+          create: (context) => DeliveryAuthCubit(
+            getIt<DeliveryLoginUseCase>(),
+            getIt<DeliveryRegisterUseCase>(),
+            getIt<DeliveryForgetPasswordUseCase>(),
+            getIt<DeliveryOtpUseCase>(),
+            getIt<DeliveryResetPasswordUseCase>(),
+          ),
+          child: DeliveryResetPasswordView(email: email, otp: otp),
         );
       },
     ),
@@ -268,10 +330,29 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouterNames.deliveryLocation,
-      builder: (context, state) => BlocProvider(
-        create: (context) => DeliveryLocationCubit()..getCurrentLocation(),
-        child: const DeliveryLocationView(),
-      ),
+      builder: (context, state) => const DeliveryLocationView(),
+    ),
+    GoRoute(
+      path: RouterNames.delivery,
+      builder: (context, state) {
+        final extra = state.extra as int;
+        return BlocProvider(
+          create: (context) => DeliveryAuthCubit(
+            getIt<DeliveryLoginUseCase>(),
+            getIt<DeliveryRegisterUseCase>(),
+            getIt<DeliveryForgetPasswordUseCase>(),
+            getIt<DeliveryOtpUseCase>(),
+            getIt<DeliveryResetPasswordUseCase>(),
+          ),
+          child: DeliveryAuthView(index: extra),
+        );
+      },
+    ),
+    GoRoute(
+      path: RouterNames.orderDetails,
+      builder: (context, state) {
+        return OrderDetailsView();
+      },
     ),
   ],
 );

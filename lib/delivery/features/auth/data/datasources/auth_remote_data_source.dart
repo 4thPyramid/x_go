@@ -5,7 +5,7 @@ import 'package:x_go/delivery/features/auth/data/models/auth_response_model.dart
 import 'package:x_go/delivery/features/auth/data/models/login_response_model.dart';
 
 
-abstract class AuthRemoteDataSource {
+abstract class DeliveryAuthRemoteDataSource {
   Future<AuthResponseModel> register({
     required String firstName,
     required String lastName,
@@ -31,10 +31,10 @@ abstract class AuthRemoteDataSource {
   });
 }
 
-class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
   final ApiConsumer apiConsumer;
 
-  AuthRemoteDataSourceImpl({required this.apiConsumer});
+  DeliveryAuthRemoteDataSourceImpl({required this.apiConsumer});
 
   @override
   Future<AuthResponseModel> register({

@@ -9,7 +9,7 @@ import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/utils/app_strings.dart';
-import 'package:x_go/client/features/auth/presentation/logic/cubit/auth_cubit.dart';
+import 'package:x_go/delivery/features/auth/presentation/logic/cubit/auth_cubit.dart';
 import 'package:x_go/client/features/language/presentation/widgets/instant_language_builder.dart';
 
 class ResetPasswordComponent extends StatefulWidget {
@@ -52,7 +52,7 @@ class _ResetPasswordComponentState extends State<ResetPasswordComponent> {
               SizedBox(height: 20.h),
               _buildConfirmPasswordField(),
               SizedBox(height: 25.h),
-              BlocConsumer<AuthCubit, AuthState>(
+              BlocConsumer<DeliveryAuthCubit, DeliveryAuthState>(
                 listener: (context, state) {
                   if (state is ResetPasswordError) {
                     showToast(message: state.message, state: ToastStates.ERROR);
@@ -102,7 +102,7 @@ class _ResetPasswordComponentState extends State<ResetPasswordComponent> {
         );
         return;
       }
-      context.read<AuthCubit>().resetPassword(
+      context.read<DeliveryAuthCubit>().resetPassword(
         widget.email,
         _passwordController.text,
         widget.otp,

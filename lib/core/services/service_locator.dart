@@ -43,6 +43,14 @@ import 'package:x_go/client/features/profile/presentation/logic/cubit/profile_ed
 import 'package:x_go/client/features/language/presentation/logic/cubit/lang_cupit.dart';
 import 'package:x_go/client/features/favorites/data/repositories/favorites_repository.dart';
 import 'package:x_go/client/features/favorites/presentation/logic/cubit/favorites_cubit.dart';
+import 'package:x_go/delivery/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:x_go/delivery/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:x_go/delivery/features/auth/domain/repositories/auth_repository.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/forget_password_use_case.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/login_usecase.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/otp_usecase.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/register_usecase.dart';
+import 'package:x_go/delivery/features/auth/domain/usecases/reset_password_use_case.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -59,6 +67,11 @@ void setupLocator() {
     () => AuthRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
   );
 
+  getIt.registerLazySingleton<DeliveryAuthRemoteDataSource>(
+    () => DeliveryAuthRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
+  );
+
+
   getIt.registerLazySingleton<BookingRemoteDataSource>(
     () => BookingRemoteDataSource(getIt<DioConsumer>()),
   );
@@ -74,6 +87,9 @@ void setupLocator() {
   /// !-- Repositories -- ///
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: getIt<AuthRemoteDataSource>()),
+  );
+  getIt.registerLazySingleton<DeliveryAuthRepository>(
+    () => DeliveryAuthRepositoryImpl(remoteDataSource: getIt<DeliveryAuthRemoteDataSource>()),
   );
   getIt.registerLazySingleton<BookingRepository>(
     () => BookingRepoImpl(remoteDataSource: getIt<BookingRemoteDataSource>()),
@@ -95,20 +111,35 @@ void setupLocator() {
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<AuthRepository>()),
   );
+  getIt.registerLazySingleton<DeliveryLoginUseCase>(
+    () => DeliveryLoginUseCase(getIt<DeliveryAuthRepository>()),
+  );
   getIt.registerLazySingleton<GetBookingList>(
     () => GetBookingList(getIt<BookingRepository>()),
   );
   getIt.registerLazySingleton<RegisterUseCase>(
     () => RegisterUseCase(getIt<AuthRepository>()),
   );
+  getIt.registerLazySingleton<DeliveryRegisterUseCase>(
+    () => DeliveryRegisterUseCase(getIt<DeliveryAuthRepository>()),
+  );
   getIt.registerLazySingleton<ForgetPasswordUseCase>(
     () => ForgetPasswordUseCase(getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton<DeliveryForgetPasswordUseCase>(
+    () => DeliveryForgetPasswordUseCase(getIt<DeliveryAuthRepository>()),
   );
   getIt.registerLazySingleton<OtpUseCase>(
     () => OtpUseCase(getIt<AuthRepository>()),
   );
+  getIt.registerLazySingleton<DeliveryOtpUseCase>(
+    () => DeliveryOtpUseCase(getIt<DeliveryAuthRepository>()),
+  );
   getIt.registerLazySingleton<ResetPasswordUseCase>(
     () => ResetPasswordUseCase(getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton<DeliveryResetPasswordUseCase>(
+    () => DeliveryResetPasswordUseCase(getIt<DeliveryAuthRepository>()),
   );
   getIt.registerLazySingleton<ActiveLocationRepository>(
     () => ActiveLocationRepositoryImpl(
