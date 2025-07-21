@@ -56,11 +56,16 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   void startStream(LatLng currentPosition) async {
     try {
       Geolocator.getPositionStream(
-        locationSettings: LocationSettings(distanceFilter: 10),
+        locationSettings: LocationSettings(timeLimit: Duration(seconds: 5)),
       ).listen((position) {
         final latLng = LatLng(position.latitude, position.longitude);
-        marker = marker.copyWith(positionParam: latLng);
-        addToFirebase(currentPosition);
+        marker = Marker(
+          markerId: const MarkerId('current_location'),
+          position: latLng,
+          infoWindow: const InfoWindow(title: 'Current Location'),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+        );
+        addToFirebase(latLng);
         emit(CurrentLocationSuccess(currentPosition: latLng, marker: marker));
       });
     } catch (e) {
@@ -76,7 +81,6 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
             .set({
               'latitude': currentPosition.latitude,
               'longitude': currentPosition.longitude,
-              'timestamp': DateTime.now().millisecondsSinceEpoch,
             });
       });
       emit(

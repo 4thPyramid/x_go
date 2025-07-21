@@ -45,7 +45,7 @@ import 'package:x_go/delivery/features/home/presentation/widgets/home/custom_sea
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.appDelivery,
+  initialLocation: RouterNames.userType,
 
   // CacheHelper.getData(key: 'isRememberMe') != null
   //     ? RouterNames.app
