@@ -89,4 +89,9 @@ class AppStrings {
   static const String carAddedToFavorites = 'car_added_to_favorites';
   static const String carRemovedFromFavorites = 'car_removed_from_favorites';
   static const String noFavoriteCarsYet = 'no_favorite_cars_yet';
+  static const String noCarsFound = 'no_cars_found';
+  static const String noNotifications = 'no_notifications';
+  static const String noCarsAvailable = 'no_cars_available';
+  static const String showOrders = 'show_orders';
+  static const String noOrders = 'no_orders';
 }

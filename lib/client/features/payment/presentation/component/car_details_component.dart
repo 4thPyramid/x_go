@@ -65,7 +65,7 @@ class CarDetailsComponent extends StatelessWidget {
             child: Image.network(
               image.startsWith("http")
                   ? image
-                  : 'https://xgo.ibrahimbashaa.com/$image',
+                  : 'https://yellowgreen-ferret-878816.hostingersite.com/$image',
               fit: BoxFit.cover,
               width: double.infinity,
               height: 200,

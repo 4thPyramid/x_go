@@ -8,6 +8,7 @@ import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_state.dart';
+import 'package:x_go/core/utils/image_url_helper.dart';
 import 'package:x_go/client/features/Details/presentation/widgets/booking_button.dart';
 import 'package:x_go/client/features/Details/presentation/widgets/car_detail_info_cards.dart';
 import 'package:x_go/client/features/home/domain/entity/car_entity.dart';
@@ -89,18 +90,23 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.r),
                             child: CachedNetworkImage(
-                              imageUrl: attributes.image,
+                              imageUrl: ImageUrlHelper.normalizeImageUrl(
+                                attributes.image,
+                              ),
                               fit: BoxFit.cover,
                               placeholder: (context, url) => const Center(
                                 child: CircularProgressIndicator(),
                               ),
-                              errorWidget: (context, url, error) => Text(
-                                'No Image Available',
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  color: Colors.grey[600],
-                                ),
-                              ),
+                              errorWidget: (context, url, error) {
+                                ImageUrlHelper.logImageError(url, error);
+                                return Text(
+                                  'No Image Available',
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: Colors.grey[600],
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         )
@@ -124,16 +130,20 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.r),
                                 child: CachedNetworkImage(
-                                  imageUrl: relationship.images[index],
+                                  imageUrl: ImageUrlHelper.normalizeImageUrl(
+                                    relationship.images[index],
+                                  ),
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) => const Center(
                                     child: CircularProgressIndicator(),
                                   ),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                        'assets/images/Group 7.png',
-                                        fit: BoxFit.cover,
-                                      ),
+                                  errorWidget: (context, url, error) {
+                                    ImageUrlHelper.logImageError(url, error);
+                                    return Image.asset(
+                                      'assets/images/Group 7.png',
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
                                 ),
                               ),
                             );

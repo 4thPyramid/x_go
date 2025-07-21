@@ -25,6 +25,7 @@ class AppTheme {
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       selectedItemColor: AppColors.primaryColor,
+      unselectedIconTheme: IconThemeData(color: Colors.black54),
       unselectedItemColor: AppColors.primaryColor,
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
