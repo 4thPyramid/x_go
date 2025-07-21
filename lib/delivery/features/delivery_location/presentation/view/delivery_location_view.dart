@@ -6,6 +6,7 @@ import 'package:x_go/client/features/location/presentation/widgets/google_map_wi
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/logic/cubit/delivery_location_cubit.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class DeliveryLocationView extends StatelessWidget {
   const DeliveryLocationView({super.key});
@@ -44,6 +45,15 @@ class DeliveryLocationView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
+                        ElevatedButton(
+                          onPressed: () async {
+                            context.read<DeliveryLocationCubit>().startStream(
+                              state.currentPosition,
+                            );
+                          },
+                          child: Text('start stream'),
+                        ),
+
                         Directionality(
                           textDirection: TextDirection.rtl,
                           child: ListTile(

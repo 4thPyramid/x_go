@@ -16,6 +16,7 @@ Future<void> main() async {
   await CacheHelper.init();
   setupLocator();
   await EasyLocalization.ensureInitialized();
+
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ar'), Locale('ru')],
