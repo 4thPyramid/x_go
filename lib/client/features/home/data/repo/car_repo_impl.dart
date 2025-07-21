@@ -18,11 +18,18 @@ class HomeRepositoryImpl implements HomeRepository {
     try {
       final response = await remoteDataSource.getCars(params);
 
+      // Convert to entities
       final cars = response.data
           .map((carModel) => carModel.toEntity())
           .toList();
 
-      return Right(cars);
+      // Remove duplicates based on car id
+      final uniqueCars = <String, CarEntity>{};
+      for (var car in cars) {
+        uniqueCars[car.id] = car;
+      }
+
+      return Right(uniqueCars.values.toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.errorModel.message));
     }

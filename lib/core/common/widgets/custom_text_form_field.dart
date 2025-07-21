@@ -18,7 +18,8 @@ class CustomTextFormField extends StatelessWidget {
   final String? labelText;
   final void Function(String)? onchanged;
   final List<String>? autofillHints;
-
+  final double? verticalPadding;
+  final double? horizontalPadding;
   const CustomTextFormField({
     super.key,
     this.hintText,
@@ -35,6 +36,8 @@ class CustomTextFormField extends StatelessWidget {
     this.labelText,
     this.onchanged,
     this.autofillHints,
+    this.verticalPadding,
+    this.horizontalPadding,
   });
 
   @override
@@ -47,8 +50,8 @@ class CustomTextFormField extends StatelessWidget {
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
-          vertical: 18.0.w,
-          horizontal: 12.0.w,
+          vertical: verticalPadding ?? 18.0.w,
+          horizontal: horizontalPadding ?? 12.0.w,
         ),
         hintText: hintText,
 
@@ -74,15 +77,15 @@ class CustomTextFormField extends StatelessWidget {
 
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(12.0.r),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(12.0.r),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(12.0.r),
         ),
       ),
       validator: validator ?? (value) => null,

@@ -43,4 +43,6 @@ abstract class RouterNames {
   static const String popularCars = '/popularCars';
   static const String review = '/review';
   static const String deliveryLocation = '/deliveryLocation';
+  static const String appDelivery = '/appDelivery';
+  static const String customSearchDeliveryApp = '/customSearchDeliveryApp';
 }
