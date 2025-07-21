@@ -22,7 +22,7 @@ class DeliveryLocationView extends StatelessWidget {
                 GoogleMapWidget(
                   initialLocation: state.currentPosition,
                   onTap: (value) {},
-                  markers: {state.marker},
+                  markers: state.markers,
                   onMapCreated: (controller) {
                     controller.animateCamera(
                       CameraUpdate.newLatLng(state.currentPosition),

@@ -12,7 +12,7 @@ part 'delivery_location_state.dart';
 class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   DeliveryLocationCubit() : super(DeliveryLocationInitial());
 
-  late Marker marker;
+  late Set<Marker> markers;
   void getCurrentLocation() async {
     final permission = await LocationService().requestPermission();
 
@@ -27,17 +27,20 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
             desiredAccuracy: LocationAccuracy.high,
           );
           final latLng = LatLng(position.latitude, position.longitude);
-          marker = Marker(
-            markerId: const MarkerId('current_location'),
-            position: latLng,
-            infoWindow: const InfoWindow(title: 'Current Location'),
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueRed,
+          markers = {
+            Marker(
+              markerId: const MarkerId('current_location'),
+              position: latLng,
+              infoWindow: const InfoWindow(title: 'Current Location'),
+              icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueRed,
+              ),
             ),
-          );
+          };
           startStream(latLng);
-
-          emit(CurrentLocationSuccess(currentPosition: latLng, marker: marker));
+          emit(
+            CurrentLocationSuccess(currentPosition: latLng, markers: markers),
+          );
         } catch (e) {
           emit(CurrentLocationError(errorMessage: e.toString()));
         }
@@ -53,24 +56,25 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
     }
   }
 
-  void startStream(LatLng currentPosition) async {
-    try {
-      Geolocator.getPositionStream(
-        locationSettings: LocationSettings(timeLimit: Duration(seconds: 5)),
-      ).listen((position) {
-        final latLng = LatLng(position.latitude, position.longitude);
-        marker = Marker(
+  void startStream(LatLng currentPosition) {
+    Geolocator.getPositionStream(
+      locationSettings: LocationSettings(timeLimit: Duration(seconds: 5)),
+    ).listen((position) {
+      final latLng = LatLng(position.latitude, position.longitude);
+
+      markers = {
+        Marker(
           markerId: const MarkerId('current_location'),
           position: latLng,
           infoWindow: const InfoWindow(title: 'Current Location'),
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-        );
-        addToFirebase(latLng);
-        emit(CurrentLocationSuccess(currentPosition: latLng, marker: marker));
-      });
-    } catch (e) {
-      emit(CurrentLocationError(errorMessage: e.toString()));
-    }
+        ),
+      };
+
+      addToFirebase(latLng);
+
+      emit(CurrentLocationSuccess(currentPosition: latLng, markers: markers));
+    });
   }
 
   void addToFirebase(LatLng currentPosition) async {
@@ -86,7 +90,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
       emit(
         CurrentLocationSuccess(
           currentPosition: currentPosition,
-          marker: marker,
+          markers: markers,
         ),
       );
     } catch (e) {

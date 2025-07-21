@@ -13,11 +13,11 @@ final class CurrentLocationLoading extends DeliveryLocationState {}
 
 final class CurrentLocationSuccess extends DeliveryLocationState {
   final LatLng currentPosition;
-  final Marker marker;
+  final Set<Marker> markers;
 
   const CurrentLocationSuccess({
     required this.currentPosition,
-    required this.marker,
+    required this.markers,
   });
 }
 
