@@ -38,17 +38,27 @@ import 'package:x_go/client/features/review/presentation/logic/cubit/review_cubi
 import 'package:x_go/client/features/review/presentation/views/review_view.dart';
 import 'package:x_go/client/features/splash/views/splash_view.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
+import 'package:x_go/delivery/features/app_delivery.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/logic/cubit/delivery_location_cubit.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/view/delivery_location_view.dart';
+import 'package:x_go/delivery/features/home/presentation/widgets/home/custom_search_widget.dart';
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.userType,
+  initialLocation: RouterNames.appDelivery,
 
   // CacheHelper.getData(key: 'isRememberMe') != null
   //     ? RouterNames.app
   //     : RouterNames.splash,
   routes: [
+    GoRoute(
+      path: RouterNames.appDelivery,
+      builder: (context, state) => const AppDelivery(),
+    ),
+    GoRoute(
+      path: RouterNames.customSearchDeliveryApp,
+      builder: (context, state) => const CustomSearchDeliveryApp(),
+    ),
     GoRoute(
       path: RouterNames.userType,
       builder: (context, state) => const UserTypeView(),
