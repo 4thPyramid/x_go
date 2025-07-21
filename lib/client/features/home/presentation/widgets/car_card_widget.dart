@@ -6,6 +6,7 @@ import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/core/utils/app_shimmer.dart';
 import 'package:x_go/core/utils/app_strings.dart';
+import 'package:x_go/core/utils/image_url_helper.dart';
 
 class CarCardWidget extends StatelessWidget {
   final String brand;
@@ -324,9 +325,9 @@ class CarCardWidget extends StatelessWidget {
   Widget _buildImage() {
     return Stack(
       children: [
-        if (imageUrl.startsWith('http'))
+        if (imageUrl.isNotEmpty)
           CachedNetworkImage(
-            imageUrl: imageUrl,
+            imageUrl: ImageUrlHelper.normalizeImageUrl(imageUrl),
             width: double.infinity,
             height: double.infinity,
             fit: BoxFit.cover,
@@ -336,12 +337,19 @@ class CarCardWidget extends StatelessWidget {
               color: Colors.grey[300],
               child: const Center(child: AppShimmer()),
             ),
-            errorWidget: (context, url, error) => Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: Colors.grey[300],
-              child: const Icon(Icons.car_rental, size: 30, color: Colors.grey),
-            ),
+            errorWidget: (context, url, error) {
+              ImageUrlHelper.logImageError(url, error);
+              return Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.grey[300],
+                child: const Icon(
+                  Icons.car_rental,
+                  size: 30,
+                  color: Colors.grey,
+                ),
+              );
+            },
           )
         else
           Image.asset(

@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/core/utils/app_shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:x_go/core/utils/image_url_helper.dart';
 
 class AppImageView extends StatelessWidget {
   final String? imagePath;
@@ -110,7 +111,7 @@ class AppImageView extends StatelessWidget {
             height: height,
             width: width,
             fit: fit ?? BoxFit.fill,
-            imageUrl: imagePath!,
+            imageUrl: ImageUrlHelper.normalizeImageUrl(imagePath!),
             color: color,
             imageBuilder: (context, imageProvider) => InkWell(
               onDoubleTap: () {

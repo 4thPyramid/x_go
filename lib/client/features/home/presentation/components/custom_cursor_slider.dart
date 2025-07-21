@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/client/features/home/presentation/logic/cubit/home_cubit/home_cubit.dart';
 import 'package:x_go/client/features/home/presentation/logic/cubit/home_cubit/home_state.dart';
+import 'package:x_go/core/utils/image_url_helper.dart';
 
 class CustomCursorSlider extends StatelessWidget {
   const CustomCursorSlider({super.key});
@@ -35,8 +36,13 @@ class CustomCursorSlider extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0.r),
                       image: DecorationImage(
-                        image: NetworkImage(car.image),
+                        image: NetworkImage(
+                          ImageUrlHelper.normalizeImageUrl(car.image),
+                        ),
                         fit: BoxFit.cover,
+                        onError: (exception, stackTrace) {
+                          ImageUrlHelper.logImageError(car.image, exception);
+                        },
                       ),
                     ),
                     child: Container(

@@ -7,6 +7,7 @@ import 'package:x_go/client/features/my_bookings/data/models/booking_model.dart'
 import 'package:x_go/client/features/payment/domain/entites/payment_method.dart';
 import 'package:x_go/client/features/payment/presentation/logic/cubit/payment_cubit.dart';
 import 'package:x_go/client/features/payment/presentation/widgets/confirmation_dailog.dart';
+import 'package:x_go/core/utils/image_url_helper.dart';
 
 class BookingCard extends StatefulWidget {
   final String imageUrl;
@@ -124,9 +125,21 @@ class _BookingCardState extends State<BookingCard> {
         children: [
           Center(
             child: Image.network(
-              'https://xgo.ibrahimbashaa.com/${widget.imageUrl}',
+              ImageUrlHelper.normalizeImageUrl(widget.imageUrl),
               height: 250,
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                ImageUrlHelper.logImageError(widget.imageUrl, error);
+                return Container(
+                  height: 250,
+                  color: Colors.grey[300],
+                  child: const Icon(
+                    Icons.car_rental,
+                    size: 50,
+                    color: Colors.grey,
+                  ),
+                );
+              },
             ),
           ),
           const SizedBox(height: 12),

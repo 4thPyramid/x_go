@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/routes/router_names.dart';
+import 'package:x_go/core/utils/image_url_helper.dart';
 
 class UserInfoCard extends StatelessWidget {
   final String name;
@@ -26,7 +27,15 @@ class UserInfoCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
-            CircleAvatar(radius: 30, backgroundImage: NetworkImage(imageUrl)),
+            CircleAvatar(
+              radius: 30,
+              backgroundImage: NetworkImage(
+                ImageUrlHelper.normalizeImageUrl(imageUrl),
+              ),
+              onBackgroundImageError: (exception, stackTrace) {
+                ImageUrlHelper.logImageError(imageUrl, exception);
+              },
+            ),
             const SizedBox(width: 12),
             Expanded(
               child: Column(

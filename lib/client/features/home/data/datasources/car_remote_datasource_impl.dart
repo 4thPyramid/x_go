@@ -118,7 +118,8 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 }
 
 class ApiEndPoints {
-  static const String baseUrl = 'https://xgo.ibrahimbashaa.com/api/user/';
+  static const String baseUrl =
+      'https://yellowgreen-ferret-878816.hostingersite.com/api/users/';
   static const String home = 'Home';
   static const String filterInfo = 'filter-Info';
 }

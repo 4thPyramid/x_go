@@ -1,5 +1,6 @@
 abstract class EndpointsStrings {
-  static const String baseUrl = "https://xgo.ibrahimbashaa.com/api/user/";
+  static const String baseUrl =
+      "https://yellowgreen-ferret-878816.hostingersite.com/api/user/";
 
   static const String login = 'login';
   static const String register = 'register';
