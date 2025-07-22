@@ -6,6 +6,7 @@ import 'package:x_go/client/features/location/presentation/widgets/google_map_wi
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/logic/cubit/delivery_location_cubit.dart';
+import 'package:x_go/delivery/features/delivery_location/presentation/widgets/info_tile.dart';
 
 class DeliveryLocationView extends StatelessWidget {
   const DeliveryLocationView({super.key});
@@ -15,134 +16,138 @@ class DeliveryLocationView extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<DeliveryLocationCubit, DeliveryLocationState>(
         builder: (context, state) {
-          if (state is CurrentLocationSuccess) {
+          if (state is CurrentLocationLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is CurrentLocationError ||
+              state is DeliveryLocationError) {
+            return Center(
+              child: Text(
+                (state as dynamic).errorMessage,
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          } else if (state is CurrentLocationSuccess) {
             return Stack(
               alignment: Alignment.bottomCenter,
               children: [
                 GoogleMapWidget(
                   initialLocation: state.currentPosition,
-                  onTap: (value) {},
+                  onTap: (_) {},
                   markers: state.markers,
+                  polylines: {
+                    Polyline(
+                      polylineId: const PolylineId('route'),
+                      color: Colors.blue,
+                      width: 5,
+                      points: state.polylines,
+                    ),
+                  },
                   onMapCreated: (controller) {
                     controller.animateCamera(
                       CameraUpdate.newLatLng(state.currentPosition),
                     );
                   },
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  height: MediaQuery.of(context).size.height * 0.42,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(24),
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 10,
+                        offset: Offset(0, -2),
+                      ),
+                    ],
                   ),
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: ListTile(
-                            leading: Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Icon(
-                                Icons.person_2_outlined,
-                                color: Colors.black,
-                              ),
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 50,
+                        height: 5,
+                        margin: const EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.grey.shade200,
+                            child: const Icon(
+                              Icons.person_2_outlined,
+                              color: Colors.black,
                             ),
-                            title: Text('waleed seafan'),
-                            subtitle: Text('مندوب التوصيل'),
                           ),
+                          title: const Text(
+                            'waleed seafan',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: const Text('مندوب التوصيل'),
                         ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: ListTile(
-                                  leading: Container(
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade200,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Icon(
-                                      Icons.timer_sharp,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  title: Text('وقت التوصيل'),
-                                  subtitle: Text('12:00 مساءً'),
-                                ),
-                              ),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          InfoTile(
+                            title: 'وقت التوصيل',
+                            subtitle: '${state.duration} ',
+                            icon: Icons.timer_sharp,
+                          ),
+                          InfoTile(
+                            title: 'المسافة',
+                            subtitle: '${state.distance} ',
+                            icon: Icons.directions_outlined,
+                          ),
+                          InfoTile(
+                            title: 'مكان التوصيل',
+                            subtitle: 'القاهرة',
+                            icon: Icons.location_on_outlined,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CustomButton(
+                              height: 45.h,
+                              onPressed: () =>
+                                  reportDeliveryBottomSheet(context),
+                              text: 'الإبلاغ عن مشكلة',
                             ),
-
-                            Expanded(
-                              child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: ListTile(
-                                  leading: Container(
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade200,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Icon(
-                                      Icons.pin_drop_outlined,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  title: Text('مكان التوصيل'),
-                                  subtitle: Text('القاهرة'),
-                                ),
-                              ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: CustomButton(
+                              height: 45.h,
+                              onPressed: () =>
+                                  successDeliveryBottomSheet(context),
+                              text: 'تأكيد التوصيل',
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 26),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CustomButton(
-                                height: 40.h,
-                                onPressed: () {
-                                  reportDeliveryBottomSheet(context);
-                                },
-                                text: 'الابلاغ عن مشكلة',
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: CustomButton(
-                                height: 40.h,
-                                onPressed: () {
-                                  successDeliveryBottomSheet(context);
-                                },
-                                text: 'تأكيد التوصيل',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
             );
-          } else if (state is CurrentLocationError) {
-            return Center(child: Text(state.errorMessage));
-          } else {
-            return const Center(child: CircularProgressIndicator());
           }
+
+          return const Center(child: FlutterLogo());
         },
       ),
     );
