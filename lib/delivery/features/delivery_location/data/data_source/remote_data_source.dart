@@ -1,4 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:x_go/core/constants/endpoints_strings.dart';
 import 'package:x_go/core/data/api/api_consumer.dart';
 import 'package:x_go/core/errors/error_model.dart';
 import 'package:x_go/delivery/features/delivery_location/data/model/route_model.dart';
@@ -21,7 +22,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   ) async {
     try {
       final response = await apiConsumer.post(
-        'api/driver/getBestRoute',
+        EndpointsStrings.getBestRoute,
         queryParameters: {
           'origin': '${currentPosition.latitude},${currentPosition.longitude}',
           'destination': '${destination.latitude},${destination.longitude}',

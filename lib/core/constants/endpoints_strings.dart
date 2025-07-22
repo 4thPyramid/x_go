@@ -19,4 +19,6 @@ abstract class EndpointsStrings {
 
   // Delivery endpoints
   static const String acceptedOrders = '/api/driver/Accepted-Booking';
+  static const String completedOrders = '/api/driver/Completed-Booking';
+  static const String getBestRoute = '/api/driver/getBestRoute';
 }

@@ -42,10 +42,11 @@ import 'package:x_go/delivery/features/delivery_location/presentation/logic/cubi
 import 'package:x_go/delivery/features/delivery_location/presentation/view/delivery_location_view.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/aacepted_oreder_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/home/custom_search_widget.dart';
+import 'package:x_go/delivery/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.appDelivery,
+  initialLocation: RouterNames.userType,
 
   // CacheHelper.getData(key: 'isRememberMe') != null
   //     ? RouterNames.app
@@ -292,6 +293,13 @@ final GoRouter router = GoRouter(
       builder: (context, state) => BlocProvider(
         create: (context) => DeliveryLocationCubit()..getCurrentLocation(),
         child: const DeliveryLocationView(),
+      ),
+    ),
+    GoRoute(
+      path: RouterNames.profileDelivery,
+      builder: (context, state) => BlocProvider(
+        create: (context) => getIt<ProfileEditCubit>()..getProfileData(),
+        child: const ProfileDeliveryView(),
       ),
     ),
   ],
