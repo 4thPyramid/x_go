@@ -43,7 +43,6 @@ import 'package:x_go/client/features/profile/presentation/logic/cubit/profile_ed
 import 'package:x_go/client/features/language/presentation/logic/cubit/lang_cupit.dart';
 import 'package:x_go/client/features/favorites/data/repositories/favorites_repository.dart';
 import 'package:x_go/client/features/favorites/presentation/logic/cubit/favorites_cubit.dart';
-<<<<<<< HEAD
 import 'package:x_go/delivery/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:x_go/delivery/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:x_go/delivery/features/auth/domain/repositories/auth_repository.dart';
@@ -52,13 +51,11 @@ import 'package:x_go/delivery/features/auth/domain/usecases/login_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/register_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/reset_password_use_case.dart';
-=======
 import 'package:x_go/delivery/features/home/data/data_sources/accepted_oreders_ds.dart';
 import 'package:x_go/delivery/features/home/data/repo/accepted_orders_repository_impl.dart';
 import 'package:x_go/delivery/features/home/domain/repos/accepted_orders_repository.dart';
 import 'package:x_go/delivery/features/home/domain/usecases/accepted_order_usecase.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/aacepted_oreder_cubit.dart';
->>>>>>> 2d2f54e2ecf4b895924f2368098e248d6d91f3da
 
 final GetIt getIt = GetIt.instance;
 
