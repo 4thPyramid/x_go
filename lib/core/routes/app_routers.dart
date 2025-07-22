@@ -37,7 +37,6 @@ import 'package:x_go/client/features/profile/presentation/views/profile_view.dar
 import 'package:x_go/client/features/review/presentation/logic/cubit/review_cubit.dart';
 import 'package:x_go/client/features/review/presentation/views/review_view.dart';
 import 'package:x_go/client/features/splash/views/splash_view.dart';
-<<<<<<< HEAD
 import 'package:x_go/delivery/features/auth/domain/usecases/forget_password_use_case.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/login_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/otp_usecase.dart';
@@ -48,18 +47,15 @@ import 'package:x_go/delivery/features/auth/presentation/view/auth_view.dart';
 import 'package:x_go/delivery/features/auth/presentation/view/forget_password_view.dart';
 import 'package:x_go/delivery/features/auth/presentation/view/otpview.dart';
 import 'package:x_go/delivery/features/auth/presentation/view/reset_password_view.dart';
-import 'package:x_go/delivery/features/delivery_location/presentation/view/delivery_location_view.dart';
-import 'package:x_go/delivery/features/orderDetails/presentation/views/order_details_view.dart';
-=======
 import 'package:x_go/delivery/features/app_delivery.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/logic/cubit/delivery_location_cubit.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/view/delivery_location_view.dart';
+import 'package:x_go/delivery/features/orderDetails/presentation/views/order_details_view.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/home/custom_search_widget.dart';
->>>>>>> e26b4a90240c9d83c2b0e9eb7ef8b1ef32500fb7
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
-  // initialLocation: RouterNames.userType, 
+  initialLocation: RouterNames.userType,
 
   // CacheHelper.getData(key: 'isRememberMe') != null
   //     ? RouterNames.app
