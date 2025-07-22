@@ -39,7 +39,7 @@ class DioConsumer extends ApiConsumer {
             'accept-language': lang,
             'Content-Type': 'application/vnd.api+json',
             'Authorization':
-                'Bearer vWoucAwHOwHzH0QFFIb0BZcPAF1Jr0viwyjUQQ2F102b3a04',
+                'Bearer 21|qDgZrVu8f6HPdAzkRihmZMS76g90u2QNHBxVrhmW883c180a',
           },
         ),
       );
@@ -73,7 +73,8 @@ class DioConsumer extends ApiConsumer {
             'Content-Type': 'application/vnd.api+json',
             'accept-language': lang,
 
-            'Authorization': 'Bearer $token',
+            'Authorization':
+                'Bearer 21|qDgZrVu8f6HPdAzkRihmZMS76g90u2QNHBxVrhmW883c180a',
           },
         ),
       );
@@ -103,7 +104,8 @@ class DioConsumer extends ApiConsumer {
           headers: {
             'Accept': 'application/vnd.api+json',
             'Content-Type': 'application/vnd.api+json',
-            'Authorization': 'Bearer $token',
+            'Authorization':
+                'Bearer 21|qDgZrVu8f6HPdAzkRihmZMS76g90u2QNHBxVrhmW883c180a',
           },
         ),
       );

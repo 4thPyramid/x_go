@@ -427,6 +427,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.28"
+  flutter_polyline_points:
+    dependency: "direct main"
+    description:
+      name: flutter_polyline_points
+      sha256: "9822fc3a316f2cc45323461f0ffbe84e5d0fe9108a2aa301b3afef433c742ee8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   flutter_rating_bar:
     dependency: "direct main"
     description:
