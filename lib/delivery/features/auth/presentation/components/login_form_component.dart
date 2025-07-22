@@ -106,7 +106,7 @@ class _LoginFormState extends State<LoginForm> {
                   },
                   listener: (BuildContext context, DeliveryAuthState state) {
                     if (state is LoginSuccess) {
-                      context.go(RouterNames.app);
+                      context.go(RouterNames.deliveryLocation);
                     } else if (state is LoginError) {
                       showToast(
                         message: state.message,

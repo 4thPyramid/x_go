@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/client/features/app.dart';
+import 'package:x_go/client/features/client_tracking/presentation/logic/cubit/client_tracking_cubit.dart';
+import 'package:x_go/client/features/client_tracking/presentation/view/client_tracking_view.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
@@ -56,7 +58,7 @@ import 'package:x_go/delivery/features/orderDetails/presentation/views/order_det
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.appDelivery,
+  initialLocation: RouterNames.userType,
 
   // CacheHelper.getData(key: 'isRememberMe') != null
   //     ? RouterNames.app
@@ -91,6 +93,14 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(
+      path: RouterNames.clientTrackLocation,
+      builder: (context, state) => BlocProvider(
+        create: (context) =>
+            ClientTrackingCubit()..getLiveTrackingFromFirebase(),
+        child: const ClientTrackingView(),
+      ),
+    ),
+    GoRoute(
       path: RouterNames.popularCars,
       builder: (context, state) => BlocProvider(
         create: (context) => getIt<HomeCubit>(),
@@ -100,16 +110,13 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.myBooking,
       builder: (context, state) => MultiBlocProvider(
-          providers: [
-              BlocProvider(
-              create: (context) => getIt<MyBookingCubit>()..getBookingList(),
-      
-            ),
-              BlocProvider(
-                  create: (context) => PaymentCubit(),
-              ),
-          ],
-                  child: const MyBookingView()
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<MyBookingCubit>()..getBookingList(),
+          ),
+          BlocProvider(create: (context) => PaymentCubit()),
+        ],
+        child: const MyBookingView(),
       ),
     ),
     GoRoute(
@@ -232,7 +239,8 @@ final GoRouter router = GoRouter(
           child: ResetPasswordView(email: email, otp: otp),
         );
       },
-    ), GoRoute(
+    ),
+    GoRoute(
       path: RouterNames.deliveryResetPassword,
       builder: (context, state) {
         final data = state.extra as Map<String, dynamic>;
@@ -353,7 +361,10 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouterNames.deliveryLocation,
-      builder: (context, state) => const DeliveryLocationView(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => DeliveryLocationCubit()..getCurrentLocation(),
+        child: const DeliveryLocationView(),
+      ),
     ),
     GoRoute(
       path: RouterNames.delivery,

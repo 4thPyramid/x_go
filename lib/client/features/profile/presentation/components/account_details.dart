@@ -29,6 +29,13 @@ class AccountDetails extends StatelessWidget {
               icon: Icons.feedback,
             ),
             ProfileItemTile(
+              title: 'Track location',
+              icon: Icons.local_car_wash_outlined,
+              onTap: () {
+                context.go(RouterNames.clientTrackLocation);
+              },
+            ),
+            ProfileItemTile(
               title: AppStrings.logout.tr(),
               icon: Icons.logout,
               showTrailing: false,
