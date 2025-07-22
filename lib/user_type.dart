@@ -26,7 +26,7 @@ class UserTypeView extends StatelessWidget {
             CustomButton(
               text: 'Driver',
               onPressed: () {
-                context.push(RouterNames.deliveryLocation);
+                context.push(RouterNames.delivery, extra: 0);
               },
             ),
           ],

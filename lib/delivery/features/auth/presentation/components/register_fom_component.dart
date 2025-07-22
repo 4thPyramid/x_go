@@ -138,7 +138,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       validator: Validator.validatePassword,
                     ),
                     SizedBox(height: 24.h),
-                    BlocConsumer<AuthCubit, AuthState>(
+                    BlocConsumer<DeliveryAuthCubit, DeliveryAuthState>(
                       listener: (context, state) {
                         if (state is RegisterSuccess) {
                           showToast(
@@ -161,7 +161,7 @@ class _RegisterFormState extends State<RegisterForm> {
                                 onPressed: () {
                                   if (_formKey.currentState?.validate() ??
                                       false) {
-                                    context.read<AuthCubit>().register(
+                                    context.read<DeliveryAuthCubit>().register(
                                       _firstNameController.text,
                                       _lastNameController.text,
                                       _emailController.text,

@@ -87,7 +87,7 @@ class _LoginFormState extends State<LoginForm> {
                   },
                 ),
                 SizedBox(height: 16.h),
-                BlocConsumer<AuthCubit, AuthState>(
+                BlocConsumer<DeliveryAuthCubit, DeliveryAuthState>(
                   builder: (context, state) {
                     return state is LoginLoading
                         ? const Center(child: CircularProgressIndicator())
@@ -95,7 +95,7 @@ class _LoginFormState extends State<LoginForm> {
                             text: AppStrings.login.tr(),
                             onPressed: () {
                               if (_formKey.currentState?.validate() ?? false) {
-                                context.read<AuthCubit>().login(
+                                context.read<DeliveryAuthCubit>().login(
                                   _emailController.text,
                                   _passwordController.text,
                                   _isRememberMe,
@@ -104,7 +104,7 @@ class _LoginFormState extends State<LoginForm> {
                             },
                           );
                   },
-                  listener: (BuildContext context, AuthState state) {
+                  listener: (BuildContext context, DeliveryAuthState state) {
                     if (state is LoginSuccess) {
                       context.go(RouterNames.app);
                     } else if (state is LoginError) {

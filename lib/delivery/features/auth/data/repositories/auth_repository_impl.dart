@@ -8,10 +8,10 @@ import 'package:x_go/delivery/features/auth/domain/entities/auth_response.dart';
 import 'package:x_go/delivery/features/auth/domain/repositories/auth_repository.dart';
 
 
-class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteDataSource remoteDataSource;
+class DeliveryAuthRepositoryImpl implements DeliveryAuthRepository {
+  final DeliveryAuthRemoteDataSource remoteDataSource;
 
-  AuthRepositoryImpl({required this.remoteDataSource});
+  DeliveryAuthRepositoryImpl({required this.remoteDataSource});
 
   @override
   Future<Either<ErrorModel, AuthResponse>> register({

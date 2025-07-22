@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:x_go/core/errors/error_model.dart';
-import '../entities/auth_response.dart';
-import '../repositories/auth_repository.dart';
+import 'package:x_go/delivery/features/auth/domain/entities/auth_response.dart';
+import 'package:x_go/delivery/features/auth/domain/repositories/auth_repository.dart';
 
-class RegisterUseCase {
-  final AuthRepository repository;
+class DeliveryRegisterUseCase {
+  final DeliveryAuthRepository repository;
 
-  RegisterUseCase(this.repository);
+  DeliveryRegisterUseCase(this.repository);
 
   Future<Either<ErrorModel, AuthResponse>> call({
     required String firstName,
