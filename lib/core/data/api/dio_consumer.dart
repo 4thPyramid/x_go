@@ -38,7 +38,8 @@ class DioConsumer extends ApiConsumer {
             'Accept': 'application/vnd.api+json',
             'accept-language': lang,
             'Content-Type': 'application/vnd.api+json',
-            'Authorization': 'Bearer $token',
+            'Authorization':
+                'Bearer vWoucAwHOwHzH0QFFIb0BZcPAF1Jr0viwyjUQQ2F102b3a04',
           },
         ),
       );

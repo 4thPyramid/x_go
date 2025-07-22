@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:x_go/core/errors/error_model.dart';
 import 'package:x_go/core/errors/exceptions.dart';
 import 'package:x_go/core/utils/faluire.dart';
 import 'package:x_go/client/features/home/data/datasources/car_remote_datasource_impl.dart';
@@ -12,7 +14,7 @@ class HomeRepositoryImpl implements HomeRepository {
   HomeRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, List<CarEntity>>> getCars(
+  Future<Either<ErrorModel, List<CarEntity>>> getCars(
     HomeRequestParams params,
   ) async {
     try {
@@ -30,13 +32,15 @@ class HomeRepositoryImpl implements HomeRepository {
       }
 
       return Right(uniqueCars.values.toList());
+    } on DioException catch (e) {
+      return Left(ErrorModel(message: e.message.toString()));
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.errorModel.message));
+      return Left(e.errorModel);
     }
   }
 
   @override
-  Future<Either<Failure, FilterInfo>> getFilterInfo() async {
+  Future<Either<ErrorModel, FilterInfo>> getFilterInfo() async {
     try {
       final response = await remoteDataSource.getFilterInfo();
 
@@ -57,8 +61,10 @@ class HomeRepositoryImpl implements HomeRepository {
       );
 
       return Right(filterInfo);
+    } on DioException catch (e) {
+      return Left(ErrorModel(message: e.message.toString()));
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.errorModel.message));
+      return Left(e.errorModel);
     }
   }
 }

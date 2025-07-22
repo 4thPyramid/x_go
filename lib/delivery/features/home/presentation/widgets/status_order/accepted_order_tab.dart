@@ -1,0 +1,57 @@
+// accepted_order_tab.dart
+// This widget displays the accepted orders tab with pull-to-refresh functionality.
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/aacepted_oreder_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/accepted_order_state.dart';
+import 'package:x_go/delivery/features/home/presentation/widgets/custom_error_state_widget.dart';
+import 'package:x_go/delivery/features/home/presentation/widgets/custom_empty_state_widget.dart';
+import 'package:x_go/delivery/features/home/presentation/widgets/custom_order_card.dart';
+
+class AcceptedOrderTab extends StatelessWidget {
+  const AcceptedOrderTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AcceptedOrdersCubit, AcceptedOrdersState>(
+      builder: (context, state) {
+        return RefreshIndicator(
+          onRefresh: () =>
+              context.read<AcceptedOrdersCubit>().fetchAcceptedOrders(),
+          child: state.when(
+            initial: () => EmptyStateWidget(
+              message: 'No orders yet',
+              icon: Icons.local_taxi_outlined,
+              onRefresh: () =>
+                  context.read<AcceptedOrdersCubit>().fetchAcceptedOrders(),
+            ),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (message) => ErrorStateWidget(
+              message: message,
+              onRetry: () =>
+                  context.read<AcceptedOrdersCubit>().fetchAcceptedOrders(),
+            ),
+            success: (orders) {
+              if (orders.isEmpty) {
+                return EmptyStateWidget(
+                  message: 'No accepted orders available',
+                  icon: Icons.assignment_outlined,
+                  onRefresh: () =>
+                      context.read<AcceptedOrdersCubit>().fetchAcceptedOrders(),
+                );
+              }
+              return ListView.builder(
+                itemCount: orders.length,
+                itemBuilder: (context, index) {
+                  final order = orders[index];
+                  return OrderCard(order: order);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
