@@ -3,8 +3,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:x_go/delivery/features/home/presentation/logic/aacepted_oreder_cubit.dart';
-import 'package:x_go/delivery/features/home/presentation/logic/accepted_order_state.dart';
+import 'package:x_go/core/theme/app_colors.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/accepted_status_cubit/oreder_status_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/accepted_status_cubit/accepted_order_state.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/custom_error_state_widget.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/custom_empty_state_widget.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/custom_order_card.dart';
@@ -14,25 +15,26 @@ class AcceptedOrderTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AcceptedOrdersCubit, AcceptedOrdersState>(
+    return BlocBuilder<AcceptedOrdersCubit, AcceptedStatusState>(
       builder: (context, state) {
         return RefreshIndicator(
           onRefresh: () =>
               context.read<AcceptedOrdersCubit>().fetchAcceptedOrders(),
           child: state.when(
-            initial: () => EmptyStateWidget(
+            acceptedOrderInitial: () => EmptyStateWidget(
               message: 'No orders yet',
               icon: Icons.local_taxi_outlined,
               onRefresh: () =>
                   context.read<AcceptedOrdersCubit>().fetchAcceptedOrders(),
             ),
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (message) => ErrorStateWidget(
+            acceptedOrderLoading: () =>
+                const Center(child: CircularProgressIndicator()),
+            acceptedError: (message) => ErrorStateWidget(
               message: message,
               onRetry: () =>
                   context.read<AcceptedOrdersCubit>().fetchAcceptedOrders(),
             ),
-            success: (orders) {
+            acceptedOrderSuccess: (orders) {
               if (orders.isEmpty) {
                 return EmptyStateWidget(
                   message: 'No accepted orders available',
@@ -45,7 +47,11 @@ class AcceptedOrderTab extends StatelessWidget {
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
                   final order = orders[index];
-                  return OrderCard(order: order);
+                  return OrderCard(
+                    order: order,
+                    statusColor: AppColors.success,
+                    statusText: 'Accepted',
+                  );
                 },
               );
             },

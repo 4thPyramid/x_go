@@ -51,11 +51,13 @@ import 'package:x_go/delivery/features/auth/domain/usecases/login_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/register_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/reset_password_use_case.dart';
-import 'package:x_go/delivery/features/home/data/data_sources/accepted_oreders_ds.dart';
+import 'package:x_go/delivery/features/home/data/data_sources/oreders_status_ds.dart';
 import 'package:x_go/delivery/features/home/data/repo/accepted_orders_repository_impl.dart';
 import 'package:x_go/delivery/features/home/domain/repos/accepted_orders_repository.dart';
 import 'package:x_go/delivery/features/home/domain/usecases/accepted_order_usecase.dart';
-import 'package:x_go/delivery/features/home/presentation/logic/aacepted_oreder_cubit.dart';
+import 'package:x_go/delivery/features/home/domain/usecases/new_order_usecase%20.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/accepted_status_cubit/oreder_status_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/new_order_cubit/new_status_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -76,7 +78,6 @@ void setupLocator() {
     () => DeliveryAuthRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
   );
 
-
   getIt.registerLazySingleton<BookingRemoteDataSource>(
     () => BookingRemoteDataSource(getIt<DioConsumer>()),
   );
@@ -94,7 +95,9 @@ void setupLocator() {
     () => AuthRepositoryImpl(remoteDataSource: getIt<AuthRemoteDataSource>()),
   );
   getIt.registerLazySingleton<DeliveryAuthRepository>(
-    () => DeliveryAuthRepositoryImpl(remoteDataSource: getIt<DeliveryAuthRemoteDataSource>()),
+    () => DeliveryAuthRepositoryImpl(
+      remoteDataSource: getIt<DeliveryAuthRemoteDataSource>(),
+    ),
   );
   getIt.registerLazySingleton<BookingRepository>(
     () => BookingRepoImpl(remoteDataSource: getIt<BookingRemoteDataSource>()),
@@ -217,18 +220,23 @@ void setupLocator() {
     () => FavoritesCubit(favoritesRepository: getIt<FavoritesRepository>()),
   );
   //Accepted Orders Feature
-  getIt.registerLazySingleton<AcceptedOrdersDataSource>(
-    () => AcceptedOrdersDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
+  getIt.registerLazySingleton<OrdersStatusDataSource>(
+    () => OrdersStatusDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
   );
-  getIt.registerLazySingleton<AcceptedOrdersRepository>(
-    () => AcceptedOrdersRepositoryImpl(
-      dataSource: getIt<AcceptedOrdersDataSource>(),
-    ),
+  getIt.registerLazySingleton<OrdersStatusRepository>(
+    () =>
+        OrdersStatusRepositoryImpl(dataSource: getIt<OrdersStatusDataSource>()),
   );
   getIt.registerLazySingleton<GetAcceptedOrdersUseCase>(
-    () => GetAcceptedOrdersUseCase(getIt<AcceptedOrdersRepository>()),
+    () => GetAcceptedOrdersUseCase(getIt<OrdersStatusRepository>()),
+  );
+  getIt.registerLazySingleton<GetNewOrdersUseCase>(
+    () => GetNewOrdersUseCase(getIt<OrdersStatusRepository>()),
   );
   getIt.registerFactory<AcceptedOrdersCubit>(
     () => AcceptedOrdersCubit(getIt<GetAcceptedOrdersUseCase>()),
+  );
+  getIt.registerFactory<NewOrdersCubit>(
+    () => NewOrdersCubit(getIt<GetNewOrdersUseCase>()),
   );
 }

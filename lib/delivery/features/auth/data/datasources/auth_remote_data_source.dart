@@ -4,7 +4,6 @@ import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/delivery/features/auth/data/models/auth_response_model.dart';
 import 'package:x_go/delivery/features/auth/data/models/login_response_model.dart';
 
-
 abstract class DeliveryAuthRemoteDataSource {
   Future<AuthResponseModel> register({
     required String firstName,
@@ -72,7 +71,7 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
     required bool isRememberMe,
   }) async {
     final response = await apiConsumer.post(
-      EndpointsStrings.login,
+      EndpointsStrings.loginDelivery,
       data: {'email': email, 'password': password},
       headers: {
         'Accept': 'application/vnd.api+json',
