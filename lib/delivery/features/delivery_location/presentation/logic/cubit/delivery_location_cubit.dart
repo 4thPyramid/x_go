@@ -160,15 +160,19 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
         print(polylines);
         print(r.duration);
         print(r.distance);
-        emit(
-          CurrentLocationSuccess(
-            currentPosition: currentPosition,
-            markers: markers,
-            polylines: polylines,
-            duration: r.duration!,
-            distance: r.distance!,
-          ),
-        );
+        if (r.duration!.contains('m')) {
+          emit(SuccessArrived());
+        } else {
+          emit(
+            CurrentLocationSuccess(
+              currentPosition: currentPosition,
+              markers: markers,
+              polylines: polylines,
+              duration: r.duration!,
+              distance: r.distance!,
+            ),
+          );
+        }
       });
     } catch (e) {
       emit(DeliveryLocationError(errorMessage: e.toString()));

@@ -44,3 +44,5 @@ final class DeliveryLocationError extends DeliveryLocationState {
   @override
   List<Object> get props => [errorMessage];
 }
+
+final class SuccessArrived extends DeliveryLocationState {}
