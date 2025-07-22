@@ -7,4 +7,5 @@ import 'package:x_go/delivery/features/home/domain/entities/accepted_order_entit
 abstract class OrdersStatusRepository {
   Future<Either<ErrorModel, List<OrderStatusEntity>>> getAcceptedOrders();
   Future<Either<ErrorModel, List<OrderStatusEntity>>> getNewOrders();
+  Future<Either<ErrorModel, List<OrderStatusEntity>>> getCompletedOrders();
 }

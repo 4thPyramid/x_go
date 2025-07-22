@@ -44,4 +44,20 @@ class OrdersStatusRepositoryImpl implements OrdersStatusRepository {
       return Left(e.errorModel);
     }
   }
+
+  @override
+  Future<Either<ErrorModel, List<OrderStatusEntity>>>
+  getCompletedOrders() async {
+    try {
+      final response = await dataSource.getCompletedOrders();
+      final orders = response.data!
+          .map((completedOrders) => completedOrders.toEntity())
+          .toList();
+      return Right(orders);
+    } on DioException catch (e) {
+      return Left(ErrorModel(message: e.message.toString()));
+    } on ServerException catch (e) {
+      return Left(e.errorModel);
+    }
+  }
 }

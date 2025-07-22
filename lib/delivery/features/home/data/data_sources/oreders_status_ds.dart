@@ -7,6 +7,7 @@ import 'package:x_go/delivery/features/home/data/model/order_status_model_respon
 abstract class OrdersStatusDataSource {
   Future<OrderStatusResponse> getAcceptedOrders();
   Future<OrderStatusResponse> getNewOrders();
+  Future<OrderStatusResponse> getCompletedOrders();
 }
 
 class OrdersStatusDataSourceImpl implements OrdersStatusDataSource {
@@ -26,5 +27,13 @@ class OrdersStatusDataSourceImpl implements OrdersStatusDataSource {
   Future<OrderStatusResponse> getNewOrders() async {
     final newOrderResponse = await apiConsumer.get(EndpointsStrings.newOrders);
     return OrderStatusResponse.fromJson(newOrderResponse);
+  }
+
+  @override
+  Future<OrderStatusResponse> getCompletedOrders() async {
+    final completedOrderResponse = await apiConsumer.get(
+      EndpointsStrings.completedOrders,
+    );
+    return OrderStatusResponse.fromJson(completedOrderResponse);
   }
 }
