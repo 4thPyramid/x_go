@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:x_go/core/data/api/dio_consumer.dart';
 import 'package:x_go/core/services/google_map_service.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:x_go/delivery/features/delivery_location/data/data_source/remote_data_source.dart';
 import 'package:x_go/delivery/features/delivery_location/data/repositories/delivery_location_repo_impl.dart';
 import 'package:x_go/delivery/features/delivery_location/domain/use_cases/get_best_route_uc.dart';
@@ -160,15 +160,19 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
         print(polylines);
         print(r.duration);
         print(r.distance);
-        emit(
-          CurrentLocationSuccess(
-            currentPosition: currentPosition,
-            markers: markers,
-            polylines: polylines,
-            duration: r.duration!,
-            distance: r.distance!,
-          ),
-        );
+        if (r.duration!.contains('m')) {
+          emit(SuccessArrived());
+        } else {
+          emit(
+            CurrentLocationSuccess(
+              currentPosition: currentPosition,
+              markers: markers,
+              polylines: polylines,
+              duration: r.duration!,
+              distance: r.distance!,
+            ),
+          );
+        }
       });
     } catch (e) {
       emit(DeliveryLocationError(errorMessage: e.toString()));

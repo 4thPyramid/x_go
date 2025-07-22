@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:x_go/core/errors/error_model.dart';
 import 'package:x_go/core/errors/exceptions.dart';
-import 'package:x_go/core/utils/faluire.dart';
 import 'package:x_go/client/features/home/data/datasources/active_location_remote_data_source.dart';
 import 'package:x_go/client/features/home/domain/entity/active_location.dart';
 import 'package:x_go/client/features/home/domain/repo/active_location_repository.dart';
@@ -11,7 +12,7 @@ class ActiveLocationRepositoryImpl implements ActiveLocationRepository {
   ActiveLocationRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, LocationActive>> getActiveLocation() async {
+  Future<Either<ErrorModel, LocationActive>> getActiveLocation() async {
     try {
       final response = await remoteDataSource.getActiveLocation();
 
@@ -24,8 +25,10 @@ class ActiveLocationRepositoryImpl implements ActiveLocationRepository {
       );
 
       return Right(location);
+    } on DioException catch (e) {
+      return Left(ErrorModel(message: e.message.toString()));
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.errorModel.message));
+      return Left(e.errorModel);
     }
   }
 }

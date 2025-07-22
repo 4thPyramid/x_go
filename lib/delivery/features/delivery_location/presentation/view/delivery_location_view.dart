@@ -145,6 +145,19 @@ class DeliveryLocationView extends StatelessWidget {
                 ),
               ],
             );
+          } else if (state is SuccessArrived) {
+            return Column(
+              children: [
+                Icon(Icons.check_circle, color: Colors.green, size: 100),
+                const SizedBox(height: 30),
+                const Text(
+                  'تم التوصيل بنجاح',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                CustomButton(height: 40.h, onPressed: () {}, text: 'تأكيد'),
+              ],
+            );
           }
 
           return const Center(child: FlutterLogo());

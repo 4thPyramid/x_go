@@ -1,10 +1,7 @@
 part of 'delivery_location_cubit.dart';
 
-sealed class DeliveryLocationState extends Equatable {
+sealed class DeliveryLocationState {
   const DeliveryLocationState();
-
-  @override
-  List<Object> get props => [];
 }
 
 final class DeliveryLocationInitial extends DeliveryLocationState {}
@@ -44,3 +41,5 @@ final class DeliveryLocationError extends DeliveryLocationState {
   @override
   List<Object> get props => [errorMessage];
 }
+
+final class SuccessArrived extends DeliveryLocationState {}
