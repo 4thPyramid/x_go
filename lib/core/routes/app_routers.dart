@@ -55,6 +55,7 @@ import 'package:x_go/delivery/features/delivery_location/presentation/view/deliv
 import 'package:x_go/delivery/features/home/presentation/logic/aacepted_oreder_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/home/custom_search_widget.dart';
 import 'package:x_go/delivery/features/orderDetails/presentation/views/order_details_view.dart';
+import 'package:x_go/delivery/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
@@ -387,6 +388,13 @@ final GoRouter router = GoRouter(
       builder: (context, state) {
         return OrderDetailsView();
       },
+    ),
+    GoRoute(
+      path: RouterNames.profileDelivery,
+      builder: (context, state) => BlocProvider(
+        create: (context) => getIt<ProfileEditCubit>()..getProfileData(),
+        child: const ProfileDeliveryView(),
+      ),
     ),
   ],
 );
