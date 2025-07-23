@@ -52,6 +52,7 @@ import 'package:x_go/delivery/features/delivery_location/presentation/logic/cubi
 import 'package:x_go/delivery/features/delivery_location/presentation/view/delivery_location_view.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/aacepted_oreder_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/home/custom_search_widget.dart';
+import 'package:x_go/delivery/features/orderDetails/presentation/logic/booking_cubit.dart';
 import 'package:x_go/delivery/features/orderDetails/presentation/views/order_details_view.dart';
 import 'package:x_go/user_type.dart';
 
@@ -100,16 +101,13 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.myBooking,
       builder: (context, state) => MultiBlocProvider(
-          providers: [
-              BlocProvider(
-              create: (context) => getIt<MyBookingCubit>()..getBookingList(),
-      
-            ),
-              BlocProvider(
-                  create: (context) => PaymentCubit(),
-              ),
-          ],
-                  child: const MyBookingView()
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<MyBookingCubit>()..getBookingList(),
+          ),
+          BlocProvider(create: (context) => PaymentCubit()),
+        ],
+        child: const MyBookingView(),
       ),
     ),
     GoRoute(
@@ -232,7 +230,8 @@ final GoRouter router = GoRouter(
           child: ResetPasswordView(email: email, otp: otp),
         );
       },
-    ), GoRoute(
+    ),
+    GoRoute(
       path: RouterNames.deliveryResetPassword,
       builder: (context, state) {
         final data = state.extra as Map<String, dynamic>;
@@ -374,7 +373,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.orderDetails,
       builder: (context, state) {
-        return OrderDetailsView();
+        return BlocProvider(
+          create: (context) => getIt<BookingDetailsCubit>(),
+          child: OrderDetailsView(),
+        );
       },
     ),
   ],

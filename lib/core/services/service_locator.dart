@@ -56,6 +56,11 @@ import 'package:x_go/delivery/features/home/data/repo/accepted_orders_repository
 import 'package:x_go/delivery/features/home/domain/repos/accepted_orders_repository.dart';
 import 'package:x_go/delivery/features/home/domain/usecases/accepted_order_usecase.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/aacepted_oreder_cubit.dart';
+import 'package:x_go/delivery/features/orderDetails/data/remoteeDS/order_details_remote_d_s.dart';
+import 'package:x_go/delivery/features/orderDetails/data/repoImpl/order_details_repo_impl.dart';
+import 'package:x_go/delivery/features/orderDetails/domain/repos/order_details_repo.dart';
+import 'package:x_go/delivery/features/orderDetails/domain/useCases/order_details_u_c.dart';
+import 'package:x_go/delivery/features/orderDetails/presentation/logic/booking_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -74,6 +79,9 @@ void setupLocator() {
 
   getIt.registerLazySingleton<DeliveryAuthRemoteDataSource>(
     () => DeliveryAuthRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
+  );
+getIt.registerLazySingleton<BookingDetailsRemoteDataSource>(
+    () => BookingDetailsRemoteDataSourceImpl(getIt<ApiConsumer>()),
   );
 
 
@@ -102,7 +110,9 @@ void setupLocator() {
   getIt.registerLazySingleton<ProfileEditRepo>(
     () => ProfileEditRepo(getIt<ProfileRemoteDs>()),
   );
-
+ getIt.registerLazySingleton<BookingDetailsRepository>(
+    () => BookingDetailsRepositoryImpl( getIt<BookingDetailsRemoteDataSource>()),
+  );
   // Home Repository
   getIt.registerLazySingleton<HomeRepository>(
     () => HomeRepositoryImpl(remoteDataSource: getIt<HomeRemoteDataSource>()),
@@ -112,6 +122,11 @@ void setupLocator() {
   );
 
   /// !-- UseCases -- ///
+  /// Booking Details UseCases
+  getIt.registerLazySingleton<GetBookingDetailsUseCase>(
+    () => GetBookingDetailsUseCase(getIt<BookingDetailsRepository>()),
+  );
+
   // Auth UseCases
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<AuthRepository>()),
@@ -230,5 +245,8 @@ void setupLocator() {
   );
   getIt.registerFactory<AcceptedOrdersCubit>(
     () => AcceptedOrdersCubit(getIt<GetAcceptedOrdersUseCase>()),
+  );
+  getIt.registerFactory<BookingDetailsCubit>(
+    () => BookingDetailsCubit(getIt<GetBookingDetailsUseCase>()),
   );
 }

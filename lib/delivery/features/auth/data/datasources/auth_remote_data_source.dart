@@ -45,7 +45,7 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
     required String password,
   }) async {
     final response = await apiConsumer.post(
-      EndpointsStrings.register,
+      'api/driver/register',
       data: {
         'name': firstName,
         'last_name': lastName,
@@ -72,7 +72,7 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
     required bool isRememberMe,
   }) async {
     final response = await apiConsumer.post(
-      EndpointsStrings.login,
+      'api/driver/login',
       data: {'email': email, 'password': password},
       headers: {
         'Accept': 'application/vnd.api+json',
