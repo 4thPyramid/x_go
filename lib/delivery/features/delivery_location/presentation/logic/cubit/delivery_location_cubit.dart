@@ -23,6 +23,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   late List<LatLng> polylines = [];
   String duration = '';
   String distance = '';
+  String hash = '';
   void getCurrentLocation() async {
     final permission = await LocationService().requestPermission();
 
@@ -111,7 +112,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
               '0000000000000000000000000000000000000000000000000000000000000000000000000',
             );
             await getCode(latLng);
-            addToFirebase(latLng);
+            addToFirebase(latLng, hash);
           });
     } on Exception catch (e) {
       print('Error starting position stream: ${e.toString()}');
@@ -119,11 +120,12 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
     }
   }
 
-  void addToFirebase(LatLng currentPosition) async {
+  void addToFirebase(LatLng currentPosition, String hashCode) async {
     try {
       await FirebaseDatabase.instance.ref('orders/order_abc123/location').set({
         'latitude': currentPosition.latitude,
         'longitude': currentPosition.longitude,
+        'polyline': hashCode,
       });
     } catch (e) {
       emit(CurrentLocationError(errorMessage: e.toString()));
@@ -164,13 +166,14 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
         print(polylines);
         print(r.duration);
         print(r.distance);
+        hash = r.polyline;
         double value =
             double.tryParse(
               RegExp(r'\d+(\.\d+)?').stringMatch(r.distance) ?? '0',
             ) ??
             0.0;
 
-        if (value < 1) {
+        if (value < 0.5) {
           emit(SuccessArrived());
         } else {
           emit(
@@ -178,8 +181,8 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
               currentPosition: currentPosition,
               markers: markers,
               polylines: polylines,
-              duration: r.duration!,
-              distance: r.distance!,
+              duration: r.duration,
+              distance: r.distance,
             ),
           );
         }
