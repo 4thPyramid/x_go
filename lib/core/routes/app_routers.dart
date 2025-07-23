@@ -398,11 +398,13 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: RouterNames.orderDetails,
+      path: '${RouterNames.orderDetails}/:bookingId', 
       builder: (context, state) {
+         final bookingIdString = state.pathParameters['bookingId'];
+    final bookingId = int.tryParse(bookingIdString ?? '0') ?? 0;
         return BlocProvider(
           create: (context) => getIt<BookingDetailsCubit>(),
-          child: OrderDetailsView(),
+          child: OrderDetailsView(bookingId: bookingId),
         );
       },
     ),
