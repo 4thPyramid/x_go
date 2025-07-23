@@ -46,9 +46,9 @@ class _AppState extends State<AppDelivery> {
     return RealTimeLanguageBuilder(
       builder: (context, locale) {
         return Padding(
-          padding: const EdgeInsets.only(left: 4, right: 4, bottom: 8),
+          padding: EdgeInsets.only(left: 4.w, right: 4.w, bottom: 4.h),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.r),
+            borderRadius: BorderRadius.circular(15.r),
             child: Container(
               color: Colors.black,
               child: BottomNavigationBar(

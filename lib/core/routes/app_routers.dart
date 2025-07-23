@@ -62,7 +62,7 @@ import 'package:x_go/delivery/features/profile/presentation/logic/profile_info_c
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.appDelivery,
+  initialLocation: RouterNames.userType,
 
   // CacheHelper.getData(key: 'isRememberMe') != null
   //     ? RouterNames.app
@@ -73,17 +73,9 @@ final GoRouter router = GoRouter(
       builder: (context, state) {
         return MultiBlocProvider(
           providers: [
-            BlocProvider(
-              create: (_) =>
-                  getIt<AcceptedOrdersCubit>()..fetchAcceptedOrders(),
-            ),
-            BlocProvider(
-              create: (_) => getIt<NewOrdersCubit>()..fetchNewOrders(),
-            ),
-            BlocProvider(
-              create: (_) =>
-                  getIt<CompletedOrdersCubit>()..fetchCompletedOrders(),
-            ),
+            BlocProvider(create: (_) => getIt<AcceptedOrdersCubit>()),
+            BlocProvider(create: (_) => getIt<NewOrdersCubit>()),
+            BlocProvider(create: (_) => getIt<CompletedOrdersCubit>()),
             BlocProvider(
               create: (_) =>
                   getIt<DriverProfileInfoCubit>()..fetchDriverProfile(),

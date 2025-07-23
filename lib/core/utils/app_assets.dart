@@ -1,7 +1,7 @@
 abstract class AppAssets {
   static const String logo = "assets/images/logo.png";
   static const String splash = "assets/images/splash.png";
-  static const String successUpdated ='assets/images/success_updated.png';
+  static const String successUpdated = 'assets/images/success_updated.png';
   static const String menu = "assets/images/menu.png";
   static const String lock = 'assets/images/lock.svg';
   //############################################
@@ -13,7 +13,6 @@ abstract class AppAssets {
   static const String product = "assets/images/product.png";
 
   // icons
-  static const String editIcon = "assets/svg/editIcon.svg";
   static const String otpIcon = "assets/svg/otpIcon.svg";
   static const String editCamera = "assets/svg/editCamera.svg";
   static const String sevenLines = "assets/svg/sevenLines.svg";
@@ -23,4 +22,5 @@ abstract class AppAssets {
   static const String appleIcon = "assets/images/Google - Original.png";
   static const String googleIcon = "assets/images/Apple - Original.png";
   static const String facebookIcon = "assets/images/Facebook - Original.png";
+  static const String editIcon = "assets/images/edit_icon.svg";
 }

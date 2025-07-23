@@ -21,11 +21,6 @@ class DriverModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'email': email,
-      'phone': phone,
-    };
+    return {'id': id, 'name': name, 'email': email, 'phone': phone};
   }
 }

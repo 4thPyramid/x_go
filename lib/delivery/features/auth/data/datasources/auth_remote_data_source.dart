@@ -82,7 +82,7 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
     );
 
     CacheHelper.saveToken(value: response['token']);
-CacheHelper.driverId(value: response['driver']['id'].toString());
+    CacheHelper.driverId(value: response['driver']['id'].toString());
     isRememberMe
         ? CacheHelper.saveData(key: 'isRememberMe', value: true)
         : null;

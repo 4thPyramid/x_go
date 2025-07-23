@@ -1,8 +1,9 @@
 import 'package:x_go/core/constants/endpoints_strings.dart';
 import 'package:x_go/core/data/api/api_consumer.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
-import 'package:x_go/core/utils/app_loggr.dart';
 import 'package:x_go/delivery/features/profile/data/models/driver_profile_model.dart';
+
+import '../../../../../core/utils/app_loggr.dart';
 
 abstract class DriverProfileDataSource {
   Future<DriverProfileResponse> getDriverProfile();
@@ -15,14 +16,16 @@ class DriverProfileDataSourceImpl implements DriverProfileDataSource {
 
   @override
   Future<DriverProfileResponse> getDriverProfile() async {
-    /*final driverId = CacheHelper.getDriverId();
+    final driverId = CacheHelper.getDriverId();
 
     if (driverId == null) {
       AppLogger.e("Driver ID not found in cache");
       throw Exception("Driver ID not found in cache");
-    }*/
+    }
 
-    final driverProfile = await apiConsumer.get('/api/driver/driver/1');
+    final driverProfile = await apiConsumer.get(
+      EndpointsStrings.driverProfile.replaceFirst(':id', driverId),
+    );
     return DriverProfileResponse.fromJson(driverProfile);
   }
 }

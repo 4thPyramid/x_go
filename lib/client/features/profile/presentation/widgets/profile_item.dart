@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileItemTile extends StatelessWidget {
   final String title;
@@ -28,6 +29,7 @@ class ProfileItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 15.0.w, vertical: 0.0.h),
       leading: icon != null
           ? Icon(icon, color: color ?? Colors.grey[700])
           : null,
