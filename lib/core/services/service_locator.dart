@@ -60,6 +60,10 @@ import 'package:x_go/delivery/features/home/domain/usecases/new_order_usecase%20
 import 'package:x_go/delivery/features/home/presentation/logic/accepted_status_cubit/oreder_status_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/completed_status_cubit/new_order_cubit/completed_status_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/new_order_cubit/new_status_cubit.dart';
+import 'package:x_go/delivery/features/orderDetails/data/remoteeDS/order_details_remote_d_s.dart';
+import 'package:x_go/delivery/features/orderDetails/data/repoImpl/order_details_repo_impl.dart';
+import 'package:x_go/delivery/features/orderDetails/domain/repos/order_details_repo.dart';
+import 'package:x_go/delivery/features/orderDetails/domain/useCases/order_details_u_c.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -107,7 +111,9 @@ void setupLocator() {
   getIt.registerLazySingleton<ProfileEditRepo>(
     () => ProfileEditRepo(getIt<ProfileRemoteDs>()),
   );
-
+ getIt.registerLazySingleton<BookingDetailsRepository>(
+    () => BookingDetailsRepositoryImpl( getIt<BookingDetailsRemoteDataSource>()),
+  );
   // Home Repository
   getIt.registerLazySingleton<HomeRepository>(
     () => HomeRepositoryImpl(remoteDataSource: getIt<HomeRemoteDataSource>()),
@@ -117,6 +123,11 @@ void setupLocator() {
   );
 
   /// !-- UseCases -- ///
+  /// Booking Details UseCases
+  getIt.registerLazySingleton<GetBookingDetailsUseCase>(
+    () => GetBookingDetailsUseCase(getIt<BookingDetailsRepository>()),
+  );
+
   // Auth UseCases
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<AuthRepository>()),

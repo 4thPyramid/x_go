@@ -88,7 +88,7 @@ class DeliveryAuthRepositoryImpl implements DeliveryAuthRepository {
   }
 
   @override
-  Future<Either<ErrorModel, LoginResponseModel>> login({required String email, required String password, required bool isRememberMe}) 
+  Future<Either<ErrorModel, DriverModel>> login({required String email, required String password, required bool isRememberMe}) 
    async {
     try {
       final response = await remoteDataSource.login(

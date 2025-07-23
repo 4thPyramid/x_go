@@ -11,7 +11,7 @@ abstract class DeliveryAuthRepository {
     required String password,
   });
 
-  Future<Either<ErrorModel, LoginResponseModel>> login({
+  Future<Either<ErrorModel, DriverModel>> login({
     required String email,
     required String password,
     required bool isRememberMe,

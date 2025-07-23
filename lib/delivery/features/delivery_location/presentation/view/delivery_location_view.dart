@@ -53,7 +53,7 @@ class DeliveryLocationView extends StatelessWidget {
                 ),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  height: MediaQuery.of(context).size.height * 0.42,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -72,8 +72,8 @@ class DeliveryLocationView extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        width: 50,
-                        height: 5,
+                        width: 50.w,
+                        height: 5.h,
                         margin: const EdgeInsets.only(bottom: 10),
                         decoration: BoxDecoration(
                           color: Colors.grey[300],
@@ -98,7 +98,7 @@ class DeliveryLocationView extends StatelessWidget {
                           subtitle: const Text('مندوب التوصيل'),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       Row(
                         children: [
                           InfoTile(
@@ -118,7 +118,7 @@ class DeliveryLocationView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
                       Row(
                         children: [
                           Expanded(
