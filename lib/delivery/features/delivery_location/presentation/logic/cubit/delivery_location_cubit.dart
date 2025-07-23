@@ -147,8 +147,6 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   }
 
   Future<void> getCode(LatLng currentPosition) async {
-    print('555555555555555555555555555555555');
-    emit(CurrentLocationLoading());
     try {
       final useCase = GetBestRouteUc(
         DeliveryLocationRepoImpl(RemoteDataSourceImpl(DioConsumer(dio: Dio()))),
@@ -188,6 +186,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
       });
     } catch (e) {
       print('Error getting code: $e');
+
       emit(DeliveryLocationError(errorMessage: e.toString()));
     }
   }
