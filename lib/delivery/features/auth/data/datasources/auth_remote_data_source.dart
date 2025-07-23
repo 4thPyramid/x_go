@@ -13,7 +13,7 @@ abstract class DeliveryAuthRemoteDataSource {
     required String password,
   });
 
-  Future<LoginResponseModel> login({
+  Future<DriverModel> login({
     required String email,
     required String password,
     required bool isRememberMe,
@@ -67,7 +67,7 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
   }
 
   @override
-  Future<LoginResponseModel> login({
+  Future<DriverModel> login({
     required String email,
     required String password,
     required bool isRememberMe,
@@ -82,11 +82,11 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
     );
 
     CacheHelper.saveToken(value: response['token']);
-    CacheHelper.driverId(value: response['user']['id'].toString());
+CacheHelper.driverId(value: response['driver']['id'].toString());
     isRememberMe
         ? CacheHelper.saveData(key: 'isRememberMe', value: true)
         : null;
-    return LoginResponseModel.fromJson(response);
+    return DriverModel.fromJson(response);
   }
 
   @override

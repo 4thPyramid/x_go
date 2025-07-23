@@ -1,5 +1,5 @@
 abstract class RouterNames {
-  static const String userType = '/dscs';
+  static const String userType = '/';
   static const String splash = '/splash';
   static const String onboarding = '/onboarding';
   static const String auth = '/auth';
