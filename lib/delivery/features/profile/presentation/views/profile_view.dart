@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/routes/router_names.dart';
 
 class ProfileDeliveryView extends StatelessWidget {
   const ProfileDeliveryView({super.key});
@@ -43,6 +45,12 @@ class ProfileDeliveryView extends StatelessWidget {
                         style: TextStyle(fontSize: 16.sp, color: Colors.grey),
                       ),
                     ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.push(RouterNames.deliveryLocation);
+                    },
+                    child: Text('Location'),
                   ),
                 ],
               ),
