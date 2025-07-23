@@ -1,14 +1,16 @@
-// custom_order_card.dart
-// This widget displays a card for an accepted order with details like car info, image, and action button.
-// It uses a cached network image for the car's image and provides a button to view order details.
+// في ملف OrderCard
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/delivery/features/home/domain/entities/accepted_order_entity.dart';
 
 class OrderCard extends StatelessWidget {
   final OrderStatusEntity order;
+  final Color statusColor;
+  final String? statusText;
 
   const OrderCard({
     super.key,
@@ -16,8 +18,7 @@ class OrderCard extends StatelessWidget {
     required this.statusColor,
     this.statusText,
   });
-  final Color statusColor;
-  final String? statusText;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -102,7 +103,8 @@ class OrderCard extends StatelessWidget {
             ),
             child: ElevatedButton.icon(
               onPressed: () {
-                // Navigate to order details
+                // الطريقة الأولى: Path Parameters
+                context.push('${RouterNames.orderDetails}/${order.id}');
               },
               icon: Icon(Icons.assignment, size: 18.w),
               label: const Text('View Details'),

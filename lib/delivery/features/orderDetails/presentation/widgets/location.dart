@@ -1,70 +1,105 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:x_go/delivery/features/orderDetails/data/models/booking_model.dart';
 
-class Location extends StatefulWidget {
-  const Location({super.key});
+class LocationWidget extends StatefulWidget {
+  final LocationModel? location;
+  
+  const LocationWidget({
+    super.key,
+    this.location,
+  });
 
   @override
-  State<Location> createState() => _LocationState();
+  State<LocationWidget> createState() => _LocationWidgetState();
 }
 
-class _LocationState extends State<Location> {
+class _LocationWidgetState extends State<LocationWidget> {
   GoogleMapController? _mapController;
 
-  final LatLng point1 = const LatLng(30.033333, 31.233334); // Cairo
-  final LatLng point2 = const LatLng(29.9792, 31.1342);     // Giza Pyramids
+  // Default location (Cairo) في حالة عدم توفر موقع
+  LatLng get _defaultLocation => const LatLng(30.033333, 31.233334);
 
-  Set<Marker> get _markers => {
-        Marker(
-          markerId: const MarkerId('point1'),
-          position: point1,
-          infoWindow: const InfoWindow(title: 'Cairo'),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-        ),
-        Marker(
-          markerId: const MarkerId('point2'),
-          position: point2,
-          infoWindow: const InfoWindow(title: 'Giza Pyramids'),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-        ),
-      };
+  LatLng get _currentLocation {
+    if (widget.location != null) {
+      final lat = double.tryParse(widget.location!.latitude);
+      final lng = double.tryParse(widget.location!.longitude);
+      
+      if (lat != null && lng != null) {
+        return LatLng(lat, lng);
+      }
+    }
+    return _defaultLocation;
+  }
 
-  void _fitBounds() {
+  Set<Marker> get _markers {
+    return {
+      Marker(
+        markerId: const MarkerId('pickup_location'),
+        position: _currentLocation,
+        infoWindow: InfoWindow(
+          title: 'موقع الاستلام',
+          snippet: widget.location?.address ?? 'الموقع الحالي',
+        ),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      ),
+    };
+  }
+
+  void _animateToLocation() {
     if (_mapController == null) return;
-
-    final bounds = LatLngBounds(
-      southwest: LatLng(
-        point1.latitude < point2.latitude ? point1.latitude : point2.latitude,
-        point1.longitude < point2.longitude ? point1.longitude : point2.longitude,
-      ),
-      northeast: LatLng(
-        point1.latitude > point2.latitude ? point1.latitude : point2.latitude,
-        point1.longitude > point2.longitude ? point1.longitude : point2.longitude,
-      ),
-    );
-
+    
     _mapController!.animateCamera(
-      CameraUpdate.newLatLngBounds(bounds, 50),
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: _currentLocation,
+          zoom: 15.0,
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300, // استخدم 300.h لو كنت تستخدم ScreenUtil
-      child: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: point1,
-          zoom: 5,
+    return Container(
+      height: 300,
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: _currentLocation,
+            zoom: 15.0,
+          ),
+          markers: _markers,
+          onMapCreated: (GoogleMapController controller) {
+            _mapController = controller;
+            // تأخير بسيط للتأكد من تحميل الخريطة
+            Future.delayed(
+              const Duration(milliseconds: 500),
+              _animateToLocation,
+            );
+          },
+          zoomControlsEnabled: true,
+          myLocationButtonEnabled: false,
+          compassEnabled: true,
+          mapToolbarEnabled: false,
+          zoomGesturesEnabled: true,
+          scrollGesturesEnabled: true,
+          rotateGesturesEnabled: true,
+          tiltGesturesEnabled: true,
         ),
-        markers: _markers,
-        onMapCreated: (controller) {
-          _mapController = controller;
-          Future.delayed(const Duration(milliseconds: 300), _fitBounds);
-        },
-        zoomControlsEnabled: false,
-        myLocationButtonEnabled: false,
-        compassEnabled: false,
       ),
     );
   }

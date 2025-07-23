@@ -16,7 +16,9 @@ class BookingDetailsCubit extends Cubit<BookingState> {
       final booking = await getBookingDetails(id);
       emit(BookingLoaded(booking));
     } catch (e) {
+      print('Error fetching booking details: $e');
       emit(BookingError(e.toString()));
+      print('Error fetching booking details: $e');
     }
   }
 }

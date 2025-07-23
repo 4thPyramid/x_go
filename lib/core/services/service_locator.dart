@@ -64,6 +64,7 @@ import 'package:x_go/delivery/features/orderDetails/data/remoteeDS/order_details
 import 'package:x_go/delivery/features/orderDetails/data/repoImpl/order_details_repo_impl.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/repos/order_details_repo.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/useCases/order_details_u_c.dart';
+import 'package:x_go/delivery/features/orderDetails/presentation/logic/booking_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -95,7 +96,9 @@ void setupLocator() {
   getIt.registerLazySingleton<ProfileRemoteDs>(
     () => ProfileRemoteDsImpl(getIt<ApiConsumer>()),
   );
-
+  getIt.registerLazySingleton<BookingDetailsRemoteDataSource>(
+    () => BookingDetailsRemoteDataSourceImpl( getIt<DioConsumer>()),
+  );
   /// !-- Repositories -- ///
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: getIt<AuthRemoteDataSource>()),
@@ -257,5 +260,8 @@ void setupLocator() {
   );
   getIt.registerFactory<CompletedOrdersCubit>(
     () => CompletedOrdersCubit(getIt<GetCompletedOrdersUseCase>()),
+  );
+  getIt.registerFactory<BookingDetailsCubit>(
+    () => BookingDetailsCubit(getIt<GetBookingDetailsUseCase>()),
   );
 }
