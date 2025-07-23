@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_go/core/common/widgets/logo.dart';
-import 'package:x_go/client/features/auth/presentation/widgets/tab_bar_widget.dart';
+import 'package:x_go/delivery/features/auth/presentation/widgets/tab_bar_widget.dart';
 import 'package:x_go/client/features/language/presentation/logic/cubit/lang_cupit.dart';
 
 class DeliveryAuthView extends StatelessWidget {

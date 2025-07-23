@@ -12,7 +12,7 @@ import 'package:x_go/core/utils/app_strings.dart';
 import 'package:x_go/delivery/features/auth/presentation/components/remember_me_component.dart';
 import 'package:x_go/delivery/features/auth/presentation/logic/cubit/auth_cubit.dart';
 import 'package:x_go/client/features/language/presentation/widgets/instant_language_builder.dart';
-import 'package:x_go/client/features/splash/views/splash_view.dart';
+// import 'package:x_go/client/features/splash/views/splash_view.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -35,11 +35,7 @@ class _LoginFormState extends State<LoginForm> {
     super.dispose();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    isGuest = false;
-  }
+  
 
   @override
   Widget build(BuildContext context) {

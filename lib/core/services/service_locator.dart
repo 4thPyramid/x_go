@@ -65,6 +65,10 @@ import 'package:x_go/delivery/features/profile/data/repo/driver_profile_repo_imp
 import 'package:x_go/delivery/features/profile/domain/repos/driver_profile_repo.dart';
 import 'package:x_go/delivery/features/profile/domain/usecase/driver_profile_use_case.dart';
 import 'package:x_go/delivery/features/profile/presentation/logic/profile_info_cubit/driver_profile_info_cubit.dart';
+import 'package:x_go/delivery/features/orderDetails/data/remoteeDS/order_details_remote_d_s.dart';
+import 'package:x_go/delivery/features/orderDetails/data/repoImpl/order_details_repo_impl.dart';
+import 'package:x_go/delivery/features/orderDetails/domain/repos/order_details_repo.dart';
+import 'package:x_go/delivery/features/orderDetails/domain/useCases/order_details_u_c.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -112,7 +116,9 @@ void setupLocator() {
   getIt.registerLazySingleton<ProfileEditRepo>(
     () => ProfileEditRepo(getIt<ProfileRemoteDs>()),
   );
-
+  getIt.registerLazySingleton<BookingDetailsRepository>(
+    () => BookingDetailsRepositoryImpl(getIt<BookingDetailsRemoteDataSource>()),
+  );
   // Home Repository
   getIt.registerLazySingleton<HomeRepository>(
     () => HomeRepositoryImpl(remoteDataSource: getIt<HomeRemoteDataSource>()),
@@ -122,6 +128,11 @@ void setupLocator() {
   );
 
   /// !-- UseCases -- ///
+  /// Booking Details UseCases
+  getIt.registerLazySingleton<GetBookingDetailsUseCase>(
+    () => GetBookingDetailsUseCase(getIt<BookingDetailsRepository>()),
+  );
+
   // Auth UseCases
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<AuthRepository>()),

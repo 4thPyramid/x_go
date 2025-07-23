@@ -8,7 +8,7 @@ class DeliveryLoginUseCase {
 
   DeliveryLoginUseCase(this.repository);
 
-  Future<Either<ErrorModel, LoginResponseModel>> call({
+  Future<Either<ErrorModel, DriverModel>> call({
     required String email,
     required String password,
     required bool isRememberMe,
