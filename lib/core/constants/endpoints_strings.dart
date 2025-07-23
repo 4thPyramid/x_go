@@ -25,4 +25,5 @@ abstract class EndpointsStrings {
   static const String cancelOrder = '/api/driver/cancel-order';
 
   static const String getBestRoute = '/api/driver/getBestRoute';
+  static const String driverProfile = '/api/driver/driver/:id';
 }

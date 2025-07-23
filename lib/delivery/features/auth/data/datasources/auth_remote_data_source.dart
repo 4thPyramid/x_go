@@ -60,6 +60,8 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
       },
     );
     CacheHelper.saveToken(value: response['token']);
+    // ياقرش  ابقى اعمل موديل جديد لليدريفر ف اللوجين والريجيستر  لان كل حاجه متغيره وسيب
+    CacheHelper.driverId(value: response['user']['id'].toString());
 
     return AuthResponseModel.fromJson(response);
   }
@@ -80,6 +82,7 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
     );
 
     CacheHelper.saveToken(value: response['token']);
+    CacheHelper.driverId(value: response['user']['id'].toString());
     isRememberMe
         ? CacheHelper.saveData(key: 'isRememberMe', value: true)
         : null;
