@@ -51,16 +51,19 @@ import 'package:x_go/delivery/features/auth/domain/usecases/login_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/register_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/reset_password_use_case.dart';
-import 'package:x_go/delivery/features/home/data/data_sources/accepted_oreders_ds.dart';
+import 'package:x_go/delivery/features/home/data/data_sources/oreders_status_ds.dart';
 import 'package:x_go/delivery/features/home/data/repo/accepted_orders_repository_impl.dart';
 import 'package:x_go/delivery/features/home/domain/repos/accepted_orders_repository.dart';
 import 'package:x_go/delivery/features/home/domain/usecases/accepted_order_usecase.dart';
-import 'package:x_go/delivery/features/home/presentation/logic/aacepted_oreder_cubit.dart';
+import 'package:x_go/delivery/features/home/domain/usecases/completed_order_usecase.dart';
+import 'package:x_go/delivery/features/home/domain/usecases/new_order_usecase%20.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/accepted_status_cubit/oreder_status_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/completed_status_cubit/new_order_cubit/completed_status_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/new_order_cubit/new_status_cubit.dart';
 import 'package:x_go/delivery/features/orderDetails/data/remoteeDS/order_details_remote_d_s.dart';
 import 'package:x_go/delivery/features/orderDetails/data/repoImpl/order_details_repo_impl.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/repos/order_details_repo.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/useCases/order_details_u_c.dart';
-import 'package:x_go/delivery/features/orderDetails/presentation/logic/booking_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -80,10 +83,6 @@ void setupLocator() {
   getIt.registerLazySingleton<DeliveryAuthRemoteDataSource>(
     () => DeliveryAuthRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
   );
-getIt.registerLazySingleton<BookingDetailsRemoteDataSource>(
-    () => BookingDetailsRemoteDataSourceImpl(getIt<ApiConsumer>()),
-  );
-
 
   getIt.registerLazySingleton<BookingRemoteDataSource>(
     () => BookingRemoteDataSource(getIt<DioConsumer>()),
@@ -102,7 +101,9 @@ getIt.registerLazySingleton<BookingDetailsRemoteDataSource>(
     () => AuthRepositoryImpl(remoteDataSource: getIt<AuthRemoteDataSource>()),
   );
   getIt.registerLazySingleton<DeliveryAuthRepository>(
-    () => DeliveryAuthRepositoryImpl(remoteDataSource: getIt<DeliveryAuthRemoteDataSource>()),
+    () => DeliveryAuthRepositoryImpl(
+      remoteDataSource: getIt<DeliveryAuthRemoteDataSource>(),
+    ),
   );
   getIt.registerLazySingleton<BookingRepository>(
     () => BookingRepoImpl(remoteDataSource: getIt<BookingRemoteDataSource>()),
@@ -232,21 +233,29 @@ getIt.registerLazySingleton<BookingDetailsRemoteDataSource>(
     () => FavoritesCubit(favoritesRepository: getIt<FavoritesRepository>()),
   );
   //Accepted Orders Feature
-  getIt.registerLazySingleton<AcceptedOrdersDataSource>(
-    () => AcceptedOrdersDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
+  getIt.registerLazySingleton<OrdersStatusDataSource>(
+    () => OrdersStatusDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
   );
-  getIt.registerLazySingleton<AcceptedOrdersRepository>(
-    () => AcceptedOrdersRepositoryImpl(
-      dataSource: getIt<AcceptedOrdersDataSource>(),
-    ),
+  getIt.registerLazySingleton<OrdersStatusRepository>(
+    () =>
+        OrdersStatusRepositoryImpl(dataSource: getIt<OrdersStatusDataSource>()),
   );
   getIt.registerLazySingleton<GetAcceptedOrdersUseCase>(
-    () => GetAcceptedOrdersUseCase(getIt<AcceptedOrdersRepository>()),
+    () => GetAcceptedOrdersUseCase(getIt<OrdersStatusRepository>()),
+  );
+  getIt.registerLazySingleton<GetNewOrdersUseCase>(
+    () => GetNewOrdersUseCase(getIt<OrdersStatusRepository>()),
   );
   getIt.registerFactory<AcceptedOrdersCubit>(
     () => AcceptedOrdersCubit(getIt<GetAcceptedOrdersUseCase>()),
   );
-  getIt.registerFactory<BookingDetailsCubit>(
-    () => BookingDetailsCubit(getIt<GetBookingDetailsUseCase>()),
+  getIt.registerFactory<NewOrdersCubit>(
+    () => NewOrdersCubit(getIt<GetNewOrdersUseCase>()),
+  );
+  getIt.registerLazySingleton<GetCompletedOrdersUseCase>(
+    () => GetCompletedOrdersUseCase(getIt<OrdersStatusRepository>()),
+  );
+  getIt.registerFactory<CompletedOrdersCubit>(
+    () => CompletedOrdersCubit(getIt<GetCompletedOrdersUseCase>()),
   );
 }

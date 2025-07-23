@@ -8,10 +8,16 @@ import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/delivery/features/home/domain/entities/accepted_order_entity.dart';
 
 class OrderCard extends StatelessWidget {
-  final AcceptedOrderEntity order;
+  final OrderStatusEntity order;
 
-  const OrderCard({super.key, required this.order});
-
+  const OrderCard({
+    super.key,
+    required this.order,
+    required this.statusColor,
+    this.statusText,
+  });
+  final Color statusColor;
+  final String? statusText;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -39,7 +45,7 @@ class OrderCard extends StatelessWidget {
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
-                    '${order.brandName} ${order.modelName} - ${order.carModelYear}',
+                    '${order.modelName} - ${order.carModelYear}',
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -51,11 +57,11 @@ class OrderCard extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.success,
+                    color: statusColor,
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
-                    'Accepted',
+                    statusText ?? "No Status",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12.sp,

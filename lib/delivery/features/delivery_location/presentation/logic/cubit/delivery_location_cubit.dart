@@ -23,6 +23,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   late List<LatLng> polylines = [];
   String duration = '';
   String distance = '';
+  String hash = '';
   void getCurrentLocation() async {
     final permission = await LocationService().requestPermission();
 
@@ -107,19 +108,24 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
                 distance: distance,
               ),
             );
+            print(
+              '0000000000000000000000000000000000000000000000000000000000000000000000000',
+            );
             await getCode(latLng);
-            addToFirebase(latLng);
+            addToFirebase(latLng, hash);
           });
-    } catch (e) {
+    } on Exception catch (e) {
+      print('Error starting position stream: ${e.toString()}');
       emit(CurrentLocationError(errorMessage: e.toString()));
     }
   }
 
-  void addToFirebase(LatLng currentPosition) async {
+  void addToFirebase(LatLng currentPosition, String hashCode) async {
     try {
       await FirebaseDatabase.instance.ref('orders/order_abc123/location').set({
         'latitude': currentPosition.latitude,
         'longitude': currentPosition.longitude,
+        'polyline': hashCode,
       });
     } catch (e) {
       emit(CurrentLocationError(errorMessage: e.toString()));
@@ -143,7 +149,6 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   }
 
   Future<void> getCode(LatLng currentPosition) async {
-    emit(CurrentLocationLoading());
     try {
       final useCase = GetBestRouteUc(
         DeliveryLocationRepoImpl(RemoteDataSourceImpl(DioConsumer(dio: Dio()))),
@@ -152,6 +157,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
         currentPosition,
         LatLng(30.034047, 31.876756),
       );
+      print(result.toString());
       result.fold((l) => emit(DeliveryLocationError(errorMessage: l.message)), (
         r,
       ) {
@@ -160,7 +166,14 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
         print(polylines);
         print(r.duration);
         print(r.distance);
-        if (r.duration!.contains('m')) {
+        hash = r.polyline;
+        double value =
+            double.tryParse(
+              RegExp(r'\d+(\.\d+)?').stringMatch(r.distance) ?? '0',
+            ) ??
+            0.0;
+
+        if (value < 0.5) {
           emit(SuccessArrived());
         } else {
           emit(
@@ -168,13 +181,15 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
               currentPosition: currentPosition,
               markers: markers,
               polylines: polylines,
-              duration: r.duration!,
-              distance: r.distance!,
+              duration: r.duration,
+              distance: r.distance,
             ),
           );
         }
       });
     } catch (e) {
+      print('Error getting code: $e');
+
       emit(DeliveryLocationError(errorMessage: e.toString()));
     }
   }

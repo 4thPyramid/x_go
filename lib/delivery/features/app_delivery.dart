@@ -6,6 +6,7 @@ import 'package:x_go/core/utils/app_strings.dart';
 import 'package:x_go/client/features/language/presentation/widgets/instant_language_builder.dart';
 import 'package:x_go/delivery/features/home/presentation/views/delivery_home.dart';
 import 'package:x_go/delivery/features/home/presentation/views/status_order_view.dart';
+import 'package:x_go/delivery/features/profile/presentation/views/profile_view.dart';
 
 class AppDelivery extends StatefulWidget {
   const AppDelivery({super.key});
@@ -27,7 +28,11 @@ class _AppState extends State<AppDelivery> {
     super.dispose();
   }
 
-  List<Widget> get _pages => [const DeliveryHome(), const StatusOrderView()];
+  List<Widget> get _pages => [
+    const DeliveryHome(),
+    const StatusOrderView(),
+    const ProfileDeliveryView(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -59,15 +64,23 @@ class _AppState extends State<AppDelivery> {
                 showSelectedLabels: true,
                 showUnselectedLabels: false,
                 items: [
+                  // home
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home_outlined),
                     activeIcon: Icon(Icons.home),
                     label: AppStrings.home.tr(),
                   ),
+                  // Show Orders
                   BottomNavigationBarItem(
                     icon: Icon(Icons.add_circle_outline),
                     activeIcon: Icon(Icons.add_circle_outline),
                     label: 'Show Orders',
+                  ),
+                  // profile
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person_outline),
+                    activeIcon: Icon(Icons.person),
+                    label: AppStrings.profile.tr(),
                   ),
                 ],
               ),

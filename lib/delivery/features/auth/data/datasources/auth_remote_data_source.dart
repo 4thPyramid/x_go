@@ -4,7 +4,6 @@ import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/delivery/features/auth/data/models/auth_response_model.dart';
 import 'package:x_go/delivery/features/auth/data/models/login_response_model.dart';
 
-
 abstract class DeliveryAuthRemoteDataSource {
   Future<AuthResponseModel> register({
     required String firstName,
@@ -61,6 +60,8 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
       },
     );
     CacheHelper.saveToken(value: response['token']);
+    // ياقرش  ابقى اعمل موديل جديد لليدريفر ف اللوجين والريجيستر  لان كل حاجه متغيره وسيب
+    CacheHelper.driverId(value: response['user']['id'].toString());
 
     return AuthResponseModel.fromJson(response);
   }
@@ -72,7 +73,7 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
     required bool isRememberMe,
   }) async {
     final response = await apiConsumer.post(
-      'api/driver/login',
+      EndpointsStrings.loginDelivery,
       data: {'email': email, 'password': password},
       headers: {
         'Accept': 'application/vnd.api+json',
@@ -81,6 +82,7 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
     );
 
     CacheHelper.saveToken(value: response['token']);
+    CacheHelper.driverId(value: response['user']['id'].toString());
     isRememberMe
         ? CacheHelper.saveData(key: 'isRememberMe', value: true)
         : null;

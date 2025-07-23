@@ -13,6 +13,10 @@ class CacheHelper {
     sharedPreferences.setString('token', value);
   }
 
+  static void driverId({required String value}) {
+    sharedPreferences.setString('driverId', value);
+  }
+
   //delete token
   static void deleteToken() {
     sharedPreferences.remove('token');
@@ -20,6 +24,10 @@ class CacheHelper {
 
   static String? getToken() {
     return sharedPreferences.getString('token');
+  }
+
+  static String? getDriverId() {
+    return sharedPreferences.getString('driverId');
   }
 
   String? getDataString({required String key}) {

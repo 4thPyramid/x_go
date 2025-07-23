@@ -18,5 +18,12 @@ abstract class EndpointsStrings {
   static const String favoritesToggle = '/api/user/favorites/toggle';
 
   // Delivery endpoints
+  static const String loginDelivery = '/api/driver/login';
+  static const String newOrders = '/api/driver/Assigned-Booking';
   static const String acceptedOrders = '/api/driver/Accepted-Booking';
+  static const String completedOrders = '/api/driver/Completed-Booking';
+  static const String cancelOrder = '/api/driver/cancel-order';
+
+  static const String getBestRoute = '/api/driver/getBestRoute';
+  static const String driverProfile = '/api/driver/driver/:id';
 }

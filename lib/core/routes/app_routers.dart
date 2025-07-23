@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/client/features/app.dart';
+import 'package:x_go/client/features/client_tracking/presentation/logic/cubit/client_tracking_cubit.dart';
+import 'package:x_go/client/features/client_tracking/presentation/view/client_tracking_view.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
@@ -50,14 +52,17 @@ import 'package:x_go/delivery/features/auth/presentation/view/reset_password_vie
 import 'package:x_go/delivery/features/app_delivery.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/logic/cubit/delivery_location_cubit.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/view/delivery_location_view.dart';
-import 'package:x_go/delivery/features/home/presentation/logic/aacepted_oreder_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/accepted_status_cubit/oreder_status_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/completed_status_cubit/new_order_cubit/completed_status_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/new_order_cubit/new_status_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/home/custom_search_widget.dart';
 import 'package:x_go/delivery/features/orderDetails/presentation/logic/booking_cubit.dart';
 import 'package:x_go/delivery/features/orderDetails/presentation/views/order_details_view.dart';
+import 'package:x_go/delivery/features/profile/presentation/views/profile_view.dart';
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.appDelivery,
+  initialLocation: RouterNames.deliveryLocation,
 
   // CacheHelper.getData(key: 'isRememberMe') != null
   //     ? RouterNames.app
@@ -71,6 +76,13 @@ final GoRouter router = GoRouter(
             BlocProvider(
               create: (_) =>
                   getIt<AcceptedOrdersCubit>()..fetchAcceptedOrders(),
+            ),
+            BlocProvider(
+              create: (_) => getIt<NewOrdersCubit>()..fetchNewOrders(),
+            ),
+            BlocProvider(
+              create: (_) =>
+                  getIt<CompletedOrdersCubit>()..fetchCompletedOrders(),
             ),
           ],
           child: const AppDelivery(),
@@ -91,6 +103,14 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const SplashView(),
     ),
 
+    GoRoute(
+      path: RouterNames.clientTrackLocation,
+      builder: (context, state) => BlocProvider(
+        create: (context) =>
+            ClientTrackingCubit()..getLiveTrackingFromFirebase(),
+        child: const ClientTrackingView(),
+      ),
+    ),
     GoRoute(
       path: RouterNames.popularCars,
       builder: (context, state) => BlocProvider(
@@ -352,7 +372,10 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouterNames.deliveryLocation,
-      builder: (context, state) => const DeliveryLocationView(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => DeliveryLocationCubit()..getCurrentLocation(),
+        child: const DeliveryLocationView(),
+      ),
     ),
     GoRoute(
       path: RouterNames.delivery,
@@ -378,6 +401,13 @@ final GoRouter router = GoRouter(
           child: OrderDetailsView(),
         );
       },
+    ),
+    GoRoute(
+      path: RouterNames.profileDelivery,
+      builder: (context, state) => BlocProvider(
+        create: (context) => getIt<ProfileEditCubit>()..getProfileData(),
+        child: const ProfileDeliveryView(),
+      ),
     ),
   ],
 );
