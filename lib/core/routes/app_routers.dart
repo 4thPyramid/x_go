@@ -57,11 +57,11 @@ import 'package:x_go/delivery/features/home/presentation/logic/completed_status_
 import 'package:x_go/delivery/features/home/presentation/logic/new_order_cubit/new_status_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/home/custom_search_widget.dart';
 import 'package:x_go/delivery/features/orderDetails/presentation/views/order_details_view.dart';
-import 'package:x_go/delivery/features/profile/presentation/views/profile_view.dart';
+import 'package:x_go/delivery/features/profile/presentation/logic/profile_info_cubit/driver_profile_info_cubit.dart';
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.deliveryLocation,
+  initialLocation: RouterNames.appDelivery,
 
   // CacheHelper.getData(key: 'isRememberMe') != null
   //     ? RouterNames.app
@@ -82,6 +82,10 @@ final GoRouter router = GoRouter(
             BlocProvider(
               create: (_) =>
                   getIt<CompletedOrdersCubit>()..fetchCompletedOrders(),
+            ),
+            BlocProvider(
+              create: (_) =>
+                  getIt<DriverProfileInfoCubit>()..fetchDriverProfile(),
             ),
           ],
           child: const AppDelivery(),
@@ -402,7 +406,7 @@ final GoRouter router = GoRouter(
       path: RouterNames.profileDelivery,
       builder: (context, state) => BlocProvider(
         create: (context) => getIt<ProfileEditCubit>()..getProfileData(),
-        child: const ProfileDeliveryView(),
+        child: const ProfilePage(),
       ),
     ),
   ],

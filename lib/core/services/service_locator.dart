@@ -60,6 +60,11 @@ import 'package:x_go/delivery/features/home/domain/usecases/new_order_usecase%20
 import 'package:x_go/delivery/features/home/presentation/logic/accepted_status_cubit/oreder_status_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/completed_status_cubit/new_order_cubit/completed_status_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/new_order_cubit/new_status_cubit.dart';
+import 'package:x_go/delivery/features/profile/data/data_source/driver_profile_ds.dart';
+import 'package:x_go/delivery/features/profile/data/repo/driver_profile_repo_impl.dart';
+import 'package:x_go/delivery/features/profile/domain/repos/driver_profile_repo.dart';
+import 'package:x_go/delivery/features/profile/domain/usecase/driver_profile_use_case.dart';
+import 'package:x_go/delivery/features/profile/presentation/logic/profile_info_cubit/driver_profile_info_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -221,7 +226,6 @@ void setupLocator() {
   getIt.registerLazySingleton<FavoritesCubit>(
     () => FavoritesCubit(favoritesRepository: getIt<FavoritesRepository>()),
   );
-  //Accepted Orders Feature
   getIt.registerLazySingleton<OrdersStatusDataSource>(
     () => OrdersStatusDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
   );
@@ -246,5 +250,21 @@ void setupLocator() {
   );
   getIt.registerFactory<CompletedOrdersCubit>(
     () => CompletedOrdersCubit(getIt<GetCompletedOrdersUseCase>()),
+  );
+
+  ///delivery profile
+  getIt.registerLazySingleton<DriverProfileDataSource>(
+    () => DriverProfileDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
+  );
+  getIt.registerLazySingleton<DriverProfileRepository>(
+    () => DriverProfileRepositoryImpl(
+      dataSource: getIt<DriverProfileDataSource>(),
+    ),
+  );
+  getIt.registerLazySingleton<DriverProfileUseCase>(
+    () => DriverProfileUseCase(getIt<DriverProfileRepository>()),
+  );
+  getIt.registerFactory<DriverProfileInfoCubit>(
+    () => DriverProfileInfoCubit(getIt<DriverProfileUseCase>()),
   );
 }

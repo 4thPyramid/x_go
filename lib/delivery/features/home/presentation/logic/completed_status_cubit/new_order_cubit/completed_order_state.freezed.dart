@@ -152,7 +152,7 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<OrderStatusEntity> orders)  success,required TResult Function( String message)  error, required Function(dynamic message) acceptedError,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<OrderStatusEntity> orders)  success,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case _completedOrderInitial():
 return initial();case _completedOrderLoading():
