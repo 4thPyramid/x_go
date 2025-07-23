@@ -130,14 +130,16 @@ class DeliveryLocationView extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 12),
-                          Expanded(
-                            child: CustomButton(
-                              height: 45.h,
-                              onPressed: () =>
-                                  successDeliveryBottomSheet(context),
-                              text: 'تأكيد التوصيل',
-                            ),
-                          ),
+                          state is SuccessArrived
+                              ? Expanded(
+                                  child: CustomButton(
+                                    height: 45.h,
+                                    onPressed: () =>
+                                        successDeliveryBottomSheet(context),
+                                    text: 'تأكيد التوصيل',
+                                  ),
+                                )
+                              : const SizedBox(),
                         ],
                       ),
                     ],
@@ -146,7 +148,8 @@ class DeliveryLocationView extends StatelessWidget {
               ],
             );
           } else if (state is SuccessArrived) {
-            return Column(
+            showAboutDialog(
+              context: context,
               children: [
                 Icon(Icons.check_circle, color: Colors.green, size: 100),
                 const SizedBox(height: 30),
@@ -155,7 +158,6 @@ class DeliveryLocationView extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
-                CustomButton(height: 40.h, onPressed: () {}, text: 'تأكيد'),
               ],
             );
           }

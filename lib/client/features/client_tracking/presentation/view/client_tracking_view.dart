@@ -19,6 +19,7 @@ class ClientTrackingView extends StatelessWidget {
                 onTap: (value) {},
                 markers: state.markers,
                 onMapCreated: (value) {},
+                polylines: state.polylines,
               );
             } else if (state is ClientTrackingError) {
               return Center(child: Text(state.errorMessage));

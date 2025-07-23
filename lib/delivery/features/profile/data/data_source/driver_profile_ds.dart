@@ -1,7 +1,7 @@
 import 'package:x_go/core/constants/endpoints_strings.dart';
 import 'package:x_go/core/data/api/api_consumer.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
-import 'package:x_go/delivery/features/profile/data/dataSource/driver_profile_model.dart';
+import 'package:x_go/delivery/features/profile/data/models/driver_profile_model.dart';
 
 abstract class DriverProfileDataSource {
   Future<DriverProfileResponse> getDriverProfile();
