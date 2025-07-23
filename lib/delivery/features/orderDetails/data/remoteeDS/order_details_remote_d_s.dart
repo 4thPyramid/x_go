@@ -17,6 +17,6 @@ class BookingDetailsRemoteDataSourceImpl implements BookingDetailsRemoteDataSour
       '/api/driver/booking/$id',
 
     );
-    return BookingModel.fromJson(response.data['data']);
+    return BookingModel.fromJson(response['data']);
   }
 }

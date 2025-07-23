@@ -23,6 +23,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   late List<LatLng> polylines = [];
   String duration = '';
   String distance = '';
+
   String hash = '';
   void getCurrentLocation() async {
     final permission = await LocationService().requestPermission();
@@ -108,9 +109,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
                 distance: distance,
               ),
             );
-            print(
-              '0000000000000000000000000000000000000000000000000000000000000000000000000',
-            );
+
             await getCode(latLng);
             addToFirebase(latLng, hash);
           });

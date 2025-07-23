@@ -9,7 +9,14 @@ class ClientTrackingLoading extends ClientTrackingState {}
 class ClientTrackingSuccess extends ClientTrackingState {
   final LatLng latLng;
   final Set<Marker> markers;
-  ClientTrackingSuccess({required this.latLng, required this.markers});
+  final String hash;
+  final Set<Polyline> polylines;
+  ClientTrackingSuccess({
+    required this.hash,
+    required this.latLng,
+    required this.markers,
+    required this.polylines,
+  });
 }
 
 class ClientTrackingError extends ClientTrackingState {
