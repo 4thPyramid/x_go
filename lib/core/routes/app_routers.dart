@@ -62,7 +62,7 @@ import 'package:x_go/delivery/features/profile/presentation/logic/profile_info_c
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: RouterNames.appDelivery,
+  initialLocation: RouterNames.userType,
 
   // CacheHelper.getData(key: 'isRememberMe') != null
   //     ? RouterNames.app
