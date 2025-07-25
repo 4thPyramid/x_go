@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/delivery/features/profile/domain/entities/driver_profile_entity.dart';
+import 'package:x_go/delivery/features/profile/presentation/logic/profile_info_cubit/driver_profile_info_cubit.dart';
 
 class CustomInfoProfileData extends StatelessWidget {
   const CustomInfoProfileData({super.key, required this.driverProfileEntity});
@@ -19,8 +23,17 @@ class CustomInfoProfileData extends StatelessWidget {
           contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
           trailing: IconButton(
             icon: Icon(Icons.edit),
-            onPressed: () {
-              // Handle edit action
+            onPressed: () async {
+              // Navigate to the profile update page and wait for the result
+              final result = await context.push<bool>(
+                RouterNames.driverDetails,
+              );
+
+              // If returning from edit page with success result, refresh the profile data
+              if (result == true && context.mounted) {
+                // This will trigger a refresh of the parent widget showing this profile data
+                context.read<DriverProfileInfoCubit>().fetchDriverProfile();
+              }
             },
           ),
           leading: CircleAvatar(

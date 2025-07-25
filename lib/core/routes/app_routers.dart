@@ -3,8 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:x_go/client/features/app.dart';
 import 'package:x_go/client/features/client_tracking/presentation/logic/cubit/client_tracking_cubit.dart';
 import 'package:x_go/client/features/client_tracking/presentation/view/client_tracking_view.dart';
+import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
+import 'package:x_go/delivery/features/profile/presentation/logic/update_profile/update_profile_cubit.dart';
 import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
 import 'package:x_go/client/features/Details/presentation/views/car_detail_view.dart';
 import 'package:x_go/client/features/auth/domain/usecases/forget_password_use_case.dart';
@@ -59,23 +61,29 @@ import 'package:x_go/delivery/features/home/presentation/widgets/home/custom_sea
 import 'package:x_go/delivery/features/orderDetails/presentation/logic/booking_cubit.dart';
 import 'package:x_go/delivery/features/orderDetails/presentation/views/order_details_view.dart';
 import 'package:x_go/delivery/features/profile/presentation/logic/profile_info_cubit/driver_profile_info_cubit.dart';
+import 'package:x_go/delivery/features/profile/presentation/views/profile_update_view.dart';
 import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: RouterNames.userType,
 
-  // CacheHelper.getData(key: 'isRememberMe') != null
-  //     ? RouterNames.app
-  //     : RouterNames.splash,
   routes: [
     GoRoute(
       path: RouterNames.appDelivery,
       builder: (context, state) {
         return MultiBlocProvider(
           providers: [
-            BlocProvider(create: (_) => getIt<AcceptedOrdersCubit>()),
-            BlocProvider(create: (_) => getIt<NewOrdersCubit>()),
-            BlocProvider(create: (_) => getIt<CompletedOrdersCubit>()),
+            BlocProvider(
+              create: (_) =>
+                  getIt<AcceptedOrdersCubit>()..fetchAcceptedOrders(),
+            ),
+            BlocProvider(
+              create: (_) => getIt<NewOrdersCubit>()..fetchNewOrders(),
+            ),
+            BlocProvider(
+              create: (_) =>
+                  getIt<CompletedOrdersCubit>()..fetchCompletedOrders(),
+            ),
             BlocProvider(
               create: (_) =>
                   getIt<DriverProfileInfoCubit>()..fetchDriverProfile(),
@@ -85,7 +93,20 @@ final GoRouter router = GoRouter(
         );
       },
     ),
-
+    GoRoute(
+      path: RouterNames.driverDetails,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<DriverProfileInfoCubit>()..fetchDriverProfile(),
+          ),
+          BlocProvider(
+            create: (context) => getIt<UpdateProfileCubit>(),
+          ),
+        ],
+        child: const DriverUpdateDetailsView(),
+      ),
+    ),
     GoRoute(
       path: RouterNames.customSearchDeliveryApp,
       builder: (context, state) => const CustomSearchDeliveryApp(),
@@ -376,7 +397,8 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterNames.delivery,
       builder: (context, state) {
-        final extra = state.extra as int;
+        // Safely handle null or non-integer state.extra
+        final extra = state.extra != null ? state.extra as int? : 0;
         return BlocProvider(
           create: (context) => DeliveryAuthCubit(
             getIt<DeliveryLoginUseCase>(),
@@ -385,15 +407,15 @@ final GoRouter router = GoRouter(
             getIt<DeliveryOtpUseCase>(),
             getIt<DeliveryResetPasswordUseCase>(),
           ),
-          child: DeliveryAuthView(index: extra),
+          child: DeliveryAuthView(index: extra ?? 0),
         );
       },
     ),
     GoRoute(
-      path: '${RouterNames.orderDetails}/:bookingId', 
+      path: '${RouterNames.orderDetails}/:bookingId',
       builder: (context, state) {
-         final bookingIdString = state.pathParameters['bookingId'];
-    final bookingId = int.tryParse(bookingIdString ?? '0') ?? 0;
+        final bookingIdString = state.pathParameters['bookingId'];
+        final bookingId = int.tryParse(bookingIdString ?? '0') ?? 0;
         return BlocProvider(
           create: (context) => getIt<BookingDetailsCubit>(),
           child: OrderDetailsView(bookingId: bookingId),

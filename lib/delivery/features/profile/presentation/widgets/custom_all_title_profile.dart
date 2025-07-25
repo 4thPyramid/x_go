@@ -30,18 +30,7 @@ class CustomAllTitleProfile extends StatelessWidget {
                 style: TextStyle(fontSize: 19.sp, fontWeight: FontWeight.w700),
               ),
             ),
-            ProfileItemTile(
-              title: 'My Details',
-              titleStyle: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w400,
-                color: AppColors.grey,
-              ),
-              onTap: () {
-                // Navigate to My DriverDetails page
-              },
-              icon: Icons.person,
-            ),
+
             ProfileItemTile(
               title: 'Language',
               titleStyle: TextStyle(

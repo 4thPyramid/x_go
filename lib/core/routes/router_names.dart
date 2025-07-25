@@ -47,4 +47,5 @@ abstract class RouterNames {
   static const String customSearchDeliveryApp = '/customSearchDeliveryApp';
   static const String clientTrackLocation = '/clientTrackLocation';
   static const String profileDelivery = '/profileDelivery';
+  static const String driverDetails = '/driverDetails';
 }
