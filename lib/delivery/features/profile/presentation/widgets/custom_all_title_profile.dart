@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:x_go/client/features/language/presentation/view/language_view.dart';
 import 'package:x_go/client/features/profile/presentation/widgets/profile_item.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/router_names.dart';
@@ -31,18 +32,7 @@ class CustomAllTitleProfile extends StatelessWidget {
               ),
             ),
 
-            ProfileItemTile(
-              title: 'Language',
-              titleStyle: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w400,
-                color: AppColors.grey,
-              ),
-              onTap: () {
-                //change language
-              },
-              icon: Icons.language,
-            ),
+            LanguageDropdownTile(),
             ProfileItemTile(
               title: 'Notifications',
               titleStyle: TextStyle(

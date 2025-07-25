@@ -20,6 +20,7 @@ class CustomTextFormField extends StatelessWidget {
   final List<String>? autofillHints;
   final double? verticalPadding;
   final double? horizontalPadding;
+  final void Function(String)? onFieldSubmitted;
   const CustomTextFormField({
     super.key,
     this.hintText,
@@ -38,6 +39,7 @@ class CustomTextFormField extends StatelessWidget {
     this.autofillHints,
     this.verticalPadding,
     this.horizontalPadding,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -90,6 +92,7 @@ class CustomTextFormField extends StatelessWidget {
       ),
       validator: validator ?? (value) => null,
       onChanged: onchanged,
+      onFieldSubmitted: onFieldSubmitted,
       maxLines: maxLines,
     );
   }

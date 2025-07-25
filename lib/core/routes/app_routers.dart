@@ -98,18 +98,20 @@ final GoRouter router = GoRouter(
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => getIt<DriverProfileInfoCubit>()..fetchDriverProfile(),
+            create: (context) =>
+                getIt<DriverProfileInfoCubit>()..fetchDriverProfile(),
           ),
-          BlocProvider(
-            create: (context) => getIt<UpdateProfileCubit>(),
-          ),
+          BlocProvider(create: (context) => getIt<UpdateProfileCubit>()),
         ],
         child: const DriverUpdateDetailsView(),
       ),
     ),
     GoRoute(
       path: RouterNames.customSearchDeliveryApp,
-      builder: (context, state) => const CustomSearchDeliveryApp(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => getIt<NewOrdersCubit>()..fetchNewOrders(),
+        child: const CustomSearchDeliveryApp(),
+      ),
     ),
     GoRoute(
       path: RouterNames.userType,
