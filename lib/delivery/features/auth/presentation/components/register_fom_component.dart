@@ -13,15 +13,15 @@ import 'package:x_go/delivery/features/auth/presentation/logic/cubit/auth_cubit.
 import 'package:x_go/client/features/language/presentation/widgets/instant_language_builder.dart';
 // import 'package:x_go/client/features/splash/views/splash_view.dart';
 
-class RegisterForm extends StatefulWidget {
+class DeliveryRegisterForm extends StatefulWidget {
   final int index;
-  const RegisterForm({super.key, required this.index});
+  const DeliveryRegisterForm({super.key, required this.index});
 
   @override
-  State<RegisterForm> createState() => _RegisterFormState();
+  State<DeliveryRegisterForm> createState() => _DeliveryRegisterFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
+class _DeliveryRegisterFormState extends State<DeliveryRegisterForm> {
   final _formKey = GlobalKey<FormState>();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -140,7 +140,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             message: state.message,
                             state: ToastStates.SUCCESS,
                           );
-                          context.go(RouterNames.app);
+                          context.go(RouterNames.appDelivery);
                         } else if (state is RegisterError) {
                           showToast(
                             message: state.message,
