@@ -7,7 +7,7 @@ import 'package:x_go/core/errors/error_model.dart';
 import 'package:x_go/core/errors/exceptions.dart';
 import 'package:x_go/delivery/features/home/data/data_sources/oreders_status_ds.dart';
 import 'package:x_go/delivery/features/home/domain/entities/accepted_order_entity.dart';
-import 'package:x_go/delivery/features/home/domain/repos/accepted_orders_repository.dart';
+import 'package:x_go/delivery/features/home/domain/repos/orders_repository.dart';
 
 class OrdersStatusRepositoryImpl implements OrdersStatusRepository {
   final OrdersStatusDataSource dataSource;
