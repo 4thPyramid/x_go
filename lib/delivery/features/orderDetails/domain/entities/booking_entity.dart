@@ -7,13 +7,13 @@ class BookingEntity extends Equatable {
   final String endDate;
   final String finalPrice;
   final String status;
-  final String paymentMethod;
+  final String? paymentMethod; // Made nullable to match BookingModel
   final String? paymentStatus;
   final String? transactionId;
   final CarModel carModel;
   final UserModel user;
   final CarModelSimple car;
-  final LocationModel? location;  // <- لازم تكون موجودة هنا
+  final LocationModel? location;
  
   const BookingEntity({
     required this.id,
@@ -21,7 +21,7 @@ class BookingEntity extends Equatable {
     required this.endDate,
     required this.finalPrice,
     required this.status,
-    required this.paymentMethod,
+    this.paymentMethod, // Removed required since it can be null
     this.paymentStatus,
     this.transactionId,
     required this.carModel,

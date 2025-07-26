@@ -10,9 +10,9 @@ abstract class RouterNames {
   static const String success_updated = '/success_updated';
   static const String otp = '/otp';
   static const String app = '/app';
-  static const String language = '/language';
+  static const String language = '/language'; 
   static const String myBooking = '/myBooking';
-  static const String orderDetails = '/bkjhbkjh';
+  static const String orderDetails = '/orderDetails';
   static const String home = '/home';
   static const String delivery = '/delivery';
   static const String deliveryRegister = '/register';

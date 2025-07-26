@@ -8,7 +8,7 @@ class BookingModel extends Equatable {
   final String finalPrice;
   final String status;
   final int additionalDriver;
-  final String paymentMethod;
+  final String? paymentMethod; // Made nullable
   final String? paymentStatus;
   final String? transactionId;
   final CarModel carModel;
@@ -23,11 +23,11 @@ class BookingModel extends Equatable {
     required this.finalPrice,
     required this.status,
     required this.additionalDriver,
-    required this.paymentMethod,
-    required this.paymentStatus,
-    required this.transactionId,
+    this.paymentMethod, // Removed required
+    this.paymentStatus,
+    this.transactionId,
     required this.carModel,
-    required this.location,
+    this.location,
     required this.user,
     required this.car,
   });
@@ -53,6 +53,7 @@ class BookingModel extends Equatable {
   @override
   List<Object?> get props => [id, startDate, endDate, finalPrice, status];
 }
+
 class CarModel {
   final String id;
   final CarAttributes attributes;
@@ -149,6 +150,7 @@ class Brand {
     return Brand(brandName: json['brand_name']);
   }
 }
+
 class UserModel {
   final int id;
   final String name;
@@ -161,7 +163,7 @@ class UserModel {
     required this.id,
     required this.name,
     required this.lastName,
-    required this.image,
+    this.image,
     required this.email,
     required this.phone,
   });
@@ -177,6 +179,7 @@ class UserModel {
     );
   }
 }
+
 class CarData {
   final int id;
   final int carmodelId;
@@ -190,7 +193,7 @@ class CarData {
     required this.carmodelId,
     required this.plateNumber,
     required this.status,
-    required this.image,
+    this.image,
     required this.color,
   });
 
@@ -205,6 +208,7 @@ class CarData {
     );
   }
 }
+
 class LocationModel {
   final String latitude;
   final String longitude;
@@ -232,6 +236,7 @@ class LocationModel {
     };
   }
 }
+
 class DriverAttributes {
   final String name;
   final String email;
@@ -261,12 +266,10 @@ class DriverAttributes {
   }
 }
 
-
 extension BookingModelMapper on BookingModel {
   BookingEntity toEntity() {
     return BookingEntity(
       id: id,
-
       startDate: startDate,
       endDate: endDate,
       finalPrice: finalPrice,
@@ -277,7 +280,6 @@ extension BookingModelMapper on BookingModel {
       carModel: carModel,
       user: user,
       location: location,
-
       car: CarModelSimple(
         id: car.id,
         carmodelId: car.carmodelId,
@@ -290,7 +292,6 @@ extension BookingModelMapper on BookingModel {
   }
 }
 
-// لازم تعرف CarModelSimple لأنك تستخدمه في الـ entity
 class CarModelSimple {
   final int id;
   final int carmodelId;
@@ -304,7 +305,7 @@ class CarModelSimple {
     required this.carmodelId,
     required this.plateNumber,
     required this.status,
-    required this.image,
+    this.image,
     required this.color,
   });
 }

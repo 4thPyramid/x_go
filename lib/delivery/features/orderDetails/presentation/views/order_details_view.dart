@@ -6,7 +6,7 @@ import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/entities/booking_entity.dart';
 import 'package:x_go/delivery/features/orderDetails/presentation/logic/booking_cubit.dart';
-import 'package:x_go/delivery/features/orderDetails/presentation/widgets/location.dart';
+import 'package:x_go/delivery/features/orderDetails/presentation/components/location.dart';
 
 class OrderDetailsView extends StatefulWidget {
   final int bookingId;
@@ -104,8 +104,11 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                 _buildUserSection(booking),
                 const SizedBox(height: 5),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
+                    Container(
+                      width: 100.w,
+                      height: 50.h,
                       child: CustomButton(
                         text: 'قبول',
                         onPressed: () {
@@ -116,11 +119,15 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                         },
                       ),
                     ),
-                    Expanded(
+                    SizedBox(width: 10.w),
+                    Container(
+                      width: 100.w,
+                      height: 50.h,
                       child: CustomButton(text: 'رفض', onPressed: () {}),
                     ),
                   ],
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -285,7 +292,10 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                 const Divider(),
                 _buildDetailRow('تاريخ النهاية', booking.endDate),
                 const Divider(),
-                _buildDetailRow('طريقة الدفع', booking.paymentMethod),
+                _buildDetailRow(
+                  'طريقة الدفع',
+                  booking.paymentMethod ?? 'غير محددة',
+                ),
                 if (booking.paymentStatus != null) ...[
                   const Divider(),
                   _buildDetailRow('حالة الدفع', booking.paymentStatus!),
