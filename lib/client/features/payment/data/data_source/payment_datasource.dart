@@ -22,7 +22,7 @@ class PaymentDataSourceImpl implements PaymentDataSource {
     final apiConsumer = DioConsumer(dio: Dio());
     try {
       final response = await apiConsumer.post(
-        '/Model/$modelId/car-booking/$bookingId/payment-method',
+        '/api/user/Model/$modelId/car-booking/$bookingId/payment-method',
         data: {
           'payment_method': paymentMethod == PaymentMethod.visa
               ? 'visa'

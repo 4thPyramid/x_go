@@ -89,23 +89,18 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // قسم العنوان
                 _buildAddressSection(booking),
                 const SizedBox(height: 20),
 
-                // قسم الطلب
                 _buildOrderSection(booking),
                 const SizedBox(height: 20),
 
-                // قسم تفاصيل الحجز
                 _buildBookingDetailsSection(booking),
                 const SizedBox(height: 20),
 
-                // قسم السعر
                 _buildPriceSection(booking),
                 const SizedBox(height: 20),
 
-                // قسم معلومات المستخدم
                 _buildUserSection(booking),
                 const SizedBox(height: 5),
                 Row(
@@ -114,7 +109,10 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       child: CustomButton(
                         text: 'قبول',
                         onPressed: () {
-                          context.push(RouterNames.deliveryLocation);
+                          context.push(
+                            RouterNames.deliveryLocation,
+                            extra: booking,
+                          );
                         },
                       ),
                     ),

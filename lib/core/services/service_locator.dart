@@ -52,8 +52,8 @@ import 'package:x_go/delivery/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/register_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/reset_password_use_case.dart';
 import 'package:x_go/delivery/features/home/data/data_sources/oreders_status_ds.dart';
-import 'package:x_go/delivery/features/home/data/repo/accepted_orders_repository_impl.dart';
-import 'package:x_go/delivery/features/home/domain/repos/accepted_orders_repository.dart';
+import 'package:x_go/delivery/features/home/data/repo/orders_repository_impl.dart';
+import 'package:x_go/delivery/features/home/domain/repos/orders_repository.dart';
 import 'package:x_go/delivery/features/home/domain/usecases/accepted_order_usecase.dart';
 import 'package:x_go/delivery/features/home/domain/usecases/completed_order_usecase.dart';
 import 'package:x_go/delivery/features/home/domain/usecases/new_order_usecase%20.dart';
@@ -65,12 +65,14 @@ import 'package:x_go/delivery/features/profile/data/repo/driver_profile_repo_imp
 import 'package:x_go/delivery/features/profile/domain/repos/driver_profile_repo.dart';
 import 'package:x_go/delivery/features/profile/domain/usecase/driver_profile_use_case.dart';
 import 'package:x_go/delivery/features/profile/domain/usecase/driver_update_use_case.dart';
+import 'package:x_go/delivery/features/profile/domain/usecase/driver_update_use_case.dart';
 import 'package:x_go/delivery/features/profile/presentation/logic/profile_info_cubit/driver_profile_info_cubit.dart';
 import 'package:x_go/delivery/features/orderDetails/data/remoteeDS/order_details_remote_d_s.dart';
 import 'package:x_go/delivery/features/orderDetails/data/repoImpl/order_details_repo_impl.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/repos/order_details_repo.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/useCases/order_details_u_c.dart';
 import 'package:x_go/delivery/features/orderDetails/presentation/logic/booking_cubit.dart';
+import 'package:x_go/delivery/features/profile/presentation/logic/update_profile/update_profile_cubit.dart';
 import 'package:x_go/delivery/features/profile/presentation/logic/update_profile/update_profile_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -104,8 +106,9 @@ void setupLocator() {
     () => ProfileRemoteDsImpl(getIt<ApiConsumer>()),
   );
   getIt.registerLazySingleton<BookingDetailsRemoteDataSource>(
-    () => BookingDetailsRemoteDataSourceImpl( getIt<DioConsumer>()),
+    () => BookingDetailsRemoteDataSourceImpl(getIt<DioConsumer>()),
   );
+
   /// !-- Repositories -- ///
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: getIt<AuthRemoteDataSource>()),
@@ -253,7 +256,7 @@ void setupLocator() {
     () => GetAcceptedOrdersUseCase(getIt<OrdersStatusRepository>()),
   );
   getIt.registerLazySingleton<GetNewOrdersUseCase>(
-    () => GetNewOrdersUseCase(getIt<OrdersStatusRepository>()), 
+    () => GetNewOrdersUseCase(getIt<OrdersStatusRepository>()),
   );
   getIt.registerFactory<AcceptedOrdersCubit>(
     () => AcceptedOrdersCubit(getIt<GetAcceptedOrdersUseCase>()),

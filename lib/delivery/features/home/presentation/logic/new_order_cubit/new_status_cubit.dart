@@ -16,13 +16,12 @@ class NewOrdersCubit extends Cubit<NewOrderStatusState> {
     emit(const NewOrderStatusState.loading());
     final result = await _getNewOrdersUseCase(NoParams());
     // Handle the result of fetching new orders
-    emit(
-      result.fold((failure) => NewOrderStatusState.error(failure.message), (
-        newOrders,
-      ) {
-        allOrders = newOrders;
-        return NewOrderStatusState.success(allOrders);
-      }),
-    );
+
+    result.fold((failure) => emit(NewOrderStatusState.error(failure.message)), (
+      newOrders,
+    ) {
+      allOrders = newOrders;
+      emit(NewOrderStatusState.success(allOrders));
+    });
   }
 }

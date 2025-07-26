@@ -2,6 +2,7 @@ abstract class RouterNames {
   static const String userType = '/';
   static const String splash = '/splash';
   static const String onboarding = '/onboarding';
+
   static const String auth = '/auth';
   static const String register = '/register';
   static const String forgotPassword = '/forgotPassword';

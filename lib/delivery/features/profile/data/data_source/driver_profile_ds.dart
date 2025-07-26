@@ -22,7 +22,6 @@ class DriverProfileDataSourceImpl implements DriverProfileDataSource {
     final driverId = CacheHelper.getDriverId();
 
     if (driverId == null) {
-      AppLogger.e("Driver ID not found in cache");
       throw Exception("Driver ID not found in cache");
     }
 
@@ -38,8 +37,7 @@ class DriverProfileDataSourceImpl implements DriverProfileDataSource {
   ) async {
     final driverId = CacheHelper.getDriverId();
 
-    if (driverId == null) {
-      AppLogger.e("Driver ID not found in cache");
+    if (driverId == null || driverId.isEmpty) {
       throw Exception("Driver ID not found in cache");
     }
 
