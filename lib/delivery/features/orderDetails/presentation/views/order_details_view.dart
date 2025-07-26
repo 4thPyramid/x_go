@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_go/core/common/widgets/custom_btn.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/entities/booking_entity.dart';
 import 'package:x_go/delivery/features/orderDetails/presentation/logic/booking_cubit.dart';
 import 'package:x_go/delivery/features/orderDetails/presentation/widgets/location.dart';
 
 class OrderDetailsView extends StatefulWidget {
   final int bookingId;
-  
-  const OrderDetailsView({
-    super.key,
-    required this.bookingId,
-  });
+
+  const OrderDetailsView({super.key, required this.bookingId});
 
   @override
   State<OrderDetailsView> createState() => _OrderDetailsViewState();
@@ -38,21 +38,15 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
       body: BlocBuilder<BookingDetailsCubit, BookingState>(
         builder: (context, state) {
           if (state is BookingLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
-          
+
           if (state is BookingError) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.error_outline,
-                    size: 64,
-                    color: Colors.red,
-                  ),
+                  const Icon(Icons.error_outline, size: 64, color: Colors.red),
                   const SizedBox(height: 16),
                   Text(
                     'حدث خطأ: ${state.message}',
@@ -62,8 +56,9 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      context.read<BookingDetailsCubit>()
-                          .fetchBookingDetails(widget.bookingId);
+                      context.read<BookingDetailsCubit>().fetchBookingDetails(
+                        widget.bookingId,
+                      );
                     },
                     child: const Text('إعادة المحاولة'),
                   ),
@@ -71,11 +66,11 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
               ),
             );
           }
-          
+
           if (state is BookingLoaded) {
             return _buildBookingDetails(state.booking);
           }
-          
+
           return const SizedBox.shrink();
         },
       ),
@@ -97,24 +92,40 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                 // قسم العنوان
                 _buildAddressSection(booking),
                 const SizedBox(height: 20),
-                
+
                 // قسم الطلب
                 _buildOrderSection(booking),
                 const SizedBox(height: 20),
-                
+
                 // قسم تفاصيل الحجز
                 _buildBookingDetailsSection(booking),
                 const SizedBox(height: 20),
-                
+
                 // قسم السعر
                 _buildPriceSection(booking),
                 const SizedBox(height: 20),
-                
+
                 // قسم معلومات المستخدم
                 _buildUserSection(booking),
+                const SizedBox(height: 5),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        text: 'قبول',
+                        onPressed: () {
+                          context.push(RouterNames.deliveryLocation);
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomButton(text: 'رفض', onPressed: () {}),
+                    ),
+                  ],
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -200,10 +211,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                             },
                           ),
                         )
-                      : Image.asset(
-                          'assets/images/map.png',
-                          fit: BoxFit.cover,
-                        ),
+                      : Image.asset('assets/images/map.png', fit: BoxFit.cover),
                 ),
                 SizedBox(width: 10.w),
                 Expanded(
@@ -212,7 +220,10 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     children: [
                       Text(
                         booking.carModel.relationship.brand.brandName,
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 5),
                       Text(
@@ -222,11 +233,17 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       const SizedBox(height: 5),
                       Text(
                         'لوحة: ${booking.car.plateNumber}',
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
                       ),
                       const SizedBox(height: 5),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: _getStatusColor(booking.status),
                           borderRadius: BorderRadius.circular(12),
@@ -340,7 +357,10 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                _buildDetailRow('الاسم', '${booking.user.name} ${booking.user.lastName}'),
+                _buildDetailRow(
+                  'الاسم',
+                  '${booking.user.name} ${booking.user.lastName}',
+                ),
                 const Divider(),
                 _buildDetailRow('البريد الإلكتروني', booking.user.email),
                 const Divider(),

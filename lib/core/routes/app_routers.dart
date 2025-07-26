@@ -393,7 +393,7 @@ final GoRouter router = GoRouter(
       path: RouterNames.deliveryLocation,
       builder: (context, state) => BlocProvider(
         create: (context) => DeliveryLocationCubit()..getCurrentLocation(),
-        child: const DeliveryLocationView(),
+        child: DeliveryLocationView(),
       ),
     ),
     GoRoute(
