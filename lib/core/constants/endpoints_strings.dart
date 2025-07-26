@@ -3,6 +3,8 @@ abstract class EndpointsStrings {
       "https://firebrick-chough-287960.hostingersite.com";
   // user endpoints
   static const String login = '/api/user/login';
+  static const String home = '/api/user/Home';
+  static const String filterInfo = '/api/user/filter-Info';
   static const String register = '/api/user/register';
   static const String resetPassword = '/api/user/reset-password';
   static const String forgetPassword = '/api/user/forgot-password';
@@ -11,11 +13,11 @@ abstract class EndpointsStrings {
   static const String updateProfile = '/api/user/update-profile';
   static const String getProfile = '/api/user/user-profile';
   static const String change_password = '/api/user/user/change-password/';
-  static const String home = '/api/user/Home';
   static const String carDetail = '/api/user/Model';
   static const String filter = '/api/user/filter-Info';
   static const String favorites = '/api/user/favorites';
   static const String favoritesToggle = '/api/user/favorites/toggle';
+  static const String activeLocation = '/api/user/active-locations';
 
   // Delivery endpoints
   static const String loginDelivery = '/api/driver/login';

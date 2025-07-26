@@ -1,3 +1,4 @@
+import 'package:x_go/core/constants/endpoints_strings.dart';
 import 'package:x_go/core/data/api/api_consumer.dart';
 import 'package:x_go/client/features/home/data/models/Pagination_response_odel%20.dart';
 import 'package:x_go/client/features/home/data/models/filter_info_model.dart';
@@ -17,7 +18,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     final requestData = params.toMap();
 
     final response = await apiConsumer.post(
-      ApiEndPoints.home,
+      EndpointsStrings.home,
       data: requestData,
     );
     final responseMap = Map<String, dynamic>.from(response);
@@ -109,17 +110,10 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<FilterInfoResponse> getFilterInfo() async {
     try {
-      final response = await apiConsumer.get(ApiEndPoints.filterInfo);
+      final response = await apiConsumer.get(EndpointsStrings.filterInfo);
       return FilterInfoResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
-}
-
-class ApiEndPoints {
-  static const String baseUrl =
-      'https://firebrick-chough-287960.hostingersite.com/api/users/';
-  static const String home = 'Home';
-  static const String filterInfo = 'filter-Info';
 }

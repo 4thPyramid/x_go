@@ -1,3 +1,4 @@
+import 'package:awesome_dio_interceptor/awesome_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:x_go/core/constants/endpoints_strings.dart';
 import '../../errors/exceptions.dart';
@@ -9,14 +10,14 @@ class DioConsumer extends ApiConsumer {
 
   DioConsumer({required this.dio}) {
     dio.options.baseUrl = EndpointsStrings.baseUrl;
+    dio.interceptors
+        .clear(); // مهم جدًا علشان تمسح أي Interceptors مضافة قبل كده
+
     dio.interceptors.add(
-      LogInterceptor(
-        request: true,
-        requestBody: true,
-        requestHeader: true,
-        responseBody: true,
-        responseHeader: true,
-        error: true,
+      AwesomeDioInterceptor(
+        logRequestTimeout: true,
+        logRequestHeaders: true,
+        logResponseHeaders: true,
       ),
     );
   }
@@ -156,8 +157,7 @@ class DioConsumer extends ApiConsumer {
           headers: {
             'Accept': 'application/vnd.api+json',
             'Content-Type': 'application/vnd.api+json',
-            'Authorization':
-                'Bearer zhApuUDFu76IGE9LFRFXdgims0C2aJ8PPuMgAWGxf56fb2ee',
+            'Authorization': 'Bearer $token',
           },
         ),
       );
