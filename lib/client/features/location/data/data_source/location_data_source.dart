@@ -30,7 +30,7 @@ class LocationDataSourceImpl implements LocationDataSource {
       print("Longitude: $longitude");
       print("Is Active: $isActive");
       var response = await apiConsumer.post(
-        '/user-locations',
+        '/api/user/user-locations',
         data: {
           'latitude': latitude,
           'longitude': longitude,

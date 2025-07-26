@@ -1,17 +1,21 @@
 String cleanText(String text) {
-  // Remove Plus Codes (like VXG+CR or similar codes)
-  text = text.replaceAll(RegExp(r'^[A-Z0-9+]{4,}[،,\s]*'), '');
+  // Remove Plus Codes (like VXG+CR or similar codes, including + signs)
+  text = text.replaceAll(RegExp(r'\b[A-Z0-9]{4,}\+?[A-Z0-9]{2,}\b'), '');
 
-  // Remove digits
+  // Remove digits (both English and Arabic)
   text = text.replaceAll(RegExp(r'\d'), '');
 
-  // Split by comma/Arabic comma
-  List<String> parts = text.split(RegExp(r'[،,]'))
+  // Clean up some common symbols or unwanted characters (optional, for more specific cleaning)
+  text = text.replaceAll(RegExp(r'[^A-Za-z0-9\s,،]+'), '');
+
+  // Split by comma/Arabic comma and also handle spaces around the commas
+  List<String> parts = text
+      .split(RegExp(r'[،,]'))
       .map((e) => e.trim())
       .where((e) => e.isNotEmpty)
       .toList();
 
-  // Remove repeated parts (e.g. "سيدى سالم، سيدى سالم")
+  // Remove repeated parts (e.g. "سيدى سالم، سيدى سالم" or "New York, New York")
   final uniqueParts = <String>{};
   List<String> cleanedParts = [];
 
@@ -22,5 +26,6 @@ String cleanText(String text) {
     }
   }
 
+  // Join cleaned parts with English commas
   return cleanedParts.join(', ');
 }

@@ -51,12 +51,14 @@ class LocationCubit extends Cubit<LocationState> {
 
     if (placemarks.isEmpty) return 'Unknown location';
 
-    final placemark = placemarks.first;
+    final placemark =
+        placemarks.first.administrativeArea! +
+        ', ' +
+        placemarks.first.subAdministrativeArea! +
+        ', ' +
+        placemarks.first.locality!;
 
-    // Remove numbers from each field
-    String cleanStreet = cleanText(placemark.street.toString());
-    print(cleanStreet);
-    return '$cleanStreet';
+    return placemark.toString();
   }
 
   void getCurrentLocation() async {

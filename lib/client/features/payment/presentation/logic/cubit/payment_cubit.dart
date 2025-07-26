@@ -54,12 +54,9 @@ class PaymentCubit extends Cubit<PaymentState> {
 
   Future<void> paymoobServise(BuildContext context, final_price) async {
     final authToken = await PaymobService.getAuthToken();
-      final priceInCents = (double.parse(final_price.toString()) * 100).toInt();
+    final priceInCents = (double.parse(final_price.toString()) * 100).toInt();
 
-    final orderId = await PaymobService.createOrder(
-      authToken,
-      priceInCents,
-    );
+    final orderId = await PaymobService.createOrder(authToken, priceInCents);
     final paymentKey = await PaymobService.getPaymentKey(
       authToken,
       orderId,
@@ -80,7 +77,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     final apiConsumer = DioConsumer(dio: Dio());
     try {
       final response = await apiConsumer.post(
-        '/Model/$model_id/car-booking/$booking_id/paymob-info',
+        '/api/user/Model/$model_id/car-booking/$booking_id/paymob-info',
         data: {
           'payment_status': paymentStatus,
           'transaction_id': transactionId,

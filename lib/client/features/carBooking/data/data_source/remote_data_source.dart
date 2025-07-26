@@ -37,7 +37,7 @@ class CarBookingRemoteDataSourceImpl implements CarBookingRemoteDataSource {
           ? {'location_id': locationId}
           : {};
       var response = await apiConsumer.post(
-        '/Model/$modelId/car-booking',
+        '/api/user/Model/$modelId/car-booking',
         data: {
           'car_id': carId,
           'start_date': startDate,
@@ -58,7 +58,7 @@ class CarBookingRemoteDataSourceImpl implements CarBookingRemoteDataSource {
   @override
   Future<Either<ErrorModel, LocationsModel>> getLocations() async {
     try {
-      var response = await apiConsumer.get('user-locations');
+      var response = await apiConsumer.get('/api/user/user-locations');
       final data = LocationsModel.fromJson(response);
       return Right(data);
     } on DioException catch (e) {

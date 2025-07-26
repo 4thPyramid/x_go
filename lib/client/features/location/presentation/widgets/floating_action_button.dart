@@ -10,7 +10,7 @@ class FloatingActionButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 170.h,
+      bottom: 200.h,
       right: 16.w,
       child: FloatingActionButton(
         backgroundColor: AppColors.primaryColor,

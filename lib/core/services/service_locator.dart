@@ -102,8 +102,9 @@ void setupLocator() {
     () => ProfileRemoteDsImpl(getIt<ApiConsumer>()),
   );
   getIt.registerLazySingleton<BookingDetailsRemoteDataSource>(
-    () => BookingDetailsRemoteDataSourceImpl( getIt<DioConsumer>()),
+    () => BookingDetailsRemoteDataSourceImpl(getIt<DioConsumer>()),
   );
+
   /// !-- Repositories -- ///
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: getIt<AuthRemoteDataSource>()),
@@ -251,7 +252,7 @@ void setupLocator() {
     () => GetAcceptedOrdersUseCase(getIt<OrdersStatusRepository>()),
   );
   getIt.registerLazySingleton<GetNewOrdersUseCase>(
-    () => GetNewOrdersUseCase(getIt<OrdersStatusRepository>()), 
+    () => GetNewOrdersUseCase(getIt<OrdersStatusRepository>()),
   );
   getIt.registerFactory<AcceptedOrdersCubit>(
     () => AcceptedOrdersCubit(getIt<GetAcceptedOrdersUseCase>()),
