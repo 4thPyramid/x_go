@@ -38,8 +38,7 @@ class DioConsumer extends ApiConsumer {
             'Accept': 'application/vnd.api+json',
             'accept-language': lang,
             'Content-Type': 'application/vnd.api+json',
-            'Authorization':
-                'Bearer 127|rhMlJLLevVIyoLLO4Xgtvhrd5Rw5Zh0AbCytI54Pc34b64d5',
+            'Authorization': 'Bearer $token',
           },
         ),
       );
@@ -73,8 +72,7 @@ class DioConsumer extends ApiConsumer {
             'Content-Type': 'application/vnd.api+json',
             'accept-language': lang,
 
-            'Authorization':
-                'Bearer 127|rhMlJLLevVIyoLLO4Xgtvhrd5Rw5Zh0AbCytI54Pc34b64d5',
+            'Authorization': 'Bearer $token',
           },
         ),
       );
@@ -104,8 +102,7 @@ class DioConsumer extends ApiConsumer {
           headers: {
             'Accept': 'application/vnd.api+json',
             'Content-Type': 'application/vnd.api+json',
-            'Authorization':
-                'Bearer zhApuUDFu76IGE9LFRFXdgims0C2aJ8PPuMgAWGxf56fb2ee',
+            'Authorization': 'Bearer $token',
           },
         ),
       );
@@ -132,8 +129,7 @@ class DioConsumer extends ApiConsumer {
         headers: {
           'Accept': 'application/vnd.api+json',
           'Content-Type': 'application/vnd.api+json',
-          'Authorization':
-              'Bearer zhApuUDFu76IGE9LFRFXdgims0C2aJ8PPuMgAWGxf56fb2ee',
+          'Authorization': 'Bearer $token',
         },
       ),
     );

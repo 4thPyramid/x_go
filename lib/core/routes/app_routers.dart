@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:x_go/client/features/app.dart';
 import 'package:x_go/client/features/client_tracking/presentation/logic/cubit/client_tracking_cubit.dart';
 import 'package:x_go/client/features/client_tracking/presentation/view/client_tracking_view.dart';
-import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
+import 'package:x_go/delivery/features/orderDetails/domain/entities/booking_entity.dart';
 import 'package:x_go/delivery/features/profile/presentation/logic/update_profile/update_profile_cubit.dart';
 import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
 import 'package:x_go/client/features/Details/presentation/views/car_detail_view.dart';
@@ -391,10 +391,26 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouterNames.deliveryLocation,
-      builder: (context, state) => BlocProvider(
-        create: (context) => DeliveryLocationCubit()..getCurrentLocation(),
-        child: DeliveryLocationView(),
-      ),
+      builder: (context, state) {
+        final booking = state.extra as BookingEntity;
+        final modelId = booking.carModel.id;
+        final bookingId = booking.id.toString();
+        final driverId = booking.user.id.toString();
+        final lat = booking.location?.latitude.toString() ?? '0';
+        final lng = booking.location?.longitude.toString() ?? '0';
+        final location = booking.location?.address ?? '';
+        return BlocProvider(
+          create: (context) => DeliveryLocationCubit()..getCurrentLocation(),
+          child: DeliveryLocationView(
+            modelId: modelId,
+            bookingId: bookingId,
+            driverId: driverId,
+            lat: lat,
+            lng: lng,
+            location: location,
+          ),
+        );
+      },
     ),
     GoRoute(
       path: RouterNames.delivery,
