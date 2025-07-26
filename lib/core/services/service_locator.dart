@@ -1,7 +1,5 @@
-// core/di/dependency_injection.dart
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
 import 'package:x_go/core/app_cubit/app_cubit.dart';
 import 'package:x_go/core/data/api/api_consumer.dart';
 import 'package:x_go/core/data/api/dio_consumer.dart';
@@ -34,7 +32,6 @@ import 'package:x_go/client/features/my_bookings/data/repos/booking_repo_impl.da
 import 'package:x_go/client/features/my_bookings/domain/repos/booking_repo.dart';
 import 'package:x_go/client/features/my_bookings/domain/usecases/get_booking_use_case.dart';
 import 'package:x_go/client/features/my_bookings/presentation/logic/cubit/my_booking_cubit.dart';
-
 import 'package:x_go/client/features/profile/data/dataSource/profile_remote_d_s.dart';
 import 'package:x_go/client/features/profile/domain/repos/profile_edit_repo.dart';
 import 'package:x_go/client/features/profile/domain/usecase/get_profile_u_c.dart';
