@@ -64,14 +64,12 @@ import 'package:x_go/delivery/features/profile/data/data_source/driver_profile_d
 import 'package:x_go/delivery/features/profile/data/repo/driver_profile_repo_impl.dart';
 import 'package:x_go/delivery/features/profile/domain/repos/driver_profile_repo.dart';
 import 'package:x_go/delivery/features/profile/domain/usecase/driver_profile_use_case.dart';
-import 'package:x_go/delivery/features/profile/domain/usecase/driver_update_use_case.dart';
 import 'package:x_go/delivery/features/profile/presentation/logic/profile_info_cubit/driver_profile_info_cubit.dart';
 import 'package:x_go/delivery/features/orderDetails/data/remoteeDS/order_details_remote_d_s.dart';
 import 'package:x_go/delivery/features/orderDetails/data/repoImpl/order_details_repo_impl.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/repos/order_details_repo.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/useCases/order_details_u_c.dart';
 import 'package:x_go/delivery/features/orderDetails/presentation/logic/booking_cubit.dart';
-import 'package:x_go/delivery/features/profile/presentation/logic/update_profile/update_profile_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -104,9 +102,8 @@ void setupLocator() {
     () => ProfileRemoteDsImpl(getIt<ApiConsumer>()),
   );
   getIt.registerLazySingleton<BookingDetailsRemoteDataSource>(
-    () => BookingDetailsRemoteDataSourceImpl(getIt<DioConsumer>()),
+    () => BookingDetailsRemoteDataSourceImpl( getIt<DioConsumer>()),
   );
-
   /// !-- Repositories -- ///
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: getIt<AuthRemoteDataSource>()),
@@ -254,7 +251,7 @@ void setupLocator() {
     () => GetAcceptedOrdersUseCase(getIt<OrdersStatusRepository>()),
   );
   getIt.registerLazySingleton<GetNewOrdersUseCase>(
-    () => GetNewOrdersUseCase(getIt<OrdersStatusRepository>()),
+    () => GetNewOrdersUseCase(getIt<OrdersStatusRepository>()), 
   );
   getIt.registerFactory<AcceptedOrdersCubit>(
     () => AcceptedOrdersCubit(getIt<GetAcceptedOrdersUseCase>()),
@@ -270,25 +267,5 @@ void setupLocator() {
   );
   getIt.registerFactory<BookingDetailsCubit>(
     () => BookingDetailsCubit(getIt<GetBookingDetailsUseCase>()),
-  );
-  // Driver Profile Feature
-  getIt.registerLazySingleton<DriverProfileDataSource>(
-    () => DriverProfileDataSourceImpl(getIt<ApiConsumer>()),
-  );
-  getIt.registerLazySingleton<DriverProfileRepository>(
-    () => DriverProfileRepositoryImpl(getIt<DriverProfileDataSource>()),
-  );
-  getIt.registerLazySingleton<DriverProfileUseCase>(
-    () => DriverProfileUseCase(getIt<DriverProfileRepository>()),
-  );
-  getIt.registerFactory<DriverProfileInfoCubit>(
-    () => DriverProfileInfoCubit(getIt<DriverProfileUseCase>()),
-  );
-  // Driver Update Feature
-  getIt.registerLazySingleton<DriverUpdateUseCase>(
-    () => DriverUpdateUseCase(getIt<DriverProfileRepository>()),
-  );
-  getIt.registerFactory<UpdateProfileCubit>(
-    () => UpdateProfileCubit(getIt<DriverUpdateUseCase>()),
   );
 }

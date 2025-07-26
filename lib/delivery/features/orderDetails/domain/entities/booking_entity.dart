@@ -27,7 +27,7 @@ class BookingEntity extends Equatable {
     required this.carModel,
     required this.user,
     required this.car,
-    this.location,  // <- وأيضًا هنا في الكونستركتور
+    this.location,  
   });
 
   @override

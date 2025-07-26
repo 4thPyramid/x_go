@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:x_go/client/features/auth/presentation/components/login_form_component.dart';
+import 'package:x_go/client/features/auth/presentation/components/register_fom_component.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/core/utils/app_strings.dart';
-import 'package:x_go/delivery/features/auth/presentation/components/login_form_component.dart';
-import 'package:x_go/delivery/features/auth/presentation/components/register_fom_component.dart';
 import 'package:x_go/client/features/language/presentation/widgets/instant_language_builder.dart';
+import 'package:x_go/delivery/features/auth/presentation/components/register_fom_component.dart';
 
 class TabBarWidget extends StatelessWidget {
   const TabBarWidget({super.key});
-
   @override
   Widget build(BuildContext context) {
     return RealTimeLanguageBuilder(
@@ -74,7 +74,7 @@ class TabBarWidget extends StatelessWidget {
               SizedBox(
                 height: 500.h,
                 child: TabBarView(
-                  children: [LoginForm(), RegisterForm(index: 1)],
+                  children: [LoginForm(), DeliveryRegisterForm(index: 1)],
                 ),
               ),
             ],

@@ -52,6 +52,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'email': email,
         'password': password,
         'phone': phone,
+        'password_confirmation': password,
       },
       isFormData: true,
       headers: {

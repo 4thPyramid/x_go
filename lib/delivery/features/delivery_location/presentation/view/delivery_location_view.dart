@@ -9,7 +9,21 @@ import 'package:x_go/delivery/features/delivery_location/presentation/logic/cubi
 import 'package:x_go/delivery/features/delivery_location/presentation/widgets/info_tile.dart';
 
 class DeliveryLocationView extends StatelessWidget {
-  const DeliveryLocationView({super.key});
+  String? modelId;
+  String? bookingId;
+  String? driverId;
+  String? lat;
+  String? lng;
+  String? location;
+  DeliveryLocationView({
+    super.key,
+    this.modelId,
+    this.bookingId,
+    this.driverId,
+    this.lat,
+    this.lng,
+    this.location,
+  });
 
   @override
   Widget build(BuildContext context) {
