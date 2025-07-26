@@ -220,7 +220,7 @@ class LocationModel {
     return LocationModel(
       latitude: json['latitude'] ?? '',
       longitude: json['longitude'] ?? '',
-      address: json['address'] ?? '',
+      address: json['location'] ?? '',
     );
   }
 
@@ -228,7 +228,7 @@ class LocationModel {
     return {
       'latitude': latitude,
       'longitude': longitude,
-      'address': address,
+      'location': address,
     };
   }
 }
