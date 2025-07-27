@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
+import 'package:x_go/core/utils/app_loggr.dart';
 import 'package:x_go/core/utils/app_strings.dart';
 import 'package:x_go/client/features/favorites/presentation/logic/cubit/favorites_cubit.dart';
 import 'package:x_go/client/features/favorites/presentation/logic/cubit/favorites_state.dart';
@@ -31,7 +33,10 @@ class _FavoritesViewState extends State<FavoritesView> {
       builder: (context, locale) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(AppStrings.favorites.tr()),
+            title: Text(
+              AppStrings.favorites.tr(),
+              style: TextStyle(fontSize: 20.sp, color: AppColors.primaryColor),
+            ),
             centerTitle: true,
           ),
           body: BlocBuilder<FavoritesCubit, FavoritesState>(
@@ -69,9 +74,10 @@ class _FavoritesViewState extends State<FavoritesView> {
                         );
                       },
                       onTap: () {
-                        context.push(
+                        // Navigate to car details when the item is tapped
+                        context.pushNamed(
                           RouterNames.carDetails,
-                          extra: favorite.carModel.toEntity(),
+                          extra: favorite.carModel.id,
                         );
                       },
                     );

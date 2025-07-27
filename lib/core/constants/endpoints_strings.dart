@@ -18,6 +18,7 @@ abstract class EndpointsStrings {
   static const String favorites = '/api/user/favorites';
   static const String favoritesToggle = '/api/user/favorites/toggle';
   static const String activeLocation = '/api/user/active-locations';
+  static const String bookingList = '/api/user/booking-list';
 
   // Delivery endpoints
   static const String loginDelivery = '/api/driver/login';

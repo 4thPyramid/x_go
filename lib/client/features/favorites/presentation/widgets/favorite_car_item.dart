@@ -72,24 +72,26 @@ class FavoriteCarItem extends StatelessWidget {
                     children: [
                       Container(
                         height: 27.h,
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
                         decoration: BoxDecoration(
                           color: AppColors.primaryColor.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(8.r),
                         ),
-
-                        child: Text(
-                          car.relationship.brand.brandName,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.primaryColor,
-                              ),
+                        child: Center(
+                          child: Text(
+                            car.relationship.brand.brandName,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.primaryColor,
+                                ),
+                          ),
                         ),
                       ),
-                      Positioned(
-                        right: 20,
-                        top: 20,
-                        bottom: 20,
+
+                      // ✅ استخدم Padding بدل Positioned هنا
+                      Padding(
+                        padding: EdgeInsets.only(right: 8.w),
                         child: Text(
                           '\$${car.attributes.price}',
                           style: Theme.of(context).textTheme.titleMedium
@@ -101,6 +103,7 @@ class FavoriteCarItem extends StatelessWidget {
                       ),
                     ],
                   ),
+
                   Text(
                     car.relationship.modelNames.modelName,
                     style: Theme.of(context).textTheme.bodyMedium,
