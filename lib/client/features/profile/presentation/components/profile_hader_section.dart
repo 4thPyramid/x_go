@@ -9,7 +9,12 @@ import 'package:x_go/client/features/profile/presentation/widgets/profile_header
 import 'package:x_go/client/features/profile/presentation/widgets/user_card_info.dart';
 
 class ProfileHaderSection extends StatelessWidget {
-  const ProfileHaderSection({super.key});
+  final VoidCallback? onSettingsPressed;
+
+  const ProfileHaderSection({
+    super.key,
+    this.onSettingsPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +22,20 @@ class ProfileHaderSection extends StatelessWidget {
       builder: (context, state) {
         switch (state.runtimeType) {
           case ProfileEditLoading:
-            return const Center(child: CircularProgressIndicator());
+            return Container(
+              height: 200.h,
+              child: const Center(child: CircularProgressIndicator()),
+            );
 
           case ProfileEditError:
             final errorState = state as ProfileEditError;
-            return Center(child: Text(errorState.message));
+            return Container(
+              height: 200.h,
+              child: Center(child: Text(errorState.message)),
+            );
 
           case GetProfileDataLoaded:
             final loadedState = state as GetProfileDataLoaded;
-
             return Column(
               children: [
                 ClipRRect(
@@ -39,13 +49,20 @@ class ProfileHaderSection extends StatelessWidget {
                     decoration: BoxDecoration(color: AppColors.primaryColor),
                     child: CustomProfileHeader(
                       leadingIcon: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.settings,
                           color: Colors.white,
                           size: 24,
                         ),
-                        onPressed: () {
-                          context.push(RouterNames.profileDetails);
+                        onPressed: () async {
+                          if (onSettingsPressed != null) {
+                            onSettingsPressed!();
+                          } else {
+                            final result = await context.push(RouterNames.profileDetails);
+                            if (context.mounted && result == true) {
+                              context.read<ProfileEditCubit>().getProfileData();
+                            }
+                          }
                         },
                       ),
                     ),
@@ -56,11 +73,24 @@ class ProfileHaderSection extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 17.w),
                     child: UserInfoCard(
+                      onPressed:() async {
+                          if (onSettingsPressed != null) {
+                            onSettingsPressed!();
+                          } else {
+                            final result = await context.push(RouterNames.profileDetails);
+                            if (context.mounted && result == true) {
+                              context.read<ProfileEditCubit>().getProfileData();
+                            }
+                          }
+                        },
+                         
+
                       name: loadedState.userProfile.data.name,
                       lastName: loadedState.userProfile.data.lastName,
                       email: loadedState.userProfile.data.email,
-                      imageUrl:
-                          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?...', // الصورة ثابتة مؤقتًا
+                      imageUrl: loadedState.userProfile.data.image?.isNotEmpty == true
+                          ? loadedState.userProfile.data.image!
+                          : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
                     ),
                   ),
                 ),
@@ -68,7 +98,10 @@ class ProfileHaderSection extends StatelessWidget {
             );
 
           default:
-            return const SizedBox(); // أو ممكن Placeholder()
+            return SizedBox(
+              height: 200.h,
+              child: const Center(child: Text('Loading profile...')),
+            );
         }
       },
     );

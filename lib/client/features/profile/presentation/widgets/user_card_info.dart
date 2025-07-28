@@ -8,6 +8,8 @@ class UserInfoCard extends StatelessWidget {
   final String imageUrl;
   final String lastName;
   final String email;
+    final VoidCallback? onPressed;
+
 
   const UserInfoCard({
     super.key,
@@ -15,6 +17,7 @@ class UserInfoCard extends StatelessWidget {
     required this.imageUrl,
     required this.email,
     required this.lastName,
+    this.onPressed,
   });
 
   @override
@@ -65,9 +68,7 @@ class UserInfoCard extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () {
-                context.push(RouterNames.profileDetails);
-              },
+              onTap: onPressed,
               child: Icon(Icons.edit, color: Colors.grey),
             ),
           ],

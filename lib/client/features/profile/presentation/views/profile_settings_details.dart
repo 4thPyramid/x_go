@@ -6,6 +6,7 @@ import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/client/features/profile/presentation/components/profile_form_fields.dart';
 import 'package:x_go/client/features/profile/presentation/components/profile_header_section.dart';
 import 'package:x_go/client/features/profile/presentation/logic/cubit/profile_edit_cubit.dart';
+import 'package:x_go/core/routes/router_names.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   const ProfileSettingsScreen({super.key});
@@ -31,7 +32,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     _emailController = TextEditingController();
     _phoneController = TextEditingController();
 
-    // Call Cubit to get profile data when screen opens
     context.read<ProfileEditCubit>().getProfileData();
   }
 
@@ -73,10 +73,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Profile updated successfully!')),
               );
+              context.pop(true);
             } else if (state is ProfileEditError) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
             }
           },
           builder: (context, state) {
@@ -85,14 +86,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 children: [
                   ProfileHeaderSection(
                     icon: IconButton(
-                      icon: Icon(
+                      icon:  Icon(
                         Icons.arrow_back_ios,
                         color: Colors.white,
                         size: 24,
                       ),
-                      onPressed: () {
-                        context.pop();
-                      },
+                      onPressed: () => context.push(RouterNames.profile),
                     ),
                   ),
                   Padding(
@@ -100,23 +99,19 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     child: Column(
                       children: [
                         SizedBox(height: 25.h),
-
                         ProfileFormFields(
                           firstNameController: _firstNameController,
                           lastNameController: _lastNameController,
                           emailController: _emailController,
                           phoneController: _phoneController,
                         ),
-
                         SizedBox(height: 40.h),
-
                         state is ProfileEditLoading
                             ? const CircularProgressIndicator()
                             : CustomButton(
                                 text: 'Save Change',
                                 onPressed: _onSavePressed,
                               ),
-
                         SizedBox(height: 30.h),
                       ],
                     ),
