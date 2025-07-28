@@ -71,6 +71,11 @@ final GoRouter router = GoRouter(
   redirect: (context, state) {
     final token = CacheHelper.getToken();
     final driverId = CacheHelper.getDriverId();
+    final isInitialPath =
+        state.fullPath == RouterNames.userType ||
+        state.fullPath == RouterNames.splash;
+
+    if (!isInitialPath) return null;
 
     if (driverId != null && driverId.isNotEmpty) {
       return RouterNames.appDelivery;
@@ -80,6 +85,7 @@ final GoRouter router = GoRouter(
 
     return null;
   },
+
   routes: [
     GoRoute(
       path: RouterNames.appDelivery,
