@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
+import 'package:x_go/core/utils/app_loggr.dart';
 
 class UserTypeView extends StatelessWidget {
   const UserTypeView({super.key});
@@ -62,7 +64,17 @@ class UserTypeView extends StatelessWidget {
                       icon: Icons.car_rental,
                       title: 'Client',
                       subtitle: 'Order food and track your delivery',
-                      onTap: () => context.push(RouterNames.splash),
+                      onTap: () {
+                        final token = CacheHelper.getToken();
+                        if (token != null && token.isNotEmpty) {
+                          context.go(RouterNames.app); // رايح عالـ Home مباشرة
+                        } else {
+                          context.go(
+                            RouterNames.splash,
+                          ); // رايح يسجل أو يعمل login
+                        }
+                      },
+
                       color: theme.primaryColor,
                     ),
 
@@ -74,7 +86,20 @@ class UserTypeView extends StatelessWidget {
                       icon: Icons.delivery_dining_rounded,
                       title: 'Delivery Partner',
                       subtitle: 'Deliver orders and earn money',
-                      onTap: () => context.push(RouterNames.delivery, extra: 0),
+                      onTap: () {
+                        final driverId = CacheHelper.getDriverId();
+                        AppLogger.d('Delivery id: $driverId');
+                        if (driverId != null && driverId.isNotEmpty) {
+                          context.go(
+                            RouterNames.appDelivery,
+                          ); // لو السواق مسجل دخول
+                        } else {
+                          context.go(
+                            RouterNames.delivery,
+                            extra: 0,
+                          ); // يروح يسجل أو يعمل login
+                        }
+                      },
                       color: theme.primaryColor,
                     ),
                   ],

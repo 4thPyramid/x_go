@@ -24,7 +24,6 @@ class _FavoritesViewState extends State<FavoritesView> {
   @override
   void initState() {
     super.initState();
-    context.read<FavoritesCubit>().getFavorites();
   }
 
   @override

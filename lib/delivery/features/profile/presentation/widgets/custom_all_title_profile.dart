@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:x_go/client/features/app.dart';
 import 'package:x_go/client/features/language/presentation/view/language_view.dart';
 import 'package:x_go/client/features/profile/presentation/widgets/profile_item.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
+import 'package:x_go/core/utils/app_loggr.dart';
 
 class CustomAllTitleProfile extends StatelessWidget {
   const CustomAllTitleProfile({super.key});
@@ -72,7 +74,8 @@ class CustomAllTitleProfile extends StatelessWidget {
               onTap: () {
                 // Handle logout action
                 CacheHelper.deleteToken();
-                context.go(RouterNames.userType);
+                CacheHelper.deleteDriverId();
+                context.go(RouterNames.delivery);
                 //AppLogger.d('User logged out');
               },
               icon: Icons.logout_rounded,
