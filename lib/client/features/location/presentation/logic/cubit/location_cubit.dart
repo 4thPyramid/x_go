@@ -4,12 +4,14 @@ import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:x_go/client/features/home/presentation/logic/cubit/active_location/active_location_cubit.dart';
 import 'package:x_go/core/common/functions/clean_location_text.dart';
 import 'package:x_go/core/data/api/dio_consumer.dart';
 import 'package:x_go/core/services/google_map_service.dart';
 import 'package:x_go/client/features/location/data/data_source/location_data_source.dart';
 import 'package:x_go/client/features/location/data/repository/location_repo_impl.dart';
 import 'package:x_go/client/features/location/domain/use_cases/set_location_use_case.dart';
+import 'package:x_go/core/services/service_locator.dart';
 
 part 'location_state.dart';
 
@@ -115,6 +117,8 @@ class LocationCubit extends Cubit<LocationState> {
         )
         .then((value) {
           emit(state.copyWith(isLoading: false, isSuccess: true));
+          //  أعد تحميل الموقع النشط  ActiveLocationCubit
+          getIt<ActiveLocationCubit>().getActiveLocation();
         })
         .catchError((error, trace) {
           print("Error setting location: $error");
