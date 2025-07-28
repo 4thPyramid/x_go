@@ -13,6 +13,7 @@ Widget formSplash(BuildContext context) {
         width: 230.w,
         text: 'Start Driving',
         onPressed: () {
+          //Todo:make sure to handle the navigation properly to guest mode
           context.go(RouterNames.app);
         },
       ),

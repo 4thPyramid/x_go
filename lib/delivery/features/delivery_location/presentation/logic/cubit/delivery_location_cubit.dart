@@ -152,44 +152,63 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
       final useCase = GetBestRouteUc(
         DeliveryLocationRepoImpl(RemoteDataSourceImpl(DioConsumer(dio: Dio()))),
       );
+
       final result = await useCase.call(
         currentPosition,
-        LatLng(30.034047, 31.876756),
+        const LatLng(30.034047, 31.876756),
       );
-      print(result.toString());
-      result.fold((l) => emit(DeliveryLocationError(errorMessage: l.message)), (
-        r,
-      ) {
-        polylines = decodePolyline(r.polyline!);
-        print('=999999999999999999999999999999=');
-        print(polylines);
-        print(r.duration);
-        print(r.distance);
-        hash = r.polyline;
-        double value =
-            double.tryParse(
-              RegExp(r'\d+(\.\d+)?').stringMatch(r.distance) ?? '0',
-            ) ??
-            0.0;
 
-        if (value < 0.5) {
-          emit(SuccessArrived());
-        } else {
-          emit(
-            CurrentLocationSuccess(
-              currentPosition: currentPosition,
-              markers: markers,
-              polylines: polylines,
-              duration: r.duration,
-              distance: r.distance,
-            ),
-          );
-        }
-      });
-    } catch (e) {
-      print('Error getting code: $e');
+      result.fold(
+        (failure) {
+          emit(DeliveryLocationError(errorMessage: failure.message));
+        },
+        (routeData) {
+          // Debug logs
 
-      emit(DeliveryLocationError(errorMessage: e.toString()));
+          // Decode polyline
+          polylines = decodePolyline(routeData.polyline ?? '');
+          hash = routeData.polyline;
+
+          // Parse distance string into kilometers
+          final distanceKm = _parseDistanceToKm(routeData.distance);
+
+          if (distanceKm < 0.5) {
+            emit(SuccessArrived());
+          } else {
+            emit(
+              CurrentLocationSuccess(
+                currentPosition: currentPosition,
+                markers: markers,
+                polylines: polylines,
+                duration: routeData.duration,
+                distance: routeData.distance,
+              ),
+            );
+          }
+        },
+      );
+    } catch (e, stackTrace) {
+      emit(DeliveryLocationError(errorMessage: 'حدث خطأ غير متوقع'));
     }
+  }
+
+  /// Helper method to parse distance string and return value in kilometers
+  double _parseDistanceToKm(String? distanceStr) {
+    if (distanceStr == null) return 0.0;
+
+    final cleaned = distanceStr.toLowerCase().trim();
+
+    final match = RegExp(r'(\d+(\.\d+)?)').firstMatch(cleaned);
+    if (match == null) return 0.0;
+
+    final value = double.tryParse(match.group(0) ?? '0') ?? 0.0;
+
+    if (cleaned.contains('km')) {
+      return value;
+    } else if (cleaned.contains('m')) {
+      return value / 1000.0;
+    }
+
+    return 0.0;
   }
 }

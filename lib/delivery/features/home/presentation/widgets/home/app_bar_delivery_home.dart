@@ -14,21 +14,21 @@ class AppBarDeliveryHome extends StatefulWidget {
 }
 
 class _AppBarDeliveryHomeState extends State<AppBarDeliveryHome> {
-  final LocationService _locationService = LocationService(); // ✅
+  //final LocationService _locationService = LocationService(); // ✅
   String _locationText = 'جارٍ تحديد الموقع...';
 
   @override
   void initState() {
     super.initState();
-    _loadLocation();
+    //  _loadLocation();
   }
 
-  Future<void> _loadLocation() async {
+  /* Future<void> _loadLocation() async {
     final location = await _locationService.getCurrentCityAndCountry();
     setState(() {
       _locationText = location;
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +42,10 @@ class _AppBarDeliveryHomeState extends State<AppBarDeliveryHome> {
                 color: AppColors.primaryColor,
                 size: 20,
               ),
-              onPressed: _loadLocation, // ✅
+              onPressed: () {}, // ✅
             ),
             Text(
-              _locationText,
+              'مصر ,المنصورة ,حي الجامعه',
               style: TextStyle(
                 color: AppColors.black,
                 fontSize: 14.0.sp,

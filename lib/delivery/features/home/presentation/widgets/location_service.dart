@@ -1,4 +1,4 @@
-// lib/core/services/location_service.dart
+/*// lib/core/services/location_service.dart
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -27,3 +27,4 @@ class LocationService {
     return '${place.locality ?? ''}, ${place.country ?? ''}';
   }
 }
+*/

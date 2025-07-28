@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:x_go/client/features/app.dart';
 import 'package:x_go/client/features/client_tracking/presentation/logic/cubit/client_tracking_cubit.dart';
 import 'package:x_go/client/features/client_tracking/presentation/view/client_tracking_view.dart';
+import 'package:x_go/core/app_cubit/guest_mode/session_cubit.dart';
+import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/entities/booking_entity.dart';
@@ -66,7 +68,18 @@ import 'package:x_go/user_type.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: RouterNames.userType,
+  redirect: (context, state) {
+    final token = CacheHelper.getToken();
+    final driverId = CacheHelper.getDriverId();
 
+    if (driverId != null && driverId.isNotEmpty) {
+      return RouterNames.appDelivery;
+    } else if (token != null && token.isNotEmpty) {
+      return RouterNames.app;
+    }
+
+    return null;
+  },
   routes: [
     GoRoute(
       path: RouterNames.appDelivery,
@@ -115,7 +128,10 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouterNames.userType,
-      builder: (context, state) => const UserTypeView(),
+      builder: (context, state) => BlocProvider(
+        create: (_) => SessionCubit()..checkAuthStatus(),
+        child: const UserTypeView(),
+      ),
     ),
     GoRoute(
       path: RouterNames.splash,
@@ -440,5 +456,9 @@ final GoRouter router = GoRouter(
         child: const ProfilePage(),
       ),
     ),
+    /* GoRoute(
+      path: RouterNames.guestMode,
+      builder: (context, state) => const GuestModeApp(),
+    ),*/
   ],
 );

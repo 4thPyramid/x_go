@@ -18,15 +18,15 @@ Widget buildSplashRichText() {
           style: TextStyle(color: AppColors.primaryColor),
         ),
         TextSpan(
-          text: 'Drive ',
+          text: ' Drive ',
           style: TextStyle(color: Colors.white),
         ),
         TextSpan(
-          text: 'Starts ',
+          text: ' Starts ',
           style: TextStyle(color: Colors.white),
         ),
         TextSpan(
-          text: 'Here!',
+          text: ' Here!',
           style: TextStyle(color: Colors.white),
         ),
       ],

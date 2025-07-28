@@ -22,6 +22,10 @@ class CacheHelper {
     sharedPreferences.remove('token');
   }
 
+  static void deleteDriverId() {
+    sharedPreferences.remove('driverId');
+  }
+
   static String? getToken() {
     return sharedPreferences.getString('token');
   }
