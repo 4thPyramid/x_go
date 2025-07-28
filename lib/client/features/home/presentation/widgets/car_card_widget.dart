@@ -1,3 +1,4 @@
+// ✅ CarCardWidget بعد التعديل لمنع الجيست من الضغط على الفيفوريت
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class CarCardWidget extends StatelessWidget {
   final String carId;
   final bool isFavorite;
   final VoidCallback? onFavoriteToggle;
+  final bool isGuest; // ✅ مضاف
 
   const CarCardWidget({
     super.key,
@@ -28,13 +30,14 @@ class CarCardWidget extends StatelessWidget {
     this.isGridView = true,
     this.isFavorite = false,
     this.onFavoriteToggle,
+    this.isGuest = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         color: Colors.white70,
         boxShadow: [
           BoxShadow(
@@ -44,28 +47,28 @@ class CarCardWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: isGridView ? _buildGridLayout() : _buildListLayout(),
+      child: isGridView ? _buildGridLayout(context) : _buildListLayout(context),
     );
   }
 
-  Widget _buildGridLayout() {
+  Widget _buildGridLayout(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           flex: 3,
           child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r),
+              topRight: Radius.circular(16.r),
             ),
-            child: _buildImage(),
+            child: _buildImage(context),
           ),
         ),
         Expanded(
           flex: 2,
           child: Padding(
-            padding: const EdgeInsets.all(6),
+            padding: EdgeInsets.all(6.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,7 +87,7 @@ class CarCardWidget extends StatelessWidget {
                             brand,
                             style: TextStyle(
                               color: Colors.grey[600],
-                              fontSize: 9,
+                              fontSize: 9.sp,
                               fontWeight: FontWeight.w500,
                             ),
                             maxLines: 1,
@@ -92,9 +95,9 @@ class CarCardWidget extends StatelessWidget {
                           ),
                           Text(
                             model,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.black,
-                              fontSize: 11,
+                              fontSize: 11.sp,
                               fontWeight: FontWeight.bold,
                             ),
                             maxLines: 1,
@@ -104,29 +107,26 @@ class CarCardWidget extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      width: 26,
-                      height: 26,
+                      width: 26.w,
+                      height: 26.h,
                       decoration: BoxDecoration(
                         color: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.arrow_forward,
                         color: Colors.white,
-                        size: 12,
+                        size: 12.w,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2.h),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 1,
-                    vertical: 1,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
                   decoration: BoxDecoration(
                     color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(3),
+                    borderRadius: BorderRadius.circular(3.r),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -135,17 +135,17 @@ class CarCardWidget extends StatelessWidget {
                         'Rent price : ',
                         style: TextStyle(
                           color: Colors.orange[700],
-                          fontSize: 9,
+                          fontSize: 9.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 1),
+                      SizedBox(width: 1.w),
                       Flexible(
                         child: Text(
                           rentPrice,
                           style: TextStyle(
                             color: Colors.orange[700],
-                            fontSize: 9,
+                            fontSize: 9.sp,
                             fontWeight: FontWeight.bold,
                           ),
                           maxLines: 1,
@@ -163,20 +163,17 @@ class CarCardWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildListLayout() {
+  Widget _buildListLayout(BuildContext context) {
     return Stack(
       children: [
-        // Full width image
         ClipRRect(
           borderRadius: BorderRadius.circular(16.r),
           child: SizedBox(
             width: double.infinity,
             height: 160.h,
-            child: _buildImage(),
+            child: _buildImage(context),
           ),
         ),
-
-        // Overlay content
         Positioned.fill(
           child: Container(
             padding: EdgeInsets.all(12.r),
@@ -207,9 +204,9 @@ class CarCardWidget extends StatelessWidget {
                         children: [
                           Text(
                             brand,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
-                              fontSize: 12,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w500,
                             ),
                             maxLines: 1,
@@ -217,9 +214,9 @@ class CarCardWidget extends StatelessWidget {
                           ),
                           Text(
                             model,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
                             maxLines: 1,
@@ -228,10 +225,16 @@ class CarCardWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Only favorite button at the top
                     if (onFavoriteToggle != null)
                       GestureDetector(
                         onTap: () {
+                          if (isGuest) {
+                            showToast(
+                              message: 'يجب تسجيل الدخول أولاً',
+                              state: ToastStates.ERROR,
+                            );
+                            return;
+                          }
                           onFavoriteToggle!();
                           showToast(
                             message: isFavorite
@@ -243,7 +246,7 @@ class CarCardWidget extends StatelessWidget {
                           );
                         },
                         child: Container(
-                          padding: const EdgeInsets.all(4),
+                          padding: EdgeInsets.all(4.w),
                           decoration: BoxDecoration(
                             color: Colors.black.withOpacity(0.5),
                             shape: BoxShape.circle,
@@ -257,37 +260,36 @@ class CarCardWidget extends StatelessWidget {
                       ),
                   ],
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.orange.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(4.r),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text(
+                          Text(
                             'Rent price : ',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 11,
+                              fontSize: 11.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(width: 2),
+                          SizedBox(width: 2.w),
                           Flexible(
                             child: Text(
                               rentPrice,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 11,
+                                fontSize: 11.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                               maxLines: 1,
@@ -297,19 +299,17 @@ class CarCardWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-
-                    // Arrow button at the bottom row
                     Container(
-                      width: 30,
-                      height: 30,
+                      width: 30.w,
+                      height: 30.h,
                       decoration: BoxDecoration(
                         color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(5.r),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.arrow_forward,
                         color: Colors.white,
-                        size: 14,
+                        size: 14.sp,
                       ),
                     ),
                   ],
@@ -322,7 +322,7 @@ class CarCardWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildImage() {
+  Widget _buildImage(BuildContext context) {
     return Stack(
       children: [
         if (imageUrl.isNotEmpty)
@@ -343,11 +343,7 @@ class CarCardWidget extends StatelessWidget {
                 width: double.infinity,
                 height: double.infinity,
                 color: Colors.grey[300],
-                child: const Icon(
-                  Icons.car_rental,
-                  size: 30,
-                  color: Colors.grey,
-                ),
+                child: Icon(Icons.car_rental, size: 30.w, color: Colors.grey),
               );
             },
           )
@@ -361,17 +357,22 @@ class CarCardWidget extends StatelessWidget {
               width: double.infinity,
               height: double.infinity,
               color: Colors.grey[300],
-              child: const Icon(Icons.car_rental, size: 30, color: Colors.grey),
+              child: Icon(Icons.car_rental, size: 30.w, color: Colors.grey),
             ),
           ),
-
-        // Favorite Button
         if (onFavoriteToggle != null && isGridView)
           Positioned(
             top: 8.h,
             right: 8.w,
             child: GestureDetector(
               onTap: () {
+                if (isGuest) {
+                  showToast(
+                    message: 'يجب تسجيل الدخول أولاً',
+                    state: ToastStates.ERROR,
+                  );
+                  return;
+                }
                 onFavoriteToggle!();
                 showToast(
                   message: isFavorite
@@ -381,7 +382,7 @@ class CarCardWidget extends StatelessWidget {
                 );
               },
               child: Container(
-                padding: const EdgeInsets.all(4),
+                padding: EdgeInsets.all(4.w),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.5),
                   shape: BoxShape.circle,
@@ -389,7 +390,7 @@ class CarCardWidget extends StatelessWidget {
                 child: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
                   color: isFavorite ? Colors.red : Colors.white,
-                  size: 20,
+                  size: 20.sp,
                 ),
               ),
             ),

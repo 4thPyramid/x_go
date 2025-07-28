@@ -95,7 +95,8 @@ class _CarsListComponentState extends State<CarsListComponent> {
 
   Widget _buildLoadedState(CarsLoaded state) {
     final cars = state.cars;
-
+    final sessionState = context.read<SessionCubit>().state;
+    final isGuest = sessionState.status == AuthStatus.guest;
     if (cars.isEmpty) {
       return CarsEmptyState(
         isSearchResult: state.currentParams.search?.isNotEmpty ?? false,
@@ -128,10 +129,13 @@ class _CarsListComponentState extends State<CarsListComponent> {
                               .isFavorite(car.id);
                           return CarCardWidget(
                             brand: car.brandName,
+                            isGuest: isGuest, //
+
                             model: car.modelName,
                             rentPrice: car.price,
                             imageUrl: car.image,
                             carId: car.id,
+
                             isGridView: true,
                             isFavorite: isFavorite,
                             onFavoriteToggle: () {
@@ -181,6 +185,8 @@ class _CarsListComponentState extends State<CarsListComponent> {
                             return CarCardWidget(
                               brand: car.brandName,
                               model: car.modelName,
+                              isGuest: isGuest,
+
                               rentPrice: car.price,
                               imageUrl: car.image,
                               carId: car.id,

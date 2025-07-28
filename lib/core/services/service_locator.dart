@@ -199,7 +199,7 @@ void setupLocator() {
   );
 
   // !Cubits //
-  getIt.registerFactory<ActiveLocationCubit>(
+  getIt.registerLazySingleton<ActiveLocationCubit>(
     () => ActiveLocationCubit(
       getActiveLocationUseCase: getIt<GetActiveLocationUseCase>(),
     ),
@@ -273,7 +273,7 @@ void setupLocator() {
   getIt.registerFactory<BookingDetailsCubit>(
     () => BookingDetailsCubit(getIt<GetBookingDetailsUseCase>()),
   );
-   getIt.registerLazySingleton<DriverProfileDataSource>(
+  getIt.registerLazySingleton<DriverProfileDataSource>(
     () => DriverProfileDataSourceImpl(getIt<ApiConsumer>()),
   );
   getIt.registerLazySingleton<DriverProfileRepository>(

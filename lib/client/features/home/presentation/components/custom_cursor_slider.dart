@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/client/features/home/presentation/logic/cubit/home_cubit/home_cubit.dart';
 import 'package:x_go/client/features/home/presentation/logic/cubit/home_cubit/home_state.dart';
 import 'package:x_go/core/utils/image_url_helper.dart';
@@ -19,7 +18,6 @@ class CustomCursorSlider extends StatelessWidget {
             options: CarouselOptions(
               height: 100.0.h,
               autoPlay: true,
-
               autoPlayAnimationDuration: const Duration(seconds: 4),
               autoPlayCurve: Curves.fastOutSlowIn,
               aspectRatio: 10 / 4,
@@ -27,7 +25,7 @@ class CustomCursorSlider extends StatelessWidget {
               enlargeCenterPage: true,
               autoPlayInterval: const Duration(seconds: 5),
             ),
-            items: state.cars.map((car) {
+            items: state.cars.take(10).map((car) {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
@@ -58,12 +56,11 @@ class CustomCursorSlider extends StatelessWidget {
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0.w),
                         child: Align(
                           alignment: Alignment.bottomLeft,
                           child: Text(
                             car.modelName,
-
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16.0.sp,

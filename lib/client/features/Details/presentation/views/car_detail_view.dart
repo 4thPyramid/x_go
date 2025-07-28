@@ -153,7 +153,6 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                           },
                         ),
                 ),
-
                 Padding(
                   padding: EdgeInsets.all(16.w),
                   child: Column(

@@ -19,7 +19,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
   @override
   void initState() {
     super.initState();
-    context.read<ActiveLocationCubit>().getActiveLocation();
   }
 
   void _showFullLocation(String location) {
