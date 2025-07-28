@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/app_cubit/guest_mode/enums.dart';
+import 'package:x_go/core/app_cubit/guest_mode/session_cubit.dart';
+import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
 import 'package:x_go/client/features/Details/presentation/views/car_detail_view.dart';
@@ -132,6 +135,20 @@ class _CarsListComponentState extends State<CarsListComponent> {
                             isGridView: true,
                             isFavorite: isFavorite,
                             onFavoriteToggle: () {
+                              final sessionState = context
+                                  .read<SessionCubit>()
+                                  .state;
+
+                              final isGuest =
+                                  sessionState.status == AuthStatus.guest;
+                              if (isGuest) {
+                                showToast(
+                                  message: 'يجب تسجيل الدخول أولاً',
+                                  state: ToastStates.ERROR,
+                                );
+                                return;
+                              }
+
                               context.read<FavoritesCubit>().toggleFavorite(
                                 car.id,
                               );
