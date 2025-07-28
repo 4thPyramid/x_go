@@ -14,6 +14,7 @@ class DeliveryRegisterUseCase {
     required String email,
     required String phone,
     required String password,
+    required String passwordConfirmation,
   }) async {
     return await repository.register(
       firstName: firstName,
@@ -21,6 +22,7 @@ class DeliveryRegisterUseCase {
       email: email,
       phone: phone,
       password: password,
+      passwordConfirmation: passwordConfirmation,
     );
   }
 }

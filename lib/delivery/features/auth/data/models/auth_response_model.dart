@@ -10,9 +10,9 @@ class AuthResponseModel extends AuthResponse {
 
   factory AuthResponseModel.fromJson(Map<String, dynamic> json) {
     return AuthResponseModel(
-      key: json['key'] ?? '',
+      key: json['token'] ?? '',
       message: json['message'] ?? '',
-      data: UserDataModel.fromJson(json['data'] ?? {}),
+      data: UserDataModel.fromJson(json['driver'] ?? {}),
     );
   }
 
@@ -20,11 +20,10 @@ class AuthResponseModel extends AuthResponse {
     return {
       'key': key,
       'message': message,
-      'data': (data as UserDataModel).toJson(),
+      'driver': (data as UserDataModel).toJson(),
     };
   }
 }
-
 class UserDataModel extends UserData {
   const UserDataModel({
     required super.firstName,
