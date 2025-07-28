@@ -20,6 +20,7 @@ class DeliveryAuthRepositoryImpl implements DeliveryAuthRepository {
     required String email,
     required String phone,
     required String password,
+    required String passwordConfirmation,
   }) async {
     try {
       final response = await remoteDataSource.register(
@@ -28,6 +29,7 @@ class DeliveryAuthRepositoryImpl implements DeliveryAuthRepository {
         email: email,
         phone: phone,
         password: password,
+        passwordConfirmation: passwordConfirmation,
       );
       return Right(response);
     } on DioException catch (e) {

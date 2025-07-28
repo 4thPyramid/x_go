@@ -46,6 +46,7 @@ class DeliveryAuthCubit extends Cubit<DeliveryAuthState> {
     String email,
     String password,
     String phone,
+    String passwordConfirmation,
   ) async {
     emit(RegisterLoading());
 
@@ -56,6 +57,7 @@ class DeliveryAuthCubit extends Cubit<DeliveryAuthState> {
         email: email,
         password: password,
         phone: phone,
+        passwordConfirmation: passwordConfirmation,
       );
       result.fold(
         (l) => emit(RegisterError(l.message)),
