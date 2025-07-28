@@ -4,6 +4,8 @@ abstract class RouterNames {
   static const String onboarding = '/onboarding';
   static const String guestMode = '/guestMode';
   static const String auth = '/auth';
+  static const String loginUserForm = '/loginUserForm';
+
   static const String register = '/register';
   static const String forgotPassword = '/forgotPassword';
   static const String resetPassword = '/resetPassword';

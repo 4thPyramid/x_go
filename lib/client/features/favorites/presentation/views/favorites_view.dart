@@ -23,6 +23,7 @@ class FavoritesView extends StatefulWidget {
 class _FavoritesViewState extends State<FavoritesView> {
   @override
   void initState() {
+    context.read<FavoritesCubit>().getFavorites();
     super.initState();
   }
 

@@ -13,6 +13,10 @@ class CacheHelper {
     sharedPreferences.setString('token', value);
   }
 
+  static Future<void> clearAll() async {
+    await sharedPreferences.clear();
+  }
+
   static void driverId({required String value}) {
     sharedPreferences.setString('driverId', value);
   }

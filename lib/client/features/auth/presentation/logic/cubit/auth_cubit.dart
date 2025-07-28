@@ -71,10 +71,9 @@ class AuthCubit extends Cubit<AuthState> {
 
     try {
       final result = await forgetPasswordUseCase.call(email: email);
-      result.fold(
-        (l) => emit(ForgotPasswordError(l.message)),
-        (r) => emit(ForgotPasswordSuccess(r.message)),
-      );
+      result.fold((l) => emit(ForgotPasswordError(l.message)), (r) {
+        emit(ForgotPasswordSuccess(r.message));
+      });
     } on DioException catch (e) {
       emit(ForgotPasswordError(e.message.toString()));
     }

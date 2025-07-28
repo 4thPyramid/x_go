@@ -52,7 +52,7 @@ class ConfirmationDialog extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       context.pop();
-                      context.go(RouterNames.myBooking);
+                      context.push(RouterNames.myBooking);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange,
@@ -78,7 +78,7 @@ class ConfirmationDialog extends StatelessWidget {
                     onPressed: () {
                       context.pop();
                       // Navigate back to the home screen
-                      context.go(RouterNames.app);
+                      context.push(RouterNames.app);
                     },
                     style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 12.h),

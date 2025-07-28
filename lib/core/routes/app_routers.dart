@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/client/features/app.dart';
@@ -200,10 +201,7 @@ final GoRouter router = GoRouter(
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => getIt<HomeCubit>()),
-          BlocProvider(
-            create: (context) =>
-                getIt<ActiveLocationCubit>()..getActiveLocation(),
-          ),
+          BlocProvider(create: (context) => getIt<ActiveLocationCubit>()),
         ],
         child: App(),
       ),

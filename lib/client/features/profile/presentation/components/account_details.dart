@@ -44,7 +44,7 @@ class AccountDetails extends StatelessWidget {
               titleStyle: const TextStyle(color: Colors.red),
               color: Colors.red,
               onTap: () {
-                context.read<SessionCubit>().logout();
+                CacheHelper.clearAll();
                 context.go(RouterNames.splash);
               },
             ),

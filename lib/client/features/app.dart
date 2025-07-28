@@ -31,15 +31,11 @@ class _AppState extends State<App> {
     super.initState();
     _homeCubit = getIt<HomeCubit>();
     _favoritesCubit = getIt<FavoritesCubit>();
-
-    // Load favorites when app starts
-    _favoritesCubit.getFavorites();
   }
 
   @override
   void dispose() {
     _homeCubit.close();
-    _favoritesCubit.close();
     super.dispose();
   }
 
@@ -111,11 +107,8 @@ class _AppState extends State<App> {
 
     final isGuest = sessionState.status == AuthStatus.guest;
 
-    // تحقق عند محاولة الوصول للفيفوريت أو البروفايل
     if (isGuest && (index == 1 || index == 2)) {
       showToast(message: 'يجب تسجيل الدخول أولاً', state: ToastStates.ERROR);
-
-      // context.pushNamed(RouterNames.auth);
 
       return;
     }
