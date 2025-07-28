@@ -17,11 +17,6 @@ class SessionCubit extends Cubit<SessionState> {
     }
   }
 
-  void login(String token) {
-    CacheHelper.saveToken(value: token);
-    emit(const SessionState(status: AuthStatus.authenticated));
-  }
-
   void logout() {
     CacheHelper.deleteToken();
     emit(const SessionState(status: AuthStatus.guest));

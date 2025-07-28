@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/app_cubit/guest_mode/session_cubit.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/app_routers.dart';
 import 'package:x_go/core/services/service_locator.dart';
@@ -23,7 +24,10 @@ Future<void> main() async {
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       startLocale: Locale(CacheHelper.getSavedLanguageCode()),
-      child: const MyApp(),
+      child: BlocProvider(
+        create: (context) => SessionCubit()..checkAuthStatus(),
+        child: const MyApp(),
+      ),
     ),
   );
 }

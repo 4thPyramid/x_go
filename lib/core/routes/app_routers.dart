@@ -128,10 +128,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: RouterNames.userType,
-      builder: (context, state) => BlocProvider(
-        create: (_) => SessionCubit()..checkAuthStatus(),
-        child: const UserTypeView(),
-      ),
+      builder: (context, state) => const UserTypeView(),
     ),
     GoRoute(
       path: RouterNames.splash,
@@ -329,8 +326,10 @@ final GoRouter router = GoRouter(
       path: RouterNames.carDetails,
       builder: (context, state) {
         final carId = state.extra as String;
-        return BlocProvider(
-          create: (context) => getIt<CarDetailCubit>(),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => getIt<CarDetailCubit>()),
+          ],
           child: CarDetailsPage(carId: carId),
         );
       },

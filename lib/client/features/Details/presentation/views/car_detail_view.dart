@@ -4,7 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
+import 'package:x_go/core/app_cubit/guest_mode/enums.dart';
+import 'package:x_go/core/app_cubit/guest_mode/session_cubit.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
+import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_state.dart';
@@ -251,6 +254,18 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                         child: CustomButton(
                           text: 'Add Review',
                           onPressed: () {
+                            final isGuest =
+                                context.read<SessionCubit>().state.status ==
+                                AuthStatus.guest;
+
+                            if (isGuest) {
+                              showToast(
+                                message: 'Please log in to add a review',
+                                state: ToastStates.ERROR,
+                              );
+                              return;
+                            }
+
                             context.push(
                               RouterNames.review,
                               extra: widget.carId,

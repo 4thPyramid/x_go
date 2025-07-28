@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:x_go/core/app_cubit/guest_mode/enums.dart';
+import 'package:x_go/core/app_cubit/guest_mode/session_cubit.dart';
+import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/core/utils/app_strings.dart';
@@ -104,7 +107,18 @@ class _AppState extends State<App> {
   }
 
   void _onItemTapped(int index) {
-    if (index == _currentIndex) return;
+    final sessionState = context.read<SessionCubit>().state;
+
+    final isGuest = sessionState.status == AuthStatus.guest;
+
+    // تحقق عند محاولة الوصول للفيفوريت أو البروفايل
+    if (isGuest && (index == 1 || index == 2)) {
+      showToast(message: 'يجب تسجيل الدخول أولاً', state: ToastStates.ERROR);
+
+      // context.pushNamed(RouterNames.auth);
+
+      return;
+    }
 
     if (index == 0) {
       _homeCubit.getCars();
