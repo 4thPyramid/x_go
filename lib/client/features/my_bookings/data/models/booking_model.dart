@@ -14,7 +14,6 @@ class MyBookingModel {
   final int carModelId;
   final int? locationId;
 
-  // بيانات السيارة
   final int? carModelInternalId;
   final String? carYear;
   final int? carCount;
@@ -26,16 +25,13 @@ class MyBookingModel {
   final int? seatsCount;
   final String? acceleration;
 
-  // بيانات الموديل
   final int? modelNameId;
   final String? modelName;
 
-  // بيانات النوع
   final int? typeId;
   final String? typeName;
   final String? typeDescription;
 
-  // بيانات الماركة
   final int? brandId;
   final String? brandName;
   final String? brandLogo;
@@ -76,52 +72,57 @@ class MyBookingModel {
   });
 
   factory MyBookingModel.fromJson(Map<String, dynamic> json) {
-    final carModel = json['car_model'];
-    final modelName = carModel != null ? carModel['model_name'] : null;
-    final type = modelName != null ? modelName['type'] : null;
-    final brand = type != null ? type['brand'] : null;
+    final carModel = json['car_model'] as Map<String, dynamic>? ?? {};
+    final attributes = carModel['attributes'] as Map<String, dynamic>? ?? {};
+    final relationships =
+        carModel['relationship'] as Map<String, dynamic>? ?? {};
+
+    final modelNameMap =
+        relationships['Model Names'] as Map<String, dynamic>? ?? {};
+    final typeMap = relationships['Types'] as Map<String, dynamic>? ?? {};
+    final brandMap = relationships['Brand'] as Map<String, dynamic>? ?? {};
 
     return MyBookingModel(
-      id: json['id'],
-      carId: json['car_id'],
-      userId: json['user_id'],
-      driverId: json['driver_id'],
-      startDate: json['start_date'],
-      endDate: json['end_date'],
-      finalPrice: json['final_price'],
-      status: json['status'],
-      additionalDriver: json['additional_driver'],
-      paymentMethod: json['payment_method'],
-      paymentStatus: json['payment_status'],
-      transactionId: json['transaction_id'],
-      carModelId: json['carmodel_id'],
-      locationId: json['location_id'],
+      id: json['id'] ?? 0,
+      carId: json['car_id'] ?? 0,
+      userId: (json['user'] != null && json['user']['id'] != null)
+          ? int.tryParse(json['user']['id'].toString()) ?? 0
+          : 0,
+      driverId: json['driver_id'] ?? 0,
+      startDate: json['start_date']?.toString() ?? '',
+      endDate: json['end_date']?.toString() ?? '',
+      finalPrice: json['final_price']?.toString() ?? '0',
+      status: json['status']?.toString() ?? 'pending',
+      additionalDriver: json['additional_driver'] ?? 0,
+      paymentMethod: json['payment_method']?.toString(),
+      paymentStatus: json['payment_status']?.toString(),
+      transactionId: json['transaction_id']?.toString(),
+      carModelId: int.tryParse(carModel['id']?.toString() ?? '') ?? 0,
+      locationId: json['location']?['id'],
 
       // بيانات السيارة
-      carModelInternalId: carModel?['id'],
-      carYear: carModel?['year'],
-      carCount: carModel?['count'],
-      carPrice: carModel?['price'],
-      carImage: carModel?['image'],
-      engineType: carModel?['engine_type'],
-      transmissionType: carModel?['transmission_type'],
-      seatType: carModel?['seat_type'],
-      seatsCount: carModel?['seats_count'],
-      acceleration: carModel?['acceleration'],
+      carModelInternalId: int.tryParse(carModel['id']?.toString() ?? ''),
+      carYear: attributes['year']?.toString(),
+      carCount: null, // غير موجودة في response
+      carPrice: attributes['price']?.toString(),
+      carImage: attributes['image']?.toString(),
+      engineType: attributes['engine_type']?.toString(),
+      transmissionType: attributes['transmission_type']?.toString(),
+      seatType: attributes['seat_type']?.toString(),
+      seatsCount: attributes['seats_count'],
+      acceleration: attributes['acceleration']?.toString(),
 
-      // بيانات الموديل
-      modelNameId: modelName?['id'],
-      modelName: modelName?['name'],
+      modelNameId: int.tryParse(
+        modelNameMap['model_name_id']?.toString() ?? '',
+      ),
+      modelName: modelNameMap['model_name']?.toString(),
 
-      // بيانات النوع
-      typeId: type?['id'],
-      typeName: type?['name'],
-      typeDescription: type?['description'],
-
-      // بيانات الماركة
-      brandId: brand?['id'],
-      brandName: brand?['name'],
-      brandLogo: brand?['logo'],
+      typeId: int.tryParse(typeMap['type_id']?.toString() ?? ''),
+      typeName: typeMap['type_name']?.toString(),
+      typeDescription: '',
+      brandId: int.tryParse(brandMap['brand_id']?.toString() ?? ''),
+      brandName: brandMap['brand_name']?.toString(),
+      brandLogo: '',
     );
   }
 }

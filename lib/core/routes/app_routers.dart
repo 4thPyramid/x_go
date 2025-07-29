@@ -181,7 +181,10 @@ final GoRouter router = GoRouter(
       builder: (context, state) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => getIt<HomeCubit>()),
-          BlocProvider(create: (context) => getIt<ActiveLocationCubit>()),
+          BlocProvider(
+            create: (context) =>
+                getIt<ActiveLocationCubit>()..getActiveLocation(),
+          ),
         ],
         child: App(),
       ),
@@ -306,24 +309,14 @@ final GoRouter router = GoRouter(
         );
       },
     ),
-
     GoRoute(
       path: RouterNames.carDetails,
       builder: (context, state) {
-        if (state.extra is String) {
-          // New way using car ID
-          final carId = state.extra as String;
-          return BlocProvider(
-            create: (context) => getIt<CarDetailCubit>(),
-            child: CarDetailsPage(carId: carId),
-          );
-        } else {
-          // Handle error case
-          return BlocProvider(
-            create: (context) => getIt<CarDetailCubit>(),
-            child: const CarDetailsPage(carId: "1"), // Default to car with ID 1
-          );
-        }
+        final carId = state.extra as String;
+        return BlocProvider(
+          create: (context) => getIt<CarDetailCubit>(),
+          child: CarDetailsPage(carId: carId),
+        );
       },
     ),
     GoRoute(

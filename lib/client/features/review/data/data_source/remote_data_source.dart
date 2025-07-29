@@ -21,7 +21,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   @override
   Future<Either<ErrorModel, CarDetailsModel>> getReviews(int id) async {
     try {
-      var response = await apiConsumer.get('Model/$id');
+      var response = await apiConsumer.get('/api/user/Model/$id');
       final data = response['data'];
       final x = CarDetailsModel.fromJson(data);
       return Right(x);
@@ -38,7 +38,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   ) async {
     try {
       var response = await apiConsumer.post(
-        'Model/$modelId/rate',
+        '/api/user/Model/$modelId/rate',
         data: {'review': review, 'rating': rating},
       );
       return Right(response);
