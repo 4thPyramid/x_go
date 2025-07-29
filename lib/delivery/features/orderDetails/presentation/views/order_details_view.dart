@@ -21,19 +21,22 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
   @override
   void initState() {
     super.initState();
-    // استدعاء البيانات عند تحميل الصفحة
     context.read<BookingDetailsCubit>().fetchBookingDetails(widget.bookingId);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text('تفاصيل الطلب'),
+        title: const Text(
+          'تفاصيل الطلب',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+        ),
         backgroundColor: Colors.white,
-        elevation: 0,
-        foregroundColor: Colors.black,
+        elevation: 0.5,
+        foregroundColor: Colors.black87,
+        centerTitle: true,
       ),
       body: BlocBuilder<BookingDetailsCubit, BookingState>(
         builder: (context, state) {
@@ -43,26 +46,50 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
 
           if (state is BookingError) {
             return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.error_outline, size: 64, color: Colors.red),
-                  const SizedBox(height: 16),
-                  Text(
-                    'حدث خطأ: ${state.message}',
-                    style: const TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.read<BookingDetailsCubit>().fetchBookingDetails(
-                        widget.bookingId,
-                      );
-                    },
-                    child: const Text('إعادة المحاولة'),
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade50,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.error_outline,
+                        size: 48,
+                        color: Colors.red.shade400,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      'حدث خطأ: ${state.message}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        context.read<BookingDetailsCubit>().fetchBookingDetails(
+                          widget.bookingId,
+                        );
+                      },
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('إعادة المحاولة'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           }
@@ -78,56 +105,211 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
   }
 
   Widget _buildBookingDetails(BookingEntity booking) {
-    return SingleChildScrollView(
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // عرض الخريطة مع الموقع الفعلي
+                LocationWidget(location: booking.location),
+                SizedBox(height: 16.h),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    children: [
+                      _buildAddressSection(booking),
+                      SizedBox(height: 20.h),
+
+                      _buildOrderSection(booking),
+                      SizedBox(height: 20.h),
+
+                      _buildBookingDetailsSection(booking),
+                      SizedBox(height: 20.h),
+
+                      _buildPriceSection(booking),
+                      SizedBox(height: 20.h),
+
+                      _buildUserSection(booking),
+                      SizedBox(height: 24.h),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // أزرار العمل في الأسفل
+        Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 8,
+                offset: const Offset(0, -2),
+              ),
+            ],
+          ),
+          child: SafeArea(
+            child: Row(
+              children: [
+                Expanded(
+                  child: CustomButton(
+                    text: 'قبول',
+                    onPressed: () {
+                      context.push(
+                        RouterNames.deliveryLocation,
+                        extra: booking,
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: CustomButton(text: 'رفض', onPressed: () {}),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAddressSection(BookingEntity booking) {
+    return _buildSection(
+      title: 'العنوان',
+      icon: Icons.location_on,
       child: Column(
         children: [
-          // عرض الخريطة مع الموقع الفعلي
-          LocationWidget(location: booking.location),
-          SizedBox(height: 10.h),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          Row(
+            children: [
+              Icon(
+                Icons.location_on_outlined,
+                color: Colors.blue.shade600,
+                size: 20,
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                'موقع الاستلام',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              booking.location?.address ?? 'لا يوجد عنوان محدد',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOrderSection(BookingEntity booking) {
+    return _buildSection(
+      title: 'الطلب',
+      icon: Icons.directions_car,
+      child: Row(
+        children: [
+          // صورة السيارة
+          Container(
+            height: 80.h,
+            width: 80.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.grey[100],
+              border: Border.all(color: Colors.grey.shade200),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: booking.car.image != null
+                  ? Image.network(
+                      booking.car.image!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/images/map.png',
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    )
+                  : Image.asset('assets/images/map.png', fit: BoxFit.cover),
+            ),
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildAddressSection(booking),
-                const SizedBox(height: 20),
-
-                _buildOrderSection(booking),
-                const SizedBox(height: 20),
-
-                _buildBookingDetailsSection(booking),
-                const SizedBox(height: 20),
-
-                _buildPriceSection(booking),
-                const SizedBox(height: 20),
-
-                _buildUserSection(booking),
-                const SizedBox(height: 5),
+                Text(
+                  booking.carModel.relationship.brand.brandName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  booking.carModel.relationship.modelName.modelName,
+                  style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                ),
+                const SizedBox(height: 6),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 100.w,
-                      height: 50.h,
-                      child: CustomButton(
-                        text: 'قبول',
-                        onPressed: () {
-                          context.push(
-                            RouterNames.deliveryLocation,
-                            extra: booking,
-                          );
-                        },
-                      ),
+                    Icon(
+                      Icons.confirmation_number_outlined,
+                      size: 14,
+                      color: Colors.grey.shade500,
                     ),
-                    SizedBox(width: 10.w),
-                    Container(
-                      width: 100.w,
-                      height: 50.h,
-                      child: CustomButton(text: 'رفض', onPressed: () {}),
+                    const SizedBox(width: 4),
+                    Text(
+                      booking.car.plateNumber,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _getStatusColor(booking.status),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text(
+                    booking.status,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -136,263 +318,160 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
     );
   }
 
-  Widget _buildAddressSection(BookingEntity booking) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'العنوان',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 5),
-        Card(
-          color: Colors.white,
-          elevation: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
-                  children: const [
-                    Icon(Icons.location_on, color: Colors.blue),
-                    SizedBox(width: 10),
-                    Text(
-                      'موقع الاستلام',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  booking.location?.address ?? 'القاهرة ، مصر',
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildOrderSection(BookingEntity booking) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'الطلب',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        Card(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                // صورة السيارة
-                Container(
-                  height: 100.h,
-                  width: 100.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.grey[200],
-                  ),
-                  child: booking.car.image != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            booking.car.image!,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Image.asset(
-                                'assets/images/map.png',
-                                fit: BoxFit.cover,
-                              );
-                            },
-                          ),
-                        )
-                      : Image.asset('assets/images/map.png', fit: BoxFit.cover),
-                ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        booking.carModel.relationship.brand.brandName,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        booking.carModel.relationship.modelName.modelName,
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        'لوحة: ${booking.car.plateNumber}',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getStatusColor(booking.status),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          booking.status,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildBookingDetailsSection(BookingEntity booking) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'تفاصيل الحجز',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        Card(
-          color: Colors.white,
-          elevation: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                _buildDetailRow('تاريخ البداية', booking.startDate),
-                const Divider(),
-                _buildDetailRow('تاريخ النهاية', booking.endDate),
-                const Divider(),
-                _buildDetailRow(
-                  'طريقة الدفع',
-                  booking.paymentMethod ?? 'غير محددة',
-                ),
-                if (booking.paymentStatus != null) ...[
-                  const Divider(),
-                  _buildDetailRow('حالة الدفع', booking.paymentStatus!),
-                ],
-                if (booking.transactionId != null) ...[
-                  const Divider(),
-                  _buildDetailRow('رقم المعاملة', booking.transactionId!),
-                ],
-              ],
-            ),
-          ),
-        ),
-      ],
+    return _buildSection(
+      title: 'تفاصيل الحجز',
+      icon: Icons.event_note,
+      child: Column(
+        children: [
+          _buildDetailRow('تاريخ البداية', booking.startDate),
+          const SizedBox(height: 12),
+          _buildDetailRow('تاريخ النهاية', booking.endDate),
+          const SizedBox(height: 12),
+          _buildDetailRow('طريقة الدفع', booking.paymentMethod ?? 'غير محددة'),
+          if (booking.paymentStatus != null) ...[
+            const SizedBox(height: 12),
+            _buildDetailRow('حالة الدفع', booking.paymentStatus!),
+          ],
+          if (booking.transactionId != null) ...[
+            const SizedBox(height: 12),
+            _buildDetailRow('رقم المعاملة', booking.transactionId!),
+          ],
+        ],
+      ),
     );
   }
 
   Widget _buildPriceSection(BookingEntity booking) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'السعر',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        Card(
-          color: Colors.white,
-          elevation: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+    return _buildSection(
+      title: 'السعر',
+      icon: Icons.payments,
+      child: Row(
+        children: [
+          const Text(
+            'السعر الإجمالي',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+            ),
+          ),
+          const Spacer(),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.green.shade50,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.green.shade200),
+            ),
+            child: Text(
+              '${booking.finalPrice} ج.م',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Colors.green.shade700,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUserSection(BookingEntity booking) {
+    return _buildSection(
+      title: 'معلومات العميل',
+      icon: Icons.person,
+      child: Column(
+        children: [
+          _buildDetailRow(
+            'الاسم',
+            '${booking.user.name} ${booking.user.lastName}',
+          ),
+          const SizedBox(height: 12),
+          _buildDetailRow('البريد الإلكتروني', booking.user.email),
+          const SizedBox(height: 12),
+          _buildDetailRow('رقم الهاتف', booking.user.phone),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSection({
+    required String title,
+    required IconData icon,
+    required Widget child,
+  }) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.08),
+            spreadRadius: 1,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                const Text(
-                  'السعر الإجمالي',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                ),
-                const Spacer(),
+                Icon(icon, size: 20, color: Colors.blue.shade600),
+                const SizedBox(width: 8),
                 Text(
-                  '${booking.finalPrice} ج.م',
+                  title,
                   style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
                   ),
                 ),
               ],
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildUserSection(BookingEntity booking) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'معلومات العميل',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        Card(
-          color: Colors.white,
-          elevation: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                _buildDetailRow(
-                  'الاسم',
-                  '${booking.user.name} ${booking.user.lastName}',
-                ),
-                const Divider(),
-                _buildDetailRow('البريد الإلكتروني', booking.user.email),
-                const Divider(),
-                _buildDetailRow('رقم الهاتف', booking.user.phone),
-              ],
-            ),
+          Container(
+            width: double.infinity,
+            height: 1,
+            color: Colors.grey.shade100,
           ),
-        ),
-      ],
+          Padding(padding: const EdgeInsets.all(16.0), child: child),
+        ],
+      ),
     );
   }
 
   Widget _buildDetailRow(String label, String value) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+        Expanded(
+          flex: 2,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey.shade600,
+            ),
+          ),
         ),
-        const Spacer(),
-        Flexible(
+        const SizedBox(width: 8),
+        Expanded(
+          flex: 3,
           child: Text(
             value,
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+            ),
             textAlign: TextAlign.end,
           ),
         ),
@@ -404,18 +483,18 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
     switch (status.toLowerCase()) {
       case 'confirmed':
       case 'مؤكد':
-        return Colors.green;
+        return Colors.green.shade600;
       case 'pending':
       case 'في الانتظار':
-        return Colors.orange;
+        return Colors.orange.shade600;
       case 'cancelled':
       case 'ملغي':
-        return Colors.red;
+        return Colors.red.shade600;
       case 'completed':
       case 'مكتمل':
-        return Colors.blue;
+        return Colors.blue.shade600;
       default:
-        return Colors.grey;
+        return Colors.grey.shade600;
     }
   }
 }

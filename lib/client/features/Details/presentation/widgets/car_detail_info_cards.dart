@@ -57,7 +57,7 @@ class CarDetailInfoCards extends StatelessWidget {
     IconData icon,
   ) {
     return Card(
-      elevation: 2,
+      elevation: 1,
       color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
       child: Container(

@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:x_go/core/app_cubit/guest_mode/session_cubit.dart';
 import 'package:x_go/core/common/functions/validator.dart';
 import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
+import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/utils/app_strings.dart';
 import 'package:x_go/client/features/auth/presentation/logic/cubit/auth_cubit.dart';
 import 'package:x_go/client/features/language/presentation/widgets/instant_language_builder.dart';
@@ -145,6 +147,10 @@ class _RegisterFormState extends State<RegisterForm> {
                             message: state.message,
                             state: ToastStates.SUCCESS,
                           );
+
+                          // حدّث حالة المستخدم
+                          context.read<SessionCubit>().checkAuthStatus();
+
                           context.go(RouterNames.app);
                         } else if (state is RegisterError) {
                           showToast(

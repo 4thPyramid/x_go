@@ -11,6 +11,9 @@ abstract class DeliveryAuthRemoteDataSource {
     required String email,
     required String phone,
     required String password,
+     required String passwordConfirmation,
+
+    
   });
 
   Future<DriverModel> login({
@@ -42,15 +45,18 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
     required String email,
     required String phone,
     required String password,
+
+    required String passwordConfirmation,
   }) async {
     final response = await apiConsumer.post(
-      'api/driver/register',
+      '/api/driver/register',
       data: {
         'name': firstName,
         'last_name': lastName,
         'email': email,
         'password': password,
         'phone': phone,
+        'password_confirmation': passwordConfirmation,
       },
       isFormData: true,
       headers: {
@@ -61,7 +67,7 @@ class DeliveryAuthRemoteDataSourceImpl implements DeliveryAuthRemoteDataSource {
     );
     CacheHelper.saveToken(value: response['token']);
     // ياقرش  ابقى اعمل موديل جديد لليدريفر ف اللوجين والريجيستر  لان كل حاجه متغيره وسيب
-    CacheHelper.driverId(value: response['user']['id'].toString());
+    CacheHelper.driverId(value: response['driver']['id'].toString());
 
     return AuthResponseModel.fromJson(response);
   }

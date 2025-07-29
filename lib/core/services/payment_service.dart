@@ -150,12 +150,15 @@ class _PaymobPaymentScreenState extends State<PaymobPaymentScreen> {
               final transactionId = uri?.queryParameters['id'] ?? 'N/A';
               final isSuccess = uri?.queryParameters['success'] ?? 'false';
               final isPending = uri?.queryParameters['pending'] ?? 'false';
-              
+
               // استخدام الـ IDs المرسلة من الـ PaymentCubit
               final modelId = widget.modelId ?? PaymentCubit.model_id ?? 'N/A';
-              final bookingId = widget.bookingId ?? PaymentCubit.booking_id ?? 'N/A';
-              
-              print('----------------------------------------------------------');
+              final bookingId =
+                  widget.bookingId ?? PaymentCubit.booking_id ?? 'N/A';
+
+              print(
+                '----------------------------------------------------------',
+              );
               print('Transaction ID: $transactionId');
               print('Model ID: $modelId');
               print('Booking ID: $bookingId');
@@ -268,12 +271,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                widget.isSuccess == 'true' 
-                    ? Icons.check_circle 
-                    : Icons.error,
-                color: widget.isSuccess == 'true' 
-                    ? Colors.green 
-                    : Colors.red,
+                widget.isSuccess == 'true' ? Icons.check_circle : Icons.error,
+                color: widget.isSuccess == 'true' ? Colors.green : Colors.red,
                 size: 80,
               ),
               const SizedBox(height: 16),
@@ -303,7 +302,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   }
                   return CustomButton(
                     text: 'Back to Home',
-                    onPressed: () => context.go(RouterNames.app),
+                    onPressed: () => context.push(RouterNames.app),
                   );
                 },
               ),

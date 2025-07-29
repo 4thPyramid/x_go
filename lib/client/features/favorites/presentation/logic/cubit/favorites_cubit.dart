@@ -12,6 +12,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
   Future<void> getFavorites() async {
     emit(FavoritesLoading());
+
     try {
       final favorites = await favoritesRepository.getFavorites();
       _favoriteCarIds = favorites.map((fav) => fav.carModel.id).toList();

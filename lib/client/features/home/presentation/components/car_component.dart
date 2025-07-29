@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_go/core/app_cubit/guest_mode/enums.dart';
+import 'package:x_go/core/app_cubit/guest_mode/session_cubit.dart';
+import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
 import 'package:x_go/client/features/Details/presentation/views/car_detail_view.dart';
@@ -92,7 +95,8 @@ class _CarsListComponentState extends State<CarsListComponent> {
 
   Widget _buildLoadedState(CarsLoaded state) {
     final cars = state.cars;
-
+    final sessionState = context.read<SessionCubit>().state;
+    final isGuest = sessionState.status == AuthStatus.guest;
     if (cars.isEmpty) {
       return CarsEmptyState(
         isSearchResult: state.currentParams.search?.isNotEmpty ?? false,
@@ -125,13 +129,30 @@ class _CarsListComponentState extends State<CarsListComponent> {
                               .isFavorite(car.id);
                           return CarCardWidget(
                             brand: car.brandName,
+                            isGuest: isGuest, //
+
                             model: car.modelName,
                             rentPrice: car.price,
                             imageUrl: car.image,
                             carId: car.id,
+
                             isGridView: true,
                             isFavorite: isFavorite,
                             onFavoriteToggle: () {
+                              final sessionState = context
+                                  .read<SessionCubit>()
+                                  .state;
+
+                              final isGuest =
+                                  sessionState.status == AuthStatus.guest;
+                              if (isGuest) {
+                                showToast(
+                                  message: 'يجب تسجيل الدخول أولاً',
+                                  state: ToastStates.ERROR,
+                                );
+                                return;
+                              }
+
                               context.read<FavoritesCubit>().toggleFavorite(
                                 car.id,
                               );
@@ -164,6 +185,8 @@ class _CarsListComponentState extends State<CarsListComponent> {
                             return CarCardWidget(
                               brand: car.brandName,
                               model: car.modelName,
+                              isGuest: isGuest,
+
                               rentPrice: car.price,
                               imageUrl: car.image,
                               carId: car.id,

@@ -18,8 +18,8 @@ class HeaderComponent extends StatefulWidget {
 class _HeaderComponentState extends State<HeaderComponent> {
   @override
   void initState() {
-    super.initState();
     context.read<ActiveLocationCubit>().getActiveLocation();
+    super.initState();
   }
 
   void _showFullLocation(String location) {

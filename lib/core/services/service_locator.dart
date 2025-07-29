@@ -51,6 +51,7 @@ import 'package:x_go/client/features/profile/presentation/logic/cubit/profile_ed
 import 'package:x_go/client/features/language/presentation/logic/cubit/lang_cupit.dart';
 import 'package:x_go/client/features/favorites/data/repositories/favorites_repository.dart';
 import 'package:x_go/client/features/favorites/presentation/logic/cubit/favorites_cubit.dart';
+import 'package:x_go/core/services/google_map_service.dart';
 import 'package:x_go/delivery/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:x_go/delivery/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:x_go/delivery/features/auth/domain/repositories/auth_repository.dart';
@@ -205,9 +206,12 @@ void setupLocator() {
   );
 
   // !Cubits //
-  getIt.registerFactory<ActiveLocationCubit>(
+  getIt.registerLazySingleton(() => LocationService());
+
+  getIt.registerLazySingleton<ActiveLocationCubit>(
     () => ActiveLocationCubit(
       getActiveLocationUseCase: getIt<GetActiveLocationUseCase>(),
+      locationService: getIt<LocationService>(),
     ),
   );
   getIt.registerFactory<MyBookingCubit>(
@@ -279,7 +283,6 @@ void setupLocator() {
   getIt.registerFactory<BookingDetailsCubit>(
     () => BookingDetailsCubit(getIt<GetBookingDetailsUseCase>()),
   );
-  // Driver Profile Feature
   getIt.registerLazySingleton<DriverProfileDataSource>(
     () => DriverProfileDataSourceImpl(getIt<ApiConsumer>()),
   );

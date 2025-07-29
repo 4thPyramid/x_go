@@ -2,15 +2,17 @@ abstract class RouterNames {
   static const String userType = '/';
   static const String splash = '/splash';
   static const String onboarding = '/onboarding';
-
+  static const String guestMode = '/guestMode';
   static const String auth = '/auth';
+  static const String loginUserForm = '/loginUserForm';
+
   static const String register = '/register';
   static const String forgotPassword = '/forgotPassword';
   static const String resetPassword = '/resetPassword';
   static const String success_updated = '/success_updated';
   static const String otp = '/otp';
   static const String app = '/app';
-  static const String language = '/language'; 
+  static const String language = '/language';
   static const String myBooking = '/myBooking';
   static const String orderDetails = '/orderDetails';
   static const String home = '/home';

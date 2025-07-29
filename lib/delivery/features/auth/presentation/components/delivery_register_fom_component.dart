@@ -162,6 +162,7 @@ class _DeliveryRegisterFormState extends State<DeliveryRegisterForm> {
                                       _emailController.text,
                                       _passwordController.text,
                                       _phoneController.text,
+                                      _confirmPasswordController.text,
                                     );
                                   }
                                 },

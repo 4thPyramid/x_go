@@ -70,7 +70,6 @@ class _LocationActionsComponentState extends State<LocationActionsComponent> {
                       ? Center(child: CircularProgressIndicator())
                       : CustomButton(
                           text: 'تأكيد',
-
                           onPressed: () {
                             context.read<LocationCubit>().setLocation(
                               state.currentPosition!.latitude.toString(),
@@ -92,6 +91,7 @@ class _LocationActionsComponentState extends State<LocationActionsComponent> {
                       message: 'تم تحديث الموقع بنجاح',
                       state: ToastStates.SUCCESS,
                     );
+
                     context.pop();
 
                     context.pop();

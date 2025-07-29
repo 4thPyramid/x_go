@@ -9,6 +9,7 @@ abstract class DeliveryAuthRepository {
     required String email,
     required String phone,
     required String password,
+    required String passwordConfirmation,
   });
 
   Future<Either<ErrorModel, DriverModel>> login({
