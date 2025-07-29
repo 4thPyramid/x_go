@@ -13,16 +13,15 @@ class ClientTrackingCubit extends Cubit<ClientTrackingState> {
   String hash = '';
   Set<Polyline> polylines = {};
 
+
   getLiveTrackingFromFirebase() {
     emit(ClientTrackingLoading());
     try {
       DatabaseReference orderLocationRef = FirebaseDatabase.instance
           .ref()
           .child('orders/order_abc123/location');
-
       orderLocationRef.onValue.listen((event) {
         final data = event.snapshot.value as Map?;
-        print(data.toString());
         if (data != null) {
           double lat = data['latitude'];
           double lng = data['longitude'];
@@ -42,9 +41,7 @@ class ClientTrackingCubit extends Cubit<ClientTrackingState> {
           );
         }
       });
-      print(markers);
     } catch (e) {
-      print(e.toString());
       emit(ClientTrackingError(errorMessage: e.toString()));
     }
   }

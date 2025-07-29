@@ -168,7 +168,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  booking.location?.address ?? 'لا يوجد عنوان محدد',
+                  booking.location?.address ?? 'القاهرة ، مصر',
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
