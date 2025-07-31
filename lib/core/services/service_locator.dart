@@ -68,6 +68,8 @@ import 'package:x_go/delivery/features/home/domain/usecases/completed_order_usec
 import 'package:x_go/delivery/features/home/domain/usecases/new_order_usecase%20.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/accepted_status_cubit/oreder_status_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/completed_status_cubit/new_order_cubit/completed_status_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/home_location/home_location_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/home_location/locatin_services_home.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/new_order_cubit/new_status_cubit.dart';
 import 'package:x_go/delivery/features/profile/data/data_source/driver_profile_ds.dart';
 import 'package:x_go/delivery/features/profile/data/repo/driver_profile_repo_impl.dart';
@@ -207,6 +209,9 @@ void setupLocator() {
 
   // !Cubits //
   getIt.registerLazySingleton(() => LocationService());
+  getIt.registerLazySingleton<LocationHomeDeliveryService>(
+    () => LocationHomeDeliveryServiceImpl(),
+  );
 
   getIt.registerLazySingleton<ActiveLocationCubit>(
     () => ActiveLocationCubit(
@@ -214,6 +219,11 @@ void setupLocator() {
       locationService: getIt<LocationService>(),
     ),
   );
+
+  getIt.registerFactory<HomeDeliveryLocationCubit>(
+    () => HomeDeliveryLocationCubit(getIt<LocationHomeDeliveryService>()),
+  );
+
   getIt.registerFactory<MyBookingCubit>(
     () => MyBookingCubit(getIt<GetBookingList>()),
   );

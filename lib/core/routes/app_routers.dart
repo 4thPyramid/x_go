@@ -8,6 +8,7 @@ import 'package:x_go/core/app_cubit/guest_mode/session_cubit.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/home_location/home_location_cubit.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/entities/booking_entity.dart';
 import 'package:x_go/delivery/features/profile/presentation/logic/update_profile/update_profile_cubit.dart';
 import 'package:x_go/client/features/Details/presentation/logic/cubit/car_detail_cubit.dart';
@@ -107,6 +108,10 @@ final GoRouter router = GoRouter(
             BlocProvider(
               create: (_) =>
                   getIt<DriverProfileInfoCubit>()..fetchDriverProfile(),
+            ),
+            BlocProvider(
+              create: (context) =>
+                  getIt<HomeDeliveryLocationCubit>()..fetchLocation(),
             ),
           ],
           child: const AppDelivery(),
