@@ -71,6 +71,7 @@ import 'package:x_go/delivery/features/home/presentation/logic/completed_status_
 import 'package:x_go/delivery/features/home/presentation/logic/home_location/home_location_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/home_location/locatin_services_home.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/new_order_cubit/new_status_cubit.dart';
+import 'package:x_go/delivery/features/orderDetails/domain/useCases/change_stats_u_c.dart';
 import 'package:x_go/delivery/features/profile/data/data_source/driver_profile_ds.dart';
 import 'package:x_go/delivery/features/profile/data/repo/driver_profile_repo_impl.dart';
 import 'package:x_go/delivery/features/profile/domain/repos/driver_profile_repo.dart';
@@ -291,7 +292,7 @@ void setupLocator() {
     () => CompletedOrdersCubit(getIt<GetCompletedOrdersUseCase>()),
   );
   getIt.registerFactory<BookingDetailsCubit>(
-    () => BookingDetailsCubit(getIt<GetBookingDetailsUseCase>()),
+    () => BookingDetailsCubit(getIt<GetBookingDetailsUseCase>(), getIt<ChangeBookingStatus>()),
   );
   getIt.registerLazySingleton<DriverProfileDataSource>(
     () => DriverProfileDataSourceImpl(getIt<ApiConsumer>()),

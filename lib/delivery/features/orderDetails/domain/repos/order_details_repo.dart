@@ -3,4 +3,5 @@ import 'package:x_go/delivery/features/orderDetails/domain/entities/booking_enti
 
 abstract class BookingDetailsRepository {
   Future<BookingEntity> getBookingDetails(int id);
+  Future<void> changeBookingStatus(int id, String status);
 }

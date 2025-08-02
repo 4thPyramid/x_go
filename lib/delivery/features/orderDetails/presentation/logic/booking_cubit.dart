@@ -1,5 +1,6 @@
-// lib/features/booking/presentation/cubit/booking_cubit.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:x_go/delivery/features/orderDetails/data/models/change_stats_responce.dart';
+import 'package:x_go/delivery/features/orderDetails/domain/useCases/change_stats_u_c.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/useCases/order_details_u_c.dart';
 import '../../domain/entities/booking_entity.dart';
 
@@ -7,8 +8,9 @@ part 'booking_state.dart';
 
 class BookingDetailsCubit extends Cubit<BookingState> {
   final GetBookingDetailsUseCase getBookingDetails;
+  final ChangeBookingStatus changeBookingStatus;
 
-   BookingDetailsCubit(this.getBookingDetails) : super(BookingInitial());
+   BookingDetailsCubit(this.getBookingDetails, this.changeBookingStatus) : super(BookingInitial());
 
   void fetchBookingDetails(int id) async {
     emit(BookingLoading());
@@ -19,6 +21,7 @@ class BookingDetailsCubit extends Cubit<BookingState> {
       print('Error fetching booking details: $e');
       emit(BookingError(e.toString()));
       print('Error fetching booking details: $e');
+      
     }
   }
 }

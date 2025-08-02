@@ -111,26 +111,20 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // عرض الخريطة مع الموقع الفعلي
                 LocationWidget(location: booking.location),
                 SizedBox(height: 16.h),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
                     children: [
                       _buildAddressSection(booking),
                       SizedBox(height: 20.h),
-
                       _buildOrderSection(booking),
                       SizedBox(height: 20.h),
-
                       _buildBookingDetailsSection(booking),
                       SizedBox(height: 20.h),
-
                       _buildPriceSection(booking),
                       SizedBox(height: 20.h),
-
                       _buildUserSection(booking),
                       SizedBox(height: 24.h),
                     ],
@@ -141,43 +135,43 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
           ),
         ),
 
-        // أزرار العمل في الأسفل
-        Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 8,
-                offset: const Offset(0, -2),
-              ),
-            ],
-          ),
-          child: SafeArea(
-            child: Row(
-              children: [
-                Expanded(
-                  child: CustomButton(
-                    text: 'قبول',
-                    onPressed: () {
-                      context.push(
-                        RouterNames.deliveryLocation,
-                        extra: booking,
-                      );
-                    },
-                  ),
+        // Show action buttons only when status is 'assigned'
+        if (booking.status.toLowerCase() == 'assigned')
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 8,
+                  offset: const Offset(0, -2),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: CustomButton(text: 'رفض', onPressed: () {}),
-                ),
-                const SizedBox(height: 20),
               ],
             ),
+            child: SafeArea(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CustomButton(
+                      text: 'قبول',
+                      onPressed: () {
+                        context.push(
+                          RouterNames.deliveryLocation,
+                          extra: booking,
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: CustomButton(text: 'رفض', onPressed: () {}),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
       ],
     );
   }
@@ -190,19 +184,11 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
         children: [
           Row(
             children: [
-              Icon(
-                Icons.location_on_outlined,
-                color: Colors.blue.shade600,
-                size: 20,
-              ),
+              Icon(Icons.location_on_outlined, color: Colors.blue.shade600, size: 20),
               const SizedBox(width: 8),
               const Text(
                 'موقع الاستلام',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -211,11 +197,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
             alignment: Alignment.centerRight,
             child: Text(
               booking.location?.address ?? 'لا يوجد عنوان محدد',
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Colors.black87,
-              ),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black87),
             ),
           ),
         ],
@@ -229,7 +211,6 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
       icon: Icons.directions_car,
       child: Row(
         children: [
-          // صورة السيارة
           Container(
             height: 80.h,
             width: 80.w,
@@ -245,10 +226,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       booking.car.image!,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(
-                          'assets/images/map.png',
-                          fit: BoxFit.cover,
-                        );
+                        return Image.asset('assets/images/map.png', fit: BoxFit.cover);
                       },
                     )
                   : Image.asset('assets/images/map.png', fit: BoxFit.cover),
@@ -261,11 +239,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
               children: [
                 Text(
                   booking.carModel.relationship.brand.brandName,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -275,39 +249,24 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    Icon(
-                      Icons.confirmation_number_outlined,
-                      size: 14,
-                      color: Colors.grey.shade500,
-                    ),
+                    Icon(Icons.confirmation_number_outlined, size: 14, color: Colors.grey.shade500),
                     const SizedBox(width: 4),
                     Text(
                       booking.car.plateNumber,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey.shade500,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: TextStyle(fontSize: 12, color: Colors.grey.shade500, fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
                     color: _getStatusColor(booking.status),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
                     booking.status,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600),
                   ),
                 ),
               ],
@@ -350,11 +309,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
         children: [
           const Text(
             'السعر الإجمالي',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.black87,
-            ),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black87),
           ),
           const Spacer(),
           Container(
@@ -366,11 +321,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
             ),
             child: Text(
               '${booking.finalPrice} ج.م',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Colors.green.shade700,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.green.shade700),
             ),
           ),
         ],
@@ -384,10 +335,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
       icon: Icons.person,
       child: Column(
         children: [
-          _buildDetailRow(
-            'الاسم',
-            '${booking.user.name} ${booking.user.lastName}',
-          ),
+          _buildDetailRow('الاسم', '${booking.user.name} ${booking.user.lastName}'),
           const SizedBox(height: 12),
           _buildDetailRow('البريد الإلكتروني', booking.user.email),
           const SizedBox(height: 12),
@@ -427,20 +375,12 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                 const SizedBox(width: 8),
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
                 ),
               ],
             ),
           ),
-          Container(
-            width: double.infinity,
-            height: 1,
-            color: Colors.grey.shade100,
-          ),
+          Container(width: double.infinity, height: 1, color: Colors.grey.shade100),
           Padding(padding: const EdgeInsets.all(16.0), child: child),
         ],
       ),
@@ -455,11 +395,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
           flex: 2,
           child: Text(
             label,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.grey.shade600),
           ),
         ),
         const SizedBox(width: 8),
@@ -467,11 +403,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
           flex: 3,
           child: Text(
             value,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: Colors.black87,
-            ),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.black87),
             textAlign: TextAlign.end,
           ),
         ),
@@ -493,6 +425,8 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
       case 'completed':
       case 'مكتمل':
         return Colors.blue.shade600;
+      case 'assigned':
+        return Colors.deepPurple.shade600;
       default:
         return Colors.grey.shade600;
     }
