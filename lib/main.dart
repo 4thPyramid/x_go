@@ -2,12 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:x_go/core/app_cubit/guest_mode/session_cubit.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/app_routers.dart';
 import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/theme/app_colors.dart';
 import 'package:x_go/client/features/language/presentation/logic/cubit/lang_cupit.dart';
+import 'package:x_go/core/utils/app_life_cucle_observer.dart';
+import 'package:x_go/delivery/features/home/data/model/order_status_hive_model.dart';
+import 'package:x_go/delivery/features/profile/data/models/driver_profile_hive_model.dart';
 import 'package:x_go/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -15,7 +19,20 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheHelper.init();
-  setupLocator();
+  await Hive.initFlutter();
+  try {
+    Hive.registerAdapter(OrderStatusHiveModelAdapter());
+    await Hive.openBox('orders_box');
+    Hive.registerAdapter(DriverProfileHiveModelAdapter());
+    await Hive.openBox<DriverProfileHiveModel>('driverProfileBox');
+
+    setupLocator();
+    // Add lifecycle listener to save data on app pause/detach
+    WidgetsBinding.instance.addObserver(AppLifecycleObserver());
+  } catch (e) {
+    setupLocator();
+  }
+
   await EasyLocalization.ensureInitialized();
   runApp(
     EasyLocalization(
@@ -25,7 +42,7 @@ Future<void> main() async {
       startLocale: Locale(CacheHelper.getSavedLanguageCode()),
       child: BlocProvider(
         create: (context) => SessionCubit()..checkAuthStatus(),
-        child: const MyApp(),
+        child: MyApp(),
       ),
     ),
   );

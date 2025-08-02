@@ -5,8 +5,6 @@ import 'package:x_go/delivery/features/profile/data/models/driver_profile_model.
 import 'package:x_go/delivery/features/profile/data/models/driver_update_request.dart';
 import 'package:x_go/delivery/features/profile/data/models/driver_update_response.dart';
 
-import '../../../../../core/utils/app_loggr.dart';
-
 abstract class DriverProfileDataSource {
   Future<DriverProfileResponse> getDriverProfile();
   Future<DriverUpdateResponse> updateDriverProfile(DriverUpdateRequest request);

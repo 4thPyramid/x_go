@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_go/client/features/app.dart';
 import 'package:x_go/client/features/client_tracking/presentation/logic/cubit/client_tracking_cubit.dart';
 import 'package:x_go/client/features/client_tracking/presentation/view/client_tracking_view.dart';
-import 'package:x_go/core/app_cubit/guest_mode/session_cubit.dart';
 import 'package:x_go/core/data/cached/cache_helper.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/services/service_locator.dart';

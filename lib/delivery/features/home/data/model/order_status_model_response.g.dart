@@ -15,8 +15,11 @@ OrderStatusResponse _$OrderStatusResponseFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$OrderStatusResponseToJson(
-  OrderStatusResponse instance,
-) => <String, dynamic>{'message': instance.message, 'data': instance.data};
+        OrderStatusResponse instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+      'data': instance.data,
+    };
 
 OrderStatusData _$OrderStatusDataFromJson(Map<String, dynamic> json) =>
     OrderStatusData(
@@ -57,11 +60,11 @@ Map<String, dynamic> _$OrderStatusDataToJson(OrderStatusData instance) =>
     };
 
 Ratings _$RatingsFromJson(Map<String, dynamic> json) => Ratings(
-  averageRating: json['average_rating'] as String?,
-  ratingsCount: (json['ratings_count'] as num?)?.toInt(),
-);
+      averageRating: json['average_rating'] as String?,
+      ratingsCount: (json['ratings_count'] as num?)?.toInt(),
+    );
 
 Map<String, dynamic> _$RatingsToJson(Ratings instance) => <String, dynamic>{
-  'average_rating': instance.averageRating,
-  'ratings_count': instance.ratingsCount,
-};
+      'average_rating': instance.averageRating,
+      'ratings_count': instance.ratingsCount,
+    };
