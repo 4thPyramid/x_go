@@ -18,3 +18,9 @@ class BookingError extends BookingState {
 
   BookingError(this.message);
 }
+class BookingStatusChanged extends BookingState {
+  final ChangeStatsResponse response;
+
+  BookingStatusChanged(this.response);
+}
+ 
