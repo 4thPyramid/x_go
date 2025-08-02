@@ -8,4 +8,5 @@ abstract class DriverLocationRepo {
     LatLng currentPosition,
     LatLng destination,
   );
+  Future<Either<ErrorModel, void>> refuseOrder(String bookingId);
 }
