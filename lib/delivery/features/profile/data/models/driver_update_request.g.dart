@@ -14,9 +14,9 @@ DriverUpdateRequest _$DriverUpdateRequestFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$DriverUpdateRequestToJson(
-  DriverUpdateRequest instance,
-) => <String, dynamic>{
-  'name': instance.name,
-  'email': instance.email,
-  'phone': instance.phone,
-};
+        DriverUpdateRequest instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'email': instance.email,
+      'phone': instance.phone,
+    };

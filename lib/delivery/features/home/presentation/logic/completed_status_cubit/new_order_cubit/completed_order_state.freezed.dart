@@ -1,5 +1,5 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,386 +9,641 @@ part of 'completed_order_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
 /// @nodoc
 mixin _$CompletedOrderStatusState {
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CompletedOrderStatusState);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'CompletedOrderStatusState()';
-}
-
-
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<OrderStatusEntity> orders) success,
+    required TResult Function(String message) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<OrderStatusEntity> orders)? success,
+    TResult? Function(String message)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<OrderStatusEntity> orders)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_completedOrderInitial value) initial,
+    required TResult Function(_completedOrderLoading value) loading,
+    required TResult Function(_completedOrderSuccess value) success,
+    required TResult Function(_completedOrderError value) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_completedOrderInitial value)? initial,
+    TResult? Function(_completedOrderLoading value)? loading,
+    TResult? Function(_completedOrderSuccess value)? success,
+    TResult? Function(_completedOrderError value)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_completedOrderInitial value)? initial,
+    TResult Function(_completedOrderLoading value)? loading,
+    TResult Function(_completedOrderSuccess value)? success,
+    TResult Function(_completedOrderError value)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-class $CompletedOrderStatusStateCopyWith<$Res>  {
-$CompletedOrderStatusStateCopyWith(CompletedOrderStatusState _, $Res Function(CompletedOrderStatusState) __);
+abstract class $CompletedOrderStatusStateCopyWith<$Res> {
+  factory $CompletedOrderStatusStateCopyWith(CompletedOrderStatusState value,
+          $Res Function(CompletedOrderStatusState) then) =
+      _$CompletedOrderStatusStateCopyWithImpl<$Res, CompletedOrderStatusState>;
 }
 
+/// @nodoc
+class _$CompletedOrderStatusStateCopyWithImpl<$Res,
+        $Val extends CompletedOrderStatusState>
+    implements $CompletedOrderStatusStateCopyWith<$Res> {
+  _$CompletedOrderStatusStateCopyWithImpl(this._value, this._then);
 
-/// Adds pattern-matching-related methods to [CompletedOrderStatusState].
-extension CompletedOrderStatusStatePatterns on CompletedOrderStatusState {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _completedOrderInitial value)?  initial,TResult Function( _completedOrderLoading value)?  loading,TResult Function( _completedOrderSuccess value)?  success,TResult Function( _completedOrderError value)?  error,required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _completedOrderInitial() when initial != null:
-return initial(_that);case _completedOrderLoading() when loading != null:
-return loading(_that);case _completedOrderSuccess() when success != null:
-return success(_that);case _completedOrderError() when error != null:
-return error(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _completedOrderInitial value)  initial,required TResult Function( _completedOrderLoading value)  loading,required TResult Function( _completedOrderSuccess value)  success,required TResult Function( _completedOrderError value)  error,}){
-final _that = this;
-switch (_that) {
-case _completedOrderInitial():
-return initial(_that);case _completedOrderLoading():
-return loading(_that);case _completedOrderSuccess():
-return success(_that);case _completedOrderError():
-return error(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _completedOrderInitial value)?  initial,TResult? Function( _completedOrderLoading value)?  loading,TResult? Function( _completedOrderSuccess value)?  success,TResult? Function( _completedOrderError value)?  error,}){
-final _that = this;
-switch (_that) {
-case _completedOrderInitial() when initial != null:
-return initial(_that);case _completedOrderLoading() when loading != null:
-return loading(_that);case _completedOrderSuccess() when success != null:
-return success(_that);case _completedOrderError() when error != null:
-return error(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<OrderStatusEntity> orders)?  success,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _completedOrderInitial() when initial != null:
-return initial();case _completedOrderLoading() when loading != null:
-return loading();case _completedOrderSuccess() when success != null:
-return success(_that.orders);case _completedOrderError() when error != null:
-return error(_that.message);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<OrderStatusEntity> orders)  success,required TResult Function( String message)  error,}) {final _that = this;
-switch (_that) {
-case _completedOrderInitial():
-return initial();case _completedOrderLoading():
-return loading();case _completedOrderSuccess():
-return success(_that.orders);case _completedOrderError():
-return error(_that.message);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<OrderStatusEntity> orders)?  success,TResult? Function( String message)?  error,}) {final _that = this;
-switch (_that) {
-case _completedOrderInitial() when initial != null:
-return initial();case _completedOrderLoading() when loading != null:
-return loading();case _completedOrderSuccess() when success != null:
-return success(_that.orders);case _completedOrderError() when error != null:
-return error(_that.message);case _:
-  return null;
-
-}
+  /// Create a copy of CompletedOrderStatusState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
+/// @nodoc
+abstract class _$$completedOrderInitialImplCopyWith<$Res> {
+  factory _$$completedOrderInitialImplCopyWith(
+          _$completedOrderInitialImpl value,
+          $Res Function(_$completedOrderInitialImpl) then) =
+      __$$completedOrderInitialImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$completedOrderInitialImplCopyWithImpl<$Res>
+    extends _$CompletedOrderStatusStateCopyWithImpl<$Res,
+        _$completedOrderInitialImpl>
+    implements _$$completedOrderInitialImplCopyWith<$Res> {
+  __$$completedOrderInitialImplCopyWithImpl(_$completedOrderInitialImpl _value,
+      $Res Function(_$completedOrderInitialImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CompletedOrderStatusState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
+class _$completedOrderInitialImpl implements _completedOrderInitial {
+  const _$completedOrderInitialImpl();
 
-class _completedOrderInitial implements CompletedOrderStatusState {
-  const _completedOrderInitial();
-  
+  @override
+  String toString() {
+    return 'CompletedOrderStatusState.initial()';
+  }
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$completedOrderInitialImpl);
+  }
 
+  @override
+  int get hashCode => runtimeType.hashCode;
 
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<OrderStatusEntity> orders) success,
+    required TResult Function(String message) error,
+  }) {
+    return initial();
+  }
 
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<OrderStatusEntity> orders)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return initial?.call();
+  }
 
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<OrderStatusEntity> orders)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _completedOrderInitial);
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_completedOrderInitial value) initial,
+    required TResult Function(_completedOrderLoading value) loading,
+    required TResult Function(_completedOrderSuccess value) success,
+    required TResult Function(_completedOrderError value) error,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_completedOrderInitial value)? initial,
+    TResult? Function(_completedOrderLoading value)? loading,
+    TResult? Function(_completedOrderSuccess value)? success,
+    TResult? Function(_completedOrderError value)? error,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_completedOrderInitial value)? initial,
+    TResult Function(_completedOrderLoading value)? loading,
+    TResult Function(_completedOrderSuccess value)? success,
+    TResult Function(_completedOrderError value)? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
 }
 
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'CompletedOrderStatusState.initial()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class _completedOrderLoading implements CompletedOrderStatusState {
-  const _completedOrderLoading();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _completedOrderLoading);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'CompletedOrderStatusState.loading()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class _completedOrderSuccess implements CompletedOrderStatusState {
-  const _completedOrderSuccess(final  List<OrderStatusEntity> orders): _orders = orders;
-  
-
- final  List<OrderStatusEntity> _orders;
- List<OrderStatusEntity> get orders {
-  if (_orders is EqualUnmodifiableListView) return _orders;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_orders);
-}
-
-
-/// Create a copy of CompletedOrderStatusState
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$completedOrderSuccessCopyWith<_completedOrderSuccess> get copyWith => __$completedOrderSuccessCopyWithImpl<_completedOrderSuccess>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _completedOrderSuccess&&const DeepCollectionEquality().equals(other._orders, _orders));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_orders));
-
-@override
-String toString() {
-  return 'CompletedOrderStatusState.success(orders: $orders)';
-}
-
-
+abstract class _completedOrderInitial implements CompletedOrderStatusState {
+  const factory _completedOrderInitial() = _$completedOrderInitialImpl;
 }
 
 /// @nodoc
-abstract mixin class _$completedOrderSuccessCopyWith<$Res> implements $CompletedOrderStatusStateCopyWith<$Res> {
-  factory _$completedOrderSuccessCopyWith(_completedOrderSuccess value, $Res Function(_completedOrderSuccess) _then) = __$completedOrderSuccessCopyWithImpl;
-@useResult
-$Res call({
- List<OrderStatusEntity> orders
-});
-
-
-
-
+abstract class _$$completedOrderLoadingImplCopyWith<$Res> {
+  factory _$$completedOrderLoadingImplCopyWith(
+          _$completedOrderLoadingImpl value,
+          $Res Function(_$completedOrderLoadingImpl) then) =
+      __$$completedOrderLoadingImplCopyWithImpl<$Res>;
 }
+
 /// @nodoc
-class __$completedOrderSuccessCopyWithImpl<$Res>
-    implements _$completedOrderSuccessCopyWith<$Res> {
-  __$completedOrderSuccessCopyWithImpl(this._self, this._then);
+class __$$completedOrderLoadingImplCopyWithImpl<$Res>
+    extends _$CompletedOrderStatusStateCopyWithImpl<$Res,
+        _$completedOrderLoadingImpl>
+    implements _$$completedOrderLoadingImplCopyWith<$Res> {
+  __$$completedOrderLoadingImplCopyWithImpl(_$completedOrderLoadingImpl _value,
+      $Res Function(_$completedOrderLoadingImpl) _then)
+      : super(_value, _then);
 
-  final _completedOrderSuccess _self;
-  final $Res Function(_completedOrderSuccess) _then;
-
-/// Create a copy of CompletedOrderStatusState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? orders = null,}) {
-  return _then(_completedOrderSuccess(
-null == orders ? _self._orders : orders // ignore: cast_nullable_to_non_nullable
-as List<OrderStatusEntity>,
-  ));
-}
-
-
+  /// Create a copy of CompletedOrderStatusState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
+class _$completedOrderLoadingImpl implements _completedOrderLoading {
+  const _$completedOrderLoadingImpl();
 
-class _completedOrderError implements CompletedOrderStatusState {
-  const _completedOrderError(this.message);
-  
+  @override
+  String toString() {
+    return 'CompletedOrderStatusState.loading()';
+  }
 
- final  String message;
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$completedOrderLoadingImpl);
+  }
 
-/// Create a copy of CompletedOrderStatusState
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$completedOrderErrorCopyWith<_completedOrderError> get copyWith => __$completedOrderErrorCopyWithImpl<_completedOrderError>(this, _$identity);
+  @override
+  int get hashCode => runtimeType.hashCode;
 
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<OrderStatusEntity> orders) success,
+    required TResult Function(String message) error,
+  }) {
+    return loading();
+  }
 
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<OrderStatusEntity> orders)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return loading?.call();
+  }
 
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _completedOrderError&&(identical(other.message, message) || other.message == message));
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<OrderStatusEntity> orders)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_completedOrderInitial value) initial,
+    required TResult Function(_completedOrderLoading value) loading,
+    required TResult Function(_completedOrderSuccess value) success,
+    required TResult Function(_completedOrderError value) error,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_completedOrderInitial value)? initial,
+    TResult? Function(_completedOrderLoading value)? loading,
+    TResult? Function(_completedOrderSuccess value)? success,
+    TResult? Function(_completedOrderError value)? error,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_completedOrderInitial value)? initial,
+    TResult Function(_completedOrderLoading value)? loading,
+    TResult Function(_completedOrderSuccess value)? success,
+    TResult Function(_completedOrderError value)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
 }
 
-
-@override
-int get hashCode => Object.hash(runtimeType,message);
-
-@override
-String toString() {
-  return 'CompletedOrderStatusState.error(message: $message)';
-}
-
-
+abstract class _completedOrderLoading implements CompletedOrderStatusState {
+  const factory _completedOrderLoading() = _$completedOrderLoadingImpl;
 }
 
 /// @nodoc
-abstract mixin class _$completedOrderErrorCopyWith<$Res> implements $CompletedOrderStatusStateCopyWith<$Res> {
-  factory _$completedOrderErrorCopyWith(_completedOrderError value, $Res Function(_completedOrderError) _then) = __$completedOrderErrorCopyWithImpl;
-@useResult
-$Res call({
- String message
-});
-
-
-
-
+abstract class _$$completedOrderSuccessImplCopyWith<$Res> {
+  factory _$$completedOrderSuccessImplCopyWith(
+          _$completedOrderSuccessImpl value,
+          $Res Function(_$completedOrderSuccessImpl) then) =
+      __$$completedOrderSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<OrderStatusEntity> orders});
 }
+
 /// @nodoc
-class __$completedOrderErrorCopyWithImpl<$Res>
-    implements _$completedOrderErrorCopyWith<$Res> {
-  __$completedOrderErrorCopyWithImpl(this._self, this._then);
+class __$$completedOrderSuccessImplCopyWithImpl<$Res>
+    extends _$CompletedOrderStatusStateCopyWithImpl<$Res,
+        _$completedOrderSuccessImpl>
+    implements _$$completedOrderSuccessImplCopyWith<$Res> {
+  __$$completedOrderSuccessImplCopyWithImpl(_$completedOrderSuccessImpl _value,
+      $Res Function(_$completedOrderSuccessImpl) _then)
+      : super(_value, _then);
 
-  final _completedOrderError _self;
-  final $Res Function(_completedOrderError) _then;
-
-/// Create a copy of CompletedOrderStatusState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
-  return _then(_completedOrderError(
-null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
+  /// Create a copy of CompletedOrderStatusState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? orders = null,
+  }) {
+    return _then(_$completedOrderSuccessImpl(
+      null == orders
+          ? _value._orders
+          : orders // ignore: cast_nullable_to_non_nullable
+              as List<OrderStatusEntity>,
+    ));
+  }
 }
 
+/// @nodoc
 
+class _$completedOrderSuccessImpl implements _completedOrderSuccess {
+  const _$completedOrderSuccessImpl(final List<OrderStatusEntity> orders)
+      : _orders = orders;
+
+  final List<OrderStatusEntity> _orders;
+  @override
+  List<OrderStatusEntity> get orders {
+    if (_orders is EqualUnmodifiableListView) return _orders;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_orders);
+  }
+
+  @override
+  String toString() {
+    return 'CompletedOrderStatusState.success(orders: $orders)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$completedOrderSuccessImpl &&
+            const DeepCollectionEquality().equals(other._orders, _orders));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_orders));
+
+  /// Create a copy of CompletedOrderStatusState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$completedOrderSuccessImplCopyWith<_$completedOrderSuccessImpl>
+      get copyWith => __$$completedOrderSuccessImplCopyWithImpl<
+          _$completedOrderSuccessImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<OrderStatusEntity> orders) success,
+    required TResult Function(String message) error,
+  }) {
+    return success(orders);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<OrderStatusEntity> orders)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return success?.call(orders);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<OrderStatusEntity> orders)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(orders);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_completedOrderInitial value) initial,
+    required TResult Function(_completedOrderLoading value) loading,
+    required TResult Function(_completedOrderSuccess value) success,
+    required TResult Function(_completedOrderError value) error,
+  }) {
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_completedOrderInitial value)? initial,
+    TResult? Function(_completedOrderLoading value)? loading,
+    TResult? Function(_completedOrderSuccess value)? success,
+    TResult? Function(_completedOrderError value)? error,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_completedOrderInitial value)? initial,
+    TResult Function(_completedOrderLoading value)? loading,
+    TResult Function(_completedOrderSuccess value)? success,
+    TResult Function(_completedOrderError value)? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
 }
 
-// dart format on
+abstract class _completedOrderSuccess implements CompletedOrderStatusState {
+  const factory _completedOrderSuccess(final List<OrderStatusEntity> orders) =
+      _$completedOrderSuccessImpl;
+
+  List<OrderStatusEntity> get orders;
+
+  /// Create a copy of CompletedOrderStatusState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$completedOrderSuccessImplCopyWith<_$completedOrderSuccessImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$completedOrderErrorImplCopyWith<$Res> {
+  factory _$$completedOrderErrorImplCopyWith(_$completedOrderErrorImpl value,
+          $Res Function(_$completedOrderErrorImpl) then) =
+      __$$completedOrderErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$completedOrderErrorImplCopyWithImpl<$Res>
+    extends _$CompletedOrderStatusStateCopyWithImpl<$Res,
+        _$completedOrderErrorImpl>
+    implements _$$completedOrderErrorImplCopyWith<$Res> {
+  __$$completedOrderErrorImplCopyWithImpl(_$completedOrderErrorImpl _value,
+      $Res Function(_$completedOrderErrorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CompletedOrderStatusState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$completedOrderErrorImpl(
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$completedOrderErrorImpl implements _completedOrderError {
+  const _$completedOrderErrorImpl(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'CompletedOrderStatusState.error(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$completedOrderErrorImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of CompletedOrderStatusState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$completedOrderErrorImplCopyWith<_$completedOrderErrorImpl> get copyWith =>
+      __$$completedOrderErrorImplCopyWithImpl<_$completedOrderErrorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<OrderStatusEntity> orders) success,
+    required TResult Function(String message) error,
+  }) {
+    return error(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<OrderStatusEntity> orders)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return error?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<OrderStatusEntity> orders)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_completedOrderInitial value) initial,
+    required TResult Function(_completedOrderLoading value) loading,
+    required TResult Function(_completedOrderSuccess value) success,
+    required TResult Function(_completedOrderError value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_completedOrderInitial value)? initial,
+    TResult? Function(_completedOrderLoading value)? loading,
+    TResult? Function(_completedOrderSuccess value)? success,
+    TResult? Function(_completedOrderError value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_completedOrderInitial value)? initial,
+    TResult Function(_completedOrderLoading value)? loading,
+    TResult Function(_completedOrderSuccess value)? success,
+    TResult Function(_completedOrderError value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _completedOrderError implements CompletedOrderStatusState {
+  const factory _completedOrderError(final String message) =
+      _$completedOrderErrorImpl;
+
+  String get message;
+
+  /// Create a copy of CompletedOrderStatusState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$completedOrderErrorImplCopyWith<_$completedOrderErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

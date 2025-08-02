@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:x_go/core/app_cubit/app_cubit.dart';
 
@@ -60,7 +61,8 @@ import 'package:x_go/delivery/features/auth/domain/usecases/login_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/register_usecase.dart';
 import 'package:x_go/delivery/features/auth/domain/usecases/reset_password_use_case.dart';
-import 'package:x_go/delivery/features/home/data/data_sources/oreders_status_ds.dart';
+import 'package:x_go/delivery/features/home/data/data_sources/local/orders_local_data_source.dart';
+import 'package:x_go/delivery/features/home/data/data_sources/remote/oreders_status_ds.dart';
 import 'package:x_go/delivery/features/home/data/repo/orders_repository_impl.dart';
 import 'package:x_go/delivery/features/home/domain/repos/orders_repository.dart';
 import 'package:x_go/delivery/features/home/domain/usecases/accepted_order_usecase.dart';
@@ -71,8 +73,10 @@ import 'package:x_go/delivery/features/home/presentation/logic/completed_status_
 import 'package:x_go/delivery/features/home/presentation/logic/home_location/home_location_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/home_location/locatin_services_home.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/new_order_cubit/new_status_cubit.dart';
+import 'package:x_go/delivery/features/profile/data/data_source/local/driver_profile_local_data_source.dart';
+import 'package:x_go/delivery/features/profile/data/data_source/remote/driver_profile_ds.dart';
+import 'package:x_go/delivery/features/profile/data/models/driver_profile_hive_model.dart';
 import 'package:x_go/delivery/features/orderDetails/domain/useCases/change_stats_u_c.dart';
-import 'package:x_go/delivery/features/profile/data/data_source/driver_profile_ds.dart';
 import 'package:x_go/delivery/features/profile/data/repo/driver_profile_repo_impl.dart';
 import 'package:x_go/delivery/features/profile/domain/repos/driver_profile_repo.dart';
 import 'package:x_go/delivery/features/profile/domain/usecase/driver_profile_use_case.dart';
@@ -94,6 +98,25 @@ void setupLocator() {
   //!Api Services //
   getIt.registerLazySingleton<DioConsumer>(() => DioConsumer(dio: Dio()));
   getIt.registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: Dio()));
+
+  //! Hive Boxes //
+  getIt.registerLazySingleton<Box>(() {
+    try {
+      return Hive.box('orders_box');
+    } catch (e) {
+      print('Error accessing Hive box: $e');
+      // Return a mock box or handle the error gracefully
+      throw Exception('Hive box not available');
+    }
+  });
+  getIt.registerLazySingleton<Box<DriverProfileHiveModel>>(() {
+    try {
+      return Hive.box<DriverProfileHiveModel>('driverProfileBox');
+    } catch (e) {
+      print('Error accessing driverProfileBox: $e');
+      throw Exception('driverProfileBox not available');
+    }
+  });
 
   ///! --DataSources-- ///
   getIt.registerLazySingleton<AuthRemoteDataSource>(
@@ -269,9 +292,15 @@ void setupLocator() {
   getIt.registerLazySingleton<OrdersStatusDataSource>(
     () => OrdersStatusDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
   );
+  getIt.registerLazySingleton<OrdersLocalDataSource>(
+    () => OrdersLocalDataSourceImpl(hiveBox: getIt<Box>()),
+  );
+
   getIt.registerLazySingleton<OrdersStatusRepository>(
-    () =>
-        OrdersStatusRepositoryImpl(dataSource: getIt<OrdersStatusDataSource>()),
+    () => OrdersStatusRepositoryImpl(
+      localDataSource: getIt<OrdersLocalDataSource>(),
+      dataSource: getIt<OrdersStatusDataSource>(),
+    ),
   );
   getIt.registerLazySingleton<GetAcceptedOrdersUseCase>(
     () => GetAcceptedOrdersUseCase(getIt<OrdersStatusRepository>()),
@@ -292,13 +321,13 @@ void setupLocator() {
     () => CompletedOrdersCubit(getIt<GetCompletedOrdersUseCase>()),
   );
   getIt.registerFactory<BookingDetailsCubit>(
-    () => BookingDetailsCubit(getIt<GetBookingDetailsUseCase>(), getIt<ChangeBookingStatus>()),
+    () => BookingDetailsCubit(
+      getIt<GetBookingDetailsUseCase>(),
+      getIt<ChangeBookingStatus>(),
+    ),
   );
   getIt.registerLazySingleton<DriverProfileDataSource>(
     () => DriverProfileDataSourceImpl(getIt<ApiConsumer>()),
-  );
-  getIt.registerLazySingleton<DriverProfileRepository>(
-    () => DriverProfileRepositoryImpl(getIt<DriverProfileDataSource>()),
   );
   getIt.registerLazySingleton<DriverProfileUseCase>(
     () => DriverProfileUseCase(getIt<DriverProfileRepository>()),
@@ -312,5 +341,15 @@ void setupLocator() {
   );
   getIt.registerFactory<UpdateProfileCubit>(
     () => UpdateProfileCubit(getIt<DriverUpdateUseCase>()),
+  );
+  getIt.registerLazySingleton<DriverProfileLocalDataSource>(
+    () =>
+        DriverProfileLocalDataSourceImpl(getIt<Box<DriverProfileHiveModel>>()),
+  );
+  getIt.registerLazySingleton<DriverProfileRepository>(
+    () => DriverProfileRepositoryImpl(
+      getIt<DriverProfileDataSource>(),
+      getIt<DriverProfileLocalDataSource>(),
+    ),
   );
 }

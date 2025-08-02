@@ -7,17 +7,20 @@ part of 'driver_profile_model.dart';
 // **************************************************************************
 
 DriverProfileResponse _$DriverProfileResponseFromJson(
-  Map<String, dynamic> json,
-) => DriverProfileResponse(
-  message: json['message'] as String?,
-  data: json['data'] == null
-      ? null
-      : DriverProfileData.fromJson(json['data'] as Map<String, dynamic>),
-);
+        Map<String, dynamic> json) =>
+    DriverProfileResponse(
+      message: json['message'] as String?,
+      data: json['data'] == null
+          ? null
+          : DriverProfileData.fromJson(json['data'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$DriverProfileResponseToJson(
-  DriverProfileResponse instance,
-) => <String, dynamic>{'message': instance.message, 'data': instance.data};
+        DriverProfileResponse instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+      'data': instance.data,
+    };
 
 DriverProfileData _$DriverProfileDataFromJson(Map<String, dynamic> json) =>
     DriverProfileData(
@@ -50,12 +53,18 @@ LocationModel _$LocationModelFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$LocationModelToJson(LocationModel instance) =>
-    <String, dynamic>{'id': instance.id, 'location': instance.location};
+    <String, dynamic>{
+      'id': instance.id,
+      'location': instance.location,
+    };
 
 BookingModel _$BookingModelFromJson(Map<String, dynamic> json) => BookingModel(
-  id: (json['id'] as num?)?.toInt(),
-  createdAt: json['created_at'] as String?,
-);
+      id: (json['id'] as num?)?.toInt(),
+      createdAt: json['created_at'] as String?,
+    );
 
 Map<String, dynamic> _$BookingModelToJson(BookingModel instance) =>
-    <String, dynamic>{'id': instance.id, 'created_at': instance.createdAt};
+    <String, dynamic>{
+      'id': instance.id,
+      'created_at': instance.createdAt,
+    };

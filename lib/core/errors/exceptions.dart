@@ -8,52 +8,42 @@ class ServerException implements Exception {
 }
 
 void handelDioException(DioException e) {
+  // Helper function to safely create ErrorModel
+  ErrorModel _createErrorModel(DioException exception) {
+    if (exception.response?.data != null && exception.response?.data is Map<String, dynamic>) {
+      return ErrorModel.fromJson(exception.response!.data);
+    } else {
+      return ErrorModel(message: exception.message ?? 'Network error occurred');
+    }
+  }
+
   switch (e.type) {
     case DioExceptionType.connectionTimeout:
-      throw ServerException(errorModel: ErrorModel.fromJson(e.response?.data));
+      throw ServerException(errorModel: _createErrorModel(e));
     case DioExceptionType.sendTimeout:
-      throw ServerException(errorModel: ErrorModel.fromJson(e.response?.data));
+      throw ServerException(errorModel: _createErrorModel(e));
     case DioExceptionType.receiveTimeout:
-      throw ServerException(errorModel: ErrorModel.fromJson(e.response?.data));
+      throw ServerException(errorModel: _createErrorModel(e));
     case DioExceptionType.cancel:
-      throw ServerException(errorModel: ErrorModel.fromJson(e.response?.data));
-
+      throw ServerException(errorModel: _createErrorModel(e));
     case DioExceptionType.badCertificate:
-      throw ServerException(errorModel: ErrorModel.fromJson(e.response?.data));
+      throw ServerException(errorModel: _createErrorModel(e));
     case DioExceptionType.connectionError:
-      throw ServerException(errorModel: ErrorModel.fromJson(e.response?.data));
+      throw ServerException(errorModel: _createErrorModel(e));
     case DioExceptionType.unknown:
-      throw ServerException(errorModel: ErrorModel.fromJson(e.response?.data));
+      throw ServerException(errorModel: _createErrorModel(e));
     case DioExceptionType.badResponse:
       switch (e.response?.statusCode) {
         case 400:
-          throw ServerException(
-              errorModel: ErrorModel.fromJson(e.response?.data));
         case 401:
-          throw ServerException(
-              errorModel: ErrorModel.fromJson(e.response?.data));
         case 403:
-          throw ServerException(
-              errorModel: ErrorModel.fromJson(e.response?.data));
         case 404:
-          throw ServerException(
-              errorModel: ErrorModel.fromJson(e.response?.data));
         case 408:
-          throw ServerException(
-              errorModel: ErrorModel.fromJson(e.response?.data));
-
         case 500:
-          throw ServerException(
-              errorModel: ErrorModel.fromJson(e.response?.data));
         case 502:
-          throw ServerException(
-              errorModel: ErrorModel.fromJson(e.response?.data));
         case 503:
-          throw ServerException(
-              errorModel: ErrorModel.fromJson(e.response?.data));
         default:
-          throw ServerException(
-              errorModel: ErrorModel.fromJson(e.response?.data));
+          throw ServerException(errorModel: _createErrorModel(e));
       }
   }
 }
