@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:x_go/client/features/client_tracking/presentation/logic/cubit/client_tracking_cubit.dart';
 import 'package:x_go/client/features/location/presentation/widgets/google_map_widget.dart';
 

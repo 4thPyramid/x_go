@@ -7,8 +7,7 @@ import 'package:x_go/client/features/Details/data/models/car_detail_model.dart';
 class CarDetailInfoCards extends StatelessWidget {
   final CarDetailAttributes attributes;
 
-  const CarDetailInfoCards({Key? key, required this.attributes})
-    : super(key: key);
+  const CarDetailInfoCards({super.key, required this.attributes});
 
   @override
   Widget build(BuildContext context) {

@@ -12,4 +12,5 @@ class CompletedOrderStatusState with _$CompletedOrderStatusState {
   ) = _completedOrderSuccess;
   const factory CompletedOrderStatusState.error(String message) =
       _completedOrderError;
+  const factory CompletedOrderStatusState.empty() = _Empty;
 }

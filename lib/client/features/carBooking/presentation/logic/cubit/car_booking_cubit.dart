@@ -8,8 +8,6 @@ import 'package:x_go/client/features/carBooking/data/model/locations_model.dart'
 import 'package:x_go/client/features/carBooking/data/repositories/car_booking_repo_impl.dart';
 import 'package:x_go/client/features/carBooking/domain/use_cases/book_car_use_case.dart';
 import 'package:x_go/client/features/carBooking/domain/use_cases/get_locations_use_case.dart';
-import 'package:x_go/client/features/location/domain/use_cases/set_location_use_case.dart';
-import 'package:x_go/client/features/splash/views/splash_view.dart';
 
 part 'car_booking_state.dart';
 

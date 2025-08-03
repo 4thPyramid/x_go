@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:x_go/client/features/favorites/data/local_ds/favorites_local_ds.dart';
 
 import 'package:x_go/core/app_cubit/app_cubit.dart';
 
@@ -30,6 +31,7 @@ import 'package:x_go/client/features/auth/domain/usecases/register_usecase.dart'
 import 'package:x_go/client/features/auth/domain/usecases/reset_password_use_case.dart';
 import 'package:x_go/client/features/home/data/datasources/active_location_remote_data_source.dart';
 import 'package:x_go/client/features/home/data/datasources/car_remote_datasource_impl.dart';
+import 'package:x_go/client/features/home/data/datasources/car_local_datasource_impl.dart';
 import 'package:x_go/client/features/home/data/repo/active_location_repository_impl.dart';
 import 'package:x_go/client/features/home/data/repo/car_repo_impl.dart';
 import 'package:x_go/client/features/home/domain/repo/active_location_repository.dart';
@@ -69,7 +71,7 @@ import 'package:x_go/delivery/features/home/domain/usecases/accepted_order_useca
 import 'package:x_go/delivery/features/home/domain/usecases/completed_order_usecase.dart';
 import 'package:x_go/delivery/features/home/domain/usecases/new_order_usecase%20.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/accepted_status_cubit/oreder_status_cubit.dart';
-import 'package:x_go/delivery/features/home/presentation/logic/completed_status_cubit/new_order_cubit/completed_status_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/completed_status_cubit/completed_status_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/home_location/home_location_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/home_location/locatin_services_home.dart';
 import 'package:x_go/delivery/features/home/presentation/logic/new_order_cubit/new_status_cubit.dart';
@@ -131,10 +133,6 @@ void setupLocator() {
     () => BookingRemoteDataSource(getIt<DioConsumer>()),
   );
 
-  // Home Remote Data Source
-  getIt.registerLazySingleton<HomeRemoteDataSource>(
-    () => HomeRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
-  );
   getIt.registerLazySingleton<ProfileRemoteDs>(
     () => ProfileRemoteDsImpl(getIt<ApiConsumer>()),
   );
@@ -160,9 +158,21 @@ void setupLocator() {
   getIt.registerLazySingleton<BookingDetailsRepository>(
     () => BookingDetailsRepositoryImpl(getIt<BookingDetailsRemoteDataSource>()),
   );
+  // Home Data Sources
+  getIt.registerLazySingleton<HomeRemoteDataSource>(
+    () => HomeRemoteDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
+  );
+
+  getIt.registerLazySingleton<HomeLocalDataSource>(
+    () => HomeLocalDataSourceImpl(),
+  );
+
   // Home Repository
   getIt.registerLazySingleton<HomeRepository>(
-    () => HomeRepositoryImpl(remoteDataSource: getIt<HomeRemoteDataSource>()),
+    () => HomeRepositoryImpl(
+      remoteDataSource: getIt<HomeRemoteDataSource>(),
+      localDataSource: getIt<HomeLocalDataSource>(),
+    ),
   );
   getIt.registerLazySingleton<ActiveLocationRemoteDataSource>(
     () => ActiveLocationRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
@@ -264,9 +274,14 @@ void setupLocator() {
 
   // Favorites Feature
   getIt.registerLazySingleton<FavoritesRepository>(
-    () => FavoritesRepository(apiConsumer: getIt<ApiConsumer>()),
+    () => FavoritesRepository(
+      getIt<FavoritesLocalDataSource>(),
+      apiConsumer: getIt<ApiConsumer>(),
+    ),
   );
-
+  getIt.registerLazySingleton<FavoritesLocalDataSource>(
+    () => FavoritesLocalDataSourceImpl(),
+  );
   // Car Detail Feature
   getIt.registerLazySingleton<CarDetailRemoteDataSource>(
     () => CarDetailRemoteDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),

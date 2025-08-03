@@ -18,21 +18,54 @@ class DriverProfileRepositoryImpl implements DriverProfileRepository {
 
   @override
   Future<Either<ErrorModel, DriverProfileEntity>> getDriverProfile() async {
+    // 1. Load from cache first (إذا وجد)
+    final cached = await localDataSource.getCachedDriverProfile();
+    // 2. If cache exists, return it immediately
+    if (cached != null) {
+      final cachedEntity = cached.toEntity();
+      // 3. Silently update from API in background (بدون انتظار)
+      _silentlyUpdateFromAPI();
+
+      // 4. Return cached data immediately
+      return Right(cachedEntity);
+    }
+
+    // 5. If no cache, fetch from API (first time or no cached data)
+    return await _fetchFromAPI();
+  }
+
+  /// تحديث البيانات من الـ API في الخلفية
+  void _silentlyUpdateFromAPI() async {
     try {
       final response = await dataSource.getDriverProfile();
       final profileData = response.data!.toEntity();
+
+      // حفظ البيانات الجديدة في الكاش للمرة القادمة
+      await localDataSource.cacheDriverProfile(
+        DriverProfileHiveModel.fromEntity(profileData),
+      );
+    } catch (e) {
+      // البيانات المحفوظة مسبقًا ما زالت صالحة
+      print('Silent update failed: $e');
+    }
+  }
+
+  /// جلب البيانات من الـ API مع معالجة الأخطاء
+  Future<Either<ErrorModel, DriverProfileEntity>> _fetchFromAPI() async {
+    try {
+      final response = await dataSource.getDriverProfile();
+      final profileData = response.data!.toEntity();
+
       // حفظ البيانات محليًا
       await localDataSource.cacheDriverProfile(
         DriverProfileHiveModel.fromEntity(profileData),
       );
+
       return Right(profileData);
     } on DioException catch (_) {
-      final cached = await localDataSource.getCachedDriverProfile();
-      if (cached != null) {
-        return Right(cached.toEntity());
-      } else {
-        return Left(ErrorModel(message: "No Internet and no cached data"));
-      }
+      return Left(ErrorModel(message: "No Internet connection"));
+    } on ServerException catch (_) {
+      return Left(ErrorModel(message: "Server error occurred"));
     } catch (e) {
       return Left(ErrorModel(message: "Unexpected error: ${e.toString()}"));
     }

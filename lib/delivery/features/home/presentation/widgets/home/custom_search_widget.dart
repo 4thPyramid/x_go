@@ -18,7 +18,7 @@ class CustomSearchDeliveryApp extends StatefulWidget {
 }
 
 class _CustomSearchDeliveryAppState extends State<CustomSearchDeliveryApp> {
-  final TextEditingController? _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   List<OrderStatusEntity> _orders = <OrderStatusEntity>[];
   List<OrderStatusEntity> _filteredOrders = <OrderStatusEntity>[];
@@ -32,6 +32,7 @@ class _CustomSearchDeliveryAppState extends State<CustomSearchDeliveryApp> {
     super.didChangeDependencies();
   }
 
+  @override
   void initState() {
     super.initState();
     _orders = context.read<NewOrdersCubit>().allOrders;
@@ -40,7 +41,7 @@ class _CustomSearchDeliveryAppState extends State<CustomSearchDeliveryApp> {
 
   @override
   void dispose() {
-    _searchController?.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -84,7 +85,7 @@ class _CustomSearchDeliveryAppState extends State<CustomSearchDeliveryApp> {
               suffixIcon: IconButton(
                 icon: Icon(Icons.clear, color: AppColors.grey),
                 onPressed: () {
-                  _searchController?.clear();
+                  _searchController.clear();
                   setState(() {
                     _filteredOrders = _orders;
                   });
@@ -124,18 +125,18 @@ class _CustomSearchDeliveryAppState extends State<CustomSearchDeliveryApp> {
                         const Center(child: CircularProgressIndicator()),
                     success: (orders) {
                       final filtered =
-                          _searchController?.text.isNotEmpty == true
+                          _searchController.text.isNotEmpty == true
                           ? orders
                                 .where(
                                   (order) => order.id.toString().contains(
-                                    _searchController!.text,
+                                    _searchController.text,
                                   ),
                                 )
                                 .toList()
                           : orders;
                       if (orders.isEmpty) {
                         return const Center(child: Text('No orders available'));
-                      } else if ((_searchController?.text.isNotEmpty ??
+                      } else if ((_searchController.text.isNotEmpty ??
                               false) &&
                           filtered.isEmpty) {
                         return const Center(child: Text('No orders found'));

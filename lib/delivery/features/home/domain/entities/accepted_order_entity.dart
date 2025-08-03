@@ -1,6 +1,5 @@
 // accepted_order_entity.dart
 // This file defines the AcceptedOrderEntity class, which represents an accepted order in the system.
-//// It includes various properties related to the order, such as start date, end date, status, payment method, and more.
 class OrderStatusEntity {
   final int id;
   final String paymentMethod;

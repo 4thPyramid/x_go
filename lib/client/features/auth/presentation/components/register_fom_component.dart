@@ -9,7 +9,6 @@ import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
-import 'package:x_go/core/services/service_locator.dart';
 import 'package:x_go/core/utils/app_strings.dart';
 import 'package:x_go/client/features/auth/presentation/logic/cubit/auth_cubit.dart';
 import 'package:x_go/client/features/language/presentation/widgets/instant_language_builder.dart';

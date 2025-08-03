@@ -114,7 +114,7 @@ class DeliveryLocationView extends StatelessWidget {
                             subtitle: const Text('مندوب التوصيل'),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 200.h,
                           child: Column(
                             children: [

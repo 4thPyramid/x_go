@@ -5,7 +5,7 @@ class InfoTile extends StatelessWidget {
   final String subtitle;
   final IconData icon;
 
-  const InfoTile({
+  const InfoTile({super.key, 
     required this.title,
     required this.subtitle,
     required this.icon,

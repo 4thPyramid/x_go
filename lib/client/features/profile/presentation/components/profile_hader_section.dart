@@ -22,14 +22,14 @@ class ProfileHaderSection extends StatelessWidget {
       builder: (context, state) {
         switch (state.runtimeType) {
           case ProfileEditLoading:
-            return Container(
+            return SizedBox(
               height: 200.h,
               child: const Center(child: CircularProgressIndicator()),
             );
 
           case ProfileEditError:
             final errorState = state as ProfileEditError;
-            return Container(
+            return SizedBox(
               height: 200.h,
               child: Center(child: Text(errorState.message)),
             );

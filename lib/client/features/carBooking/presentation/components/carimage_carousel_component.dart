@@ -20,7 +20,7 @@ class _CarImageCarouselComponentState extends State<CarImageCarouselComponent> {
 
   final PageController _pageController = PageController();
 
-  int _currentPage = 0;
+  final int _currentPage = 0;
 
   @override
   Widget build(BuildContext context) {

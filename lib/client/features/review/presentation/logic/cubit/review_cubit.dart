@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:x_go/core/data/api/api_consumer.dart';
 import 'package:x_go/core/data/api/dio_consumer.dart';
 import 'package:x_go/client/features/review/data/data_source/remote_data_source.dart';
 import 'package:x_go/client/features/review/data/model/car_details_model.dart';

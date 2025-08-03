@@ -32,9 +32,7 @@ class ActiveLocationCubit extends Cubit<ActiveLocationState> {
       (location) async {
         if (isClosed) return;
 
-        if (location == null ||
-            location.location == null ||
-            location.location.isEmpty) {
+        if (location.location.isEmpty) {
           await _emitCurrentLocationFromGPS();
         } else {
           emit(ActiveLocationLoaded(activeLocation: location));

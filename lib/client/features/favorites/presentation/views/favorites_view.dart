@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/theme/app_colors.dart';
-import 'package:x_go/core/utils/app_loggr.dart';
 import 'package:x_go/core/utils/app_strings.dart';
 import 'package:x_go/client/features/favorites/presentation/logic/cubit/favorites_cubit.dart';
 import 'package:x_go/client/features/favorites/presentation/logic/cubit/favorites_state.dart';

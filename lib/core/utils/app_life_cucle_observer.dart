@@ -1,6 +1,7 @@
 // App lifecycle observer to handle app state changes
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:x_go/delivery/features/profile/data/models/driver_profile_hive_model.dart';
 
 class AppLifecycleObserver extends WidgetsBindingObserver {
   @override
@@ -30,7 +31,10 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
     try {
       if (Hive.isBoxOpen('orders_box')) {
         final box = Hive.box('orders_box');
+        final profileBox = Hive.box<DriverProfileHiveModel>('driverProfileBox');
+        // Flush the cache to disk
         box.flush();
+        profileBox.flush();
         print('💾 Successfully flushed Hive cache to disk');
       } else {
         print('⚠️ Hive box is not open, cannot flush');

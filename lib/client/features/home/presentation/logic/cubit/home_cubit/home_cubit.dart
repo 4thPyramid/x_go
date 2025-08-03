@@ -100,7 +100,7 @@ class HomeCubit extends Cubit<HomeState> {
       return;
     }
 
-    if (trimmedQuery.length < 1) {
+    if (trimmedQuery.isEmpty) {
       return;
     }
 

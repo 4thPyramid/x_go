@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../logic/cubit/home_cubit/home_state.dart';
 
 class SearchManager extends ChangeNotifier with WidgetsBindingObserver {
@@ -13,7 +12,7 @@ class SearchManager extends ChangeNotifier with WidgetsBindingObserver {
   String _lastSearchQuery = '';
   String _lastSubmittedQuery = '';
   Timer? _debounceTimer;
-  bool _isComposing = false;
+  final bool _isComposing = false;
 
   SearchManager({
     required this.onSearchChanged,
@@ -59,7 +58,7 @@ class SearchManager extends ChangeNotifier with WidgetsBindingObserver {
 
         if (trimmedQuery.isEmpty) {
           onSearchChanged('');
-        } else if (trimmedQuery.length >= 1) {
+        } else if (trimmedQuery.isNotEmpty) {
           onSearchChanged(trimmedQuery);
         } else {
           print('⚠️ Query too short (${trimmedQuery.length} chars), ignoring');

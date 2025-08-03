@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -187,7 +186,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
           }
         },
       );
-    } catch (e, stackTrace) {
+    } catch (e) {
       emit(DeliveryLocationError(errorMessage: 'حدث خطأ غير متوقع'));
     }
   }

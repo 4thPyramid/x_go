@@ -7,7 +7,7 @@ class ProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _pickImage() {
+    void pickImage() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Image picker functionality'),
@@ -20,7 +20,7 @@ class ProfileImage extends StatelessWidget {
     );
   }
    return GestureDetector(
-      onTap: _pickImage,
+      onTap: pickImage,
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_go/core/theme/app_colors.dart';
-import 'package:x_go/delivery/features/home/presentation/logic/completed_status_cubit/new_order_cubit/completed_order_state.dart';
-import 'package:x_go/delivery/features/home/presentation/logic/completed_status_cubit/new_order_cubit/completed_status_cubit.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/completed_status_cubit/completed_order_state.dart';
+import 'package:x_go/delivery/features/home/presentation/logic/completed_status_cubit/completed_status_cubit.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/custom_empty_state_widget.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/custom_error_state_widget.dart';
 import 'package:x_go/delivery/features/home/presentation/widgets/custom_order_card.dart';

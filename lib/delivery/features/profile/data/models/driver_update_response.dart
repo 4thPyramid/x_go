@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:x_go/delivery/features/profile/domain/entities/driver_profile_entity.dart';
 import 'package:x_go/delivery/features/profile/domain/entities/driver_update_entity.dart';
 
 part 'driver_update_response.g.dart';

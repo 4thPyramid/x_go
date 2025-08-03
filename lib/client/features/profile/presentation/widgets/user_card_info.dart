@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/core/utils/image_url_helper.dart';
 
 class UserInfoCard extends StatelessWidget {

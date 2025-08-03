@@ -17,13 +17,13 @@ class ForgetPasswordComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    final _emailController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    final emailController = TextEditingController();
 
     return RealTimeLanguageBuilder(
       builder: (context, locale) {
         return Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             children: [
               Align(
@@ -39,7 +39,7 @@ class ForgetPasswordComponent extends StatelessWidget {
               SizedBox(height: 8.h),
               CustomTextFormField(
                 labelText: AppStrings.email.tr(),
-                controller: _emailController,
+                controller: emailController,
                 prefixIcon: Icon(Icons.email, color: Colors.grey[600]),
                 fillColor: Colors.grey.withValues(alpha: 0.3),
                 keyboardType: TextInputType.emailAddress,
@@ -53,9 +53,9 @@ class ForgetPasswordComponent extends StatelessWidget {
                       : CustomButton(
                           text: AppStrings.sendOtp.tr(),
                           onPressed: () {
-                            if (_formKey.currentState?.validate() ?? false) {
+                            if (formKey.currentState?.validate() ?? false) {
                               context.read<AuthCubit>().forgetPassword(
-                                _emailController.text,
+                                emailController.text,
                               );
                             }
                           },
@@ -67,7 +67,7 @@ class ForgetPasswordComponent extends StatelessWidget {
                       message: state.message,
                       state: ToastStates.SUCCESS,
                     );
-                    context.push(RouterNames.otp, extra: _emailController.text);
+                    context.push(RouterNames.otp, extra: emailController.text);
                   } else if (state is ForgotPasswordError) {
                     showToast(message: state.message, state: ToastStates.ERROR);
                   }

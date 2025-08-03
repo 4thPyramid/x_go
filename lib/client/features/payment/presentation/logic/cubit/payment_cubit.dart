@@ -16,7 +16,7 @@ class PaymentCubit extends Cubit<PaymentState> {
   Future<void> setPaymentMethod(
     PaymentMethod paymentMethod,
     BuildContext context,
-    final_price,
+    finalPrice,
     String modelId,
     String bookingId,
   ) async {
@@ -28,7 +28,7 @@ class PaymentCubit extends Cubit<PaymentState> {
       final result = await useCase.call(paymentMethod, modelId, bookingId);
       result.fold((l) => emit(PaymentError(l.message)), (r) {
         emit(PaymentSuccess());
-        pay(paymentMethod, context, final_price, modelId, bookingId);
+        pay(paymentMethod, context, finalPrice, modelId, bookingId);
       });
     } catch (e) {
       emit(PaymentError(e.toString()));
@@ -40,7 +40,7 @@ class PaymentCubit extends Cubit<PaymentState> {
   Future<void> pay(
     PaymentMethod paymentMethod,
     BuildContext context,
-    final_price,
+    finalPrice,
     String modelId,
     String bookingId,
   ) async {
@@ -48,13 +48,13 @@ class PaymentCubit extends Cubit<PaymentState> {
     booking_id = bookingId;
 
     if (paymentMethod == PaymentMethod.visa) {
-      await paymoobServise(context, final_price);
+      await paymoobServise(context, finalPrice);
     } else if (paymentMethod == PaymentMethod.cash) {}
   }
 
-  Future<void> paymoobServise(BuildContext context, final_price) async {
+  Future<void> paymoobServise(BuildContext context, finalPrice) async {
     final authToken = await PaymobService.getAuthToken();
-    final priceInCents = (double.parse(final_price.toString()) * 100).toInt();
+    final priceInCents = (double.parse(finalPrice.toString()) * 100).toInt();
 
     final orderId = await PaymobService.createOrder(authToken, priceInCents);
     final paymentKey = await PaymobService.getPaymentKey(

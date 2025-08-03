@@ -60,7 +60,7 @@ class CustomTabBar extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
 
   const CustomTabBar({
-    Key? key,
+    super.key,
     required this.selectedIndex,
     required this.tabs,
     required this.onTabSelected,
@@ -68,7 +68,7 @@ class CustomTabBar extends StatelessWidget {
     this.containerBorderRadius,
     this.tabBorderRadius,
     this.padding,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -64,7 +64,7 @@ class YearDropdown extends StatelessWidget {
                     value: year,
                     child: Text(year),
                   );
-                }).toList(),
+                }),
               ],
               onChanged: onYearSelected,
             ),

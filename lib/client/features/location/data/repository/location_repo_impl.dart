@@ -6,6 +6,7 @@ import 'package:x_go/client/features/location/domain/repository/location_repo.da
 class LocationRepoImpl implements LocationRepo {
   final LocationDataSourceImpl remoteDataSource;
   LocationRepoImpl(this.remoteDataSource);
+  @override
   Future<Either<ErrorModel, void>> setLocation({
     required String latitude,
     required String longitude,

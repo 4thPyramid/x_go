@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:x_go/core/errors/error_model.dart';
-import 'package:x_go/client/features/carBooking/domain/repository/car_booking_repo.dart';
 import 'package:x_go/client/features/location/domain/repository/location_repo.dart';
 
 class SetLocationUseCase {

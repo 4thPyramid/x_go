@@ -5,7 +5,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:x_go/client/features/home/presentation/logic/cubit/active_location/active_location_cubit.dart';
-import 'package:x_go/core/common/functions/clean_location_text.dart';
 import 'package:x_go/core/data/api/dio_consumer.dart';
 import 'package:x_go/core/services/google_map_service.dart';
 import 'package:x_go/client/features/location/data/data_source/location_data_source.dart';
@@ -54,11 +53,7 @@ class LocationCubit extends Cubit<LocationState> {
     if (placemarks.isEmpty) return 'Unknown location';
 
     final placemark =
-        placemarks.first.administrativeArea! +
-        ', ' +
-        placemarks.first.subAdministrativeArea! +
-        ', ' +
-        placemarks.first.locality!;
+        '${placemarks.first.administrativeArea!}, ${placemarks.first.subAdministrativeArea!}, ${placemarks.first.locality!}';
 
     return placemark.toString();
   }

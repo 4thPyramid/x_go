@@ -10,7 +10,7 @@ class EmptyStateWidget extends StatelessWidget {
   final IconData icon;
   final VoidCallback onRefresh;
 
-  const EmptyStateWidget({
+  const EmptyStateWidget({super.key, 
     required this.message,
     required this.icon,
     required this.onRefresh,

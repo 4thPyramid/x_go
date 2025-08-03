@@ -41,7 +41,7 @@ class _SearchComponentState extends State<SearchComponent> {
     if (query.trim().isEmpty) {
       context.read<HomeCubit>().getCars();
       widget.onParamsChanged?.call(HomeRequestParams(page: 1));
-    } else if (query.trim().length >= 1) {
+    } else if (query.trim().isNotEmpty) {
       context.read<HomeCubit>().searchCars(query.trim());
       widget.onParamsChanged?.call(
         HomeRequestParams(search: query.trim(), page: 1),
