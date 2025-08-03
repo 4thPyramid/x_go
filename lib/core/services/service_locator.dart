@@ -30,6 +30,7 @@ import 'package:x_go/client/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:x_go/client/features/auth/domain/usecases/register_usecase.dart';
 import 'package:x_go/client/features/auth/domain/usecases/reset_password_use_case.dart';
 import 'package:x_go/client/features/home/data/datasources/active_location_remote_data_source.dart';
+import 'package:x_go/client/features/home/data/datasources/active_location_local_data_source.dart';
 import 'package:x_go/client/features/home/data/datasources/car_remote_datasource_impl.dart';
 import 'package:x_go/client/features/home/data/datasources/car_local_datasource_impl.dart';
 import 'package:x_go/client/features/home/data/repo/active_location_repository_impl.dart';
@@ -177,6 +178,9 @@ void setupLocator() {
   getIt.registerLazySingleton<ActiveLocationRemoteDataSource>(
     () => ActiveLocationRemoteDataSourceImpl(apiConsumer: getIt<DioConsumer>()),
   );
+  getIt.registerLazySingleton<ActiveLocationLocalDataSource>(
+    () => ActiveLocationLocalDataSourceImpl(),
+  );
 
   /// !-- UseCases -- ///
   /// Booking Details UseCases
@@ -224,6 +228,7 @@ void setupLocator() {
   getIt.registerLazySingleton<ActiveLocationRepository>(
     () => ActiveLocationRepositoryImpl(
       remoteDataSource: getIt<ActiveLocationRemoteDataSource>(),
+      localDataSource: getIt<ActiveLocationLocalDataSource>(),
     ),
   );
 

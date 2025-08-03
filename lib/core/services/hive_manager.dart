@@ -1,4 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:x_go/client/features/home/data/models/location_active_hive_model.dart';
 import 'package:x_go/delivery/features/home/data/model/order_status_hive_model.dart';
 import 'package:x_go/delivery/features/profile/data/models/driver_profile_hive_model.dart';
 
@@ -13,37 +14,35 @@ class HiveManager {
     try {
       // Initialize Hive
       await Hive.initFlutter();
-      print('🚀 Hive initialized');
 
       // Register adapters for delivery features (existing code)
       try {
         Hive.registerAdapter(OrderStatusHiveModelAdapter());
-        print('✅ OrderStatusHiveModelAdapter registered');
       } catch (e) {
-        print('⚠️ OrderStatusHiveModelAdapter already registered: $e');
+        print(' OrderStatusHiveModelAdapter already registered: $e');
       }
 
       try {
         Hive.registerAdapter(DriverProfileHiveModelAdapter());
-        print('✅ DriverProfileHiveModelAdapter registered');
       } catch (e) {
-        print('⚠️ DriverProfileHiveModelAdapter already registered: $e');
+        print(' DriverProfileHiveModelAdapter already registered: $e');
       }
-
+      try {
+        Hive.registerAdapter(LocationActiveHiveModelAdapter());
+      } catch (e) {
+        print(' LocationActiveHiveModelAdapter already registered: $e');
+      }
       // Open all required boxes
       await Hive.openBox('favorites_box');
-      print('📦 Opened favorites_box');
 
       await Hive.openBox('orders_box');
-      print('📦 Opened orders_box');
 
       await Hive.openBox<DriverProfileHiveModel>('driverProfileBox');
-      print('� Opened driverProfileBox');
+      await Hive.openBox<LocationActiveHiveModel>('active_location');
 
       _isInitialized = true;
-      print('🎉 All Hive boxes initialized successfully');
     } catch (e) {
-      print('❌ Failed to initialize Hive: $e');
+      print(' Failed to initialize Hive: $e');
       rethrow;
     }
   }
@@ -69,6 +68,16 @@ class HiveManager {
       );
     }
     return Hive.box('orders_box');
+  }
+
+  /// Get active location box
+  static Box<LocationActiveHiveModel> getActiveLocationBox() {
+    if (!_isInitialized) {
+      throw StateError(
+        'Hive not initialized. Call HiveManager.initialize() first.',
+      );
+    }
+    return Hive.box('active_location');
   }
 
   /// Get driver profile box

@@ -1,4 +1,5 @@
-// ✅ CarCardWidget بعد التعديل لمنع الجيست من الضغط على الفيفوريت
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,40 @@ class CarCardWidget extends StatelessWidget {
     this.onFavoriteToggle,
     this.isGuest = false,
   });
+
+  // Method to check internet connectivity
+  Future<bool> _hasInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException catch (_) {
+      return false;
+    }
+  }
+
+  // Handle favorite toggle with internet check
+  Future<void> _handleFavoriteToggle() async {
+    if (isGuest) {
+      showToast(message: 'يجب تسجيل الدخول أولاً', state: ToastStates.ERROR);
+      return;
+    }
+
+    bool hasInternet = await _hasInternetConnection();
+
+    if (!hasInternet) {
+      showToast(message: 'لا يوجد اتصال بالإنترنت', state: ToastStates.ERROR);
+      return;
+    }
+
+    // If internet is available, proceed with favorite toggle
+    onFavoriteToggle?.call();
+    showToast(
+      message: isFavorite
+          ? AppStrings.carRemovedFromFavorites.tr()
+          : AppStrings.carAddedToFavorites.tr(),
+      state: isFavorite ? ToastStates.WARNING : ToastStates.SUCCESS,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -227,24 +262,7 @@ class CarCardWidget extends StatelessWidget {
                     ),
                     if (onFavoriteToggle != null)
                       GestureDetector(
-                        onTap: () {
-                          if (isGuest) {
-                            showToast(
-                              message: 'يجب تسجيل الدخول أولاً',
-                              state: ToastStates.ERROR,
-                            );
-                            return;
-                          }
-                          onFavoriteToggle!();
-                          showToast(
-                            message: isFavorite
-                                ? 'Car removed from favorites'
-                                : 'Car added to favorites',
-                            state: isFavorite
-                                ? ToastStates.WARNING
-                                : ToastStates.SUCCESS,
-                          );
-                        },
+                        onTap: _handleFavoriteToggle,
                         child: Container(
                           padding: EdgeInsets.all(4.w),
                           decoration: BoxDecoration(
@@ -365,22 +383,7 @@ class CarCardWidget extends StatelessWidget {
             top: 8.h,
             right: 8.w,
             child: GestureDetector(
-              onTap: () {
-                if (isGuest) {
-                  showToast(
-                    message: 'يجب تسجيل الدخول أولاً',
-                    state: ToastStates.ERROR,
-                  );
-                  return;
-                }
-                onFavoriteToggle!();
-                showToast(
-                  message: isFavorite
-                      ? AppStrings.carRemovedFromFavorites.tr()
-                      : AppStrings.carAddedToFavorites.tr(),
-                  state: isFavorite ? ToastStates.WARNING : ToastStates.SUCCESS,
-                );
-              },
+              onTap: _handleFavoriteToggle,
               child: Container(
                 padding: EdgeInsets.all(4.w),
                 decoration: BoxDecoration(
