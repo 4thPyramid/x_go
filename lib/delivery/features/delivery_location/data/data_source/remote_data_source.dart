@@ -10,6 +10,8 @@ abstract class RemoteDataSource {
     LatLng currentPosition,
     LatLng destination,
   );
+
+  Future<Either<ErrorModel, dynamic>> refuseOrder(String bookingId);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -31,6 +33,19 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
       final data = RouteModel.fromJson(response);
       return Right(data);
+    } catch (e) {
+      return Left(ErrorModel(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, dynamic>> refuseOrder(String bookingId) async {
+    try {
+      var response = await apiConsumer.post(
+        '/api/driver/booking/$bookingId/status',
+        data: {'status': 'canceled'},
+      );
+      return Right(response);
     } catch (e) {
       return Left(ErrorModel(message: e.toString()));
     }

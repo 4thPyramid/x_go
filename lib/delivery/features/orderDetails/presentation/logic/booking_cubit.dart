@@ -10,7 +10,8 @@ class BookingDetailsCubit extends Cubit<BookingState> {
   final GetBookingDetailsUseCase getBookingDetails;
   final ChangeBookingStatus changeBookingStatus;
 
-   BookingDetailsCubit(this.getBookingDetails, this.changeBookingStatus) : super(BookingInitial());
+  BookingDetailsCubit(this.getBookingDetails, this.changeBookingStatus)
+    : super(BookingInitial());
 
   void fetchBookingDetails(int id) async {
     emit(BookingLoading());
@@ -21,7 +22,16 @@ class BookingDetailsCubit extends Cubit<BookingState> {
       print('Error fetching booking details: $e');
       emit(BookingError(e.toString()));
       print('Error fetching booking details: $e');
-      
+    }
+  }
+
+  void changebookingStatus(int id, String status) async {
+    emit(BookingLoading());
+    try {
+      final response = await changeBookingStatus.call(id, status);
+      emit(BookingStatusChanged(response));
+    } catch (e) {
+      emit(BookingError(e.toString()));
     }
   }
 }

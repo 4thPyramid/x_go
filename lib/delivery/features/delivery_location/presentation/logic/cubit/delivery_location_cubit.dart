@@ -11,12 +11,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:x_go/delivery/features/delivery_location/data/data_source/remote_data_source.dart';
 import 'package:x_go/delivery/features/delivery_location/data/repositories/delivery_location_repo_impl.dart';
 import 'package:x_go/delivery/features/delivery_location/domain/use_cases/get_best_route_uc.dart';
+import 'package:x_go/delivery/features/delivery_location/domain/use_cases/refuse_order_uc.dart';
 
 part 'delivery_location_state.dart';
 
 class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   DeliveryLocationCubit() : super(DeliveryLocationInitial());
-  StreamSubscription<Position>? _positionStreamSubscription;
+  StreamSubscription<Position>? positionStreamSubscription;
 
   late Set<Marker> markers;
   late List<LatLng> polylines = [];
@@ -78,9 +79,9 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   }
 
   void startStream(LatLng currentPosition) {
-    _positionStreamSubscription?.cancel();
+    positionStreamSubscription?.cancel();
     try {
-      _positionStreamSubscription =
+      positionStreamSubscription =
           Geolocator.getPositionStream(
             locationSettings: LocationSettings(
               accuracy: LocationAccuracy.high,
@@ -209,5 +210,27 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
     }
 
     return 0.0;
+  }
+
+  void refuseOrder(String bookingId) async {
+    try {
+      emit(RefuseOrderLoading());
+      final useCase = RefuseOrderUc(
+        DeliveryLocationRepoImpl(RemoteDataSourceImpl(DioConsumer(dio: Dio()))),
+      );
+
+      final result = await useCase.call(bookingId);
+
+      result.fold(
+        (failure) {
+          emit(RefuseOrderError(errorMessage: failure.message));
+        },
+        (routeData) {
+          emit(RefuseOrderSuccess());
+        },
+      );
+    } catch (e, stackTrace) {
+      emit(RefuseOrderError(errorMessage: e.toString()));
+    }
   }
 }

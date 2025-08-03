@@ -183,6 +183,9 @@ void setupLocator() {
   getIt.registerLazySingleton<GetBookingDetailsUseCase>(
     () => GetBookingDetailsUseCase(getIt<BookingDetailsRepository>()),
   );
+  getIt.registerLazySingleton<ChangeBookingStatus>(
+    () => ChangeBookingStatus(getIt<BookingDetailsRepository>()),
+  );
 
   // Auth UseCases
   getIt.registerLazySingleton<LoginUseCase>(

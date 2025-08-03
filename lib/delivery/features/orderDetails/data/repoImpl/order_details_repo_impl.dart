@@ -16,7 +16,7 @@ class BookingDetailsRepositoryImpl implements BookingDetailsRepository {
     final model = await remoteDataSource.getBookingDetails(id);
     return model.toEntity();
   }
-  
+
   @override
   Future<ChangeStatsResponse> changeBookingStatus(int id, String status) async {
     return await remoteDataSource.changeBookingStatus(id, status);

@@ -43,3 +43,15 @@ final class DeliveryLocationError extends DeliveryLocationState {
 }
 
 final class SuccessArrived extends DeliveryLocationState {}
+
+final class RefuseOrderLoading extends DeliveryLocationState {}
+
+final class RefuseOrderSuccess extends DeliveryLocationState {}
+
+final class RefuseOrderError extends DeliveryLocationState {
+  final String errorMessage;
+
+  const RefuseOrderError({required this.errorMessage});
+  @override
+  List<Object> get props => [errorMessage];
+}

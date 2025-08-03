@@ -4,19 +4,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:x_go/client/features/location/presentation/widgets/google_map_widget.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
-import 'package:x_go/core/common/widgets/custom_text_form_field.dart';
 import 'package:x_go/core/functions/show_toast.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/logic/cubit/delivery_location_cubit.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/widgets/info_tile.dart';
 
-class DeliveryLocationView extends StatelessWidget {
-  String? modelId;
-  String? bookingId;
-  String? driverId;
-  String? lat;
-  String? lng;
-  String? location;
-  DeliveryLocationView({
+class DeliveryLocationView extends StatefulWidget {
+  final String? modelId;
+  final String? bookingId;
+  final String? driverId;
+  final String? lat;
+  final String? lng;
+  final String? location;
+  const DeliveryLocationView({
     super.key,
     this.modelId,
     this.bookingId,
@@ -25,6 +24,17 @@ class DeliveryLocationView extends StatelessWidget {
     this.lng,
     this.location,
   });
+
+  @override
+  State<DeliveryLocationView> createState() => _DeliveryLocationViewState();
+}
+
+class _DeliveryLocationViewState extends State<DeliveryLocationView> {
+  @override
+  void dispose() {
+    super.dispose();
+    context.read<DeliveryLocationCubit>().positionStreamSubscription?.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,12 +150,19 @@ class DeliveryLocationView extends StatelessWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: CustomButton(
-                                height: 45.h,
-                                onPressed: () =>
-                                    reportDeliveryBottomSheet(context),
-                                text: 'الإبلاغ عن مشكلة',
-                              ),
+                              child: state is RefuseOrderLoading
+                                  ? const Center(
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  : CustomButton(
+                                      height: 45.h,
+                                      onPressed: () {
+                                        context
+                                            .read<DeliveryLocationCubit>()
+                                            .refuseOrder(widget.bookingId!);
+                                      },
+                                      text: 'رفض الطلب',
+                                    ),
                             ),
                             const SizedBox(width: 12),
                             state is SuccessArrived
@@ -182,34 +199,4 @@ class DeliveryLocationView extends StatelessWidget {
       ),
     );
   }
-}
-
-void reportDeliveryBottomSheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (context) => Container(
-      padding: const EdgeInsets.all(16),
-      width: MediaQuery.of(context).size.width,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.warning_amber, color: Colors.red, size: 100),
-            const SizedBox(height: 30),
-            const Text(
-              'تم الابلاغ عن مشكلة',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 40),
-            CustomTextFormField(
-              maxLines: 4,
-              hintText: 'اكتب المشكلة التي تواجهك ',
-            ),
-            const SizedBox(height: 20),
-            CustomButton(height: 40.h, onPressed: () {}, text: 'تأكيد'),
-          ],
-        ),
-      ),
-    ),
-  );
 }

@@ -15,4 +15,9 @@ class DeliveryLocationRepoImpl implements DriverLocationRepo {
   ) {
     return remoteDataSource.getBestRoute(currentPosition, destination);
   }
+
+  @override
+  Future<Either<ErrorModel, void>> refuseOrder(String bookingId) {
+    return remoteDataSource.refuseOrder(bookingId);
+  }
 }
