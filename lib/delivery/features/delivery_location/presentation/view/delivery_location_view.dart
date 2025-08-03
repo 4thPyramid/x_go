@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:x_go/client/features/location/presentation/widgets/google_map_widget.dart';
 import 'package:x_go/core/common/widgets/custom_btn.dart';
 import 'package:x_go/core/functions/show_toast.dart';
+import 'package:x_go/core/routes/router_names.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/logic/cubit/delivery_location_cubit.dart';
 import 'package:x_go/delivery/features/delivery_location/presentation/widgets/info_tile.dart';
 
@@ -12,6 +14,7 @@ class DeliveryLocationView extends StatefulWidget {
   final String? modelId;
   final String? bookingId;
   final String? driverId;
+  final String? driverName;
   final String? lat;
   final String? lng;
   final String? location;
@@ -20,6 +23,7 @@ class DeliveryLocationView extends StatefulWidget {
     this.modelId,
     this.bookingId,
     this.driverId,
+    this.driverName,
     this.lat,
     this.lng,
     this.location,
@@ -30,6 +34,15 @@ class DeliveryLocationView extends StatefulWidget {
 }
 
 class _DeliveryLocationViewState extends State<DeliveryLocationView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<DeliveryLocationCubit>().destination = LatLng(
+      double.parse(widget.lat!),
+      double.parse(widget.lng!),
+    );
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -117,8 +130,8 @@ class _DeliveryLocationViewState extends State<DeliveryLocationView> {
                                 color: Colors.black,
                               ),
                             ),
-                            title: const Text(
-                              'waleed seafan',
+                            title: Text(
+                              widget.driverName ?? 'not found',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: const Text('مندوب التوصيل'),
@@ -140,7 +153,7 @@ class _DeliveryLocationViewState extends State<DeliveryLocationView> {
                               ),
                               InfoTile(
                                 title: 'مكان التوصيل',
-                                subtitle: 'القاهرة',
+                                subtitle: widget.location ?? 'not found',
                                 icon: Icons.location_on_outlined,
                               ),
                             ],
@@ -149,20 +162,50 @@ class _DeliveryLocationViewState extends State<DeliveryLocationView> {
                         SizedBox(height: 20.h),
                         Row(
                           children: [
-                            Expanded(
-                              child: state is RefuseOrderLoading
-                                  ? const Center(
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  : CustomButton(
-                                      height: 45.h,
-                                      onPressed: () {
-                                        context
-                                            .read<DeliveryLocationCubit>()
-                                            .refuseOrder(widget.bookingId!);
-                                      },
-                                      text: 'رفض الطلب',
-                                    ),
+                            BlocProvider(
+                              create: (context) => DeliveryLocationCubit(),
+                              child:
+                                  BlocConsumer<
+                                    DeliveryLocationCubit,
+                                    DeliveryLocationState
+                                  >(
+                                    listener: (context, state) {
+                                      if (state is RefuseOrderError) {
+                                        showToast(
+                                          message: state.errorMessage,
+                                          state: ToastStates.ERROR,
+                                        );
+                                      } else if (state is RefuseOrderSuccess) {
+                                        showToast(
+                                          message: 'تم رفض الطلب',
+                                          state: ToastStates.SUCCESS,
+                                        );
+                                        context.go(RouterNames.appDelivery);
+                                      }
+                                    },
+                                    builder: (context, state) {
+                                      return Expanded(
+                                        child: state is RefuseOrderLoading
+                                            ? const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              )
+                                            : CustomButton(
+                                                height: 45.h,
+                                                onPressed: () {
+                                                  context
+                                                      .read<
+                                                        DeliveryLocationCubit
+                                                      >()
+                                                      .refuseOrder(
+                                                        widget.bookingId!,
+                                                      );
+                                                },
+                                                text: 'رفض الطلب',
+                                              ),
+                                      );
+                                    },
+                                  ),
                             ),
                             const SizedBox(width: 12),
                             state is SuccessArrived

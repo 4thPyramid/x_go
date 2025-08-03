@@ -86,6 +86,13 @@ class _BookingCardState extends State<BookingCard> {
         );
         break;
 
+      case 'driver_accepted':
+        context.go(
+          RouterNames.clientTrackLocation,
+          extra: {'myBookingModel': widget.myBookingModel},
+        );
+        break;
+
       case 'awaiting_payment':
         if (!_isAwaitingPaymentTapped) {
           setState(() {
@@ -96,10 +103,10 @@ class _BookingCardState extends State<BookingCard> {
         break;
 
       default:
-        context.push(
-          RouterNames.myBooking,
-          extra: {'myBookingModel': widget.myBookingModel},
-        );
+        // context.push(
+        //   RouterNames.myBooking,
+        //   extra: {'myBookingModel': widget.myBookingModel},
+        // );
         break;
     }
   }

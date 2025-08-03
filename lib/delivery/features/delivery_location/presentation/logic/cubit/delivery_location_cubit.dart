@@ -23,6 +23,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
   late List<LatLng> polylines = [];
   String duration = '';
   String distance = '';
+  late LatLng destination;
 
   String hash = '';
   void getCurrentLocation() async {
@@ -110,7 +111,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
               ),
             );
 
-            await getCode(latLng);
+            await getCode(latLng, destination);
             addToFirebase(latLng, hash);
           });
     } on Exception catch (e) {
@@ -147,16 +148,13 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
     return result.map((e) => LatLng(e.latitude, e.longitude)).toList();
   }
 
-  Future<void> getCode(LatLng currentPosition) async {
+  Future<void> getCode(LatLng currentPosition, LatLng destination) async {
     try {
       final useCase = GetBestRouteUc(
         DeliveryLocationRepoImpl(RemoteDataSourceImpl(DioConsumer(dio: Dio()))),
       );
 
-      final result = await useCase.call(
-        currentPosition,
-        const LatLng(30.034047, 31.876756),
-      );
+      final result = await useCase.call(currentPosition, destination);
 
       result.fold(
         (failure) {

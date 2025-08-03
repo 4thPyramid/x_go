@@ -411,6 +411,7 @@ final GoRouter router = GoRouter(
         final modelId = booking.carModel.id;
         final bookingId = booking.id.toString();
         final driverId = booking.user.id.toString();
+        final driverName = booking.user.name;
         final lat = booking.location?.latitude.toString() ?? '0';
         final lng = booking.location?.longitude.toString() ?? '0';
         final location = booking.location?.address ?? '';
@@ -420,6 +421,7 @@ final GoRouter router = GoRouter(
             modelId: modelId,
             bookingId: bookingId,
             driverId: driverId,
+            driverName: driverName,
             lat: lat,
             lng: lng,
             location: location,

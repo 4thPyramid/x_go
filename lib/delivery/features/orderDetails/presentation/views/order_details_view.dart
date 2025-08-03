@@ -157,10 +157,10 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     child: CustomButton(
                       text: 'قبول',
                       onPressed: () {
-                        context.read<BookingDetailsCubit>().changebookingStatus(
-                          booking.id,
-                          'driver_accepted',
-                        );
+                        // context.read<BookingDetailsCubit>().changebookingStatus(
+                        //   booking.id,
+                        //   'driver_accepted',
+                        // );
                         // التنقل إن أردت بعد التغيير
                         context.push(
                           RouterNames.deliveryLocation,
