@@ -10,7 +10,9 @@ class DioConsumer extends ApiConsumer {
 
   DioConsumer({required this.dio}) {
     dio.options.baseUrl = EndpointsStrings.baseUrl;
-    dio.interceptors.clear();
+    dio.interceptors
+        .clear(); // مهم جدًا علشان تمسح أي Interceptors مضافة قبل كده
+
     dio.interceptors.add(
       AwesomeDioInterceptor(
         logRequestTimeout: true,
