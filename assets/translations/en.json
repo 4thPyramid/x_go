@@ -84,7 +84,7 @@
   "language_changed": "Language changed to {0}",
   "error_changing_language": "Error changing language",
   
-  "car_added_to_favorites": "Car added to favorites",
+  "car_added_to_favorites": "Added to favorites",
   "car_removed_from_favorites": "Car removed from favorites",
   "no_favorite_cars_yet": "No favorite cars yet"
 }
