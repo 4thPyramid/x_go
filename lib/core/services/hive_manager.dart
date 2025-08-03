@@ -13,28 +13,37 @@ class HiveManager {
     try {
       // Initialize Hive
       await Hive.initFlutter();
+      print('🚀 Hive initialized');
+
       // Register adapters for delivery features (existing code)
       try {
         Hive.registerAdapter(OrderStatusHiveModelAdapter());
+        print('✅ OrderStatusHiveModelAdapter registered');
       } catch (e) {
-        print(' OrderStatusHiveModelAdapter already registered: $e');
+        print('⚠️ OrderStatusHiveModelAdapter already registered: $e');
       }
 
       try {
         Hive.registerAdapter(DriverProfileHiveModelAdapter());
+        print('✅ DriverProfileHiveModelAdapter registered');
       } catch (e) {
-        print(' DriverProfileHiveModelAdapter already registered: $e');
+        print('⚠️ DriverProfileHiveModelAdapter already registered: $e');
       }
 
       // Open all required boxes
       await Hive.openBox('favorites_box');
+      print('📦 Opened favorites_box');
 
       await Hive.openBox('orders_box');
+      print('📦 Opened orders_box');
+
       await Hive.openBox<DriverProfileHiveModel>('driverProfileBox');
+      print('� Opened driverProfileBox');
+
       _isInitialized = true;
-      print(' All Hive boxes initialized successfully');
+      print('🎉 All Hive boxes initialized successfully');
     } catch (e) {
-      print(' Failed to initialize Hive: $e');
+      print('❌ Failed to initialize Hive: $e');
       rethrow;
     }
   }
@@ -77,8 +86,9 @@ class HiveManager {
     try {
       await Hive.close();
       _isInitialized = false;
+      print('🗄️ Hive disposed successfully');
     } catch (e) {
-      print(' Error disposing Hive: $e');
+      print('❌ Error disposing Hive: $e');
     }
   }
 
@@ -89,9 +99,32 @@ class HiveManager {
         final favBox = Hive.box('favorites_box');
         await favBox.clear();
         await favBox.flush();
+        print('🧹 All Hive data cleared');
       }
     } catch (e) {
-      print(' Error clearing Hive data: $e');
+      print('❌ Error clearing Hive data: $e');
+    }
+  }
+
+  /// Debug: Print all box contents
+  static void debugPrintBoxContents() {
+    if (!_isInitialized) {
+      print('❌ Hive not initialized');
+      return;
+    }
+
+    try {
+      final favBox = Hive.box('favorites_box');
+      print('📦 Favorites Box Contents:');
+      print('  - Keys: ${favBox.keys.toList()}');
+      print('  - Length: ${favBox.length}');
+
+      for (final key in favBox.keys) {
+        final value = favBox.get(key);
+        print('  - $key: ${value?.toString().substring(0, 100) ?? 'null'}...');
+      }
+    } catch (e) {
+      print('❌ Error printing box contents: $e');
     }
   }
 }

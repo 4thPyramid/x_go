@@ -23,6 +23,9 @@ class FavoritesRepository {
         if (!isExpired) {
           final cachedFavorites = await favLocalDataSource.getCachedFavorites();
           if (cachedFavorites.isNotEmpty) {
+            print(
+              '🎯 Returning ${cachedFavorites.length} favorites from cache',
+            );
             // Optionally update cache in background
             _updateCacheInBackground();
             return cachedFavorites;
@@ -31,6 +34,7 @@ class FavoritesRepository {
       }
 
       // 2. Fetch from API
+      print('🌐 Fetching favorites from API...');
       final response = await apiConsumer.get(EndpointsStrings.favorites);
       final favorites = (response as List)
           .map((favorite) => FavoriteModel.fromJson(favorite))
@@ -38,15 +42,20 @@ class FavoritesRepository {
 
       // 3. Cache the fresh data
       await favLocalDataSource.cacheFavorites(favorites);
+      print('💾 Cached ${favorites.length} favorites');
 
       return favorites;
     } catch (e) {
+      print('❌ API error, falling back to cache: $e');
       // 4. Fallback to cache if API fails
       try {
         final cachedFavorites = await favLocalDataSource.getCachedFavorites();
-
+        print(
+          '📖 Retrieved ${cachedFavorites.length} favorites from cache (fallback)',
+        );
         return cachedFavorites;
       } catch (cacheError) {
+        print('❌ Cache also failed: $cacheError');
         return []; // Return empty list if both API and cache fail
       }
     }
@@ -64,6 +73,7 @@ class FavoritesRepository {
 
       return response['message'];
     } catch (e) {
+      print('❌ Error toggling favorite: $e');
       rethrow;
     }
   }
@@ -97,13 +107,16 @@ class FavoritesRepository {
   void _updateCacheInBackground() {
     Future.microtask(() async {
       try {
+        print('🔄 Background update for favorites');
         final response = await apiConsumer.get(EndpointsStrings.favorites);
         final favorites = (response as List)
             .map((favorite) => FavoriteModel.fromJson(favorite))
             .toList();
 
         await favLocalDataSource.cacheFavorites(favorites);
+        print('✅ Background update completed');
       } catch (e) {
+        print('❌ Background update failed: $e');
         // Fail silently in background
       }
     });
@@ -118,12 +131,15 @@ class FavoritesRepository {
       if (isFav) {
         // If it was favorite, remove it
         await favLocalDataSource.removeFromFavorites(carId);
+        print('💔 Removed from local favorites: $carId');
       } else {
         // If it wasn't favorite, we'd need the full car data to add
         // For now, we'll refresh the whole cache
+        print('❤️ Need to refresh cache after adding favorite: $carId');
         await getFavorites(forceRefresh: true);
       }
     } catch (e) {
+      print('❌ Error updating local cache after toggle: $e');
       // Don't throw - this is just cache management
     }
   }
