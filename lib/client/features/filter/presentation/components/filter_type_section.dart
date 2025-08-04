@@ -8,7 +8,7 @@ import 'package:x_go/client/features/home/domain/entity/car_entity.dart';
 import 'filter_loading_widget.dart';
 import 'filter_error_widget.dart';
 
-class FilterTypeSection extends StatelessWidget {
+class FilterTypeSection extends StatefulWidget {
   final HomeState state;
   final List<CarType> cachedTypes;
   final bool hasLoadedData;
@@ -25,29 +25,50 @@ class FilterTypeSection extends StatelessWidget {
   });
 
   @override
+  State<FilterTypeSection> createState() => _FilterTypeSectionState();
+}
+
+class _FilterTypeSectionState extends State<FilterTypeSection> {
+  HomeCubit? _homeCubit;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // حفظ مرجع آمن للـ HomeCubit
+    _homeCubit ??= context.read<HomeCubit>();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // عرض Loading أثناء تحميل البيانات لأول مرة
-    if (state is FilterLoading && !hasLoadedData) {
+    if (widget.state is FilterLoading && !widget.hasLoadedData) {
       return const FilterLoadingWidget();
     }
 
     // عرض Error إذا فشل التحميل
-    if (state is HomeError && !hasLoadedData) {
+    if (widget.state is HomeError && !widget.hasLoadedData) {
       return FilterErrorWidget(
-        message: _getErrorMessage(state),
-        onRetry: () => context.read<HomeCubit>().getFilterInfo(),
+        message: _getErrorMessage(widget.state),
+        onRetry: () {
+          // استخدام المرجع المحفوظ بدلاً من context.read
+          if (_homeCubit != null && mounted) {
+            _homeCubit!.getFilterInfo();
+          }
+        },
       );
     }
 
     // تحويل CarType إلى List<String> للاستخدام في CarTypeSelector
-    final types = cachedTypes.map((type) => type.name).toList();
+    final types = widget.cachedTypes.map((type) => type.name).toList();
 
     // عرض Car Type Selector مع البيانات المُحملة
     return CarTypeSelector(
       types: types,
-      selectedType: selectedType,
+      selectedType: widget.selectedType,
       onTypeSelected: (type) {
-        onTypeSelected(selectedType == type ? null : type);
+        if (mounted) {
+          widget.onTypeSelected(widget.selectedType == type ? null : type);
+        }
       },
     );
   }

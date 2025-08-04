@@ -17,84 +17,103 @@ class CarDetailInfoCards extends StatelessWidget {
       crossAxisCount: 2,
       crossAxisSpacing: 12.w,
       mainAxisSpacing: 12.h,
-      childAspectRatio: 1.5,
+      childAspectRatio: 2.2, // زيادة النسبة أكثر لمنع الـ overflow
       children: [
-        _buildInfoCard(context, 'Year', attributes.year, Icons.calendar_today),
+        _buildInfoCard('Year', attributes.year, Icons.calendar_today_rounded),
         _buildInfoCard(
-          context,
           'Engine',
           attributes.engineType,
-          Icons.local_gas_station,
+          Icons.local_gas_station_rounded,
         ),
         _buildInfoCard(
-          context,
           'Transmission',
           attributes.transmissionType,
-          Icons.settings,
+          Icons.settings_applications_rounded,
         ),
         _buildInfoCard(
-          context,
           'Seats',
           '${attributes.seatsCount} Seats',
-          Icons.event_seat,
+          Icons.event_seat_rounded,
         ),
-        _buildInfoCard(context, 'Seat Type', attributes.seatType, Icons.chair),
+        _buildInfoCard('Seat Type', attributes.seatType, Icons.chair_rounded),
         _buildInfoCard(
-          context,
           'Acceleration',
           '${attributes.acceleration}s',
-          Icons.speed,
+          Icons.speed_rounded,
         ),
       ],
     );
   }
 
-  Widget _buildInfoCard(
-    BuildContext context,
-    String label,
-    String value,
-    IconData icon,
-  ) {
-    return Card(
-      elevation: 2,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-      child: Container(
-        padding: EdgeInsets.all(12.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(
-            color: AppColors.primaryColor.withOpacity(0.1),
-            width: 1,
+  Widget _buildInfoCard(String label, String value, IconData icon) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: AppColors.lightBorderGrey, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.shadow.withOpacity(0.08),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
-        ),
+        ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(8.w), // تقليل الـ padding أكثر
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Icon(icon, size: 24.sp, color: AppColors.primaryColor),
-            SizedBox(height: 6.h),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 11.sp,
-                fontWeight: FontWeight.w500,
-                color: AppColors.primaryColor.withOpacity(0.7),
+            // Icon Container
+            Container(
+              padding: EdgeInsets.all(4.w), // تقليل padding الأيقونة أكثر
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(6.r),
               ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 3.h),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.bold,
+              child: Icon(
+                icon,
+                size: 16.r, // تقليل حجم الأيقونة أكثر
                 color: AppColors.primaryColor,
               ),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            ),
+
+            // Label and Value in expanded space
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Label
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 9.sp, // تقليل حجم الخط أكثر
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textSecondary,
+                      letterSpacing: 0.1,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                  SizedBox(height: 1.h), // تقليل المسافة أكثر
+                  // Value
+                  Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: 10.sp, // تقليل حجم الخط أكثر
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                      letterSpacing: -0.1,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

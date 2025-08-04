@@ -8,7 +8,7 @@ import '../widgets/brand_selector.dart';
 import 'filter_loading_widget.dart';
 import 'filter_error_widget.dart';
 
-class FilterBrandSection extends StatelessWidget {
+class FilterBrandSection extends StatefulWidget {
   final HomeState state;
   final List<Brand> cachedBrands;
   final bool hasLoadedData;
@@ -25,26 +25,47 @@ class FilterBrandSection extends StatelessWidget {
   });
 
   @override
+  State<FilterBrandSection> createState() => _FilterBrandSectionState();
+}
+
+class _FilterBrandSectionState extends State<FilterBrandSection> {
+  HomeCubit? _homeCubit;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // حفظ مرجع آمن للـ HomeCubit
+    _homeCubit ??= context.read<HomeCubit>();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // عرض Loading أثناء تحميل البيانات لأول مرة
-    if (state is FilterLoading && !hasLoadedData) {
+    if (widget.state is FilterLoading && !widget.hasLoadedData) {
       return const FilterLoadingWidget();
     }
 
     // عرض Error إذا فشل التحميل
-    if (state is HomeError && !hasLoadedData) {
+    if (widget.state is HomeError && !widget.hasLoadedData) {
       return FilterErrorWidget(
-        message: _getErrorMessage(state),
-        onRetry: () => context.read<HomeCubit>().getFilterInfo(),
+        message: _getErrorMessage(widget.state),
+        onRetry: () {
+          // استخدام المرجع المحفوظ بدلاً من context.read
+          if (_homeCubit != null && mounted) {
+            _homeCubit!.getFilterInfo();
+          }
+        },
       );
     }
 
     // عرض Brand Selector مع البيانات المُحملة
     return BrandSelector(
-      brands: cachedBrands,
-      selectedBrand: selectedBrand,
+      brands: widget.cachedBrands,
+      selectedBrand: widget.selectedBrand,
       onBrandSelected: (brand) {
-        onBrandSelected(selectedBrand == brand ? null : brand);
+        if (mounted) {
+          widget.onBrandSelected(widget.selectedBrand == brand ? null : brand);
+        }
       },
     );
   }

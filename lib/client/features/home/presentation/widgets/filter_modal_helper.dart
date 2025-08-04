@@ -9,6 +9,9 @@ class FilterModalManager {
     required BuildContext context,
     Function(HomeRequestParams)? onFilterApplied,
   }) {
+    // حفظ مرجع آمن للـ HomeCubit قبل فتح الـ modal
+    final homeCubit = context.read<HomeCubit>();
+
     FocusScope.of(context).unfocus();
     showModalBottomSheet(
       enableDrag: false,
@@ -18,7 +21,7 @@ class FilterModalManager {
       backgroundColor: Colors.transparent,
       useSafeArea: true,
       builder: (modalContext) => BlocProvider.value(
-        value: BlocProvider.of<HomeCubit>(context, listen: false),
+        value: homeCubit, // استخدام المرجع المحفوظ
         child: Container(
           height: MediaQuery.of(modalContext).size.height * 0.9,
           decoration: const BoxDecoration(
@@ -32,6 +35,8 @@ class FilterModalManager {
           ),
         ),
       ),
-    ).then((_) {});
+    ).then((_) {
+      // تنظيف آمن بعد إغلاق الـ modal
+    });
   }
 }

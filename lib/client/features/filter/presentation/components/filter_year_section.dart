@@ -7,7 +7,7 @@ import '../widgets/year_dropdown.dart';
 import 'filter_loading_widget.dart';
 import 'filter_error_widget.dart';
 
-class FilterYearSection extends StatelessWidget {
+class FilterYearSection extends StatefulWidget {
   final HomeState state;
   final List<String> cachedYears;
   final bool hasLoadedData;
@@ -24,26 +24,47 @@ class FilterYearSection extends StatelessWidget {
   });
 
   @override
+  State<FilterYearSection> createState() => _FilterYearSectionState();
+}
+
+class _FilterYearSectionState extends State<FilterYearSection> {
+  HomeCubit? _homeCubit;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // حفظ مرجع آمن للـ HomeCubit
+    _homeCubit ??= context.read<HomeCubit>();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // عرض Loading أثناء تحميل البيانات لأول مرة
-    if (state is FilterLoading && !hasLoadedData) {
+    if (widget.state is FilterLoading && !widget.hasLoadedData) {
       return const FilterLoadingWidget();
     }
 
     // عرض Error إذا فشل التحميل
-    if (state is HomeError && !hasLoadedData) {
+    if (widget.state is HomeError && !widget.hasLoadedData) {
       return FilterErrorWidget(
-        message: _getErrorMessage(state),
-        onRetry: () => context.read<HomeCubit>().getFilterInfo(),
+        message: _getErrorMessage(widget.state),
+        onRetry: () {
+          // استخدام المرجع المحفوظ بدلاً من context.read
+          if (_homeCubit != null && mounted) {
+            _homeCubit!.getFilterInfo();
+          }
+        },
       );
     }
 
     // عرض Year Dropdown مع البيانات المُحملة
     return YearDropdown(
-      years: cachedYears,
-      selectedYear: selectedYear,
+      years: widget.cachedYears,
+      selectedYear: widget.selectedYear,
       onYearSelected: (year) {
-        onYearSelected(selectedYear == year ? null : year);
+        if (mounted) {
+          widget.onYearSelected(widget.selectedYear == year ? null : year);
+        }
       },
     );
   }

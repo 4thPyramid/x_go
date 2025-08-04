@@ -22,13 +22,21 @@ class FavoriteCarItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: Card(
-        color: AppColors.white,
-        margin: EdgeInsets.only(bottom: 18.h),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.r),
+      child: Container(
+        margin: EdgeInsets.only(bottom: 16.h),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(16.r),
+          border: Border.all(color: AppColors.lightBorderGrey, width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.shadow.withOpacity(0.1),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+              spreadRadius: 0,
+            ),
+          ],
         ),
-        elevation: 2,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -36,26 +44,90 @@ class FavoriteCarItem extends StatelessWidget {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(16.r),
                   ),
                   child: AppImageView(
                     car.attributes.image,
-                    height: 180,
+                    height: 200.h,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: 30,
+
+                // Gradient overlay for better text readability
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(16.r),
                     ),
-                    onPressed: onToggleFavorite,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.1),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Favorite button with improved design
+                Positioned(
+                  top: 12.h,
+                  right: 12.w,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.favorite, color: Colors.red, size: 24.r),
+                      onPressed: onToggleFavorite,
+                      padding: EdgeInsets.all(8.w),
+                    ),
+                  ),
+                ),
+
+                // Year badge
+                Positioned(
+                  top: 12.h,
+                  left: 12.w,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 6.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(12.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primaryColor.withOpacity(0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      car.attributes.year,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -63,59 +135,74 @@ class FavoriteCarItem extends StatelessWidget {
 
             // Car Details
             Padding(
-              padding: EdgeInsets.all(8.w),
+              padding: EdgeInsets.all(16.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Brand and Price Row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        height: 27.h,
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryColor.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(8.r),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 6.h,
                         ),
-                        child: Center(
-                          child: Text(
-                            car.relationship.brand.brandName,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.primaryColor,
-                                ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(
+                            color: AppColors.primaryColor.withOpacity(0.2),
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          car.relationship.brand.brandName,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryColor,
+                            fontSize: 12.sp,
+                            letterSpacing: 0.5,
                           ),
                         ),
                       ),
 
-                      // ✅ استخدم Padding بدل Positioned هنا
-                      Padding(
-                        padding: EdgeInsets.only(right: 8.w),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 6.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
                         child: Text(
-                          '\$${car.attributes.price}',
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                color: AppColors.primaryColor,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          '\$${car.attributes.price}/day',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
+                            letterSpacing: 0.5,
+                          ),
                         ),
                       ),
                     ],
                   ),
 
+                  SizedBox(height: 12.h),
+
+                  // Model Name
                   Text(
                     car.relationship.modelNames.modelName,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                      letterSpacing: -0.5,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    car.attributes.year,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: AppColors.grey),
-                  ),
-                  const SizedBox(height: 8),
                 ],
               ),
             ),
