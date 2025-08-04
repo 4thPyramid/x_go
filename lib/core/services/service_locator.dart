@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:x_go/client/features/Details/data/datasources/car_detail_local_data_source.dart';
 import 'package:x_go/client/features/favorites/data/local_ds/favorites_local_ds.dart';
 
 import 'package:x_go/core/app_cubit/app_cubit.dart';
@@ -294,10 +295,14 @@ void setupLocator() {
   getIt.registerLazySingleton<CarDetailRemoteDataSource>(
     () => CarDetailRemoteDataSourceImpl(apiConsumer: getIt<ApiConsumer>()),
   );
+  getIt.registerLazySingleton<CarDetailLocalDataSource>(
+    () => CarDetailLocalDataSourceImpl(),
+  );
 
   getIt.registerLazySingleton<CarDetailRepository>(
     () => CarDetailRepositoryImpl(
       remoteDataSource: getIt<CarDetailRemoteDataSource>(),
+      localDataSource: getIt<CarDetailLocalDataSource>(),
     ),
   );
 

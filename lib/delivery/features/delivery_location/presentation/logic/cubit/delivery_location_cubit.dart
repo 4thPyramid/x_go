@@ -227,7 +227,7 @@ class DeliveryLocationCubit extends Cubit<DeliveryLocationState> {
           emit(RefuseOrderSuccess());
         },
       );
-    } catch (e, stackTrace) {
+    } catch (e) {
       emit(RefuseOrderError(errorMessage: e.toString()));
     }
   }

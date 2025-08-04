@@ -1,4 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:x_go/client/features/Details/data/models/car_detail_hive_model.dart';
 import 'package:x_go/client/features/home/data/models/location_active_hive_model.dart';
 import 'package:x_go/delivery/features/home/data/model/order_status_hive_model.dart';
 import 'package:x_go/delivery/features/profile/data/models/driver_profile_hive_model.dart';
@@ -32,6 +33,11 @@ class HiveManager {
       } catch (e) {
         print(' LocationActiveHiveModelAdapter already registered: $e');
       }
+      try {
+        Hive.registerAdapter(CarDetailHiveModelAdapter());
+      } catch (e) {
+        print(' CarDetailHiveModelAdapter already registered: $e');
+      }
       // Open all required boxes
       await Hive.openBox('favorites_box');
 
@@ -39,6 +45,7 @@ class HiveManager {
 
       await Hive.openBox<DriverProfileHiveModel>('driverProfileBox');
       await Hive.openBox<LocationActiveHiveModel>('active_location');
+      await Hive.openBox<CarDetailHiveModel>('car_detail_box');
 
       _isInitialized = true;
     } catch (e) {
@@ -88,6 +95,16 @@ class HiveManager {
       );
     }
     return Hive.box<DriverProfileHiveModel>('driverProfileBox');
+  }
+
+  /// Get car detail box
+  static Box<CarDetailHiveModel> getCarDetailBox() {
+    if (!_isInitialized) {
+      throw StateError(
+        'Hive not initialized. Call HiveManager.initialize() first.',
+      );
+    }
+    return Hive.box<CarDetailHiveModel>('car_detail_box');
   }
 
   /// Close all boxes and dispose Hive

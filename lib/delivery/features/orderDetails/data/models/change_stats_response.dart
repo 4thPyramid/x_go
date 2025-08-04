@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 class ChangeStatsResponse extends Equatable {
   final bool success;

@@ -69,219 +69,269 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
           final attributes = carDetail.attributes;
           final relationship = carDetail.relationship;
 
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Car Image Gallery
-                SizedBox(
-                  height: 220.h,
-                  child: relationship.images.isEmpty
-                      ? Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.all(8.w),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.r),
-                            child: CachedNetworkImage(
-                              imageUrl: ImageUrlHelper.normalizeImageUrl(
-                                attributes.image,
-                              ),
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              errorWidget: (context, url, error) {
-                                ImageUrlHelper.logImageError(url, error);
-                                return Text(
-                                  'No Image Available',
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    color: Colors.grey[600],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        )
-                      : ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: relationship.images.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.all(8.w),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.r),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.r),
-                                child: CachedNetworkImage(
-                                  imageUrl: ImageUrlHelper.normalizeImageUrl(
-                                    relationship.images[index],
-                                  ),
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                  errorWidget: (context, url, error) {
-                                    ImageUrlHelper.logImageError(url, error);
-                                    return Image.asset(
-                                      'assets/images/Group 7.png',
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
+          return SafeArea(
+            child: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Car Image Gallery
+                  Container(
+                    height: 220.h,
+                    width: double.infinity,
+                    child: relationship.images.isEmpty
+                        ? Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.all(8.w),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              boxShadow: [
+                                BoxShadow(
+                                  // ignore: deprecated_member_use
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
                                 ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.r),
+                              child: CachedNetworkImage(
+                                imageUrl: ImageUrlHelper.normalizeImageUrl(
+                                  attributes.image,
+                                ),
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                errorWidget: (context, url, error) {
+                                  ImageUrlHelper.logImageError(url, error);
+                                  return Text(
+                                    'No Image Available',
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      color: Colors.grey[600],
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Brand and Model info
-                      Text(
-                        relationship.brand.name,
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        relationship.modelName.name,
-                        style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      SizedBox(height: 8.h),
-                      Row(
-                        children: [
-                          SizedBox(width: 4.w),
-                          Text(
-                            relationship.type.name,
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey[600],
                             ),
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 15.h),
-                      Text(
-                        'Car Details',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      SizedBox(height: 10.h),
-                      CarDetailInfoCards(attributes: attributes),
-
-                      SizedBox(height: 18.h),
-
-                      SizedBox(height: 18.h),
-                      // Price section
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Recent Price',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black87,
-                            ),
-                          ),
-                          Text(
-                            '\$${attributes.price} / day',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.h),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: BookingButton(
-                          car: CarEntity(
-                            id: carDetail.id,
-                            modelName: relationship.modelName.name,
-                            year: attributes.year,
-                            price: attributes.price,
-                            engineType: attributes.engineType,
-                            transmissionType: attributes.transmissionType,
-                            seatType: attributes.seatType,
-                            seatsCount: attributes.seatsCount,
-                            acceleration: attributes.acceleration,
-                            image: attributes.image,
-                            typeName: relationship.type.name,
-                            brandName: relationship.brand.name,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 24.h),
-                      Center(
-                        child: CustomButton(
-                          text: 'Add Review',
-                          onPressed: () {
-                            final isGuest =
-                                context.read<SessionCubit>().state.status ==
-                                AuthStatus.guest;
-
-                            if (isGuest) {
-                              showToast(
-                                message: 'Please log in to add a review',
-                                state: ToastStates.ERROR,
+                          )
+                        : PageView.builder(
+                            itemCount: relationship.images.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: EdgeInsets.all(8.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  child: CachedNetworkImage(
+                                    imageUrl: ImageUrlHelper.normalizeImageUrl(
+                                      relationship.images[index],
+                                    ),
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                    errorWidget: (context, url, error) {
+                                      ImageUrlHelper.logImageError(url, error);
+                                      return Image.asset(
+                                        'assets/images/Group 7.png',
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                  ),
+                                ),
                               );
-                              return;
-                            }
-
-                            context.push(
-                              RouterNames.review,
-                              extra: widget.carId,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                            },
+                          ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Brand and Model info
+                        Text(
+                          relationship.brand.name,
+                          style: TextStyle(
+                            color: AppColors.primaryColor,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          relationship.modelName.name,
+                          style: TextStyle(
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        // Rating Section
+                        SizedBox(height: 8.h),
+                        Row(
+                          children: [
+                            SizedBox(width: 4.w),
+                            Text(
+                              relationship.type.name,
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                            const Spacer(),
+                            _buildRatingSection(relationship.ratings),
+                          ],
+                        ),
+                        SizedBox(height: 15.h),
+                        Text(
+                          'Car Details',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
+                        CarDetailInfoCards(attributes: attributes),
+                        SizedBox(height: 18.h),
+                        // Price section
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Recent Price',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black87,
+                              ),
+                            ),
+                            Text(
+                              '\$${attributes.price} / day',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: BookingButton(
+                            car: CarEntity(
+                              id: carDetail.id,
+                              modelName: relationship.modelName.name,
+                              year: attributes.year,
+                              price: attributes.price,
+                              engineType: attributes.engineType,
+                              transmissionType: attributes.transmissionType,
+                              seatType: attributes.seatType,
+                              seatsCount: attributes.seatsCount,
+                              acceleration: attributes.acceleration,
+                              image: attributes.image,
+                              typeName: relationship.type.name,
+                              brandName: relationship.brand.name,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 24.h),
+                        Center(
+                          child: CustomButton(
+                            text: 'Add Review',
+                            onPressed: () {
+                              final isGuest =
+                                  context.read<SessionCubit>().state.status ==
+                                  AuthStatus.guest;
+
+                              if (isGuest) {
+                                showToast(
+                                  message: 'Please log in to add a review',
+                                  state: ToastStates.ERROR,
+                                );
+                                return;
+                              }
+
+                              context.push(
+                                RouterNames.review,
+                                extra: widget.carId,
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }
-
         return const Center(child: Text('No data available'));
       },
+    );
+  }
+
+  Widget _buildRatingSection(dynamic ratings) {
+    final double rating = double.tryParse(ratings.averageRating) ?? 0.0;
+    final int reviewCount = ratings.ratingsCount;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Star Rating Display
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(5, (index) {
+            return Icon(
+              index < rating.floor()
+                  ? Icons.star_rounded
+                  : (index < rating && rating % 1 >= 0.5)
+                  ? Icons.star_half_rounded
+                  : Icons.star_outline_rounded,
+              color: Colors.amber[600],
+              size: 18.sp,
+            );
+          }),
+        ),
+        SizedBox(width: 6.w),
+        // Rating Value
+        Text(
+          rating.toStringAsFixed(1),
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+        SizedBox(width: 4.w),
+        // Review Count
+        Text(
+          reviewCount > 999
+              ? '(999+ reviews)'
+              : '($reviewCount ${reviewCount == 1 ? 'review' : 'reviews'})',
+          style: TextStyle(
+            fontSize: 12.sp,
+            color: Colors.grey[600],
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ],
     );
   }
 }

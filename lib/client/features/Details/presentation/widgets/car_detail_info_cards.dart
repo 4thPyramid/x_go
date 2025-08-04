@@ -15,16 +15,16 @@ class CarDetailInfoCards extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 2,
-      crossAxisSpacing: 10.w,
-      mainAxisSpacing: 10.h,
+      crossAxisSpacing: 12.w,
+      mainAxisSpacing: 12.h,
       childAspectRatio: 1.5,
       children: [
         _buildInfoCard(context, 'Year', attributes.year, Icons.calendar_today),
         _buildInfoCard(
           context,
-          'Engine Type',
+          'Engine',
           attributes.engineType,
-          Icons.electric_car,
+          Icons.local_gas_station,
         ),
         _buildInfoCard(
           context,
@@ -42,7 +42,7 @@ class CarDetailInfoCards extends StatelessWidget {
         _buildInfoCard(
           context,
           'Acceleration',
-          '${attributes.acceleration} s',
+          '${attributes.acceleration}s',
           Icons.speed,
         ),
       ],
@@ -56,33 +56,39 @@ class CarDetailInfoCards extends StatelessWidget {
     IconData icon,
   ) {
     return Card(
-      elevation: 1,
+      elevation: 2,
       color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       child: Container(
-        padding: EdgeInsets.all(10.w),
+        padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(
+            color: AppColors.primaryColor.withOpacity(0.1),
+            width: 1,
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 24.sp, color: AppColors.primaryColor),
-            SizedBox(height: 8.h),
+            SizedBox(height: 6.h),
             Text(
               label,
               style: TextStyle(
-                fontSize: 12.sp,
+                fontSize: 11.sp,
                 fontWeight: FontWeight.w500,
-                color: AppColors.primaryColor,
+                color: AppColors.primaryColor.withOpacity(0.7),
               ),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 4.h),
+            SizedBox(height: 3.h),
             Text(
               value,
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 13.sp,
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryColor,
               ),
@@ -95,4 +101,16 @@ class CarDetailInfoCards extends StatelessWidget {
       ),
     );
   }
+}
+
+class InfoCardData {
+  final String label;
+  final String value;
+  final IconData icon;
+
+  const InfoCardData({
+    required this.label,
+    required this.value,
+    required this.icon,
+  });
 }
