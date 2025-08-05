@@ -1,6 +1,5 @@
 abstract class EndpointsStrings {
-  static const String baseUrl =
-      "https://firebrick-chough-287960.hostingersite.com";
+  static const String baseUrl = "https://xgo.mlmcosmo.com";
   // user endpoints
   static const String login = '/api/user/login';
   static const String home = '/api/user/Home';
