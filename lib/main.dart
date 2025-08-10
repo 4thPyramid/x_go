@@ -15,15 +15,12 @@ import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheHelper.init();
 
-  // Initialize Hive with centralized manager
   try {
     await HiveManager.initialize();
     setupLocator();
-    // Add lifecycle listener to save data on app pause/detach
     WidgetsBinding.instance.addObserver(AppLifecycleObserver());
   } catch (e) {
     setupLocator();

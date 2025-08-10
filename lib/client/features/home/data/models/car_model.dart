@@ -3,19 +3,19 @@ import 'package:x_go/client/features/home/domain/entity/car_entity.dart';
 class CarModel {
   final String id;
   final CarAttributes attributes;
-  final CarRelationships relationship;
+  final CarRelationships relationships;
 
   CarModel({
     required this.id,
     required this.attributes,
-    required this.relationship,
+    required this.relationships,
   });
 
   factory CarModel.fromJson(Map<String, dynamic> json) {
     return CarModel(
-      id: json['id'] as String,
-      attributes: CarAttributes.fromJson(json['attributes']),
-      relationship: CarRelationships.fromJson(json['relationship']),
+      id: json['id']?.toString() ?? '',
+      attributes: CarAttributes.fromJson(json['attributes'] ?? {}),
+      relationships: CarRelationships.fromJson(json['relationships'] ?? {}),
     );
   }
 
@@ -23,7 +23,7 @@ class CarModel {
     return {
       'id': id,
       'attributes': attributes.toJson(),
-      'relationship': relationship.toJson(),
+      'relationships': relationships.toJson(),
     };
   }
 
@@ -38,9 +38,9 @@ class CarModel {
       seatsCount: attributes.seatsCount,
       acceleration: attributes.acceleration,
       image: attributes.image,
-      typeName: relationship.types.typeName,
-      brandName: relationship.brand.brandName,
-      modelName: relationship.modelNames.modelName,
+      typeName: relationships.types?.typeName ?? '',
+      brandName: relationships.brand?.brandName ?? '',
+      modelName: relationships.modelNames?.modelName ?? '',
     );
   }
 }
@@ -54,6 +54,8 @@ class CarAttributes {
   final int seatsCount;
   final String acceleration;
   final String image;
+  final String modelName;
+  final String brand;
 
   CarAttributes({
     required this.year,
@@ -64,18 +66,24 @@ class CarAttributes {
     required this.seatsCount,
     required this.acceleration,
     required this.image,
+    required this.modelName,
+    required this.brand,
   });
 
   factory CarAttributes.fromJson(Map<String, dynamic> json) {
     return CarAttributes(
-      year: json['year'] as String? ?? '',
-      price: json['price'] as String? ?? '0',
-      engineType: json['engine_type'] as String? ?? '',
-      transmissionType: json['transmission_type'] as String? ?? '',
-      seatType: json['seat_type'] as String? ?? '',
-      seatsCount: json['seats_count'] as int? ?? 0,
-      acceleration: json['acceleration'] as String? ?? '0.0',
-      image: json['image'] as String? ?? '',
+      year: json['year']?.toString() ?? '',
+      price: json['price']?.toString() ?? '0',
+      engineType: json['engine_type']?.toString() ?? '',
+      transmissionType: json['transmission_type']?.toString() ?? '',
+      seatType: json['seat_type']?.toString() ?? '',
+      seatsCount: json['seats_count'] is int
+          ? json['seats_count']
+          : int.tryParse(json['seats_count']?.toString() ?? '0') ?? 0,
+      acceleration: json['acceleration']?.toString() ?? '0.0',
+      image: json['image']?.toString() ?? '',
+      modelName: json['model_name']?.toString() ?? '',
+      brand: json['brand']?.toString() ?? '',
     );
   }
 
@@ -89,34 +97,96 @@ class CarAttributes {
       'seats_count': seatsCount,
       'acceleration': acceleration,
       'image': image,
+      'model_name': modelName,
+      'brand': brand,
     };
   }
 }
 
 class CarRelationships {
-  final CarType types;
-  final CarBrand brand;
-  final CarModelName modelNames;
+  final List<CarDetail>? cars;
+  final CarType? types;
+  final CarBrand? brand;
+  final CarModelName? modelNames;
+  final CarRatings? ratings;
 
   CarRelationships({
-    required this.types,
-    required this.brand,
-    required this.modelNames,
+    this.cars,
+    this.types,
+    this.brand,
+    this.modelNames,
+    this.ratings,
   });
 
   factory CarRelationships.fromJson(Map<String, dynamic> json) {
     return CarRelationships(
-      types: CarType.fromJson(json['Types']),
-      brand: CarBrand.fromJson(json['Brand']),
-      modelNames: CarModelName.fromJson(json['Model Names']),
+      cars: (json['cars'] as List<dynamic>?)
+          ?.map((e) => CarDetail.fromJson(e))
+          .toList(),
+      types: json['types'] != null ? CarType.fromJson(json['types']) : null,
+      brand: json['brand'] != null ? CarBrand.fromJson(json['brand']) : null,
+      modelNames: json['model_names'] != null
+          ? CarModelName.fromJson(json['model_names'])
+          : null,
+      ratings: json['ratings'] != null
+          ? CarRatings.fromJson(json['ratings'])
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'Types': types.toJson(),
-      'Brand': brand.toJson(),
-      'Model Names': modelNames.toJson(),
+      'cars': cars?.map((e) => e.toJson()).toList(),
+      'types': types?.toJson(),
+      'brand': brand?.toJson(),
+      'model_names': modelNames?.toJson(),
+      'ratings': ratings?.toJson(),
+    };
+  }
+}
+
+class CarDetail {
+  final int id;
+  final String capacity;
+  final String description;
+  final String color;
+  final String plateNumber;
+  final String status;
+  final String image;
+
+  CarDetail({
+    required this.id,
+    required this.capacity,
+    required this.description,
+    required this.color,
+    required this.plateNumber,
+    required this.status,
+    required this.image,
+  });
+
+  factory CarDetail.fromJson(Map<String, dynamic> json) {
+    return CarDetail(
+      id: json['id'] is int
+          ? json['id']
+          : int.tryParse(json['id'].toString()) ?? 0,
+      capacity: json['capacity']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      color: json['color']?.toString() ?? '',
+      plateNumber: json['plate_number']?.toString() ?? '',
+      status: json['status']?.toString() ?? '',
+      image: json['image']?.toString() ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'capacity': capacity,
+      'description': description,
+      'color': color,
+      'plate_number': plateNumber,
+      'status': status,
+      'image': image,
     };
   }
 }
@@ -129,8 +199,8 @@ class CarType {
 
   factory CarType.fromJson(Map<String, dynamic> json) {
     return CarType(
-      typeId: json['type_id'] as String,
-      typeName: json['type_name'] as String,
+      typeId: json['type_id']?.toString() ?? '',
+      typeName: json['type_name']?.toString() ?? '',
     );
   }
 
@@ -147,8 +217,10 @@ class CarBrand {
 
   factory CarBrand.fromJson(Map<String, dynamic> json) {
     return CarBrand(
-      brandId: json['brand_id'] as int,
-      brandName: json['brand_name'] as String,
+      brandId: json['brand_id'] is int
+          ? json['brand_id']
+          : int.tryParse(json['brand_id']?.toString() ?? '0') ?? 0,
+      brandName: json['brand_name']?.toString() ?? '',
     );
   }
 
@@ -165,12 +237,30 @@ class CarModelName {
 
   factory CarModelName.fromJson(Map<String, dynamic> json) {
     return CarModelName(
-      modelNameId: json['model_name_id'] as String,
-      modelName: json['model_name'] as String,
+      modelNameId: json['model_name_id']?.toString() ?? '',
+      modelName: json['model_name']?.toString() ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {'model_name_id': modelNameId, 'model_name': modelName};
+  }
+}
+
+class CarRatings {
+  final int ratingsCount;
+
+  CarRatings({required this.ratingsCount});
+
+  factory CarRatings.fromJson(Map<String, dynamic> json) {
+    return CarRatings(
+      ratingsCount: json['ratings_count'] is int
+          ? json['ratings_count']
+          : int.tryParse(json['ratings_count']?.toString() ?? '0') ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'ratings_count': ratingsCount};
   }
 }

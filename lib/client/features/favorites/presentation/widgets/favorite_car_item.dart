@@ -157,7 +157,7 @@ class FavoriteCarItem extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          car.relationship.brand.brandName,
+                          car.relationships.brand?.brandName ?? '',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: AppColors.primaryColor,
@@ -193,7 +193,7 @@ class FavoriteCarItem extends StatelessWidget {
 
                   // Model Name
                   Text(
-                    car.relationship.modelNames.modelName,
+                    car.relationships.modelNames?.modelName ?? '',
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
